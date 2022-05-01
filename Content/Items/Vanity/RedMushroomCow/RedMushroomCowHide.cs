@@ -16,7 +16,7 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.Leather, 10)
+                .AddIngredient(ItemID.Mushroom, 30)
                 .AddIngredient(ItemID.Silk, 3)
                 .AddIngredient(ItemID.RedandSilverDye)
                 .AddTile(TileID.Loom)

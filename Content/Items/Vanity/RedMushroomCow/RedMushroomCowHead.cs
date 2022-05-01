@@ -20,8 +20,8 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
         public override void AddRecipes()
         {
             CreateRecipe()
-                .AddIngredient(ItemID.Leather, 5)
-                .AddIngredient(ItemID.WormTooth, 2)
+                .AddIngredient(ItemID.Mushroom, 15)
+                .AddIngredient(ItemID.Stinger, 2)
                 .AddIngredient(ItemID.RedandSilverDye)
                 .AddIngredient(ItemID.Sunglasses)
                 .AddTile(TileID.Loom)
@@ -40,7 +40,7 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
             Asset<Texture2D> neck = Mod.Assets.Request<Texture2D>("Content/Items/Vanity/RedMushroomCow/RedMushroomCowHead_Neck");
-            Vector2 pos = drawInfo.HeadPosition() + new Vector2(20, 0);
+            Vector2 pos = drawInfo.HeadPosition();
             pos.ApplyVerticalOffset(drawInfo);
             drawInfo.DrawDataCache.Add(new DrawData(neck.Value, pos, null, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0));
         }
