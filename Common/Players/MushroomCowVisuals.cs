@@ -8,6 +8,7 @@ namespace BlockVanity.Common.Players
     {
         public bool redMushroomCow;
         public bool brownMushroomCow;
+        public bool glowingMushroomCow;
 
         public override void FrameEffects()
         {
@@ -20,6 +21,10 @@ namespace BlockVanity.Common.Players
                 if (brownMushroomCow)
                 {
 
+                }                
+                if (glowingMushroomCow)
+                {
+
                 }
             }
         }
@@ -28,6 +33,7 @@ namespace BlockVanity.Common.Players
         {
             redMushroomCow = false;
             brownMushroomCow = false;
+            glowingMushroomCow = false;
         }
     }
 }

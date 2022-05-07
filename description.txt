@@ -1,7 +1,6 @@
 -Vanity-
 
-* Red Mushroom Cow
-* Brown Mushroom Cow	
+* Mushroom Cow Sets
 	* Wearing these will sprout mushrooms of their respective color from the ground
 
 * Skull in Sunglasses
