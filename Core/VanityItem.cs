@@ -29,6 +29,7 @@ namespace BlockVanity.Core
             if (_desc != null)
                 Tooltip.SetDefault(_desc);
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
+            PostStaticDefaults();
         }
 
         public override void SetDefaults()
@@ -41,6 +42,8 @@ namespace BlockVanity.Core
             PostDefaults();
         }
 
+        public virtual void PostStaticDefaults() { }
+        
         public virtual void PostDefaults() { }
     }
 }

@@ -16,9 +16,13 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
     [AutoloadEquip(EquipType.Head)]
     public class RedMushroomCowHead : VanityItem
     {
-        public RedMushroomCowHead() : base("Red Mushroom Cow Head", ItemRarityColor.LightRed4) { }
+        public RedMushroomCowHead() : base("Red Mushroom Cow Head", ItemRarityColor.Blue1) { }
 
-        public override bool IsVanitySet(int head, int body, int legs) => body == ModContent.ItemType<RedMushroomCowHide>() && legs == ModContent.ItemType<RedMushroomCowTrotters>();
+        public override void PostStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+
+        public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<RedMushroomCowHide>() && legs.type == ModContent.ItemType<RedMushroomCowTrotters>();
+
+        public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisuals>().red = true;
 
         public override void AddRecipes()
         {
@@ -35,9 +39,9 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
     [AutoloadEquip(EquipType.Body)]
     public class RedMushroomCowHide : VanityItem
     {
-        public RedMushroomCowHide() : base("Red Mushroom Cow Hide", ItemRarityColor.LightRed4) { }
+        public RedMushroomCowHide() : base("Red Mushroom Cow Hide", ItemRarityColor.Blue1) { }
 
-        public override bool IsVanitySet(int head, int body, int legs) => head == ModContent.ItemType<RedMushroomCowHead>() && legs == ModContent.ItemType<RedMushroomCowTrotters>();
+        public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<RedMushroomCowHead>() && legs.type == ModContent.ItemType<RedMushroomCowTrotters>();
 
         public override void AddRecipes()
         {
@@ -53,9 +57,9 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
     [AutoloadEquip(EquipType.Legs)]
     public class RedMushroomCowTrotters : VanityItem
     {
-        public RedMushroomCowTrotters() : base("Red Mushroom Cow Trotters", ItemRarityColor.LightRed4) { }
+        public RedMushroomCowTrotters() : base("Red Mushroom Cow Trotters", ItemRarityColor.Blue1) { }
 
-        public override bool IsVanitySet(int head, int body, int legs) => head == ModContent.ItemType<RedMushroomCowHead>() && body == ModContent.ItemType<RedMushroomCowHide>();
+        public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<RedMushroomCowHead>() && body.type == ModContent.ItemType<RedMushroomCowHide>();
 
         public override void AddRecipes()
         {
@@ -68,20 +72,20 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
         }
     }
 
-    //public class RedMushroomCowNeck : PlayerDrawLayer
-    //{
-    //    public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.NeckAcc);
+    public class RedMushroomCowNeck : PlayerDrawLayer
+    {
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.NeckAcc);
 
-    //    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => (drawInfo.drawPlayer.armor[10].IsAir && drawInfo.drawPlayer.armor[0].ModItem is RedMushroomCowHead) || drawInfo.drawPlayer.armor[10].ModItem is RedMushroomCowHead;
+        public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => (drawInfo.drawPlayer.armor[10].IsAir && drawInfo.drawPlayer.armor[0].ModItem is RedMushroomCowHead) || drawInfo.drawPlayer.armor[10].ModItem is RedMushroomCowHead;
 
-    //    public override bool IsHeadLayer => false;
+        public override bool IsHeadLayer => false;
 
-    //    protected override void Draw(ref PlayerDrawSet drawInfo)
-    //    {
-    //        Asset<Texture2D> neck = Mod.Assets.Request<Texture2D>("Content/Items/Vanity/RedMushroomCow/RedMushroomCowHead_Neck");
-    //        Vector2 pos = drawInfo.HeadPosition();
-    //        pos.ApplyVerticalOffset(drawInfo);
-    //        drawInfo.DrawDataCache.Add(new DrawData(neck.Value, pos, null, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0));
-    //    }
-    //}
+        protected override void Draw(ref PlayerDrawSet drawInfo)
+        {
+            Asset<Texture2D> neck = Mod.Assets.Request<Texture2D>("Content/Items/Vanity/RedMushroomCow/RedMushroomCowHead_Neck");
+            Vector2 pos = drawInfo.HeadPosition();
+            pos.ApplyVerticalOffset(drawInfo);
+            drawInfo.DrawDataCache.Add(new DrawData(neck.Value, pos, null, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0));
+        }
+    }
 }
