@@ -11,21 +11,28 @@ namespace BlockVanity.Content.Particles.Mushrooms
     public class MushroomTintable : Particle
     {
         private int type;
+        private int time;
 
         public override void OnSpawn()
         {
             type = Main.rand.Next(3);
-            rotation += Main.rand.NextFloat(-0.8f, 0.8f);
+            rotation = Main.rand.NextFloat(-0.2f, 0.2f);
+            position.Y += Main.rand.Next(3, 6);
         }
 
         public override void Update()
         {
-            scale *= 0.95f;
-            if (scale < 0.2f)
+            time++;
+            if (time > 100)
                 Active = false;
 
+            scale *= 0.999f;
+
             if (emit)
-                Lighting.AddLight(position, color.ToVector3() * 0.3f * scale);
+            {
+                float strength = Easing.CircularOut(Utils.GetLerpValue(40, 80, time, true)) * scale;
+                Lighting.AddLight(position, color.ToVector3() * 0.3f * strength);
+            };
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -33,15 +40,16 @@ namespace BlockVanity.Content.Particles.Mushrooms
             Asset<Texture2D> mushroom = ModContent.Request<Texture2D>(Texture);
             Rectangle frame = mushroom.Frame(4, 2, type, 0);
             Rectangle capFrame = mushroom.Frame(4, 2, type, 1);
-            Vector2 origin = frame.Size() * new Vector2(0.5f, 0.9f);
+            Vector2 origin = frame.Size() * new Vector2(0.5f, 1f);
+            float growScale = Easing.BackOut(Utils.GetLerpValue(0, 22, time, true)) * Easing.CircularOut(Utils.GetLerpValue(45, 100, time, true)) * scale;
 
             Color light = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f));
-            spriteBatch.Draw(mushroom.Value, position - Main.screenPosition, frame, light, rotation, origin, scale, 0, 0);
+            spriteBatch.Draw(mushroom.Value, position - Main.screenPosition, frame, light, rotation, origin, growScale, 0, 0);
 
             Color capColor = color;
             if (!emit)
                 capColor = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f), color);
-            spriteBatch.Draw(mushroom.Value, position - Main.screenPosition, capFrame, capColor, rotation, origin, scale, 0, 0);
+            spriteBatch.Draw(mushroom.Value, position - Main.screenPosition, capFrame, capColor, rotation, origin, growScale, 0, 0);
         }
     }
 }

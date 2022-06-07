@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Particles.Mushrooms
 {
-    public class MushroomGlowing : Particle
+    public class MushroomBrown : Particle
     {
         private int type; 
         private int time;
@@ -29,7 +29,7 @@ namespace BlockVanity.Content.Particles.Mushrooms
             scale *= 0.999f;
 
             float strength = Easing.CircularOut(Utils.GetLerpValue(40, 80, time, true)) * scale;
-            Lighting.AddLight(position - Vector2.UnitY * 3f, Color.Blue.ToVector3() * 0.5f * strength);
+            Lighting.AddLight(position - Vector2.UnitY * 3f, Color.LightBlue.ToVector3() * 0.1f * strength);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
