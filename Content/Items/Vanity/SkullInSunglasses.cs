@@ -12,7 +12,7 @@ namespace BlockVanity.Content.Items.Vanity
     [AutoloadEquip(EquipType.Head)]
     public class SkullInSunglasses : VanityItem
     {
-        public SkullInSunglasses() : base("Skull in Sunglasses", ItemRarityColor.Blue1, "'Bad!'") { }
+        public SkullInSunglasses() : base("Skull in Sunglasses", ItemRarityID.Blue, "'Bad!'") { }
 
         public override void OnCreate(ItemCreationContext context)
         {

@@ -16,7 +16,7 @@ namespace BlockVanity.Content.Items.Vanity.BrownMushroomCow
     [AutoloadEquip(EquipType.Head)]
     public class BrownMushroomCowHead : VanityItem
     {
-        public BrownMushroomCowHead() : base("Brown Mushroom Cow Head", ItemRarityColor.Green2) { }
+        public BrownMushroomCowHead() : base("Brown Mushroom Cow Head", ItemRarityID.Green) { }
 
         public override void PostStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
@@ -36,7 +36,7 @@ namespace BlockVanity.Content.Items.Vanity.BrownMushroomCow
     [AutoloadEquip(EquipType.Body)]
     public class BrownMushroomCowHide : VanityItem
     {
-        public BrownMushroomCowHide() : base("Brown Mushroom Cow Hide", ItemRarityColor.Green2) { }
+        public BrownMushroomCowHide() : base("Brown Mushroom Cow Hide", ItemRarityID.Green) { }
 
         public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<BrownMushroomCowHead>() && legs.type == ModContent.ItemType<BrownMushroomCowTrotters>();
 
@@ -52,7 +52,7 @@ namespace BlockVanity.Content.Items.Vanity.BrownMushroomCow
     [AutoloadEquip(EquipType.Legs)]
     public class BrownMushroomCowTrotters : VanityItem
     {
-        public BrownMushroomCowTrotters() : base("Brown Mushroom Cow Trotters", ItemRarityColor.Green2) { }
+        public BrownMushroomCowTrotters() : base("Brown Mushroom Cow Trotters", ItemRarityID.Green) { }
 
         public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<BrownMushroomCowHead>() && body.type == ModContent.ItemType<BrownMushroomCowHide>();
 
@@ -78,7 +78,9 @@ namespace BlockVanity.Content.Items.Vanity.BrownMushroomCow
             Asset<Texture2D> neck = Mod.Assets.Request<Texture2D>("Content/Items/Vanity/BrownMushroomCow/BrownMushroomCowHead_Neck");
             Vector2 pos = drawInfo.HeadPosition();
             pos.ApplyVerticalOffset(drawInfo);
-            drawInfo.DrawDataCache.Add(new DrawData(neck.Value, pos, null, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0));
+            DrawData neckData = new DrawData(neck.Value, pos, null, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+            neckData.shader = drawInfo.cHead;
+            drawInfo.DrawDataCache.Add(neckData);
         }
     }
 }

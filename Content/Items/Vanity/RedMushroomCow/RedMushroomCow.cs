@@ -10,13 +10,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using BlockVanity.Common.Players;
+using Terraria.Graphics.Shaders;
 
 namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
 {
     [AutoloadEquip(EquipType.Head)]
     public class RedMushroomCowHead : VanityItem
     {
-        public RedMushroomCowHead() : base("Red Mushroom Cow Head", ItemRarityColor.Blue1) { }
+        public RedMushroomCowHead() : base("Red Mushroom Cow Head", ItemRarityID.Blue) { }
 
         public override void PostStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
@@ -39,7 +40,7 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
     [AutoloadEquip(EquipType.Body)]
     public class RedMushroomCowHide : VanityItem
     {
-        public RedMushroomCowHide() : base("Red Mushroom Cow Hide", ItemRarityColor.Blue1) { }
+        public RedMushroomCowHide() : base("Red Mushroom Cow Hide", ItemRarityID.Blue) { }
 
         public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<RedMushroomCowHead>() && legs.type == ModContent.ItemType<RedMushroomCowTrotters>();
 
@@ -57,7 +58,7 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
     [AutoloadEquip(EquipType.Legs)]
     public class RedMushroomCowTrotters : VanityItem
     {
-        public RedMushroomCowTrotters() : base("Red Mushroom Cow Trotters", ItemRarityColor.Blue1) { }
+        public RedMushroomCowTrotters() : base("Red Mushroom Cow Trotters", ItemRarityID.Blue) { }
 
         public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<RedMushroomCowHead>() && body.type == ModContent.ItemType<RedMushroomCowHide>();
 
@@ -85,7 +86,9 @@ namespace BlockVanity.Content.Items.Vanity.RedMushroomCow
             Asset<Texture2D> neck = Mod.Assets.Request<Texture2D>("Content/Items/Vanity/RedMushroomCow/RedMushroomCowHead_Neck");
             Vector2 pos = drawInfo.HeadPosition();
             pos.ApplyVerticalOffset(drawInfo);
-            drawInfo.DrawDataCache.Add(new DrawData(neck.Value, pos, null, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0));
+            DrawData neckData = new DrawData(neck.Value, pos, null, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+            neckData.shader = drawInfo.cHead;
+            drawInfo.DrawDataCache.Add(neckData);
         }
     }
 }

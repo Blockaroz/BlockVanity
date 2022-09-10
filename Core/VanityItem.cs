@@ -12,10 +12,10 @@ namespace BlockVanity.Core
     {
         private string _name;
         private string _desc;
-        private ItemRarityColor _rarity;
+        private int _rarity;
         private bool _isAnAccessory;
 
-        public VanityItem(string name, ItemRarityColor rarity, string toolTip = null, bool accessory = false)
+        public VanityItem(string name, int rarity, string toolTip = null, bool accessory = false)
         {
             _name = name;
             _desc = toolTip;
@@ -38,7 +38,7 @@ namespace BlockVanity.Core
             Item.height = 24;
             Item.vanity = true;
             Item.accessory = _isAnAccessory;
-            Item.SetShopValues(_rarity, 0);
+            Item.rare = _rarity;
             PostDefaults();
         }
 
