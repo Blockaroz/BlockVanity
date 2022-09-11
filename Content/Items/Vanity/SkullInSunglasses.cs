@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria;
 using Terraria.Audio;
+using BlockVanity.Common.Players;
 
 namespace BlockVanity.Content.Items.Vanity
 {
@@ -20,13 +21,17 @@ namespace BlockVanity.Content.Items.Vanity
                 SoundEngine.PlaySound(SoundID.NPCHit2, Main.LocalPlayer.Center);
         }
 
+        public override void PreUpdateVanitySet(Player player)
+        {
+            player.GetModPlayer<MiscEffectPlayer>().boneSound = true;
+        }
+
         public override void AddRecipes()
         {
             CreateRecipe()
                 .AddIngredient(ItemID.Skull)
                 .AddIngredient(ItemID.Sunglasses)
                 .AddCondition(Recipe.Condition.InGraveyardBiome)
-                //.AddTile<>()
                 .Register();
         }
     }

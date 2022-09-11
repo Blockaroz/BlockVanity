@@ -12,6 +12,14 @@ namespace BlockVanity.Content.Items.Vanity.RoyalNinja
     {
         public RoyalNinjaHood() : base("Royal Ninja Hood", ItemRarityID.Blue) { }
 
+        public override void PostStaticDefaults()
+        {
+            ArmorIDs.Head.Sets.DrawFullHair[Item.headSlot] = false;
+            ArmorIDs.Head.Sets.DrawBackHair[Item.headSlot] = false;
+            ArmorIDs.Head.Sets.DrawHatHair[Item.headSlot] = false;
+            ArmorIDs.Head.Sets.PreventBeardDraw[Item.headSlot] = true;
+        }
+
         public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<RoyalNinjaRobe>() && legs.type == ModContent.ItemType<RoyalNinjaPants>();
 
         public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<RoyalNinjaVisuals>().active = true;
