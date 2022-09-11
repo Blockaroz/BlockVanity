@@ -22,8 +22,8 @@ namespace BlockVanity.Content.Items.Dyes
                 //orionShader.Parameters["uNoise"].SetValue(ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/SpaceNoise").Value);
 
                 GameShaders.Armor.BindShader(ModContent.ItemType<WhiteOrionDye>(), new ArmorShaderData(new Ref<Effect>(orionShader), "OrionPass"))
-                    .UseColor(new Color(146, 178, 181))
-                    .UseSecondaryColor(new Color(151, 194, 198))
+                    .UseColor(Color.GhostWhite)
+                    .UseSecondaryColor(Color.SlateGray)
                     .UseImage("Images/Misc/noise")
                     .Shader.Parameters["uNoise"].SetValue(ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/SpaceNoise").Value);
             }

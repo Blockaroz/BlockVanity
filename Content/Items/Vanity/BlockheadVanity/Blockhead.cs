@@ -72,7 +72,7 @@ namespace BlockVanity.Content.Items.Vanity.BlockheadVanity
 
             headData.shader = drawInfo.cHead;
             eyeData.shader = drawInfo.cHead;
-            //irisData.shader = drawInfo.cHead;
+            irisData.shader = drawInfo.cHead;
 
             drawInfo.DrawDataCache.Add(headData);
             drawInfo.DrawDataCache.Add(eyeData);
