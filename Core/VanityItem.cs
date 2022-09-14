@@ -36,8 +36,9 @@ namespace BlockVanity.Core
         {
             Item.width = 24;
             Item.height = 24;
+            if (_isAnAccessory)
+                Item.DefaultToAccessory(Item.width, Item.height);
             Item.vanity = true;
-            Item.accessory = _isAnAccessory;
             Item.canBePlacedInVanityRegardlessOfConditions = true;
             Item.rare = _rarity;
             PostDefaults();

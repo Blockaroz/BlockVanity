@@ -20,10 +20,9 @@ namespace BlockVanity.Common.Players
                 if (Player.velocity.Length() > 3.2f)
                 {
                     ArmorShaderData shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
-                    Color smokeColor = Color.Lerp(Color.Lerp(new Color(66, 77, 99), Color.Indigo, Main.rand.NextFloat(0.66f)), Color.Black * 0.8f, Main.rand.NextFloat());
-
-                    Particle smoke = Particle.NewParticle(Particle.ParticleType<SmokeWisp>(), Player.MountedCenter + Player.velocity * 0.8f - new Vector2(18, Main.rand.Next(-11, 11)).RotatedBy(Player.velocity.ToRotation()), -Player.velocity.RotatedByRandom(0.1f) * 0.2f, smokeColor, Main.rand.NextFloat(0.7f, 1.3f));
-                    smoke.shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
+                    Color smokeColor = Color.Lerp(Color.Lerp(new Color(66, 77, 99), Color.Indigo, Main.rand.NextFloat(0.66f)), new Color(10, 10, 10, 220), Main.rand.NextFloat());
+                    Particle smoke = Particle.NewParticle(Particle.ParticleType<SmokeWisp>(), Player.MountedCenter + Player.velocity * 0.8f - new Vector2(18, Main.rand.Next(-11, 11)).RotatedBy(Player.velocity.ToRotation()), -Player.velocity.RotatedByRandom(0.1f) * 0.05f, smokeColor, Main.rand.NextFloat(0.7f, 1.3f));
+                    smoke.shader = shader;
                 }
             }
         }

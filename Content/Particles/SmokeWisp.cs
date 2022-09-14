@@ -28,7 +28,7 @@ namespace BlockVanity.Content.Particles
         {
             rotation = velocity.ToRotation();
 
-            velocity = Vector2.Lerp(velocity, velocity.RotatedByRandom(0.2f), 0.2f);
+            velocity = Vector2.Lerp(velocity, velocity + Main.rand.NextVector2Circular(1, 1), 0.03f);
             velocity *= 1.01f;
 
             scale *= Main.rand.NextFloat(0.97f, 1f);
@@ -47,8 +47,8 @@ namespace BlockVanity.Content.Particles
                 lightColor = Color.White;
 
             float fade = Utils.GetLerpValue(0, 3 * scale, life, true) * Utils.GetLerpValue(lifeMax, lifeMax - 12 * scale, life, true);
-            Vector2 stretch = new Vector2(1.5f, velocity.Length() * 0.3f + 0.2f) * scale;
-            spriteBatch.Draw(texture.Value, position - Main.screenPosition, variant, Color.Black * 0.15f * fade * fade, rotation - MathHelper.PiOver2, variant.Size() * new Vector2(0.5f, 0.6f), stretch * 1.4f, 0, 0);
+            Vector2 stretch = new Vector2(1.5f, velocity.Length() * 0.5f + 0.5f) * scale;
+            spriteBatch.Draw(texture.Value, position - Main.screenPosition, variant, Color.Black * 0.01f * fade, rotation - MathHelper.PiOver2, variant.Size() * new Vector2(0.5f, 0.6f), stretch * 1.4f, 0, 0);
             spriteBatch.Draw(texture.Value, position - Main.screenPosition, variant, color.MultiplyRGBA(lightColor) * fade, rotation - MathHelper.PiOver2, variant.Size() * new Vector2(0.5f, 0.7f), stretch, 0, 0);
         }
     }

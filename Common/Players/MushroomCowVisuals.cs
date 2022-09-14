@@ -4,6 +4,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria;
 using ParticleEngine;
+using Terraria.Graphics.Shaders;
 
 namespace BlockVanity.Common.Players
 {
@@ -17,6 +18,7 @@ namespace BlockVanity.Common.Players
         public override void FrameEffects()
         {
             bool rightSpeed = Player.velocity.Length() < 4f;
+            ArmorShaderData shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
             if (!Player.hideMisc[0] && rightSpeed && !Main.gameMenu & !Main.gamePaused && AnyCow)
             {
                 Vector2 mushPos = Player.Bottom + Main.rand.NextVector2Circular(40, 30);
@@ -38,24 +40,37 @@ namespace BlockVanity.Common.Players
                 float scale = Utils.GetLerpValue(120, 40, (mushPos - Player.Center).Length()) * 1.11f;
 
                 if (red && doMushroom && Main.rand.NextBool(15))
-                    Particle.NewParticle(Particle.ParticleType<Content.Particles.Mushrooms.MushroomRed>(), mushPos, Vector2.Zero, Color.White, scale);
-
+                {
+                    Particle shroom = Particle.NewParticle(Particle.ParticleType<Content.Particles.Mushrooms.MushroomRed>(), mushPos, Vector2.Zero, Color.White, scale);
+                    shroom.shader = shader;
+                }
                 if (brown && doMushroom)
                 {
                     if (Main.rand.NextBool(20))
-                        Particle.NewParticle(Particle.ParticleType<Content.Particles.Mushrooms.MushroomBrown>(), mushPos, Vector2.Zero, Color.White, scale);
-
+                    {
+                        Particle shroom = Particle.NewParticle(Particle.ParticleType<Content.Particles.Mushrooms.MushroomBrown>(), mushPos, Vector2.Zero, Color.White, scale);
+                        shroom.shader = shader;
+                    }
                     if (Main.rand.NextBool(70))
-                        Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(12, 6), DustID.Electric, -Vector2.UnitY.RotatedByRandom(1f) * 2f, 0, Color.White, 0.5f).noGravity = true;
+                    {
+                        Dust shroomDust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(12, 6), DustID.Electric, -Vector2.UnitY.RotatedByRandom(1f) * 2f, 0, Color.White, 0.5f);
+                        shroomDust.noGravity = true;
+                        shroomDust.shader = shader;
+                    }
                 }
                 if (glowing)
                 {
                     if (doMushroom && Main.rand.NextBool(18))
-                        Particle.NewParticle(Particle.ParticleType<Content.Particles.Mushrooms.MushroomGlowing>(), mushPos, Vector2.Zero, Color.White, scale);
+                    {
+                        Particle shroom = Particle.NewParticle(Particle.ParticleType<Content.Particles.Mushrooms.MushroomGlowing>(), mushPos, Vector2.Zero, Color.White, scale);
+                        shroom.shader = shader;
+                    }
 
                     if (Main.rand.NextBool(80))
-                        Dust.NewDustPerfect(Player.Bottom + Main.rand.NextVector2Circular(24, 2), DustID.GlowingMushroom, -Vector2.UnitY.RotatedByRandom(1f), 0, Color.White, 0.8f);
-
+                    {
+                        Dust shroomDust = Dust.NewDustPerfect(Player.Bottom + Main.rand.NextVector2Circular(24, 2), DustID.GlowingMushroom, -Vector2.UnitY.RotatedByRandom(1f), 0, Color.White, 0.8f);
+                        shroomDust.shader = shader;
+                    }
                 }
             }
         }

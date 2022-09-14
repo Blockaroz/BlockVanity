@@ -21,16 +21,15 @@ namespace BlockVanity.Content.Items.Vanity
     {
         public BlackEyeLens() : base("Black Scleral Lens", ItemRarityID.Blue, "Gives your eyes black sclerae", true) { }
 
-        public override void UpdateVanity(Player player)
-        {
-            player.GetModPlayer<MiscEffectPlayer>().accBlackEye = true;
-        }
+        public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<MiscEffectPlayer>().accBlackEye = !hideVisual;
+
+        public override void UpdateVanity(Player player) => player.GetModPlayer<MiscEffectPlayer>().accBlackEye = true;
 
         public override void AddRecipes()
         {
             CreateRecipe()
                 .AddIngredient(ItemID.BlackLens, 2)
-                .AddTile(TileID.Furnaces)
+                .AddTile(TileID.WorkBenches)
                 .Register();
         }
 

@@ -35,7 +35,7 @@ namespace BlockVanity.Content.Particles
 
             rotation += angularVelocity;
 
-            velocity += Main.rand.NextVector2Circular(1, 1) * 0.12f;
+            velocity += Main.rand.NextVector2Circular(1, 1) * 0.06f;
 
             velocity *= 0.8f + (Utils.GetLerpValue(0, (int)data * 0.8f, life, true) * 0.2f);
 
@@ -49,11 +49,12 @@ namespace BlockVanity.Content.Particles
             Rectangle frame = texture.Frame(1, 6, 0, variant);
 
             Color glowColor = color;
-            glowColor.A = 0;
+            if (shader == null)
+                glowColor.A = 0;
             float scaleFade = Utils.GetLerpValue(0, (int)data * 0.12f, life, true) * Utils.GetLerpValue((int)data, (int)data * 0.82f, life, true) * scale * 0.5f;
 
             spriteBatch.Draw(texture.Value, position - Main.screenPosition, frame, glowColor, rotation, frame.Size() * 0.5f, scaleFade, 0, 0);
-            spriteBatch.Draw(texture.Value, position - Main.screenPosition, texture.Frame(1, 6, 0, 5), glowColor, rotation, frame.Size() * 0.5f, scaleFade * dotScale, 0, 0);
+            spriteBatch.Draw(texture.Value, position - Main.screenPosition, texture.Frame(1, 6, 0, 5), new Color(glowColor.R, glowColor.G, glowColor.B, 0), rotation, frame.Size() * 0.5f, scaleFade * dotScale, 0, 0);
         }
     }
 }

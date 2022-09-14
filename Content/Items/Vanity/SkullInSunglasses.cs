@@ -17,13 +17,12 @@ namespace BlockVanity.Content.Items.Vanity
 
         public override void OnCreate(ItemCreationContext context)
         {
+            SoundStyle createSound = SoundID.NPCHit2;
+            createSound.PitchVariance = 0;
+            createSound.MaxInstances = 0;
+            createSound.Type = SoundType.Ambient;
             if (!Main.gameMenu)
-                SoundEngine.PlaySound(SoundID.NPCHit2, Main.LocalPlayer.Center);
-        }
-
-        public override void PreUpdateVanitySet(Player player)
-        {
-            player.GetModPlayer<MiscEffectPlayer>().boneSound = true;
+                SoundEngine.PlaySound(createSound, Main.LocalPlayer.Center);
         }
 
         public override void AddRecipes()
