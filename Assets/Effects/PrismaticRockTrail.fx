@@ -23,6 +23,7 @@ sampler2D a2 = sampler_state
 float3 uColor;
 float uOpacity;
 float uTime;
+float uGlow;
 matrix transformMatrix;
 
 struct VertexShaderInput
@@ -50,9 +51,15 @@ VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 
 float4 PixelShaderFunction(in VertexShaderOutput input) : COLOR0
 {
-    float4 n1 = tex2D(a1, input.Coord + float2(-uTime, 0));
-    float4 n2 = tex2D(a2, input.Coord + float2(-uTime * 2, 0)) * 2;
-    return (n2 / n1 + n1) * input.Color;
+    float4 n1 = tex2D(a1, input.Coord + float2(-uTime, 0)) * (1 - input.Coord.x);
+    float4 n2 = tex2D(a2, input.Coord + float2(-uTime * 3, 0)) * (1 - input.Coord.x) * (1 - abs(input.Coord.y * 2 - 1));
+    float4 trail = (pow(n2, 2) * 3 + n1) > 0.2 ? float4(1, 1, 1, 0) : 0;
+    if (length(trail) > 0)
+        trail.a = 0.9;
+    float4 bloom = (1 - input.Coord.x * 1.3) * (1 - abs(input.Coord.y * 2 - 1)) * uGlow;
+    bloom.a /= 2;
+    return (trail + bloom) * input.Color * uOpacity;
+
 }
 
 technique Technique1
