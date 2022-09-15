@@ -26,12 +26,12 @@ namespace BlockVanity.Content.Items.TrailItems
         {
             if (player.velocity.Length() > 1.5f)
             {
-                Color starColor = Main.hslToRgb(Main.GlobalTimeWrappedHourly % 1f, 1f, 0.7f);
-                starColor.A = 0;
+                Color starColor = Main.hslToRgb(Main.GlobalTimeWrappedHourly % 1f, 1f, 0.6f) * 0.5f;
+                //starColor.A /= 2;
                 Lighting.AddLight(player.MountedCenter, starColor.ToVector3() * 0.5f);
-                if (Main.rand.NextBool(9))
+                if (Main.rand.NextBool(8))
                 {
-                    Particle star = Particle.NewParticle(Particle.ParticleType<DreamEssence>(), player.Center + Main.rand.NextVector2Circular(20, 20), -player.velocity * 0.1f, starColor, Main.rand.NextFloat(1.5f));
+                    Particle star = Particle.NewParticle(Particle.ParticleType<PrettySparkle>(), player.Center + Main.rand.NextVector2Circular(17, 17), player.velocity * 0.1f, starColor, Main.rand.NextFloat());
                     star.shader = dye;
                     star.emit = true;
                 }
@@ -67,8 +67,8 @@ namespace BlockVanity.Content.Items.TrailItems
                 shader.Parameters["uStreak0"].SetValue(TextureAssets.Extra[189].Value);
                 shader.Parameters["uStreak1"].SetValue(TextureAssets.Extra[193].Value);
                 shader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.75f % 1f);
-                shader.Parameters["uGlow"].SetValue(0.4f);
-                shader.Parameters["uOpacity"].SetValue(0.9f);
+                shader.Parameters["uGlow"].SetValue(0.5f);
+                shader.Parameters["uOpacity"].SetValue(0.8f);
 
                 shader.CurrentTechnique.Passes[0].Apply();
 
