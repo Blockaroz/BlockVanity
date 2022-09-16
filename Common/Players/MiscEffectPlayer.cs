@@ -12,9 +12,14 @@ namespace BlockVanity.Common.Players
     {
         public bool accBlackEye;
 
+        //pets
+        public bool floatingSkyLanternPet;
+
         public override void ResetEffects()
         {
             accBlackEye = false;
+
+            floatingSkyLanternPet = false;
         }
     }
 }

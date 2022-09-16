@@ -26,10 +26,12 @@ namespace BlockVanity.Content.Items.TrailItems
         {
             if (player.velocity.Length() > 1.5f)
             {
-                Color starColor = Main.hslToRgb(Main.GlobalTimeWrappedHourly % 1f, 1f, 0.6f) * 0.5f;
+                Color starColor = Main.hslToRgb(Main.GlobalTimeWrappedHourly * 2 % 1f, 1f, 0.6f) * 0.5f;
+                if (dye != null)
+                    starColor = Main.hslToRgb(Main.GlobalTimeWrappedHourly * 2 % 1f, 0.3f, 0.6f) * 0.5f;
                 //starColor.A /= 2;
                 Lighting.AddLight(player.MountedCenter, starColor.ToVector3() * 0.5f);
-                if (Main.rand.NextBool(8))
+                if (Main.rand.NextBool(5))
                 {
                     Particle star = Particle.NewParticle(Particle.ParticleType<PrettySparkle>(), player.Center + Main.rand.NextVector2Circular(17, 17), player.velocity * 0.1f, starColor, Main.rand.NextFloat());
                     star.shader = dye;
@@ -49,9 +51,6 @@ namespace BlockVanity.Content.Items.TrailItems
 
                 VertexStrip strip = new VertexStrip();
 
-                float stripVelocity = Utils.GetLerpValue(-4, 8, drawPlayer.velocity.Length(), true);
-                VertexStrip.StripHalfWidthFunction widthFunction = (float progress) => 33 * stripVelocity * (float)Math.Sqrt(Utils.GetLerpValue(-0.1f, 0.05f, progress, true));
-
                 int length = 5 + (int)(prismIndex % 10f / 10f * 25f);
 
                 Vector2[] oldPos = new Vector2[length];
@@ -59,8 +58,6 @@ namespace BlockVanity.Content.Items.TrailItems
                     oldPos[i] = oldPlayer.oldPos[i];
 
                 oldPos[0] = drawPlayer.MountedCenter + drawPlayer.velocity * 0.06f;
-
-                strip.PrepareStrip(oldPos, oldPlayer.oldRot, (float progress) => Main.hslToRgb((Main.GlobalTimeWrappedHourly - progress * 0.7f) % 1f, 1f, 0.8f), widthFunction, -Main.screenPosition, length, true);
 
                 Effect shader = Mod.Assets.Request<Effect>("Assets/Effects/PrismaticRockTrail", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
                 shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.NormalizedTransformationmatrix);
@@ -71,11 +68,16 @@ namespace BlockVanity.Content.Items.TrailItems
                 shader.Parameters["uOpacity"].SetValue(0.8f);
 
                 shader.CurrentTechnique.Passes[0].Apply();
-
+                 
                 ArmorShaderData dye = GameShaders.Armor.GetShaderFromItemId(drawPlayer.dye[prismIndex % 10].type);
-                if (dye != null)
-                    dye.Apply();
+                //if (dye != null)
+                //    dye.Apply();
+                //double shader is crigne to do
 
+                float stripVelocity = Utils.GetLerpValue(-4, 8, drawPlayer.velocity.Length(), true);
+                VertexStrip.StripHalfWidthFunction widthFunction = (float progress) => 33 * stripVelocity * (float)Math.Sqrt(Utils.GetLerpValue(-0.06f, 0.04f, progress, true));
+
+                strip.PrepareStrip(oldPos, oldPlayer.oldRot, (float progress) => dye != null ? new Color(255, 255, 255, 128) : Main.hslToRgb((Main.GlobalTimeWrappedHourly - progress * 0.7f) % 1f, 1f, 0.8f), widthFunction, -Main.screenPosition, length, true);
                 strip.DrawTrail();
 
                 Main.pixelShader.CurrentTechnique.Passes[0].Apply();

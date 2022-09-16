@@ -41,13 +41,13 @@ namespace BlockVanity.Content.Particles
 
             Color glowColor = color * 0.5f;
             glowColor.A /= 2;
-            Color shineColor = Color.Lerp(color, Color.White, 0.6f * scaleFade) * 0.7f;
+            Color shineColor = Color.Lerp(color, Color.White, 0.8f * scaleFade) * 0.7f;
             shineColor.A = 0;
 
             spriteBatch.Draw(texture.Value, position - Main.screenPosition, null, glowColor, rotation, texture.Size() * 0.5f, scaleFade * new Vector2(1f, 1.5f), 0, 0);
             spriteBatch.Draw(texture.Value, position - Main.screenPosition, null, glowColor, rotation + MathHelper.PiOver2, texture.Size() * 0.5f, scaleFade * new Vector2(1f, 1.1f), 0, 0);
-            spriteBatch.Draw(texture.Value, position - Main.screenPosition, null, shineColor, rotation, texture.Size() * 0.5f, scaleFade * new Vector2(0.3f, 0.7f), 0, 0);
-            spriteBatch.Draw(texture.Value, position - Main.screenPosition, null, shineColor, rotation + MathHelper.PiOver2, texture.Size() * 0.5f, scaleFade * new Vector2(0.3f, 0.5f), 0, 0);
+            spriteBatch.Draw(texture.Value, position - Main.screenPosition, null, shineColor, rotation, texture.Size() * 0.5f, scaleFade * new Vector2(0.5f, 0.8f), 0, 0);
+            spriteBatch.Draw(texture.Value, position - Main.screenPosition, null, shineColor, rotation + MathHelper.PiOver2, texture.Size() * 0.5f, scaleFade * new Vector2(0.4f, 0.6f), 0, 0);
         }
     }
 }

@@ -1,6 +1,12 @@
+Blockaroz' Vanity adds several vanity items, accessories, pets, and blocks to enhance your movement and decorative experiences.
+
 -Vanity-
+Some vanities have special effects, like sprouting mushrooms when stationary or smoke when moving
 
-* Mushroom Cow Sets
-	* Wearing these will sprout mushrooms of their respective color from the ground
+-Trail Items-
+Accessories that you can wear to create particles or other visual effects when you move
 
-* Skull in Sunglasses
+-Other features-
+* Pets
+* Tiles
+* Paintings?
