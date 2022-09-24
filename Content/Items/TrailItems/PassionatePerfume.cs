@@ -10,7 +10,7 @@ namespace BlockVanity.Content.Items.TrailItems
 {
     public class PassionatePerfume : VanityItem, ITrailItem
     {
-        public PassionatePerfume() : base("Passionate Perfume", ItemRarityID.Expert, "Hearts follow your path \n'Made with love'", true) { }
+        public PassionatePerfume() : base("Passionate Perfume", ItemRarityID.Blue, "Hearts follow your path \n'Made with love'", true) { }
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 200);
 

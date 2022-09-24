@@ -16,7 +16,7 @@ namespace BlockVanity.Content.Items.TrailItems
 {
     public class FoulFunk : VanityItem, ITrailItem
     {
-        public FoulFunk() : base("Foul Funk", ItemRarityID.Expert, "A horrible stench is left in your wake \n'Made without love'", true) { }
+        public FoulFunk() : base("Foul Funk", ItemRarityID.Blue, "A horrible stench is left in your wake \n'Made without love'", true) { }
 
         public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 200);
 
