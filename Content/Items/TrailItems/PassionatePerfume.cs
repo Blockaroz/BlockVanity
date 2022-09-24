@@ -21,9 +21,9 @@ namespace BlockVanity.Content.Items.TrailItems
                 int frequency = 14 - (int)(slot % 10f / 10f * 12f);
                 if (Main.rand.NextBool(frequency))
                 {
-                    Color heartColor = new Color(255, 20, 10, 80);
+                    Color heartColor = new Color(255, 20, 10, 20);
                     if (dye != null)
-                        heartColor = new Color(200, 200, 200, 80);
+                        heartColor = new Color(180, 180, 180, 120);
                     Particle heart = Particle.NewParticle(Particle.ParticleType<PopHeart>(), player.MountedCenter + Main.rand.NextVector2Circular(15, 20), player.velocity * 0.15f - Vector2.UnitY * Main.rand.NextFloat(), heartColor, 0.5f + Main.rand.NextFloat());
                     heart.emit = true;
                     heart.shader = dye;
