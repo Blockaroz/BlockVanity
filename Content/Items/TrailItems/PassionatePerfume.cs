@@ -18,9 +18,16 @@ namespace BlockVanity.Content.Items.TrailItems
         {
             if (player.velocity.Length() > 1.5f)
             {
-                int frequency = 10 - (int)(slot % 10f / 10f * 5f);
+                int frequency = 14 - (int)(slot % 10f / 10f * 12f);
                 if (Main.rand.NextBool(frequency))
-                    Gore.NewGorePerfect(player.GetSource_Accessory(Item), player.MountedCenter + Main.rand.NextVector2Circular(18, 24), -Vector2.UnitY.RotatedByRandom(0.3f) + player.velocity * 0.5f, 331, Main.rand.NextFloat(0.5f, 1f));
+                {
+                    Color heartColor = new Color(255, 20, 10, 80);
+                    if (dye != null)
+                        heartColor = new Color(200, 200, 200, 80);
+                    Particle heart = Particle.NewParticle(Particle.ParticleType<PopHeart>(), player.MountedCenter + Main.rand.NextVector2Circular(15, 20), player.velocity * 0.15f - Vector2.UnitY * Main.rand.NextFloat(), heartColor, 0.5f + Main.rand.NextFloat());
+                    heart.emit = true;
+                    heart.shader = dye;
+                }
             }
         }
 

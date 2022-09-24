@@ -27,16 +27,22 @@ namespace BlockVanity.Content.Items.TrailItems
                 int frequency = 12 - (int)(slot % 10f / 10f * 4f);
                 Color dungColor = Color.Lerp(Color.DarkOliveGreen, Color.Olive, Main.rand.NextFloat()) * 0.16f;
                 dungColor.A += 50;
+                if (dye != null)
+                    dungColor = Color.White * 0.4f;
                 Particle smog = Particle.NewParticle(Particle.ParticleType<CopyParticle>(), player.MountedCenter, player.velocity * 0.3f, dungColor, 1f + Main.rand.NextFloat());
                 int goreType = Main.rand.Next(61, 64);
                 Main.instance.LoadGore(goreType);
                 smog.data = TextureAssets.Gore[goreType];
+                smog.shader = dye;
 
                 if (Main.rand.NextBool(frequency))
                 {
                     Color sporeColor = Color.Lerp(Color.PaleGreen, Color.Khaki, Main.rand.NextFloat());
-                    Particle spore = Particle.NewParticle(Particle.ParticleType<DeepSpore>(), player.MountedCenter + Main.rand.NextVector2Circular(15, 20), player.velocity * 0.3f, sporeColor, Main.rand.NextFloat(0.5f));
+                    if (dye != null)
+                        sporeColor = Color.White;
+                    Particle spore = Particle.NewParticle(Particle.ParticleType<DeepSpore>(), player.MountedCenter + Main.rand.NextVector2Circular(15, 20), player.velocity * 0.3f, sporeColor, 0.5f + Main.rand.NextFloat(0.5f));
                     spore.emit = true;
+                    spore.shader = dye;
                 }
             }
         }

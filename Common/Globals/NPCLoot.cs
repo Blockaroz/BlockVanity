@@ -12,7 +12,7 @@ namespace BlockVanity.Common.Globals
         public override void ModifyNPCLoot(NPC npc, Terraria.ModLoader.NPCLoot npcLoot)
         {
             if (npc.type == NPCID.RainbowSlime)
-                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PrismaticRockCrystal>(), 8));
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PrismaticRockCrystal>(), 6));
 
         }
     }
