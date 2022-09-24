@@ -135,19 +135,19 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
                 shaderData.Apply(null);
 
             Vector2 tailPos = Projectile.Center + new Vector2(0, 10).RotatedBy(Projectile.rotation);
-            float tailWind = (float)Math.Sin(Projectile.localAI[0] * 1.5f) * 0.1f;
+            float tailWind = (float)Math.Sin(Projectile.localAI[0] * 1.5f) * 0.15f;
             float airVelocity = Projectile.velocity.X + Math.Max(0, Projectile.velocity.Y) * Projectile.spriteDirection;
             Main.EntitySpriteDraw(tailTexture.Value, tailPos - Main.screenPosition, null, lightColor, Projectile.rotation + airVelocity * 0.05f + tailWind, tailTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, dir, 0);
             
             Main.EntitySpriteDraw(texture.Value, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, dir, 0);
 
             int shades = 4;
-            Color shadeColor = lightColor * 0.2f;
+            Color shadeColor = lightColor * 0.1f;
             shadeColor.A /= 2;
             float sine = ((float)Math.Sin(Projectile.localAI[0] * 0.2f) + 1f) * 0.2f;
             for (int i = 0; i < shades; i++)
             {
-                Vector2 offset = new Vector2(2 + sine * 4, 0).RotatedBy(MathHelper.TwoPi / shades * i);
+                Vector2 offset = new Vector2(1f + sine * 4, 0).RotatedBy(MathHelper.TwoPi / shades * i);
                 Main.EntitySpriteDraw(texture.Value, Projectile.Center + offset - Main.screenPosition, null, shadeColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, dir, 0);
             }
 
