@@ -1,4 +1,5 @@
-﻿using BlockVanity.Content.Items.TrailItems;
+﻿using BlockVanity.Content.Items.Pets.ImpishEye;
+using BlockVanity.Content.Items.TrailItems;
 using System;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
@@ -14,6 +15,8 @@ namespace BlockVanity.Common.Globals
             if (npc.type == NPCID.RainbowSlime)
                 npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<PrismaticRockCrystal>(), 6));
 
+            if (npc.type == NPCID.DemonEye || npc.type == NPCID.DemonEye2)
+                npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<LooseEye>(), 50));
         }
     }
 }
