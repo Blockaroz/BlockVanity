@@ -51,7 +51,7 @@ namespace BlockVanity.Content.Items.Pets.ImpishEye
             Vector2 homePos = Player.MountedCenter + new Vector2(80, 0).RotatedBy(Projectile.ai[0] * 0.2f);
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(homePos) * Projectile.Distance(homePos) * 0.07f, 0.1f);
 
-            Projectile.rotation = Projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
 
             Projectile.spriteDirection = Projectile.velocity.X > 0 ? 1 : -1;
 
@@ -68,7 +68,7 @@ namespace BlockVanity.Content.Items.Pets.ImpishEye
         public override bool PreDraw(ref Color lightColor)
         {
             Asset<Texture2D> texture = ModContent.Request<Texture2D>(Texture);
-            SpriteEffects dir = Projectile.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipVertically;
+            SpriteEffects dir = Projectile.spriteDirection > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             Rectangle frame = texture.Frame(1, 4, 0, Projectile.frame);
 
             ArmorShaderData shaderData = GameShaders.Armor.GetSecondaryShader(Player.cLight, Player);
@@ -79,10 +79,10 @@ namespace BlockVanity.Content.Items.Pets.ImpishEye
             {
                 Vector2 oldPos = Projectile.oldPos[i] + Projectile.Size * 0.5f;
                 float oldRot = Projectile.oldRot[i];
-                Main.EntitySpriteDraw(texture.Value, oldPos - Main.screenPosition, frame, lightColor.MultiplyRGBA(new Color(40, 40, 40)) * Utils.GetLerpValue(8, 0, i, true) * 0.2f, oldRot, frame.Size() * new Vector2(0.8f, 0.5f), Projectile.scale * 1.4f, dir, 0);
+                Main.EntitySpriteDraw(texture.Value, oldPos - Main.screenPosition, frame, lightColor.MultiplyRGBA(new Color(40, 40, 40)) * Utils.GetLerpValue(8, 0, i, true) * 0.2f, oldRot, frame.Size() * new Vector2(0.5f, 0.7f), Projectile.scale * 1.2f, dir, 0);
             }
 
-            Main.EntitySpriteDraw(texture.Value, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, frame.Size() * new Vector2(0.8f, 0.5f), Projectile.scale, dir, 0);
+            Main.EntitySpriteDraw(texture.Value, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, frame.Size() * new Vector2(0.5f, 0.7f), Projectile.scale, dir, 0);
 
             Main.pixelShader.CurrentTechnique.Passes[0].Apply();
 

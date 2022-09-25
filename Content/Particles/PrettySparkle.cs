@@ -14,14 +14,16 @@ namespace BlockVanity.Content.Particles
 
         public override void OnSpawn()
         {
-            if (data is null)
-                data = Main.rand.Next(70, 90) + (int)(scale * 2);
-            life = (int)data;
             rotation = Main.rand.NextFloat(-0.05f, 0.05f);
         }
 
         public override void Update()
         {
+            if (data is null)
+                data = Main.rand.Next(70, 90) + (int)(scale * 2);
+            if (life <= 0)
+                life = (int)data;
+
             life--;
 
             if (emit)
@@ -29,7 +31,7 @@ namespace BlockVanity.Content.Particles
 
             velocity *= 0.8f + (Utils.GetLerpValue((int)data * 0.3f, (int)data * 0.8f, life, true) * 0.23f);
 
-            if (life < 0 || scale < 0.1f)
+            if (life <= 0 || scale < 0.1f)
                 Active = false;
         }
 

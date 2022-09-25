@@ -100,7 +100,7 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
 
             Projectile.spriteDirection = Projectile.Center.X < Player.Center.X ? 1 : -1;
 
-            float sine = ((float)Math.Sin(Projectile.localAI[0] * 0.2f) + 1f) * 0.2f;
+            float sine = ((float)Math.Sin(Projectile.localAI[0] * 0.3f) + 1f) * 0.2f;
             Lighting.AddLight(Projectile.Center, Color.DarkOrange.ToVector3() * (sine + 1f));
 
             if (Player.miscCounter % 15 == 0 && Main.rand.NextBool(8))
@@ -141,13 +141,13 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
             
             Main.EntitySpriteDraw(texture.Value, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, dir, 0);
 
+            float sine = ((float)Math.Sin(Projectile.localAI[0] * 0.3f) + 1f);
             int shades = 4;
-            Color shadeColor = lightColor * 0.1f;
+            Color shadeColor = lightColor * 0.1f * (0.5f + sine * 0.5f);
             shadeColor.A /= 2;
-            float sine = ((float)Math.Sin(Projectile.localAI[0] * 0.2f) + 1f) * 0.2f;
             for (int i = 0; i < shades; i++)
             {
-                Vector2 offset = new Vector2(1f + sine * 4, 0).RotatedBy(MathHelper.TwoPi / shades * i);
+                Vector2 offset = new Vector2(sine * 2f, 0).RotatedBy(MathHelper.TwoPi / shades * i);
                 Main.EntitySpriteDraw(texture.Value, Projectile.Center + offset - Main.screenPosition, null, shadeColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, dir, 0);
             }
 
