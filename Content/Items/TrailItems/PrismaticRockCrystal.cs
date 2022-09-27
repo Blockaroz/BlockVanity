@@ -72,12 +72,11 @@ namespace BlockVanity.Content.Items.TrailItems
                 ArmorShaderData dye = GameShaders.Armor.GetShaderFromItemId(drawPlayer.dye[prismIndex % 10].type);
                 //if (dye != null)
                 //    dye.Apply();
-                //double shader is crigne to do
 
                 float stripVelocity = Utils.GetLerpValue(-4, 8, drawPlayer.velocity.Length(), true);
                 VertexStrip.StripHalfWidthFunction widthFunction = (float progress) => 33 * stripVelocity * (float)Math.Sqrt(Utils.GetLerpValue(-0.06f, 0.04f, progress, true));
 
-                strip.PrepareStrip(oldPos, oldPlayer.oldRot, (float progress) => dye != null ? new Color(255, 255, 255, 128) : Main.hslToRgb((Main.GlobalTimeWrappedHourly - progress * 0.7f) % 1f, 1f, 0.8f), widthFunction, -Main.screenPosition, length, true);
+                strip.PrepareStrip(oldPos, oldPlayer.oldRot, (float progress) => Main.hslToRgb((Main.GlobalTimeWrappedHourly - progress * 0.66f) % 1f, 1f, 0.8f), widthFunction, -Main.screenPosition, length, true);
                 strip.DrawTrail();
 
                 Main.pixelShader.CurrentTechnique.Passes[0].Apply();

@@ -30,7 +30,7 @@ namespace BlockVanity.Content.Items.TrailItems.Omnibag
 
                 for (int i = 0; i < freq; i++)
                 {
-                    Dust d = Dust.NewDustPerfect(player.MountedCenter + Main.rand.NextVector2Circular(15, 20), DustID.Frost, Main.rand.NextVector2Circular(2, 2) + player.velocity * 0.1f, 0, Color.White, 1.25f);
+                    Dust d = Dust.NewDustPerfect(player.MountedCenter + Main.rand.NextVector2Circular(15, 20), DustID.Frost, Main.rand.NextVector2Circular(2, 2) + player.velocity * -0.5f, 0, Color.White, 1.25f);
                     d.noGravity = true;
                     d.shader = dye;
                 }

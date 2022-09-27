@@ -21,14 +21,15 @@ namespace BlockVanity.Content.Particles
             life = Main.rand.Next(9, 14) * scale;
             oldPos = new Vector2[16];
             oldRot = new float[16];
+            velocity *= 1.5f;
         }
 
         public override void Update()
         {
-            velocity *= 0.96f;
+            velocity *= 0.91f;
             rotation = velocity.ToRotation();
 
-            velocity = Vector2.Lerp(velocity, velocity + Main.rand.NextVector2Circular(2, 2) * Utils.GetLerpValue(15, 0, life, true), 0.1f);
+            velocity = Vector2.Lerp(velocity, velocity * 1.05f + Main.rand.NextVector2Circular(1, 1), 0.15f);
 
             for (int i = oldPos.Length - 1; i > 0; i--)
             {
@@ -40,10 +41,13 @@ namespace BlockVanity.Content.Particles
 
             life *= 0.9f;
 
-            if (emit)
-                Lighting.AddLight(position, color.ToVector3() * 0.12f);
+            if (life < 0.8f)
+                scale *= 0.8f;
 
-            if (life < 0.03f)
+            if (emit)
+                Lighting.AddLight(position, color.ToVector3() * 0.4f * Utils.GetLerpValue(0f, 2f, life, true));
+
+            if (life < 0.03f || scale < 0.2f)
                 Active = false;
         }
 
@@ -55,7 +59,7 @@ namespace BlockVanity.Content.Particles
 
             for (int i = 1; i < oldPos.Length; i++)
             {
-                Color trailColor = drawColor * (float)Math.Pow(Utils.GetLerpValue(oldPos.Length, 0, i, true), 2f) * 0.33f;
+                Color trailColor = drawColor * (float)Math.Pow(Utils.GetLerpValue(oldPos.Length, 0, i, true), 2f) * 0.3f;
                 trailColor.A /= 3;
                 Vector2 trailStretch = new Vector2(oldPos[i].Distance(oldPos[i - 1]) + 0.05f, scale);
                 spriteBatch.Draw(texture.Value, oldPos[i] - Main.screenPosition, null, trailColor, oldRot[i], texture.Size() * 0.5f, trailStretch, 0, 0);

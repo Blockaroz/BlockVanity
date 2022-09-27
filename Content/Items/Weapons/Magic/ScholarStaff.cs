@@ -26,13 +26,14 @@ namespace BlockVanity.Content.Items.Weapons.Magic
             Item.noUseGraphic = true;
             Item.noMelee = true;
 
-            Item.damage = 100;
+            Item.damage = 60;
             Item.DamageType = DamageClass.Magic;
-            Item.knockBack = 0.5f;
-            Item.rare = ItemRarityID.Blue;
+            Item.mana = 5;
+            Item.knockBack = 8f;
+            Item.rare = ItemRarityID.Pink;
             Item.value = Item.buyPrice(0, 2);
-            Item.useTime = 25;
-            Item.useAnimation = 25;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
             Item.shoot = ModContent.ProjectileType<ScholarStaffHeld>();
             Item.shootSpeed = 5f;
         }
