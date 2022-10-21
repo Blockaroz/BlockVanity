@@ -33,7 +33,12 @@ namespace BlockVanity.Common.Metaballs
             {
                 if (oldScreenSize != Main.ScreenSize || n.renderTarget == null)
                 {
-                    n.renderTarget.Dispose();
+                    if (n.renderTarget != null)
+                    {
+                        if (!n.renderTarget.IsDisposed)
+                            n.renderTarget.Dispose();
+                    }
+
                     n.renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
                 }
 
@@ -59,8 +64,8 @@ namespace BlockVanity.Common.Metaballs
 
         public void Unload()
         {
-            metaball.Clear();
             metaball.ForEach(m => m.renderTarget.Dispose());
+            metaball.Clear();
         }
     }
 }

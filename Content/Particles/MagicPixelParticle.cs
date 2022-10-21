@@ -11,9 +11,9 @@ namespace BlockVanity.Content.Particles
 {
     public class MagicPixelParticle : Particle
     {
-        private float life;
-        private Vector2[] oldPos;
-        private float[] oldRot;
+        public float life;
+        public Vector2[] oldPos;
+        public float[] oldRot;
 
         public override void OnSpawn()
         {

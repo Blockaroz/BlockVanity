@@ -87,16 +87,16 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
 
         public override bool PreDraw(ref Color lightColor)
         {
-            Asset<Texture2D> texture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Content/Projectiles/Weapons/Magic/ScholarStaffBolt");
-            Asset<Texture2D> glow = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/SoftGlow");
-            float ballScale = Projectile.scale * (0.7f + (float)Math.Cos(Projectile.localAI[0] * 0.15f % MathHelper.TwoPi) * 0.12f);
-
-            Color glowColor = Color.MediumTurquoise;
+            Color glowColor = Color.Lerp(Color.MediumTurquoise, Color.Cyan, 0.66f);
             glowColor.A = 0;
 
-            Main.EntitySpriteDraw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor, 0, texture.Size() * 0.5f, ballScale * 0.8f, 0, 0);
-            Main.EntitySpriteDraw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, new Color(255, 255, 255, 0), 0, texture.Size() * 0.5f, ballScale * 0.56f, 0, 0);
-            Main.EntitySpriteDraw(glow.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor * 0.3f, 0, glow.Size() * 0.5f, ballScale * 0.66f, 0, 0);
+            Asset<Texture2D> texture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Content/Projectiles/Weapons/Magic/ScholarStaffBolt", AssetRequestMode.ImmediateLoad);
+            Asset<Texture2D> glow = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/SoftGlow", AssetRequestMode.ImmediateLoad);
+            float ballScale = Projectile.scale * (1.5f + (float)Math.Cos(Projectile.localAI[0] * 0.15f % MathHelper.TwoPi) * 0.15f);
+
+            Main.spriteBatch.Draw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor, 0, texture.Size() * 0.5f, ballScale * 0.8f, 0, 0);
+            Main.spriteBatch.Draw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, new Color(255, 255, 255, 0), 0, texture.Size() * 0.5f, ballScale * 0.56f, 0, 0);
+            Main.spriteBatch.Draw(glow.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor * 0.5f, 0, glow.Size() * 0.5f, ballScale * 0.6f, 0, 0);
 
             return false;
         }
@@ -108,8 +108,9 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
         {
             foreach (Projectile proj in Main.projectile.Where(n => n.ModProjectile is ScholarStaffBolt && n.active))
             {
-                Color glowColor = Color.MediumTurquoise;
+                Color glowColor = Color.Lerp(Color.MediumTurquoise, Color.Cyan, 0.66f);
                 glowColor.A = 0;
+
 
                 List<Vector2> strip0 = new List<Vector2>();
                 List<Vector2> strip1 = new List<Vector2>();
@@ -135,7 +136,6 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
                 Effect shader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/ScholarEnergyTrail", AssetRequestMode.ImmediateLoad).Value;
                 shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.NormalizedTransformationmatrix);
                 shader.Parameters["uStreak0"].SetValue(TextureAssets.Extra[194].Value);
-                //shader.Parameters["uStreak0"].SetValue(texture.Value);
                 shader.Parameters["uColor"].SetValue(glowColor.ToVector4() * 1.1f);
                 shader.Parameters["uTime"].SetValue(-Main.GlobalTimeWrappedHourly * 2f % 1f);
 
@@ -151,6 +151,12 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
 
                 Main.pixelShader.CurrentTechnique.Passes[0].Apply();
             }
+
+            //foreach (Particle particle in ParticleSystem.particle.Where(p => p.Type == 0 && p.data is bool && (bool)p.data == true))
+            //{
+
+            //}
+
         }
 
         private void DrawBolts(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
