@@ -49,7 +49,7 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
             {
                 Projectile.localAI[0] += 0.5f;
                 speed = 16f;
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, new Vector2(speed, 0).RotatedBy(Projectile.AngleTo(Main.npc[target].Center)), 0.07f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, new Vector2(speed, 0).RotatedBy(Projectile.AngleTo(Main.npc[target].Center)), 0.06f);
             }
             Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.velocity.SafeNormalize(Vector2.Zero) * speed, 0.2f);
 
@@ -62,7 +62,7 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
                 pixel.emit = true;
             }
 
-            Projectile.scale = (float)Math.Sqrt(Utils.GetLerpValue(596, 585, Projectile.timeLeft, true));
+            Projectile.scale = (float)Math.Sqrt(Utils.GetLerpValue(598, 585, Projectile.timeLeft, true));
 
             Projectile.rotation = Projectile.velocity.ToRotation();
 
@@ -71,17 +71,16 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
 
         public override void Kill(int timeLeft)
         {
-            SoundStyle hitSound = SoundID.DD2_SkyDragonsFuryShot;
+            SoundStyle hitSound = SoundID.DD2_GoblinBomb;
             hitSound.MaxInstances = 0;
-            hitSound.PitchVariance = 0.2f;
-            hitSound.Pitch = 0.2f;
+            hitSound.PitchVariance = 0.1f;
             SoundEngine.PlaySound(hitSound, Projectile.Center);
 
             for (int i = 0; i < Main.rand.Next(25, 30); i++)
             {
                 Color particleColor = Color.Lerp(Color.MediumTurquoise, Color.LightCyan, Main.rand.NextFloat(0.5f));
                 particleColor.A = 0;
-                Particle pixel = Particle.NewParticle(Particle.ParticleType<MagicPixelParticle>(), Projectile.Center + Main.rand.NextVector2CircularEdge(16, 16) * Projectile.scale, Main.rand.NextVector2Circular(2, 2), particleColor, 1f + Main.rand.NextFloat(2f));
+                Particle pixel = Particle.NewParticle(Particle.ParticleType<MagicPixelParticle>(), Projectile.Center + Main.rand.NextVector2CircularEdge(8, 8) * Projectile.scale, Main.rand.NextVector2Circular(3, 3), particleColor, 1f + Main.rand.NextFloat(2f));
                 pixel.emit = true;
             }
         }
@@ -89,13 +88,15 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
         public override bool PreDraw(ref Color lightColor)
         {
             Asset<Texture2D> texture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Content/Projectiles/Weapons/Magic/ScholarStaffBolt");
-            float ballScale = Projectile.scale * (2f + (float)Math.Cos(Projectile.localAI[0] * 0.15f % MathHelper.TwoPi) * 0.12f);
+            Asset<Texture2D> glow = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/SoftGlow");
+            float ballScale = Projectile.scale * (0.7f + (float)Math.Cos(Projectile.localAI[0] * 0.15f % MathHelper.TwoPi) * 0.12f);
 
             Color glowColor = Color.MediumTurquoise;
             glowColor.A = 0;
 
             Main.EntitySpriteDraw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor, 0, texture.Size() * 0.5f, ballScale * 0.8f, 0, 0);
-            Main.EntitySpriteDraw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, new Color(255, 255, 255, 0), 0, texture.Size() * 0.5f, ballScale * 0.5f, 0, 0);
+            Main.EntitySpriteDraw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, new Color(255, 255, 255, 0), 0, texture.Size() * 0.5f, ballScale * 0.56f, 0, 0);
+            Main.EntitySpriteDraw(glow.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor * 0.3f, 0, glow.Size() * 0.5f, ballScale * 0.66f, 0, 0);
 
             return false;
         }
@@ -105,7 +106,7 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
     {
         public override void DrawToTarget(SpriteBatch spriteBatch)
         {
-            foreach(Projectile proj in Main.projectile.Where(n => n.ModProjectile is ScholarStaffBolt && n.active))
+            foreach (Projectile proj in Main.projectile.Where(n => n.ModProjectile is ScholarStaffBolt && n.active))
             {
                 Color glowColor = Color.MediumTurquoise;
                 glowColor.A = 0;
@@ -116,10 +117,10 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
                 List<float> rot1 = new List<float>();
 
                 float stripLength = 48;
-                float t = proj.localAI[0] * 2f;
+                float t = proj.localAI[0] * 1.6f;
                 for (int i = 0; i < (int)stripLength; i++)
                 {
-                    float rad = 11f * proj.scale + (float)Math.Sin(t * 0.1f % MathHelper.TwoPi);
+                    float rad = 10f * proj.scale + (float)Math.Sin(t * 0.1f % MathHelper.TwoPi);
                     Vector2 offRot0 = new Vector2(rad * (float)Math.Sqrt(Utils.GetLerpValue(stripLength, stripLength * 0.5f, i, true)), 0).RotatedBy(t * 0.1f + i / stripLength * 4f);
                     Vector2 offset0 = new Vector2(offRot0.X * proj.direction, offRot0.Y * 0.4f).RotatedBy(proj.rotation + t * 0.05f * proj.direction);
                     strip0.Add(offset0);
@@ -135,7 +136,7 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
                 shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.NormalizedTransformationmatrix);
                 shader.Parameters["uStreak0"].SetValue(TextureAssets.Extra[194].Value);
                 //shader.Parameters["uStreak0"].SetValue(texture.Value);
-                shader.Parameters["uColor"].SetValue(glowColor.ToVector4() * 1.3f);
+                shader.Parameters["uColor"].SetValue(glowColor.ToVector4() * 1.1f);
                 shader.Parameters["uTime"].SetValue(-Main.GlobalTimeWrappedHourly * 2f % 1f);
 
                 shader.CurrentTechnique.Passes[0].Apply();
@@ -155,13 +156,12 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic
         private void DrawBolts(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
             orig(self);
-
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null);
             Main.spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, 0, 0);
             Main.spriteBatch.End();
         }
 
-        public void Load(Mod mod)
+        public override void Load()
         {
             On.Terraria.Main.DrawProjectiles += DrawBolts;
         }

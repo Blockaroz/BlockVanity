@@ -27,12 +27,15 @@ namespace BlockVanity.Common.Metaballs
                 return;
             }
 
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, Main.Rasterizer, null, Main.Transform);
 
             metaball.ForEach(n =>
             {
                 if (oldScreenSize != Main.ScreenSize || n.renderTarget == null)
+                {
+                    n.renderTarget.Dispose();
                     n.renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+                }
 
                 if (n.renderTarget != null)
                 {
@@ -43,6 +46,7 @@ namespace BlockVanity.Common.Metaballs
                     
                     Main.graphics.GraphicsDevice.SetRenderTarget(null);
                     Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
                 }
             });
 
@@ -53,6 +57,10 @@ namespace BlockVanity.Common.Metaballs
             orig();
         }
 
-        public void Unload() => metaball.Clear();
+        public void Unload()
+        {
+            metaball.Clear();
+            metaball.ForEach(m => m.renderTarget.Dispose());
+        }
     }
 }
