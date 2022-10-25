@@ -64,7 +64,7 @@ namespace BlockVanity.Common.Metaballs
 
         public void Unload()
         {
-            metaball.ForEach(m => m.renderTarget.Dispose());
+            Main.QueueMainThreadAction(() => metaball.ForEach(m => m.renderTarget.Dispose()));
             metaball.Clear();
         }
     }
