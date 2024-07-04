@@ -1,28 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.Audio;
+﻿using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Common.Players
+namespace BlockVanity.Common.Players;
+
+public class MiscEffectPlayer : ModPlayer
 {
-    public class MiscEffectPlayer : ModPlayer
+    public bool accBlackEye;
+    public bool blockheadSkin;
+
+    //pets
+    public bool floatingSkyLanternPet;
+
+    public override void Load()
     {
-        public bool accBlackEye;
+        On_PlayerDrawLayers.DrawPlayer_21_Head_TheFace += SetEyeBlack;
+        On_PlayerDrawSet.BoringSetup_End += ChangeSkinColor;
+    }
 
-        //pets
-        public bool floatingSkyLanternPet;
+    private void SetEyeBlack(On_PlayerDrawLayers.orig_DrawPlayer_21_Head_TheFace orig, ref PlayerDrawSet drawinfo)
+    {
+        if (drawinfo.drawPlayer.GetModPlayer<MiscEffectPlayer>().accBlackEye)
+            drawinfo.colorEyeWhites = new Color(20, 20, 20);
 
-        public bool impishEyePet;
+        orig(ref drawinfo);
+    }
 
-        public override void ResetEffects()
+    private void ChangeSkinColor(On_PlayerDrawSet.orig_BoringSetup_End orig, ref PlayerDrawSet self)
+    {
+        orig(ref self);
+
+        if (self.drawPlayer.GetModPlayer<MiscEffectPlayer>().blockheadSkin)
         {
-            accBlackEye = false;
-
-            floatingSkyLanternPet = false;
-            impishEyePet = false;
+            self.colorBodySkin = self.drawPlayer.skinColor.ToGrayscale();
+            self.colorHead = self.colorBodySkin;
         }
+    }
+
+    public override void ResetEffects()
+    {
+        accBlackEye = false;
+        blockheadSkin = false;
+
+        floatingSkyLanternPet = false;
     }
 }

@@ -1,13 +1,8 @@
-﻿using BlockVanity.Common.Players;
-using log4net;
+﻿using System;
+using BlockVanity.Common.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -19,7 +14,7 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Floating Sky Lantern");
+            // DisplayName.SetDefault("Floating Sky Lantern");
 
             Main.projFrames[Type] = 1;
             Main.projPet[Type] = true;
@@ -52,20 +47,30 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
             float distance = Vector2.Distance(Projectile.Center, Player.MountedCenter + calcPos);
 
             if (!Player.active || Player.dead || !Player.GetModPlayer<MiscEffectPlayer>().floatingSkyLanternPet)
+            {
                 Projectile.Kill();
+            }
 
             if (distance > 1000)
+            {
                 Projectile.Center = Player.MountedCenter + calcPos;
+            }
 
             if (distance < 1f)
+            {
                 Projectile.velocity *= 0.25f;
+            }
 
             if (vector != Vector2.Zero)
             {
                 if (vector.Length() < 0.004f)
+                {
                     Projectile.velocity = vector;
+                }
                 else
+                {
                     Projectile.velocity = vector * 0.1f;
+                }
             }
 
             Projectile.position += new Vector2(0, cos * 0.5f);
@@ -80,9 +85,13 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
                 if (Math.Abs(Projectile.rotation - value) >= MathHelper.Pi)
                 {
                     if (value < Projectile.rotation)
+                    {
                         Projectile.rotation -= MathHelper.TwoPi;
+                    }
                     else
+                    {
                         Projectile.rotation += MathHelper.TwoPi;
+                    }
                 }
 
                 Projectile.rotation = (Projectile.rotation * (rotateFactor - 1f) + value) / rotateFactor;
@@ -90,12 +99,18 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
             else
             {
                 if (Projectile.rotation > MathHelper.Pi)
+                {
                     Projectile.rotation -= MathHelper.TwoPi;
+                }
 
                 if (Projectile.rotation > -0.004f && Projectile.rotation < 0.004f)
+                {
                     Projectile.rotation = 0;
+                }
                 else
+                {
                     Projectile.rotation *= 0.95f;
+                }
             }
 
             Projectile.spriteDirection = Projectile.Center.X < Player.Center.X ? 1 : -1;
@@ -109,7 +124,9 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
                 float rand = 1f + Main.rand.NextFloat() * 0.5f;
 
                 if (Main.rand.NextBool(2))
+                {
                     rand *= -1f;
+                }
 
                 center += new Vector2(rand * -25f, -8f);
 
@@ -132,13 +149,15 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
 
             ArmorShaderData shaderData = GameShaders.Armor.GetSecondaryShader(Player.cLight, Player);
             if (shaderData != null)
+            {
                 shaderData.Apply(null);
+            }
 
             Vector2 tailPos = Projectile.Center + new Vector2(0, 10).RotatedBy(Projectile.rotation);
             float tailWind = (float)Math.Sin(Projectile.localAI[0] * 1.5f) * 0.15f;
             float airVelocity = Projectile.velocity.X + Math.Max(0, Projectile.velocity.Y) * Projectile.spriteDirection;
             Main.EntitySpriteDraw(tailTexture.Value, tailPos - Main.screenPosition, null, lightColor, Projectile.rotation + airVelocity * 0.05f + tailWind, tailTexture.Size() * new Vector2(0.5f, 0f), Projectile.scale, dir, 0);
-            
+
             Main.EntitySpriteDraw(texture.Value, Projectile.Center - Main.screenPosition, null, lightColor, Projectile.rotation, texture.Size() * 0.5f, Projectile.scale, dir, 0);
 
             float sine = ((float)Math.Sin(Projectile.localAI[0] * 0.3f) + 1f);

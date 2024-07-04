@@ -1,13 +1,7 @@
-﻿using Extensions;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
 
 namespace BlockVanity.Common.Players
 {
@@ -18,24 +12,40 @@ namespace BlockVanity.Common.Players
         public float[] oldRot;
         public float pad;
 
-        public override void OnEnterWorld(Player player)
+        public override void OnEnterWorld()
         {
             if (oldPos == null)
-                oldPos = Enumerable.Repeat(player.MountedCenter, 32).ToArray();
+            {
+                oldPos = Enumerable.Repeat(Player.MountedCenter, 32).ToArray();
+            }
+
             if (oldVel == null)
-                oldVel = Enumerable.Repeat(player.velocity, 32).ToArray();
+            {
+                oldVel = Enumerable.Repeat(Player.velocity, 32).ToArray();
+            }
+
             if (oldRot == null)
+            {
                 oldRot = new float[32];
+            }
         }
 
         public override void PostUpdateRunSpeeds()
         {
             if (oldPos == null)
+            {
                 oldPos = Enumerable.Repeat(Player.MountedCenter, 32).ToArray();
+            }
+
             if (oldVel == null)
+            {
                 oldVel = Enumerable.Repeat(Player.velocity, 32).ToArray();
+            }
+
             if (oldRot == null)
+            {
                 oldRot = new float[32];
+            }
 
             for (int i = 31; i > 0; i--)
             {

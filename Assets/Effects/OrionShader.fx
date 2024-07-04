@@ -31,41 +31,38 @@ float2 resize(float2 coords, float2 offset)
     return ((coords * uImageSize0) + offset) / uImageSize0;
 }
 
-float2 rotate(float2 coords)
-{
-    return (coords.x * cos(uRotation) - coords.y * sin(uRotation), coords.x * sin(uRotation) - coords.y * cos(uRotation));
-}
-
 float4 PixelShaderFunction(float4 base : COLOR0, float2 input : TEXCOORD0) : COLOR0
 {
-    float edges[4];
-    
-    edges[0] = length(tex2D(uImage0, resize(input, float2(0, 2))).rgba) / 4;
-    edges[1] = length(tex2D(uImage0, resize(input, float2(0, -2))).rgba) / 4;
-    edges[2] = length(tex2D(uImage0, resize(input, float2(2, 0))).rgba) / 4;
-    edges[3] = length(tex2D(uImage0, resize(input, float2(-2, 0))).rgba) / 4;
-    
     float4 color = tex2D(uImage0, input);
     float baseAlpha = length(base) / 4 > 0 ? 1 : 0;
     
-    float2 offsetCoords = (float2(uWorldPosition.x * uDirection, uWorldPosition.y) * 0.1);
-    float space = length((tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + offsetCoords * 2) / uImageSize1 * 1.2) * tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + offsetCoords) / uImageSize1)).rgb);
-    if (space > 0.33)
-        space += 1;
+    float2 offsetCoords = float2(uWorldPosition.x * uDirection, uWorldPosition.y + uTime * 200) * 0.03;
+    float noise = length((tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + float2(0, uTime * 4) * 2) / uImageSize1) * tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + float2(0, uTime * 4)) / uImageSize1)).rgb);
+    float noise2 = length((tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + float2(0, uTime * 2) * 4) / uImageSize1 / 2) * tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + float2(0, uTime * 2) * 3) / uImageSize1 * 2)).rgb);
+    float space = length((tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + offsetCoords * 2) / uImageSize1) * tex2D(uImage1, (input * uImageSize0 - uSourceRect.xy + offsetCoords) / uImageSize1)).rgb);
     
-    if ((edges[0] == 0 || edges[1] == 0 || edges[2] == 0 || edges[3] == 0) && length(color.rgba) / 4 > 0)
-    {
-        return float4(uColor, 0.9) * base.a + space * 1.2;
-    }
-   
-    return float4(uSecondaryColor * uColor * space, 0.99) * base.a * color.a;
+    float2 spaceCoords = input + float2((noise) * 0.05, ((noise2 - 0.2) * 0.05));
+    float flames;
+    float luminosity = (color.r + color.g + color.b);
+    
+    float yOff = round((noise2 + noise2 * noise) * 20);
+    float edge = length(tex2D(uImage0, resize(input, float2(noise * 5 - 1, yOff))).rgb) / 3;
+    float edge2 = length(tex2D(uImage0, resize(input, float2(noise2 * 2, 0))).rgb + tex2D(uImage0, resize(input, float2(noise * 2, 2))).rgb) / 3;
+    
+    float4 finalImage = float4(pow(space * 4, 4) * noise2 * (uColor + 0.2) * 2 * luminosity + pow(luminosity, 2) * uSecondaryColor * 0.05, 1) * color.a * base;
 
+    if ((edge + edge2) > 0.1 && length(color) == 0)
+    {
+        finalImage += float4(uColor * (space * 3 + 0.5), space) + float4(uSecondaryColor * (space * 2), space * 0.5 + 0.5) * base * color.a;
+    }
+        
+    return finalImage;
 }
 
 technique Technique1
 {
     pass OrionPass
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_3_0 PixelShaderFunction();
     }
 }

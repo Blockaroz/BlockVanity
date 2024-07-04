@@ -1,0 +1,169 @@
+Buffs: {
+	FloatingSkyLanternBuff: {
+		DisplayName: Floating Sky Lantern
+		Description: A sky lantern is following you around
+	}
+}
+
+Items: {
+	Cardboard: {
+		DisplayName: Cardboard
+		Tooltip: ""
+	}
+
+	GreenOrionDye: {
+		DisplayName: Green Orion Dye
+		Tooltip: ""
+	}
+
+	OrionDye: {
+		DisplayName: Orion Dye
+		Tooltip: ""
+	}
+
+	PurpleOrionDye: {
+		DisplayName: Purple Orion Dye
+		Tooltip: ""
+	}
+
+	RedOrionDye: {
+		DisplayName: Red Orion Dye
+		Tooltip: ""
+	}
+
+	WhiteOrionDye: {
+		DisplayName: White Orion Dye
+		Tooltip: ""
+	}
+
+	YellowOrionDye: {
+		DisplayName: Yellow Orion Dye
+		Tooltip: ""
+	}
+
+	FloatingSkyLantern: {
+		DisplayName: Floating Sky Lantern
+		Tooltip: ""
+	}
+
+	BlackEyeLens: {
+		DisplayName: Black Eye Lens
+		Tooltip: ""
+	}
+
+	Blockhead: {
+		DisplayName: Block Head
+		Tooltip: Transforms you into a new person
+	}
+
+	Excellence: {
+		DisplayName: Excellence
+		Tooltip: ""
+	}
+
+	BrownMushroomCowHead: {
+		DisplayName: Brown Mushroom Cow Head
+		Tooltip: ""
+	}
+
+	BrownMushroomCowHide: {
+		DisplayName: Brown Mushroom Cow Hide
+		Tooltip: ""
+	}
+
+	BrownMushroomCowTrotters: {
+		DisplayName: Brown Mushroom Cow Trotters
+		Tooltip: ""
+	}
+
+	GlowingMushroomCowHead: {
+		DisplayName: Glowing Mushroom Cow Head
+		Tooltip: ""
+	}
+
+	GlowingMushroomCowHide: {
+		DisplayName: Glowing Mushroom Cow Hide
+		Tooltip: ""
+	}
+
+	GlowingMushroomCowTrotters: {
+		DisplayName: Glowing Mushroom Cow Trotters
+		Tooltip: ""
+	}
+
+	RedMushroomCowHead: {
+		DisplayName: Red Mushroom Cow Head
+		Tooltip: ""
+	}
+
+	RedMushroomCowHide: {
+		DisplayName: Red Mushroom Cow Hide
+		Tooltip: ""
+	}
+
+	RedMushroomCowTrotters: {
+		DisplayName: Red Mushroom Cow Trotters
+		Tooltip: ""
+	}
+
+	ScholarCloak: {
+		DisplayName: Scholar Cloak
+		Tooltip: ""
+	}
+
+	ScholarHood: {
+		DisplayName: Scholar Hood
+		Tooltip: ""
+	}
+
+	SkullInSunglasses: {
+		DisplayName: Skull In Sunglasses
+		Tooltip: ""
+	}
+
+	ScholarStaff: {
+		DisplayName: Scholar Staff
+		Tooltip: ""
+	}
+
+	CoolBrownMushroomCowHead: {
+		DisplayName: Cool Brown Mushroom Cow Head
+		Tooltip: ""
+	}
+
+	CoolGlowingMushroomCowHead: {
+		DisplayName: Cool Glowing Mushroom Cow Head
+		Tooltip: ""
+	}
+
+	CoolRedMushroomCowHead: {
+		DisplayName: Cool Red Mushroom Cow Head
+		Tooltip: ""
+	}
+
+	FishFood: {
+		DisplayName: Fish Food
+		Tooltip: ""
+	}
+
+	MyrtleDress: {
+		DisplayName: Myrtle Dress
+		Tooltip: ""
+	}
+
+	MyrtleSandals: {
+		DisplayName: Myrtle Sandals
+		Tooltip: ""
+	}
+
+	PlumeriaPin: {
+		DisplayName: Plumeria Pin
+		Tooltip: ""
+	}
+}
+
+Projectiles: {
+	FloatingSkyLanternProj.DisplayName: Floating Sky Lantern
+	ScholarStaffBolt.DisplayName: Scholar Staff
+	ScholarStaffProj.DisplayName: Scholar Staff
+}

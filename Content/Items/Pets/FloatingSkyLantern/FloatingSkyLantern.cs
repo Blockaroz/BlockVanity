@@ -1,6 +1,4 @@
-﻿using BlockVanity.Core;
-using Microsoft.Xna.Framework;
-using System;
+﻿using Microsoft.Xna.Framework;
 using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +9,8 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Floating Sky Lantern");
-            Tooltip.SetDefault("Appears to attract fireflies");
+            // DisplayName.SetDefault("Floating Sky Lantern");
+            // Tooltip.SetDefault("Appears to attract fireflies");
             CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 1;
         }
 
@@ -28,6 +26,7 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
             CreateRecipe()
                 .AddIngredient(ItemID.Torch, 5)
                 .AddIngredient(ItemID.Silk, 12)
+                .AddIngredient<Cardboard>(8)
                 .AddTile(TileID.TinkerersWorkbench)
                 .Register();
         }

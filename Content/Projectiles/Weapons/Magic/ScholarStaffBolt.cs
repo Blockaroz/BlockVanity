@@ -1,175 +1,146 @@
-﻿using Terraria.ID;
-using System;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using ParticleEngine;
-using BlockVanity.Content.Particles;
-using Terraria;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
-using Terraria.Audio;
+﻿using System;
 using System.Collections.Generic;
+using BlockVanity.Common.Utilities;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.Graphics;
-using BlockVanity.Common.Metaballs;
-using System.Linq;
-using log4net.Util;
+using Terraria.ID;
+using Terraria.ModLoader;
 
-namespace BlockVanity.Content.Projectiles.Weapons.Magic
+namespace BlockVanity.Content.Projectiles.Weapons.Magic;
+
+public class ScholarStaffBolt : ModProjectile
 {
-    public class ScholarStaffBolt : ModProjectile
+    public override void SetStaticDefaults()
     {
-        public override void SetStaticDefaults()
-        {
-            ProjectileID.Sets.TrailingMode[Type] = 2;
-            ProjectileID.Sets.TrailCacheLength[Type] = 10;
-        }
-
-        public override void SetDefaults()
-        {
-            Projectile.width = 24;
-            Projectile.height = 24;
-            Projectile.friendly = true;
-            Projectile.hostile = false;
-            Projectile.tileCollide = true;
-            Projectile.ignoreWater = true;
-            Projectile.DamageType = DamageClass.Magic;
-            Projectile.timeLeft = 600;
-            Projectile.manualDirectionChange = true;
-        }
-
-        public override void AI()
-        {
-            Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
-            Projectile.localAI[0]++;
-
-            float speed = 12f;
-            int target = Projectile.FindTargetWithLineOfSight(600);
-            if (target > -1 && Projectile.timeLeft < 590)
-            {
-                Projectile.localAI[0] += 0.5f;
-                speed = 16f;
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, new Vector2(speed, 0).RotatedBy(Projectile.AngleTo(Main.npc[target].Center)), 0.06f);
-            }
-            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.velocity.SafeNormalize(Vector2.Zero) * speed, 0.2f);
-
-            if (Main.rand.NextBool(14))
-            {
-                Color particleColor = Color.Lerp(Color.MediumTurquoise, Color.LightCyan, Main.rand.NextFloat(0.5f));
-                particleColor.A = 0;
-                Vector2 particleVelocity = Projectile.velocity.SafeNormalize(Vector2.Zero).RotatedByRandom(0.3f) * Main.rand.NextFloat(2f);
-                Particle pixel = Particle.NewParticle(Particle.ParticleType<MagicPixelParticle>(), Projectile.Center + Main.rand.NextVector2Circular(15, 15), particleVelocity, particleColor, 1f);
-                pixel.emit = true;
-            }
-
-            Projectile.scale = (float)Math.Sqrt(Utils.GetLerpValue(598, 585, Projectile.timeLeft, true));
-
-            Projectile.rotation = Projectile.velocity.ToRotation();
-
-            Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.3f);
-        }
-
-        public override void Kill(int timeLeft)
-        {
-            SoundStyle hitSound = SoundID.DD2_GoblinBomb;
-            hitSound.MaxInstances = 0;
-            hitSound.PitchVariance = 0.1f;
-            SoundEngine.PlaySound(hitSound, Projectile.Center);
-
-            for (int i = 0; i < Main.rand.Next(25, 30); i++)
-            {
-                Color particleColor = Color.Lerp(Color.MediumTurquoise, Color.LightCyan, Main.rand.NextFloat(0.5f));
-                particleColor.A = 0;
-                Particle pixel = Particle.NewParticle(Particle.ParticleType<MagicPixelParticle>(), Projectile.Center + Main.rand.NextVector2CircularEdge(8, 8) * Projectile.scale, Main.rand.NextVector2Circular(3, 3), particleColor, 1f + Main.rand.NextFloat(2f));
-                pixel.emit = true;
-            }
-        }
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Color glowColor = Color.Lerp(Color.MediumTurquoise, Color.Cyan, 0.66f);
-            glowColor.A = 0;
-
-            Asset<Texture2D> texture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Content/Projectiles/Weapons/Magic/ScholarStaffBolt", AssetRequestMode.ImmediateLoad);
-            Asset<Texture2D> glow = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/SoftGlow", AssetRequestMode.ImmediateLoad);
-            float ballScale = Projectile.scale * (1.5f + (float)Math.Cos(Projectile.localAI[0] * 0.15f % MathHelper.TwoPi) * 0.15f);
-
-            Main.spriteBatch.Draw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor, 0, texture.Size() * 0.5f, ballScale * 0.8f, 0, 0);
-            Main.spriteBatch.Draw(texture.Value, (Projectile.Center - Main.screenPosition) / 1f, null, new Color(255, 255, 255, 0), 0, texture.Size() * 0.5f, ballScale * 0.56f, 0, 0);
-            Main.spriteBatch.Draw(glow.Value, (Projectile.Center - Main.screenPosition) / 1f, null, glowColor * 0.5f, 0, glow.Size() * 0.5f, ballScale * 0.6f, 0, 0);
-
-            return false;
-        }
+        ProjectileID.Sets.TrailingMode[Type] = 2;
+        ProjectileID.Sets.TrailCacheLength[Type] = 10;
     }
 
-    public class ScholarStaffMetabolt : MetaballSystem
+    public override void SetDefaults()
     {
-        public override void DrawToTarget(SpriteBatch spriteBatch)
+        Projectile.width = 24;
+        Projectile.height = 24;
+        Projectile.friendly = true;
+        Projectile.hostile = false;
+        Projectile.tileCollide = true;
+        Projectile.ignoreWater = true;
+        Projectile.DamageType = DamageClass.Magic;
+        Projectile.timeLeft = 600;
+    }
+
+    public override void AI()
+    {
+        Projectile.velocity *= 0.9f;
+
+        float speed = 12f;
+        int target = Projectile.FindTargetWithLineOfSight(600);
+        if (target > -1 && Projectile.timeLeft < 590)
         {
-            foreach (Projectile proj in Main.projectile.Where(n => n.ModProjectile is ScholarStaffBolt && n.active))
+            Projectile.localAI[0] += 0.5f;
+            speed = 16f;
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, new Vector2(speed, 0).RotatedBy(Projectile.AngleTo(Main.npc[target].Center)), 0.066f);
+        }
+
+        Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.velocity.SafeNormalize(Vector2.Zero) * speed, 0.16f);
+
+        Projectile.scale = (float)Math.Sqrt(Utils.GetLerpValue(600, 585, Projectile.timeLeft, true));
+
+        Projectile.rotation = Projectile.velocity.ToRotation();
+
+        Projectile.localAI[0]++;
+
+        Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.3f);
+    }
+
+    public override void OnKill(int timeLeft)
+    {
+        SoundStyle hitSound = SoundID.DD2_GoblinBomb;
+        hitSound.MaxInstances = 0;
+        hitSound.PitchVariance = 0.1f;
+        SoundEngine.PlaySound(hitSound, Projectile.Center);
+    }
+
+    private static RenderTargetDrawContent boltContent;
+    private VertexStrip _verticalStrip;
+    private VertexStrip _horizontalStrip;
+    public static readonly int PixelSize = 2;
+
+    public override void Load()
+    {
+        Main.ContentThatNeedsRenderTargets.Add(boltContent = new RenderTargetDrawContent());
+    }
+
+    public override bool PreDraw(ref Color lightColor)
+    {
+        Texture2D texture = TextureAssets.Projectile[Type].Value;
+        Texture2D glow = AllAssets.Textures.Glow[0].Value;
+
+        Color color = Color.Turquoise;
+
+        boltContent.Request(200, 200, Projectile.whoAmI, spriteBatch =>
+        {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
+
+            Vector2 projCenter = new Vector2(100);
+
+            List<Vector2> strip0 = new List<Vector2>();
+            List<Vector2> strip1 = new List<Vector2>();
+            List<float> rot0 = new List<float>();
+            List<float> rot1 = new List<float>();
+
+            float stripLength = 48;
+            float t = Projectile.localAI[0] * 1.6f;
+            for (int i = 0; i < (int)stripLength; i++)
             {
-                Color glowColor = Color.Lerp(Color.MediumTurquoise, Color.Cyan, 0.66f);
-                glowColor.A = 0;
-
-
-                List<Vector2> strip0 = new List<Vector2>();
-                List<Vector2> strip1 = new List<Vector2>();
-                List<float> rot0 = new List<float>();
-                List<float> rot1 = new List<float>();
-
-                float stripLength = 48;
-                float t = proj.localAI[0] * 1.6f;
-                for (int i = 0; i < (int)stripLength; i++)
-                {
-                    float rad = 10f * proj.scale + (float)Math.Sin(t * 0.1f % MathHelper.TwoPi);
-                    Vector2 offRot0 = new Vector2(rad * (float)Math.Sqrt(Utils.GetLerpValue(stripLength, stripLength * 0.5f, i, true)), 0).RotatedBy(t * 0.1f + i / stripLength * 4f);
-                    Vector2 offset0 = new Vector2(offRot0.X * proj.direction, offRot0.Y * 0.4f).RotatedBy(proj.rotation + t * 0.05f * proj.direction);
-                    strip0.Add(offset0);
-                    rot0.Add(offset0.ToRotation() - MathHelper.PiOver2);
-
-                    Vector2 offRot1 = new Vector2(rad, 0).RotatedBy(t * 0.15f + i / stripLength * 5f + MathHelper.Pi / 2f);
-                    Vector2 offset1 = new Vector2(offRot1.X * 0.6f, offRot1.Y * -proj.direction).RotatedBy(proj.rotation + t * 0.05f * proj.direction + MathHelper.TwoPi);
-                    strip1.Add(offset1);
-                    rot1.Add(offset1.ToRotation() - MathHelper.PiOver2);
-                }
-
-                Effect shader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/ScholarEnergyTrail", AssetRequestMode.ImmediateLoad).Value;
-                shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.NormalizedTransformationmatrix);
-                shader.Parameters["uStreak0"].SetValue(TextureAssets.Extra[194].Value);
-                shader.Parameters["uColor"].SetValue(glowColor.ToVector4() * 1.1f);
-                shader.Parameters["uTime"].SetValue(-Main.GlobalTimeWrappedHourly * 2f % 1f);
-
-                shader.CurrentTechnique.Passes[0].Apply();
-
-                VertexStrip lat = new VertexStrip();
-                VertexStrip vert = new VertexStrip();
-
-                lat.PrepareStrip(strip0.ToArray(), rot0.ToArray(), (_) => glowColor, (float p) => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 16f, (proj.Center - Main.screenPosition) / 2f, strip0.Count, true);
-                vert.PrepareStrip(strip1.ToArray(), rot1.ToArray(), (_) => glowColor, (float p) => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 16f, (proj.Center - Main.screenPosition) / 2f, strip1.Count, true);
-                lat.DrawTrail();
-                vert.DrawTrail();
-
-                Main.pixelShader.CurrentTechnique.Passes[0].Apply();
+                float rad = (21f + (float)Math.Sin(t * 0.1f % MathHelper.TwoPi) * 2) / PixelSize;
+                Vector2 offRot0 = new Vector2(rad * (float)Math.Sqrt(Utils.GetLerpValue(stripLength, stripLength * 0.5f, i, true)), 0).RotatedBy(t * 0.1f + i / stripLength * 4f);
+                Vector2 offset0 = new Vector2(offRot0.X, offRot0.Y * 0.4f).RotatedBy(Projectile.rotation + t * 0.05f);
+                strip0.Add(offset0);
+                rot0.Add(offset0.ToRotation() - MathHelper.PiOver2);
+                Vector2 offRot1 = new Vector2(rad, 0).RotatedBy(t * 0.15f + i / stripLength * 5f + MathHelper.Pi / 2f);
+                Vector2 offset1 = new Vector2(offRot1.X * 0.6f, -offRot1.Y).RotatedBy(Projectile.rotation + t * 0.05f + MathHelper.TwoPi);
+                strip1.Add(offset1);
+                rot1.Add(offset1.ToRotation() - MathHelper.PiOver2);
             }
 
-            //foreach (Particle particle in ParticleSystem.particle.Where(p => p.Type == 0 && p.data is bool && (bool)p.data == true))
-            //{
+            Effect shader = AllAssets.Effects.BasicTrail.Value;
 
-            //}
+            shader.Parameters["transformMatrix"].SetValue(VanityUtils.NormalizedEffectMatrix);
+            shader.Parameters["uTexture0"].SetValue(TextureAssets.Extra[197].Value);
+            shader.Parameters["uTexture1"].SetValue(TextureAssets.Extra[194].Value);
+            shader.Parameters["uColor"].SetValue((color with { A = 70 }).ToVector4() * 1.5f);
+            shader.Parameters["uBlackAlpha"].SetValue(1f);
+            shader.Parameters["uTime"].SetValue(Main.GlobalTimeWrappedHourly * 0.1f % 1f);
 
-        }
+            shader.CurrentTechnique.Passes[0].Apply();
 
-        private void DrawBolts(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
+            _horizontalStrip ??= new VertexStrip();
+            _verticalStrip ??= new VertexStrip();
+            _horizontalStrip.PrepareStrip(strip0.ToArray(), rot0.ToArray(), p => Color.White with { A = 100 }, p => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 30f / PixelSize, projCenter, strip0.Count, true);
+            _verticalStrip.PrepareStrip(strip1.ToArray(), rot1.ToArray(), p => Color.White with { A = 100 }, p => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 30f / PixelSize, projCenter, strip1.Count, true);
+            _horizontalStrip.DrawTrail();
+            _verticalStrip.DrawTrail();
+
+            Main.pixelShader.CurrentTechnique.Passes[0].Apply();
+
+            Main.EntitySpriteDraw(texture, projCenter, texture.Frame(), color, 0f, texture.Size() * 0.5f, 0.95f / PixelSize, 0, 0);
+            Main.EntitySpriteDraw(texture, projCenter, texture.Frame(), new Color(225, 255, 255, 0), 0f, texture.Size() * 0.5f, 0.74f / PixelSize, 0, 0);
+            Main.EntitySpriteDraw(glow, projCenter, glow.Frame(), (color * 0.7f) with { A = 0 }, 0f, glow.Size() * 0.5f, 0.2f / PixelSize, 0, 0);
+            Main.EntitySpriteDraw(glow, projCenter, glow.Frame(), (color * 0.2f) with { A = 40 }, 0f, glow.Size() * 0.5f, 0.4f / PixelSize, 0, 0);
+
+            spriteBatch.End();
+        });
+
+        if (boltContent.IsTargetReady(Projectile.whoAmI))
         {
-            orig(self);
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null);
-            Main.spriteBatch.Draw(renderTarget, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, 0, 0);
-            Main.spriteBatch.End();
+            Texture2D boltTexture = boltContent.GetTarget(Projectile.whoAmI);
+            Main.EntitySpriteDraw(boltTexture, Projectile.Center - Main.screenPosition, boltTexture.Frame(), Color.White with { A = 60 }, Projectile.velocity.X * 0.01f, boltTexture.Size() * 0.5f, 2f * Projectile.scale, Projectile.direction > 0 ? 0 : SpriteEffects.FlipHorizontally, 0);
         }
 
-        public override void Load()
-        {
-            On.Terraria.Main.DrawProjectiles += DrawBolts;
-        }
+        return false;
     }
 }
