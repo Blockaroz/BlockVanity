@@ -167,3 +167,8 @@ Projectiles: {
 	ScholarStaffBolt.DisplayName: Scholar Staff
 	ScholarStaffProj.DisplayName: Scholar Staff
 }
+
+AreaEffectsToggle: {
+	OnText: Area effects on
+	OffText: Area effects off
+}
