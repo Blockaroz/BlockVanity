@@ -44,4 +44,13 @@ public static class VanityUtils
         float grayValue = colorValues.X * 0.299f + colorValues.Y * 0.587f + colorValues.Z * 0.114f;
         return new Color(grayValue, grayValue, grayValue, color.A / 255f);
     }
+
+    public delegate void DrawSittingLegsDelegate(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false);
+
+    public static DrawSittingLegsDelegate DrawSittingLegs;
+
+    public static void Load()
+    {
+        DrawSittingLegs = typeof(PlayerDrawLayers).GetMethod("DrawSittingLegs", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).CreateDelegate<DrawSittingLegsDelegate>(typeof(PlayerDrawLayers));
+    }
 }

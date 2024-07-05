@@ -63,7 +63,7 @@ Items: {
 
 	BrownMushroomCowHead: {
 		DisplayName: Brown Mushroom Cow Head
-		Tooltip: ""
+		Tooltip: Right click to transform
 	}
 
 	BrownMushroomCowHide: {
@@ -78,7 +78,7 @@ Items: {
 
 	GlowingMushroomCowHead: {
 		DisplayName: Glowing Mushroom Cow Head
-		Tooltip: ""
+		Tooltip: Right click to transform
 	}
 
 	GlowingMushroomCowHide: {
@@ -93,7 +93,7 @@ Items: {
 
 	RedMushroomCowHead: {
 		DisplayName: Red Mushroom Cow Head
-		Tooltip: ""
+		Tooltip: Right click to transform
 	}
 
 	RedMushroomCowHide: {
@@ -128,17 +128,17 @@ Items: {
 
 	CoolBrownMushroomCowHead: {
 		DisplayName: Cool Brown Mushroom Cow Head
-		Tooltip: ""
+		Tooltip: Right click to transform
 	}
 
 	CoolGlowingMushroomCowHead: {
 		DisplayName: Cool Glowing Mushroom Cow Head
-		Tooltip: ""
+		Tooltip: Right click to transform
 	}
 
 	CoolRedMushroomCowHead: {
 		DisplayName: Cool Red Mushroom Cow Head
-		Tooltip: ""
+		Tooltip: Right click to transform
 	}
 
 	FishFood: {
@@ -147,17 +147,17 @@ Items: {
 	}
 
 	MyrtleDress: {
-		DisplayName: Myrtle Dress
+		DisplayName: Myrtle's Dress
 		Tooltip: ""
 	}
 
 	MyrtleSandals: {
-		DisplayName: Myrtle Sandals
+		DisplayName: Myrtle's Sandals
 		Tooltip: ""
 	}
 
-	PlumeriaPin: {
-		DisplayName: Plumeria Pin
+	PlumeriaHairpin: {
+		DisplayName: Plumeria Hairpin
 		Tooltip: ""
 	}
 }

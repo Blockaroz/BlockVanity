@@ -7,9 +7,9 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Items.Vanity.Myrtle;
 
 [AutoloadEquip(EquipType.Head)]
-public class PlumeriaPin : VanityItem
+public class PlumeriaHairpin : VanityItem
 {
-    public PlumeriaPin() : base(ItemRarityID.Green) { }
+    public PlumeriaHairpin() : base(ItemRarityID.Green) { }
 
     public override void SetStaticDefaults()
     {
@@ -25,14 +25,7 @@ public class PlumeriaPin : VanityItem
             Lighting.AddLight(player.MountedCenter, Colors.CoinPlatinum.ToVector3() * 0.2f);
     }
 
-    public override void UpdateVanitySet(Player player)
-    {
-        base.UpdateVanitySet(player);
-    }
-
-    public override void UpdateAccessory(Player player, bool hideVisual) => Lighting.AddLight(player.MountedCenter, Colors.CoinPlatinum.ToVector3() * 0.2f);
-
-    public override void UpdateVanity(Player player) => UpdateAccessory(player, player.builderAccStatus[ModContent.GetInstance<AreaEffectsToggle>().Type] == 1);
+    public override void UpdateVanitySet(Player player) => UpdateArmorSet(player);
 }
 
 [AutoloadEquip(EquipType.Body)]

@@ -65,7 +65,8 @@ public static class AllAssets
         Textures.SpaceNoise = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/SpaceNoise");
         Textures.BlueFishSkin = [
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Head"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears"),
+            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_High"),
+            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_Low"),
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Eyes"),
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Body"),
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Legs"),
