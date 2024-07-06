@@ -1,5 +1,7 @@
-﻿using BlockVanity.Content.Projectiles.Weapons.Magic;
+﻿using BlockVanity.Common.Utilities;
+using BlockVanity.Content.Projectiles.Weapons.Magic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
@@ -42,5 +44,25 @@ public class ScholarStaff : ModItem
         Projectile staff = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI, -1);
         staff.spriteDirection = -1;
         return false;
+    }
+}
+
+public class ScholarStaffHeldItemLayer : PlayerDrawLayer
+{
+    public static SlowAsset<Texture2D> heldTexture;
+
+    public override void Load()
+    {
+        heldTexture = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Weapons/Magic/ScholarStaff_Held");
+    }
+
+    public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.HeldItem);
+
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => true;//drawInfo.drawPlayer.HeldItem.ModItem is ScholarStaff && drawInfo.drawPlayer.ItemTimeIsZero;
+
+    protected override void Draw(ref PlayerDrawSet drawInfo)
+    {
+        DrawData staffData = new DrawData(heldTexture.Value, drawInfo.BodyPosition(), heldTexture.Value.Frame(), drawInfo.colorArmorBody, drawInfo.rotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
+
     }
 }

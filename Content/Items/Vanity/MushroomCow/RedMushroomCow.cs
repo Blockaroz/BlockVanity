@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -20,7 +21,7 @@ public class RedMushroomCowHead : VanityItem
 
     public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<RedMushroomCowHide>() && legs.type == ModContent.ItemType<RedMushroomCowTrotters>();
 
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisuals>().red = true;
+    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 
     public override void AddRecipes()
     {
@@ -34,7 +35,12 @@ public class RedMushroomCowHead : VanityItem
 
     public override bool CanRightClick() => true;
 
-    public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<CoolRedMushroomCowHead>(), 1, 1));
+    public override void RightClick(Player player)
+    {
+        Item.type = ModContent.ItemType<CoolRedMushroomCowHead>();
+        Item.SetDefaults(Type);
+        SoundEngine.PlaySound(SoundID.Grab);
+    }
 }
 
 [AutoloadEquip(EquipType.Head)]
@@ -46,11 +52,16 @@ public class CoolRedMushroomCowHead : VanityItem
 
     public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<BrownMushroomCowHide>() && legs.type == ModContent.ItemType<BrownMushroomCowTrotters>();
 
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisuals>().brown = true;
+    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().brown = true;
 
     public override bool CanRightClick() => true;
 
-    public override void ModifyItemLoot(ItemLoot itemLoot) => itemLoot.Add(ItemDropRule.Common(ModContent.ItemType<RedMushroomCowHead>(), 1, 1));
+    public override void RightClick(Player player)
+    {
+        Item.type = ModContent.ItemType<RedMushroomCowHead>();
+        Item.SetDefaults(Type);
+        SoundEngine.PlaySound(SoundID.Grab);
+    }
 }
 
 [AutoloadEquip(EquipType.Body)]
@@ -58,7 +69,7 @@ public class RedMushroomCowHide : VanityItem
 {
     public RedMushroomCowHide() : base(ItemRarityID.Blue) { }
 
-    public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<RedMushroomCowHead>() && legs.type == ModContent.ItemType<RedMushroomCowTrotters>();
+    public override bool IsArmorSet(Item head, Item body, Item legs) => (head.type == ModContent.ItemType<RedMushroomCowHead>() || head.type == ModContent.ItemType<CoolRedMushroomCowHead>()) && legs.type == ModContent.ItemType<RedMushroomCowTrotters>();
 
     public override void AddRecipes()
     {
@@ -76,7 +87,7 @@ public class RedMushroomCowTrotters : VanityItem
 {
     public RedMushroomCowTrotters() : base(ItemRarityID.Blue) { }
 
-    public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<RedMushroomCowHead>() && body.type == ModContent.ItemType<RedMushroomCowHide>();
+    public override bool IsArmorSet(Item head, Item body, Item legs) => (head.type == ModContent.ItemType<RedMushroomCowHead>() || head.type == ModContent.ItemType<CoolRedMushroomCowHead>()) && body.type == ModContent.ItemType<RedMushroomCowHide>();
 
     public override void AddRecipes()
     {

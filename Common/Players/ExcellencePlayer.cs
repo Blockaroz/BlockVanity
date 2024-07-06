@@ -27,15 +27,17 @@ public class ExcellencePlayer : ModPlayer
 
         //int bodyFrame = self.bodyFrame.Y / self.bodyFrame.Height;
         //bool headBounce = bodyFrame == 10 || bodyFrame == 11 || bodyFrame == 16 || bodyFrame == 17;
-        self.GetModPlayer<ExcellencePlayer>().headAltFrame = self.velocity.Y * self.gravDir > 0 && !self.controlJump;
+        self.GetModPlayer<ExcellencePlayer>().headAltFrame = self.velocity.Y * self.gravDir > 0;
 
         if (self.GetModPlayer<ExcellencePlayer>().enabled)
         {
             //jank, but works flawlessly
             if (self.swimTime > 0)
-                self.legFrameCounter -= 0.5;
+                self.legFrameCounter -= 0.2;
             else if (self.velocity.X != 0)
-                self.legFrameCounter -= (double)Math.Abs(self.velocity.X) * 0.5;
+                self.legFrameCounter -= (double)Math.Abs(self.velocity.X) * 0.2;
+
+            self.armorEffectDrawOutlinesForbidden = true;
         }
     }
 
@@ -58,14 +60,9 @@ public class ExcellencePlayer : ModPlayer
         if (item.ModItem is Excellence excellence)
         {
             self.GetModPlayer<ExcellencePlayer>().enabled = true;
-            if (self.armor[10].type == ItemID.None)
-                self.head = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Head);
-
-            if (self.armor[11].type == ItemID.None)
-                self.body = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Body);
-
-            if (self.armor[12].type == ItemID.None)
-                self.legs = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Legs);
+            self.head = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Head);
+            self.body = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Body);
+            self.legs = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Legs);
         }
     }
 
@@ -77,6 +74,10 @@ public class ExcellencePlayer : ModPlayer
 
     public override void OnHurt(Player.HurtInfo info)
     {
+        if (enabled)
+        {
+
+        }
     }
 
     public override void ResetEffects()

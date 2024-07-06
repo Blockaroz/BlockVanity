@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Players;
 
-public class MushroomCowVisuals : ModPlayer
+public class MushroomCowVisualPlayer : ModPlayer
 {
     public bool red;
     public bool brown;
@@ -17,7 +17,7 @@ public class MushroomCowVisuals : ModPlayer
     {
         bool rightSpeed = Player.velocity.Length() < 4f;
         ArmorShaderData shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
-        if (!Player.hideMisc[0] && rightSpeed && !Main.gameMenu & !Main.gamePaused && AnyCow)
+        if (AreaEffectsToggle.ToggledOn(Player) && rightSpeed && !Main.gameMenu & !Main.gamePaused && AnyCow)
         {
             Vector2 mushPos = Player.Bottom + Main.rand.NextVector2Circular(40, 30);
             bool doMushroom = true;

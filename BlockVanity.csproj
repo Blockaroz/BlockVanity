@@ -7,6 +7,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Effects\BasicTrail.fx" />
+    <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Arms.png" />
+    <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands.png" />
+    <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands_Back.png" />
     <None Remove="Assets\Textures\Extras\Glow_1.png" />
     <None Remove="Assets\Textures\Items\Dyes\PurpleOrionDye.png" />
     <None Remove="Assets\Textures\Items\Dyes\YellowOrionDye.png" />
@@ -42,5 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Sounds\HitSounds\" />
+    <Folder Include="Content\Tiles\" />
   </ItemGroup>
 </Project>

@@ -12,7 +12,7 @@ public class OrionShaderData : ArmorShaderData
     {
         base.Apply(entity, drawData);
         UseImage("Images/Misc/noise");
-        Shader.Parameters["uDirection"].SetValue(entity.direction);
+        Shader.Parameters["uDirection"].SetValue(entity is null ? 1 : entity.direction);
         Shader.Parameters["uNoise"].SetValue(AllAssets.Textures.SpaceNoise.Value);
 
         Shader.CurrentTechnique.Passes[0].Apply();

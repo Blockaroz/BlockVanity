@@ -69,7 +69,11 @@ public static class AllAssets
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_Low"),
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Eyes"),
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Body"),
+            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Arms"),
+            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands"),
+            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands_Back"),
             new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Legs"),
+            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Tail"),
             ];
 
         Textures.FishEyes = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/FishEyes");

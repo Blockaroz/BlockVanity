@@ -1,4 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BlockVanity.Content.Items.Vanity.Myrtle;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -37,11 +41,28 @@ public class MiscEffectPlayer : ModPlayer
         }
     }
 
+    public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
+    {
+        if (!mediumCoreDeath)
+        {
+            if (Player.name.Equals("Myrtle", System.StringComparison.CurrentCultureIgnoreCase))
+                return [
+                    new Item(ModContent.ItemType<PlumeriaHairpin>()),
+                    new Item(ModContent.ItemType<MyrtleDress>()),
+                    new Item(ModContent.ItemType<MyrtleSandals>()),
+                    new Item(ModContent.ItemType<FishFood>()),
+                ];
+        }
+
+        return Enumerable.Empty<Item>();
+    }
+
     public override void ResetEffects()
     {
         accBlackEye = false;
         blockheadSkin = false;
 
         floatingSkyLanternPet = false;
+        
     }
 }

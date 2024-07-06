@@ -13,9 +13,7 @@ public class AreaEffectsToggle : BuilderToggle
     public static LocalizedText OnText;
     public static LocalizedText OffText;
 
-    public override Position OrderPosition => new After(TorchBiome);
-
-    public override int NumberOfStates => 2;
+    public override Position OrderPosition => new After(BlockSwap);
 
     public override bool Active() => true;
 
@@ -38,7 +36,9 @@ public class AreaEffectsToggle : BuilderToggle
         drawParams.Texture = ModContent.Request<Texture2D>(Texture).Value;
         drawParams.Frame = drawParams.Texture.Frame(3, 1, 2);
         drawParams.Color = Colors.FancyUIFatButtonMouseOver;
-        drawParams.Scale = 0.9f;
+        drawParams.Scale = 0.933f;
         return true;
     }
+
+    public static bool ToggledOn(Player player) => player.builderAccStatus[ModContent.GetInstance<AreaEffectsToggle>().Type] == 0;
 }

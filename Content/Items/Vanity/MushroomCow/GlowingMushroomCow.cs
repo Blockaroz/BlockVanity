@@ -20,7 +20,7 @@ public class GlowingMushroomCowHead : VanityItem
 
     public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<GlowingMushroomCowHide>() && legs.type == ModContent.ItemType<GlowingMushroomCowTrotters>();
 
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisuals>().glowing = true;
+    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().glowing = true;
 
     public override void AddRecipes()
     {
@@ -45,7 +45,7 @@ public class CoolGlowingMushroomCowHead : VanityItem
 
     public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<BrownMushroomCowHide>() && legs.type == ModContent.ItemType<BrownMushroomCowTrotters>();
 
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisuals>().brown = true;
+    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().brown = true;
 
     public override bool CanRightClick() => true;
 
@@ -57,7 +57,7 @@ public class GlowingMushroomCowHide : VanityItem
 {
     public GlowingMushroomCowHide() : base(ItemRarityID.Green) { }
 
-    public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<GlowingMushroomCowHead>() && legs.type == ModContent.ItemType<GlowingMushroomCowTrotters>();
+    public override bool IsArmorSet(Item head, Item body, Item legs) => (head.type == ModContent.ItemType<GlowingMushroomCowHead>() || head.type == ModContent.ItemType<CoolGlowingMushroomCowHead>()) && legs.type == ModContent.ItemType<GlowingMushroomCowTrotters>();
 
     public override void AddRecipes()
     {
@@ -74,7 +74,7 @@ public class GlowingMushroomCowTrotters : VanityItem
 {
     public GlowingMushroomCowTrotters() : base(ItemRarityID.Green) { }
 
-    public override bool IsArmorSet(Item head, Item body, Item legs) => head.type == ModContent.ItemType<GlowingMushroomCowHead>() && body.type == ModContent.ItemType<GlowingMushroomCowHide>();
+    public override bool IsArmorSet(Item head, Item body, Item legs) => (head.type == ModContent.ItemType<GlowingMushroomCowHead>() || head.type == ModContent.ItemType<CoolGlowingMushroomCowHead>()) && body.type == ModContent.ItemType<GlowingMushroomCowHide>();
 
     public override void AddRecipes()
     {

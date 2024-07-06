@@ -48,10 +48,10 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
             headGlowData.shader = drawInfo.cHead;
             drawInfo.DrawDataCache.Add(headGlowData);
 
-            Color shakeColor = new Color(255, 150, 150, 100);
+            Color shakeColor = new Color(255, 0, 0, 30);
             for (int i = 0; i < 2; i++)
             {
-                Vector2 offset = Main.rand.NextVector2Circular(2, 2) * 0.75f;
+                Vector2 offset = Main.rand.NextVector2Circular(2, 2) * 0.67f;
                 DrawData headGlowShakeData = new DrawData(headGlowTexture.Value, headPos + offset, headTexture.Value.Frame(1, 2, 0, useFallFrame ? 1 : 0), shakeColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
                 headGlowShakeData.shader = drawInfo.cHead;
                 drawInfo.DrawDataCache.Add(headGlowShakeData);
@@ -72,7 +72,7 @@ public class ExcellencePlayerLegsLayer : PlayerDrawLayer
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Leggings);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.GetModPlayer<ExcellencePlayer>().enabled;
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<Excellence>().Name, EquipType.Legs);
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {

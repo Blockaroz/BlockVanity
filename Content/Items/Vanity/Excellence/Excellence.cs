@@ -37,10 +37,4 @@ public class Excellence : VanityItem
         ArmorIDs.Legs.Sets.HidesTopSkin[legs] = true;
         ArmorIDs.Legs.Sets.OverridesLegs[legs] = true;
     }
-
-    public override void ArmorSetShadows(Player player) => player.armorEffectDrawOutlinesForbidden = true;
-
-    public override void UpdateAccessory(Player player, bool hideVisual) => player.CancelAllBootRunVisualEffects();
-
-    public override void UpdateVanity(Player player) => UpdateAccessory(player, false);
 }
