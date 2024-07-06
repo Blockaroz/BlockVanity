@@ -292,9 +292,9 @@ public class FishSkinPlayer : ModPlayer
             }
             else
             {
-                fishPlayer.tailRotations[0] = MathHelper.Lerp(fishPlayer.tailRotations[0], MathF.Sin(fishPlayer.tailCounter) * 0.2f * self.direction, 0.3f);
-                fishPlayer.tailRotations[1] = MathHelper.Lerp(fishPlayer.tailRotations[1], MathF.Sin(fishPlayer.tailCounter - 1.5f) * 0.3f * self.direction, 0.3f);
-                fishPlayer.tailRotations[2] = MathHelper.Lerp(fishPlayer.tailRotations[2], MathF.Sin(fishPlayer.tailCounter - 2.5f) * 0.4f * self.direction, 0.3f);
+                fishPlayer.tailRotations[0] = MathHelper.Lerp(fishPlayer.tailRotations[0], MathF.Sin(fishPlayer.tailCounter) * 0.1f * self.direction, 0.3f);
+                fishPlayer.tailRotations[1] = MathHelper.Lerp(fishPlayer.tailRotations[1], MathF.Sin(fishPlayer.tailCounter - 1.5f) * 0.2f * self.direction, 0.3f);
+                fishPlayer.tailRotations[2] = MathHelper.Lerp(fishPlayer.tailRotations[2], MathF.Sin(fishPlayer.tailCounter - 2.5f) * 0.3f * self.direction, 0.3f);
             }
 
             fishPlayer.headFinVector.X = MathHelper.Lerp(fishPlayer.headFinVector.X, 0f, 0.4f);

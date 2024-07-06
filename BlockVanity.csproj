@@ -45,6 +45,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Sounds\HitSounds\" />
-    <Folder Include="Content\Tiles\" />
   </ItemGroup>
 </Project>

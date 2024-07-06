@@ -1,5 +1,6 @@
 ﻿using BlockVanity.Common;
 using BlockVanity.Common.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace BlockVanity.Content.Items.Vanity.Myrtle;
 [AutoloadEquip(EquipType.Head)]
 public class PlumeriaHairpin : VanityItem
 {
-    public PlumeriaHairpin() : base(ItemRarityID.Green) { }
+    public PlumeriaHairpin() : base(ItemRarityID.Green, value: Item.buyPrice(0, 10, 0, 0)) { }
 
     public override void SetStaticDefaults()
     {
@@ -22,7 +23,7 @@ public class PlumeriaHairpin : VanityItem
     public override void UpdateArmorSet(Player player)
     {
         if (AreaEffectsToggle.ToggledOn(player))
-            Lighting.AddLight(player.MountedCenter, Colors.CoinPlatinum.ToVector3() * 0.133f);
+            Lighting.AddLight(player.MountedCenter, Color.SlateGray.ToVector3() * 0.133f);
     }
 
     public override void UpdateVanitySet(Player player) => UpdateArmorSet(player);

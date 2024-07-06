@@ -160,6 +160,11 @@ Items: {
 		DisplayName: Plumeria Hairpin
 		Tooltip: ""
 	}
+
+	PlumeriaPlantPlacer: {
+		DisplayName: Plumeria Plant Placer
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -172,3 +177,5 @@ AreaEffectsToggle: {
 	OnText: Area effects on
 	OffText: Area effects off
 }
+
+Tiles.PlumeriaPlant.MapEntry: Plumeria
