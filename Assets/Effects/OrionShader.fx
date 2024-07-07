@@ -12,6 +12,7 @@ sampler2D noise = sampler_state
 };
 float3 uColor;
 float3 uSecondaryColor;
+float3 uTertiaryColor;
 float uOpacity;
 float2 uTargetPosition;
 float uSaturation;

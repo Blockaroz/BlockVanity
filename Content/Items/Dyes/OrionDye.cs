@@ -15,7 +15,7 @@ public abstract class BaseOrionDye : ModItem
 
     public override void SetStaticDefaults()
     {
-        CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId[Type] = 3;
+        Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
         {
@@ -45,82 +45,6 @@ public class OrionDye : BaseOrionDye
         CreateRecipe(3)
             .AddIngredient(ItemID.BottledWater)
             .AddIngredient(ItemID.LunarBar, 3)
-            .AddTile(TileID.DyeVat)
-            .Register();
-    }
-}
-
-public class RedOrionDye : BaseOrionDye
-{
-    public override Color MainColor => new Color(255, 10, 10);
-    public override Color SecondaryColor => new Color(240, 10, 30);
-
-    public override void AddRecipes()
-    {
-        CreateRecipe()
-            .AddIngredient<OrionDye>()
-            .AddIngredient(ItemID.RedDye)
-            .AddTile(TileID.DyeVat)
-            .Register();
-    }
-}
-
-public class GreenOrionDye : BaseOrionDye
-{
-    public override Color MainColor => new Color(70, 255, 58);
-    public override Color SecondaryColor => new Color(0, 165, 50);
-
-    public override void AddRecipes()
-    {
-        CreateRecipe()
-            .AddIngredient<OrionDye>()
-            .AddIngredient(ItemID.GreenDye)
-            .AddTile(TileID.DyeVat)
-            .Register();
-    }
-}
-
-public class YellowOrionDye : BaseOrionDye
-{
-    public override Color MainColor => new Color(255, 200, 28);
-    public override Color SecondaryColor => new Color(125, 97, 8);
-
-    public override void AddRecipes()
-    {
-        CreateRecipe()
-            .AddIngredient<OrionDye>()
-            .AddIngredient(ItemID.YellowDye)
-            .AddTile(TileID.DyeVat)
-            .Register();
-    }
-}
-
-public class PurpleOrionDye : BaseOrionDye
-{
-    public override Color MainColor => new Color(255, 128, 255);
-    public override Color SecondaryColor => new Color(105, 39, 234);
-
-    public override void AddRecipes()
-    {
-        CreateRecipe()
-            .AddIngredient<OrionDye>()
-            .AddIngredient(ItemID.PurpleDye)
-            .AddTile(TileID.DyeVat)
-            .Register();
-    }
-}
-
-public class WhiteOrionDye : BaseOrionDye
-{
-    public override Color MainColor => Color.Gray;
-    public override Color SecondaryColor => Color.LightSlateGray;
-
-    public override void AddRecipes()
-    {
-        CreateRecipe(3)
-            .AddIngredient<RedOrionDye>()
-            .AddIngredient<GreenOrionDye>()
-            .AddIngredient<OrionDye>()
             .AddTile(TileID.DyeVat)
             .Register();
     }
