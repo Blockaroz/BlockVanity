@@ -1,4 +1,6 @@
-﻿using BlockVanity.Common.Utilities;
+﻿using BlockVanity.Common.Graphics;
+using BlockVanity.Common.Graphics.ParticleRendering;
+using BlockVanity.Common.Utilities;
 using ReLogic.Content.Sources;
 using Terraria.ModLoader;
 
@@ -10,8 +12,9 @@ public class BlockVanity : Mod
 
     public override void Load()
     {
-        Instance = this;
         AllAssets.Load();
+        ParticleEngine.Load();
+        Instance = this;
     }
 
     public override IContentSource CreateDefaultContentSource()

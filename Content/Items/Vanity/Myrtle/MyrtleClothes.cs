@@ -23,7 +23,7 @@ public class PlumeriaHairpin : VanityItem
     public override void UpdateArmorSet(Player player)
     {
         if (AreaEffectsToggle.ToggledOn(player))
-            Lighting.AddLight(player.MountedCenter, Color.SlateGray.ToVector3() * 0.133f);
+            Lighting.AddLight(player.MountedCenter, Color.SlateGray.ToVector3() * 0.33f);
     }
 
     public override void UpdateVanitySet(Player player) => UpdateArmorSet(player);

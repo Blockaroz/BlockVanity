@@ -56,4 +56,20 @@ public static class VanityUtils
 
     public static Vector2 GetCompositeOffset_BackArm(ref PlayerDrawSet drawinfo) => new Vector2(6 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : (-1)), 2 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipVertically)) ? 1 : (-1)));
     public static Vector2 GetCompositeOffset_FrontArm(ref PlayerDrawSet drawinfo) => new Vector2(-5 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : (-1)), 0f);
+
+    public static int BodyFrameArmFromRotation(Player player, float rotation)
+    {
+        rotation = Math.Clamp(rotation, 0, MathHelper.Pi);
+
+        if (rotation <= MathHelper.PiOver4 * 0.3f)
+            return 1;        
+        if (rotation <= MathHelper.PiOver4)
+            return 2;
+        else if (rotation <= MathHelper.PiOver4 * 2.2f)
+            return 3;            
+        else if (rotation <= MathHelper.PiOver4 * 3.5f)
+            return 4;
+        else
+            return 0;
+    }
 }

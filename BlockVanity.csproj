@@ -6,11 +6,18 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <AdditionalFiles Remove="Assets\Textures\Extras\ColorMaps\**" />
+    <Compile Remove="Assets\Textures\Extras\ColorMaps\**" />
+    <EmbeddedResource Remove="Assets\Textures\Extras\ColorMaps\**" />
+    <None Remove="Assets\Textures\Extras\ColorMaps\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\Effects\BasicTrail.fx" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Arms.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands_Back.png" />
     <None Remove="Assets\Textures\Extras\Glow_1.png" />
+    <None Remove="Assets\Textures\Extras\Glow_2.png" />
     <None Remove="Assets\Textures\Items\Dyes\PurpleOrionDye.png" />
     <None Remove="Assets\Textures\Items\Dyes\YellowOrionDye.png" />
     <None Remove="Assets\Textures\Items\Pets\FloatingSkyLantern\BlackEyeLens.png" />
