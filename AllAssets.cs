@@ -62,24 +62,27 @@ public static class AllAssets
     public static void Load()
     {
         Textures.Glow = RequestSlowArrayAuto<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/Glow_");
-        Textures.SpaceNoise = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/SpaceNoise");
-        Textures.BlueFishSkin = [
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Head"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_High"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_Low"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Eyes"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Body"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Arms"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands_Back"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Legs"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Tail"),
-            ];
 
         Textures.FishEyes = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/FishEyes");
+        Textures.OrionNoise = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/OrionNoise");
+        Textures.SeasideColorMap = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/SeasideColorMap");
 
-        Effects.OrionShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/OrionShader", AssetRequestMode.ImmediateLoad);
+        Textures.BlueFishSkin = [
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Head", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_High", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_Low", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Eyes", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Body", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Arms", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands_Back", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Legs", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Tail", AssetRequestMode.ImmediateLoad),
+            ];
+
         Effects.BasicTrail = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
+        Effects.OrionShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/OrionShader", AssetRequestMode.ImmediateLoad);
+        Effects.SeasideHairShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/SeasideHairShader", AssetRequestMode.ImmediateLoad);
 
         //Sounds.FishyHit = new SoundStyle($"{nameof(BlockVanity)}/Assets/Sounds/HitSounds/FishyHit_", 0, 3);
     }
@@ -87,9 +90,11 @@ public static class AllAssets
     public static class Textures
     {
         public static SlowAsset<Texture2D>[] Glow;
-        public static SlowAsset<Texture2D> SpaceNoise;
         public static SlowAsset<Texture2D> FishEyes;
-        public static SlowAsset<Texture2D>[] BlueFishSkin;
+        public static SlowAsset<Texture2D> OrionNoise;
+        public static SlowAsset<Texture2D> SeasideColorMap;
+
+        public static Asset<Texture2D>[] BlueFishSkin;
     }
 
     public static class Sounds
@@ -99,7 +104,8 @@ public static class AllAssets
 
     public static class Effects
     {
-        public static Asset<Effect> OrionShader;
         public static Asset<Effect> BasicTrail;
+        public static Asset<Effect> OrionShader;
+        public static Asset<Effect> SeasideHairShader;
     }
 }

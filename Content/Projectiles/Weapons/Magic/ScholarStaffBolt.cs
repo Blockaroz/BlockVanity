@@ -16,10 +16,13 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic;
 
 public class ScholarStaffBolt : ModProjectile
 {
+    private static SoundStyle HitSound;
+
     public override void SetStaticDefaults()
     {
         ProjectileID.Sets.TrailingMode[Type] = 2;
         ProjectileID.Sets.TrailCacheLength[Type] = 10;
+        //HitSound = new SoundStyle();
     }
 
     public override void SetDefaults()
@@ -54,11 +57,10 @@ public class ScholarStaffBolt : ModProjectile
 
         Projectile.rotation = Projectile.velocity.ToRotation();
 
-        Projectile.scale = (float)Math.Sqrt(Utils.GetLerpValue(600, 585, Projectile.timeLeft, true));
         Projectile.localAI[0] += 0.5f + Speed * 0.5f;
 
-        if (Main.rand.NextBool(Projectile.timeLeft / 100 + 5))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(20, 20), Projectile.velocity * 0.5f, 0f, Main.rand.NextFloat(0.75f, 1.25f));
+        if (Projectile.timeLeft % 18 == 0 || Main.rand.NextBool(25))
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true, 10), Projectile.Center + Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.5f, 0f, Main.rand.NextFloat(0.5f, 1f));
 
         Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.33f);
     }
@@ -74,9 +76,11 @@ public class ScholarStaffBolt : ModProjectile
 
         for (int i = 0; i < 16; i++)
         {
-            Vector2 offset = Main.rand.NextVector2Circular(32, 32) + Projectile.velocity * Main.rand.NextFloat(2f);
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset / 3f, offset * Main.rand.NextFloat(0.2f), 0f, Main.rand.NextFloat(0.75f, 1.25f));
+            Vector2 offset = Main.rand.NextVector2Circular(32, 32);
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset / 2f, offset * Main.rand.NextFloat(0.1f) + Projectile.velocity * 0.2f, 0f, Main.rand.NextFloat(0.75f, 1.25f));
         }
+
+        ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 0 }, true), Projectile.Center, Vector2.Zero, 0f, 1.3f * Projectile.scale);
     }
 
     public static readonly Color EnergyColor = Color.Lerp(Color.DodgerBlue, Color.Turquoise, 0.6f);
@@ -96,7 +100,7 @@ public class ScholarStaffBolt : ModProjectile
         Texture2D texture = TextureAssets.Projectile[Type].Value;
         Texture2D glow = AllAssets.Textures.Glow[0].Value;
 
-        Color color = EnergyColor;
+        Color color = EnergyColor with { A = 50 };
 
         boltContent.Request(200, 200, Projectile.whoAmI, spriteBatch =>
         {
@@ -114,7 +118,7 @@ public class ScholarStaffBolt : ModProjectile
             for (int i = 0; i < (int)stripLength; i++)
             {
                 float rad = (16f + (float)Math.Sin(t * 0.15f % MathHelper.TwoPi) * 2) / PixelSize;
-                Vector2 offRot0 = new Vector2(rad * (float)Math.Sqrt(Utils.GetLerpValue(stripLength, stripLength * 0.5f, i, true)), 0).RotatedBy(t * 0.1f + i / stripLength * 4f);
+                Vector2 offRot0 = new Vector2(rad * (float)Math.Sqrt(Utils.GetLerpValue(stripLength, stripLength * 0.5f, i, true)), 0).RotatedBy(t * 0.1f + i / stripLength * 3f);
                 Vector2 offset0 = new Vector2(offRot0.X, offRot0.Y * 0.4f).RotatedBy(Projectile.rotation + t * 0.05f);
                 strip0.Add(offset0);
                 rot0.Add(offset0.ToRotation() - MathHelper.PiOver2);
@@ -137,15 +141,15 @@ public class ScholarStaffBolt : ModProjectile
 
             _horizontalStrip ??= new VertexStrip();
             _verticalStrip ??= new VertexStrip();
-            _horizontalStrip.PrepareStrip(strip0.ToArray(), rot0.ToArray(), p => Color.White with { A = 100 }, p => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 20f / PixelSize, projCenter, strip0.Count, true);
-            _verticalStrip.PrepareStrip(strip1.ToArray(), rot1.ToArray(), p => Color.White with { A = 100 }, p => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 20f / PixelSize, projCenter, strip1.Count, true);
+            _horizontalStrip.PrepareStrip(strip0.ToArray(), rot0.ToArray(), p => Color.White with { A = 100 }, p => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 24f / PixelSize, projCenter, strip0.Count, true);
+            _verticalStrip.PrepareStrip(strip1.ToArray(), rot1.ToArray(), p => Color.White with { A = 100 }, p => Utils.GetLerpValue(1f, 0.6f, p, true) * Utils.GetLerpValue(0, 0.5f, p, true) * 24f / PixelSize, projCenter, strip1.Count, true);
             _horizontalStrip.DrawTrail();
             _verticalStrip.DrawTrail();
 
             //Main.pixelShader.CurrentTechnique.Passes[0].Apply();
 
-            Main.EntitySpriteDraw(texture, projCenter, texture.Frame(), color, 0, texture.Size() * 0.5f, 0.95f / PixelSize, 0, 0);
-            Main.EntitySpriteDraw(texture, projCenter, texture.Frame(), new Color(225, 255, 255, 0), 0, texture.Size() * 0.5f, 0.74f / PixelSize, 0, 0);
+            Main.EntitySpriteDraw(texture, projCenter, texture.Frame(), color, Projectile.rotation + MathHelper.PiOver2, texture.Size() * new Vector2(0.5f, 0.4f), new Vector2(1.1f, 1.2f) / PixelSize, 0, 0);
+            Main.EntitySpriteDraw(texture, projCenter, texture.Frame(), new Color(225, 255, 255, 0), Projectile.rotation + MathHelper.PiOver2, texture.Size() * 0.5f, new Vector2(0.7f, 0.9f) / PixelSize, 0, 0);
 
             spriteBatch.End();
         });
@@ -153,7 +157,7 @@ public class ScholarStaffBolt : ModProjectile
         if (boltContent.IsTargetReady(Projectile.whoAmI))
         {
             Texture2D boltTexture = boltContent.GetTarget(Projectile.whoAmI);
-            Main.EntitySpriteDraw(boltTexture, Projectile.Center - Main.screenPosition, boltTexture.Frame(), Color.White with { A = 60 }, Projectile.rotation, boltTexture.Size() * 0.5f, 2f * Projectile.scale, Projectile.direction > 0 ? 0 : SpriteEffects.FlipHorizontally, 0);
+            Main.EntitySpriteDraw(boltTexture, Projectile.Center - Main.screenPosition, boltTexture.Frame(), Color.White with { A = 60 }, 0, boltTexture.Size() * 0.5f, 2f * Projectile.scale, 0, 0);
             Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 }, 0f, glow.Size() * 0.5f, 0.35f, 0, 0);
             Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), (color * 0.2f) with { A = 0 }, 0f, glow.Size() * 0.5f, 0.6f, 0, 0);
         }

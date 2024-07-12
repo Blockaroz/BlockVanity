@@ -32,7 +32,7 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
-        Vector2 headPos = drawInfo.HeadPosition() - Vector2.UnitY * 2;
+        Vector2 headPos = drawInfo.HeadPosition() - Vector2.UnitY * 2 * drawInfo.drawPlayer.gravDir;
         headPos.ApplyVerticalOffset(drawInfo);
 
         float headOffY = Main.OffsetsPlayerHeadgear[drawInfo.drawPlayer.bodyFrame.Y / drawInfo.drawPlayer.bodyFrame.Height].Y;

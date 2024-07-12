@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Drawing.Imaging;
-using BlockVanity;
 using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Particles;
-using BlockVanity.Content.Projectiles.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -92,7 +89,7 @@ public class ScholarStaffProj : ModProjectile
 
         }
 
-        if (Time == 0)
+        if (Time == 0 || Time == (int)(MaxTime * 0.4f))
         {
             if (Projectile.owner == Main.myPlayer)
             {
@@ -101,7 +98,6 @@ public class ScholarStaffProj : ModProjectile
             }
         }
 
-        Projectile.velocity = Vector2.Lerp(Projectile.velocity, Player.DirectionTo(Main.MouseWorld) * 5f, 0.02f);
         swingProgress = Utils.GetLerpValue(MaxTime * 0.2f, MaxTime * 0.8f, Time, true);
 
         float startRotation = -MathHelper.Pi / 9f;
@@ -124,9 +120,6 @@ public class ScholarStaffProj : ModProjectile
         Vector2 scale = new Vector2(1f + (swingProgress * (1f - swingProgress)) * 2f) * Projectile.scale;
         Vector2 crystalPos = Projectile.Center + new Vector2(30, 0).RotatedBy(Projectile.velocity.ToRotation()) * scale;
 
-        if (Time > (int)(MaxTime * 0.4f) && Time < (int)(MaxTime * 0.8f))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(ScholarStaffBolt.EnergyColor with { A = 0 }, true), crystalPos + Main.rand.NextVector2Circular(6, 6), Main.rand.NextVector2Circular(2, 2) + Projectile.velocity * 0.3f, 0f, Main.rand.NextFloat(1f, 1.5f));
-
         if (Time == (int)(MaxTime * 0.5f))
         {
             SoundStyle sound = SoundID.DD2_BetsyFireballImpact.WithPitchOffset(0.5f - Charge / 60f);
@@ -136,6 +129,8 @@ public class ScholarStaffProj : ModProjectile
 
             if (Projectile.owner == Main.myPlayer)
             {
+                Projectile.velocity = Player.DirectionTo(Main.MouseWorld) * 5f;
+
                 int count = (int)Math.Floor(Charge / 20) + 1;
                 for (int i = 0; i < count; i++)
                 {
@@ -152,6 +147,9 @@ public class ScholarStaffProj : ModProjectile
                 Projectile.netUpdate = true;
             }
         }
+
+        if (Time > (int)(MaxTime * 0.4f) && Time < (int)(MaxTime * 0.8f))
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(ScholarStaffBolt.EnergyColor with { A = 0 }, true), crystalPos + Main.rand.NextVector2Circular(6, 6), Main.rand.NextVector2Circular(2, 2) + Projectile.velocity * 0.3f, 0f, Main.rand.NextFloat(1f, 1.5f));
 
         if (Time > (int)MaxTime)
         {

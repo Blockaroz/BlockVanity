@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Renderers;
 using Terraria.Graphics.Shaders;
 
@@ -20,7 +21,7 @@ public class ParticleSystem
         Particles = new List<Particle>(poolSize);
     }
 
-    public void NewParticle(IParticleData data, Vector2 position, Vector2 velocity, float rotation, float scale)
+    public void NewParticle<T>(T data, Vector2 position, Vector2 velocity, float rotation, float scale) where T : IParticleData
     {
         Particle particle = RequestParticle();
         particle.active = true;

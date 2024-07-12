@@ -18,7 +18,7 @@ public struct MagicTrailParticle : IParticleData
     private Vector2[] oldPos;
     private float[] oldRot;
 
-    public MagicTrailParticle(Color color, bool emitLight = false, int trailLength = 16)
+    public MagicTrailParticle(Color color, bool emitLight = false, int trailLength = 24)
     {
         this.color = color;
         this.trailLength = trailLength;
@@ -29,17 +29,17 @@ public struct MagicTrailParticle : IParticleData
 
     public void OnSpawn(Particle particle)
     {
-        lifeTime = Main.rand.NextFloat (8, 16) * particle.scale;
-        oldPos = Enumerable.Repeat(particle.position, 16).ToArray();
-        oldRot = Enumerable.Repeat(particle.rotation, 16).ToArray();
+        lifeTime = Main.rand.NextFloat(8, 16) * particle.scale;
+        oldPos = Enumerable.Repeat(particle.position, trailLength).ToArray();
+        oldRot = Enumerable.Repeat(particle.rotation, trailLength).ToArray();
     }
 
     public void Update(Particle particle)
     {
-        particle.velocity *= 0.91f;
         particle.rotation = particle.velocity.ToRotation();
 
-        particle.velocity = Vector2.Lerp(particle.velocity, particle.velocity * 1.1f + Main.rand.NextVector2Circular(5, 5) - Vector2.UnitY * 0.5f, 0.07f) * Utils.GetLerpValue(0, 0.2f, lifeTime, true);
+        particle.velocity *= 0.95f;
+        particle.velocity = Vector2.Lerp(particle.velocity, particle.velocity + Main.rand.NextVector2Circular(10, 10) - Vector2.UnitY * 0.5f, 0.05f);
 
         for (int i = oldPos.Length - 1; i > 0; i--)
         {
@@ -51,13 +51,13 @@ public struct MagicTrailParticle : IParticleData
 
         lifeTime *= 0.9f;
 
-        if (lifeTime < 0.9f)
+        if (lifeTime < 1f)
             particle.scale *= 0.95f;
 
         if (emitLight)
-            Lighting.AddLight(particle.position, color.ToVector3() * 0.4f * Utils.GetLerpValue(0f, 2f, lifeTime, true));
+            Lighting.AddLight(particle.position, color.ToVector3() * 0.3f * Utils.GetLerpValue(0f, 1f, particle.scale, true));
 
-        if (lifeTime < 0.03f || particle.scale < 0.2f)
+        if (particle.scale < 0.1f)
             particle.active = false;
     }
 
@@ -65,16 +65,18 @@ public struct MagicTrailParticle : IParticleData
     {
         Texture2D texture = AllAssets.Textures.Glow[2].Value;
 
-        Color drawColor = color * Utils.GetLerpValue(0f, 0.3f, lifeTime, true);
+        float drawScale = particle.scale * (1f + 0.5f * Utils.GetLerpValue(8f, 6f, lifeTime, true));
+        Color drawColor = color * Utils.GetLerpValue(0f, 0.5f, lifeTime, true);
 
         for (int i = 1; i < oldPos.Length; i++)
         {
-            Color trailColor = drawColor * (float)Math.Pow(Utils.GetLerpValue(oldPos.Length, 0, i, true), 2f) * 0.75f;
+            Color trailColor = drawColor * (float)Math.Pow(Utils.GetLerpValue(oldPos.Length, 0, i, true), 2f) * 0.5f;
             trailColor.A /= 3;
-            Vector2 trailStretch = new Vector2(oldPos[i].Distance(oldPos[i - 1]) / 2f, particle.scale);
+            Vector2 trailStretch = new Vector2(oldPos[i].Distance(oldPos[i - 1]) / 2f, drawScale);
             spriteBatch.Draw(texture, oldPos[i] - Main.screenPosition, texture.Frame(), trailColor, oldRot[i], texture.Size() * 0.5f - Vector2.UnitX, trailStretch, 0, 0);
         }
 
-        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), drawColor, particle.rotation, texture.Size() * 0.5f, particle.scale, 0, 0);
+        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), drawColor, particle.rotation, texture.Size() * 0.5f, drawScale, 0, 0);
+        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), drawColor * 2f, particle.rotation, texture.Size() * 0.5f, drawScale * 0.5f, 0, 0);
     }
 }

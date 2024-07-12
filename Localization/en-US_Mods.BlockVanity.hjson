@@ -143,7 +143,7 @@ Items: {
 
 	FishFood: {
 		DisplayName: Fish Food
-		Tooltip: Transforms the holder into a neptunian
+		Tooltip: Transforms the holder into the original neptunian
 	}
 
 	MyrtleDress: {
@@ -163,6 +163,11 @@ Items: {
 
 	PlumeriaPlantPlacer: {
 		DisplayName: Plumeria Plant Placer
+		Tooltip: ""
+	}
+
+	SeasideHairDye: {
+		DisplayName: Seaside Hair Dye
 		Tooltip: ""
 	}
 }

@@ -23,7 +23,7 @@ public class FishSkinTailLayer : PlayerDrawLayer
         FishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>();
         if (fishPlayer.tailRotations != null)
         {
-            Texture2D tailTexture = fishPlayer.SkinTextures[(int)FishSkinPlayer.SkinID.Tail].Value;
+            Texture2D tailTexture = fishPlayer.SkinTextures[(int)ReskinPlayer.SkinID.Tail].Value;
             int originX = drawInfo.drawPlayer.direction > 0 ? 1 : 0;
             Rectangle upperTailFrame = tailTexture.Frame(3, 1, 2, 0);
             Rectangle midTailFrame = tailTexture.Frame(3, 1, 1, 0);

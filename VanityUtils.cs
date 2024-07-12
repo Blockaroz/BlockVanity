@@ -1,6 +1,9 @@
 ﻿using System;
+using BlockVanity.Common.Players;
+using BlockVanity.Common.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 
@@ -72,4 +75,6 @@ public static class VanityUtils
         else
             return 0;
     }
+
+    public static ReskinPlayer GetSkinPlayer(this Player player) => player.GetModPlayer<ReskinPlayer>();
 }

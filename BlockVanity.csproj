@@ -13,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Effects\BasicTrail.fx" />
+    <None Remove="Assets\Effects\SeasideHairShader.fx" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Arms.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands_Back.png" />

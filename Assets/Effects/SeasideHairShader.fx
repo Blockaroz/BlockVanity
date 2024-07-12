@@ -1,18 +1,7 @@
 ﻿sampler uImage0 : register(s0);
 sampler uImage1 : register(s1);
-texture uNoise;
-sampler2D noise = sampler_state
-{
-    texture = <uNoise>;
-    magfilter = LINEAR;
-    minfilter = LINEAR;
-    mipfilter = LINEAR;
-    AddressU = wrap;
-    AddressV = wrap;
-};
 float3 uColor;
 float3 uSecondaryColor;
-float3 uTertiaryColor;
 float uOpacity;
 float2 uTargetPosition;
 float uSaturation;

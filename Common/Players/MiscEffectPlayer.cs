@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using BlockVanity.Content.Items.Dyes;
 
 namespace BlockVanity.Common.Players;
 
@@ -47,10 +48,8 @@ public class MiscEffectPlayer : ModPlayer
         {
             if (Player.name.Equals("Myrtle", System.StringComparison.CurrentCultureIgnoreCase))
                 return [
-                    new Item(ModContent.ItemType<PlumeriaHairpin>()),
-                    new Item(ModContent.ItemType<MyrtleDress>()),
-                    new Item(ModContent.ItemType<MyrtleSandals>()),
                     new Item(ModContent.ItemType<FishFood>()),
+                    new Item(ModContent.ItemType<SeasideHairDye>()),
                 ];
         }
 
