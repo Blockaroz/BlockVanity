@@ -39,10 +39,11 @@ public struct ScholarStaffExplosionParticle : IParticleData
         Texture2D glow = AllAssets.Textures.Glow[0].Value;
 
         float fadeOut = Utils.GetLerpValue(1, 15, lifeTime, true);
-        float growScale = particle.scale * (0.5f + Utils.GetLerpValue(15, 5, lifeTime, true));
+        float growScale = particle.scale * (1f + Utils.GetLerpValue(15, 1, lifeTime, true));
 
-        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), Color.Gray with { A = 0 } * Utils.GetLerpValue(0, 15, lifeTime, true), 0f, texture.Size() * 0.5f, growScale * 0.66f, 0, 0);
-        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), color with { A = 0 } * Utils.GetLerpValue(0, 15, lifeTime, true), 0f, texture.Size() * 0.5f, growScale, 0, 0);
+        Color centerColor = Color.Lerp(Color.LightGray, color, Utils.GetLerpValue(11, 1, lifeTime, true)) * Utils.GetLerpValue(0, 3, lifeTime, true);
+        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), centerColor with { A = 0 } * Utils.GetLerpValue(0, 15, lifeTime, true), 0f, texture.Size() * 0.5f, growScale, 0, 0);
+
         spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * fadeOut, 0f, glow.Size() * 0.5f, growScale * 0.4f, 0, 0);
         spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * fadeOut, 0f, glow.Size() * 0.5f, growScale * 0.5f, 0, 0);
     }

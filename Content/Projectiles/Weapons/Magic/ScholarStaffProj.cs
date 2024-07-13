@@ -86,7 +86,6 @@ public class ScholarStaffProj : ModProjectile
 
             if (++Charge > 50)
                 Charge = 50;
-
         }
 
         if (Time == 0 || Time == (int)(MaxTime * 0.4f))
@@ -149,7 +148,7 @@ public class ScholarStaffProj : ModProjectile
         }
 
         if (Time > (int)(MaxTime * 0.4f) && Time < (int)(MaxTime * 0.8f))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(ScholarStaffBolt.EnergyColor with { A = 0 }, true), crystalPos + Main.rand.NextVector2Circular(6, 6), Main.rand.NextVector2Circular(2, 2) + Projectile.velocity * 0.3f, 0f, Main.rand.NextFloat(1f, 1.5f));
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(ScholarStaffBolt.EnergyColor with { A = 0 }, true), crystalPos + Main.rand.NextVector2Circular(6, 6), Main.rand.NextVector2Circular(2, 2) + Projectile.velocity * 0.3f, 0f, Main.rand.NextFloat(1f, 1.2f));
 
         if (Time > (int)MaxTime)
         {

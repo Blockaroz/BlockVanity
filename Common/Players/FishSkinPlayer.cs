@@ -19,7 +19,7 @@ public class FishSkinPlayer : ModPlayer
     public Vector2 headFinVector;
     public float tailCounter;
     public float[] tailRotations;
-    private bool Male;
+    private static bool Male;
 
     public Asset<Texture2D>[] SkinTextures => skinStyle switch
     {
@@ -38,8 +38,8 @@ public class FishSkinPlayer : ModPlayer
         IL_PlayerDrawLayers.DrawPlayer_21_Head += DrawFishSkin_Ears;
         On_Player.UpdateVisibleAccessory += EnableSkins;
 
-        ReskinPlayer.OnPreSetSkin += SetSkin;
-        ReskinPlayer.OnPreResetSkins += ResetSkin;
+        ReskinPlayer.OnSetSkin += SetSkin;
+        ReskinPlayer.OnResetSkins += ResetSkin;
     }
 
     private void SetSkin(ref PlayerDrawSet drawInfo)
@@ -52,7 +52,7 @@ public class FishSkinPlayer : ModPlayer
             {
                 default:
                 case (int)SkinStyle.BlueFish:
-                    fishPlayer.Male = drawInfo.drawPlayer.Male;
+                    Male = drawInfo.drawPlayer.Male;
                     drawInfo.drawPlayer.Male = false;
 
                     drawInfo.colorHead = drawInfo.colorArmorHead;
@@ -68,7 +68,7 @@ public class FishSkinPlayer : ModPlayer
     private void ResetSkin(ref PlayerDrawSet drawInfo)
     {
         if (drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().enabled)
-            drawInfo.drawPlayer.Male = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().Male;
+            drawInfo.drawPlayer.Male = Male;
     }
 
     private void DrawFishSkin_Ears(ILContext il)
