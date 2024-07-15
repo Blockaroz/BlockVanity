@@ -16,17 +16,16 @@ float2 uImageSize1;
 float4 uLegacyArmorSourceRect;
 float2 uLegacyArmorSheetSize;
 
-float2 resize(float2 coords, float2 offset)
-{
-    return ((coords * uImageSize0) + offset) / uImageSize0;
-}
-
 float4 PixelShaderFunction(float4 base : COLOR0, float2 input : TEXCOORD0) : COLOR0
 {
-    float4 color = tex2D(uImage0, input);
-    float baseAlpha = length(base) / 4 > 0 ? 1 : 0;
+    float color = length(tex2D(uImage0, input).rgb) / 1.5 - 0.2;
+    float2 fixedInput = (input * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
 
-    return color;
+    float wave = (sin(-fixedInput.y * 2 - pow(fixedInput.x - 0.5, 2) * 5 + color * 4 + uTime * 3.14) + 1.0) / 2.0;
+    float4 colorMap = tex2D(uImage1, clamp(float2(pow(color, 2), 1 - wave), 0.01, 0.99));
+
+    return colorMap * 1.2 * base * (color > 0 ? 1 : 0);
+
 }
 
 technique Technique1

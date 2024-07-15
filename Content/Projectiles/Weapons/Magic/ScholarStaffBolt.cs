@@ -77,7 +77,7 @@ public class ScholarStaffBolt : ModProjectile
         for (int i = 0; i < 16; i++)
         {
             Vector2 offset = Main.rand.NextVector2Circular(24, 24);
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset / 2f, offset * Main.rand.NextFloat(0.3f) * (i / 16f) + Projectile.velocity * 0.2f, 0f, Main.rand.NextFloat(1f, 1.2f));
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset, offset * Main.rand.NextFloat(0.1f) * (i / 16f) + Projectile.velocity * 0.1f, 0f, Main.rand.NextFloat(1f, 1.2f));
         }
 
         ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 0 }, true), Projectile.Center, Vector2.Zero, 0f, 1.1f * Projectile.scale);
@@ -157,9 +157,10 @@ public class ScholarStaffBolt : ModProjectile
         if (boltContent.IsTargetReady(Projectile.whoAmI))
         {
             Texture2D boltTexture = boltContent.GetTarget(Projectile.whoAmI);
-            Main.EntitySpriteDraw(boltTexture, Projectile.Center - Main.screenPosition, boltTexture.Frame(), Color.White with { A = 60 }, 0, boltTexture.Size() * 0.5f, 2f * Projectile.scale, 0, 0);
-            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 }, 0f, glow.Size() * 0.5f, 0.35f, 0, 0);
-            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), (color * 0.2f) with { A = 0 }, 0f, glow.Size() * 0.5f, 0.6f, 0, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), Color.Black * 0.8f, 0f, glow.Size() * 0.5f, 0.4f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(boltTexture, Projectile.Center - Main.screenPosition, boltTexture.Frame(), Color.White with { A = 60 }, 0, boltTexture.Size() * 0.5f, PixelSize * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 }, 0f, glow.Size() * 0.5f, 0.35f * Projectile.scale, 0, 0);
+            Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 } * 0.3f, 0f, glow.Size() * 0.5f, 0.6f * Projectile.scale, 0, 0);
         }
 
         return false;

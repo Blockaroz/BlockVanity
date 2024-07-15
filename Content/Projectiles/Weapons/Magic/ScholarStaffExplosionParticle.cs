@@ -1,4 +1,5 @@
-﻿using BlockVanity.Common.Graphics.ParticleRendering;
+﻿using System;
+using BlockVanity.Common.Graphics.ParticleRendering;
 using BlockVanity.Common.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +24,7 @@ public struct ScholarStaffExplosionParticle : IParticleData
 
     public void OnSpawn(Particle particle)
     {
-        lifeTime = 16;
+        lifeTime = 10;
     }
 
     public void Update(Particle particle)
@@ -38,13 +39,11 @@ public struct ScholarStaffExplosionParticle : IParticleData
         Texture2D texture = TextureAssets.Projectile[ModContent.ProjectileType<ScholarStaffBolt>()].Value;
         Texture2D glow = AllAssets.Textures.Glow[0].Value;
 
-        float fadeOut = Utils.GetLerpValue(1, 15, lifeTime, true);
-        float growScale = particle.scale * (1f + Utils.GetLerpValue(15, 1, lifeTime, true));
+        float growScale = particle.scale * (1f + MathF.Sqrt(Utils.GetLerpValue(10, 5, lifeTime, true))) * 0.8f;
+        Color centerColor = Color.Lerp(Color.White, color, Utils.GetLerpValue(6, 3, lifeTime, true)) * Utils.GetLerpValue(1, 5, lifeTime, true) * 2f;
 
-        Color centerColor = Color.Lerp(Color.LightGray, color, Utils.GetLerpValue(11, 1, lifeTime, true)) * Utils.GetLerpValue(0, 3, lifeTime, true);
-        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), centerColor with { A = 0 } * Utils.GetLerpValue(0, 15, lifeTime, true), 0f, texture.Size() * 0.5f, growScale, 0, 0);
-
-        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * fadeOut, 0f, glow.Size() * 0.5f, growScale * 0.4f, 0, 0);
-        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * fadeOut, 0f, glow.Size() * 0.5f, growScale * 0.5f, 0, 0);
+        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), Color.Black * 0.5f * Utils.GetLerpValue(2, 10, lifeTime, true), 0f, glow.Size() * 0.5f, growScale * 0.3f, 0, 0);
+        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), centerColor with { A = 0 }, 0f, texture.Size() * 0.5f, growScale, 0, 0);
+        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * Utils.GetLerpValue(0, 8, lifeTime, true), 0f, glow.Size() * 0.5f, growScale * 0.45f, 0, 0);
     }
 }

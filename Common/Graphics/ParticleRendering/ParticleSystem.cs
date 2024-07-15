@@ -16,7 +16,7 @@ public class ParticleSystem
 {
     public List<Particle> Particles;
 
-    public ParticleSystem(int poolSize = 10000)
+    public ParticleSystem(int poolSize = 6000)
     {
         Particles = new List<Particle>(poolSize);
     }

@@ -28,17 +28,6 @@ public class ExcellencePlayer : ModPlayer
         //int bodyFrame = self.bodyFrame.Y / self.bodyFrame.Height;
         //bool headBounce = bodyFrame == 10 || bodyFrame == 11 || bodyFrame == 16 || bodyFrame == 17;
         self.GetModPlayer<ExcellencePlayer>().headAltFrame = self.velocity.Y * self.gravDir > 0;
-
-        if (self.GetModPlayer<ExcellencePlayer>().enabled)
-        {
-            //jank, but works flawlessly
-            if (self.swimTime > 0)
-                self.legFrameCounter -= 0.2;
-            else if (self.velocity.X != 0)
-                self.legFrameCounter -= (double)Math.Abs(self.velocity.X) * 0.2;
-
-            self.armorEffectDrawOutlinesForbidden = true;
-        }
     }
 
     private void HideLegs(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)

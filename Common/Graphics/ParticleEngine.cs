@@ -1,5 +1,6 @@
 ﻿using BlockVanity.Common.Graphics.ParticleRendering;
 using Terraria;
+using Terraria.Graphics.Renderers;
 
 namespace BlockVanity.Common.Graphics;
 
@@ -18,12 +19,17 @@ public static class ParticleEngine
     private static void UpdateParticleSystems(On_Main.orig_UpdateParticleSystems orig, Main self)
     {
         orig(self);
-        particles.Update();
+
+        if (Main.gameMenu)
+            particles.Clear();
+        else
+            particles.Update();
     }
 
     private static void DrawParticleSystems(On_Main.orig_DrawDust orig, Main self)
     {
         orig(self);
+
         particles.Draw(Main.spriteBatch);
     }
 }

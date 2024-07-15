@@ -29,7 +29,7 @@ public struct MagicTrailParticle : IParticleData
 
     public void OnSpawn(Particle particle)
     {
-        lifeTime = Main.rand.NextFloat(8, 16) * particle.scale;
+        lifeTime = Main.rand.NextFloat(4, 25) * particle.scale;
         oldPos = Enumerable.Repeat(particle.position, trailLength).ToArray();
         oldRot = Enumerable.Repeat(particle.rotation, trailLength).ToArray();
     }
@@ -38,8 +38,8 @@ public struct MagicTrailParticle : IParticleData
     {
         particle.rotation = particle.velocity.ToRotation();
 
-        particle.velocity *= 0.95f;
-        particle.velocity = Vector2.Lerp(particle.velocity, particle.velocity + Main.rand.NextVector2Circular(10, 10) - Vector2.UnitY * 0.5f, 0.05f);
+        particle.velocity *= 0.97f;
+        particle.velocity = Vector2.Lerp(particle.velocity, particle.velocity.RotatedByRandom(3f) * 2f - Vector2.UnitY * 0.4f, Main.rand.NextFloat(0.03f, 0.1f));
 
         for (int i = oldPos.Length - 1; i > 0; i--)
         {
@@ -70,13 +70,12 @@ public struct MagicTrailParticle : IParticleData
 
         for (int i = 1; i < oldPos.Length; i++)
         {
-            Color trailColor = drawColor * (float)Math.Pow(Utils.GetLerpValue(oldPos.Length, 0, i, true), 2f) * 0.5f;
+            Color trailColor = drawColor * (float)Math.Pow(Utils.GetLerpValue(oldPos.Length, 0, i, true), 2f) * 1.5f;
             trailColor.A /= 3;
             Vector2 trailStretch = new Vector2(oldPos[i].Distance(oldPos[i - 1]) / 2f, drawScale);
             spriteBatch.Draw(texture, oldPos[i] - Main.screenPosition, texture.Frame(), trailColor, oldRot[i], texture.Size() * 0.5f - Vector2.UnitX, trailStretch, 0, 0);
         }
 
-        spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), drawColor, particle.rotation, texture.Size() * 0.5f, drawScale, 0, 0);
         spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), drawColor * 2f, particle.rotation, texture.Size() * 0.5f, drawScale * 0.5f, 0, 0);
     }
 }

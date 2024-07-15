@@ -19,7 +19,7 @@ public class FishSkinPlayer : ModPlayer
     public Vector2 headFinVector;
     public float tailCounter;
     public float[] tailRotations;
-    private static bool Male;
+    private bool Male;
 
     public Asset<Texture2D>[] SkinTextures => skinStyle switch
     {
@@ -38,8 +38,26 @@ public class FishSkinPlayer : ModPlayer
         IL_PlayerDrawLayers.DrawPlayer_21_Head += DrawFishSkin_Ears;
         On_Player.UpdateVisibleAccessory += EnableSkins;
 
-        ReskinPlayer.OnSetSkin += SetSkin;
-        ReskinPlayer.OnResetSkins += ResetSkin;
+        ReskinPlayer.OnPreCopyVariables += SetGender;
+        ReskinPlayer.OnSetNewSkin += SetSkin;
+        ReskinPlayer.OnSetNormalSkin += ResetSkin;
+    }
+
+    private void SetGender(ref PlayerDrawSet drawInfo)
+    {
+        FishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>();
+
+        if (fishPlayer.enabled)
+        {
+            switch (fishPlayer.skinStyle)
+            {
+                default:
+                case (int)SkinStyle.BlueFish:
+                    fishPlayer.Male = drawInfo.drawPlayer.Male;
+                    drawInfo.drawPlayer.Male = false;
+                    break;
+            }
+        }
     }
 
     private void SetSkin(ref PlayerDrawSet drawInfo)
@@ -52,9 +70,6 @@ public class FishSkinPlayer : ModPlayer
             {
                 default:
                 case (int)SkinStyle.BlueFish:
-                    Male = drawInfo.drawPlayer.Male;
-                    drawInfo.drawPlayer.Male = false;
-
                     drawInfo.colorHead = drawInfo.colorArmorHead;
                     drawInfo.colorBodySkin = drawInfo.colorArmorBody;
                     drawInfo.colorLegs = drawInfo.colorArmorLegs;
@@ -68,7 +83,7 @@ public class FishSkinPlayer : ModPlayer
     private void ResetSkin(ref PlayerDrawSet drawInfo)
     {
         if (drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().enabled)
-            drawInfo.drawPlayer.Male = Male;
+            drawInfo.drawPlayer.Male = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().Male;
     }
 
     private void DrawFishSkin_Ears(ILContext il)

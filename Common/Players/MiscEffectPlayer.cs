@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using BlockVanity.Content.Items.Dyes;
+using Terraria.ID;
 
 namespace BlockVanity.Common.Players;
 
@@ -20,26 +21,26 @@ public class MiscEffectPlayer : ModPlayer
     public override void Load()
     {
         On_PlayerDrawLayers.DrawPlayer_21_Head_TheFace += SetEyeBlack;
-        On_PlayerDrawSet.BoringSetup_End += ChangeSkinColor;
     }
 
     private void SetEyeBlack(On_PlayerDrawLayers.orig_DrawPlayer_21_Head_TheFace orig, ref PlayerDrawSet drawinfo)
     {
-        if (drawinfo.drawPlayer.GetModPlayer<MiscEffectPlayer>().accBlackEye)
-            drawinfo.colorEyeWhites = new Color(20, 20, 20);
+        //if (drawinfo.drawPlayer.GetModPlayer<MiscEffectPlayer>().accBlackEye)
+        //    drawinfo.colorEyeWhites = new Color(20, 20, 20);
 
         orig(ref drawinfo);
     }
 
-    private void ChangeSkinColor(On_PlayerDrawSet.orig_BoringSetup_End orig, ref PlayerDrawSet self)
+    public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
-        orig(ref self);
-
-        if (self.drawPlayer.GetModPlayer<MiscEffectPlayer>().blockheadSkin)
+        if (blockheadSkin)
         {
-            self.colorBodySkin = self.drawPlayer.skinColor.ToGrayscale();
-            self.colorHead = self.colorBodySkin;
+            drawInfo.colorBodySkin = Player.skinColor.ToGrayscale();
+            drawInfo.colorHead = drawInfo.colorBodySkin;
         }
+
+        if (accBlackEye)
+            drawInfo.colorEyeWhites = new Color(20, 20, 20);
     }
 
     public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
