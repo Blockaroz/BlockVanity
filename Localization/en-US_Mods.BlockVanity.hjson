@@ -61,39 +61,9 @@ Items: {
 		Tooltip: ""
 	}
 
-	BrownMushroomCowHead: {
-		DisplayName: Brown Mushroom Cow Head
-		Tooltip: Right click to transform
-	}
-
-	BrownMushroomCowHide: {
-		DisplayName: Brown Mushroom Cow Hide
-		Tooltip: ""
-	}
-
-	BrownMushroomCowTrotters: {
-		DisplayName: Brown Mushroom Cow Trotters
-		Tooltip: ""
-	}
-
-	GlowingMushroomCowHead: {
-		DisplayName: Glowing Mushroom Cow Head
-		Tooltip: Right click to transform
-	}
-
-	GlowingMushroomCowHide: {
-		DisplayName: Glowing Mushroom Cow Hide
-		Tooltip: ""
-	}
-
-	GlowingMushroomCowTrotters: {
-		DisplayName: Glowing Mushroom Cow Trotters
-		Tooltip: ""
-	}
-
 	RedMushroomCowHead: {
 		DisplayName: Red Mushroom Cow Head
-		Tooltip: Right click to transform
+		Tooltip: ""
 	}
 
 	RedMushroomCowHide: {
@@ -126,19 +96,9 @@ Items: {
 		Tooltip: ""
 	}
 
-	CoolBrownMushroomCowHead: {
-		DisplayName: Cool Brown Mushroom Cow Head
-		Tooltip: Right click to transform
-	}
-
-	CoolGlowingMushroomCowHead: {
-		DisplayName: Cool Glowing Mushroom Cow Head
-		Tooltip: Right click to transform
-	}
-
 	CoolRedMushroomCowHead: {
 		DisplayName: Cool Red Mushroom Cow Head
-		Tooltip: Right click to transform
+		Tooltip: ""
 	}
 
 	FishFood: {

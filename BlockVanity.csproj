@@ -29,13 +29,6 @@
     <None Remove="Assets\Textures\Items\Vanity\BlockheadVanity\Blockhead_Eyes2.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlockheadVanity\Blockhead_Head.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlockheadVanity\Blockhead_Neck.png" />
-    <None Remove="Assets\Textures\Items\Vanity\MushroomCow\GlowingMushroomCowHead.png" />
-    <None Remove="Assets\Textures\Items\Vanity\MushroomCow\GlowingMushroomCowHead_Head.png" />
-    <None Remove="Assets\Textures\Items\Vanity\MushroomCow\GlowingMushroomCowHead_Neck.png" />
-    <None Remove="Assets\Textures\Items\Vanity\MushroomCow\GlowingMushroomCowHide.png" />
-    <None Remove="Assets\Textures\Items\Vanity\MushroomCow\GlowingMushroomCowHide_Body.png" />
-    <None Remove="Assets\Textures\Items\Vanity\MushroomCow\GlowingMushroomCowTrotters.png" />
-    <None Remove="Assets\Textures\Items\Vanity\MushroomCow\GlowingMushroomCowTrotters_Legs.png" />
     <None Remove="Assets\Textures\Items\Vanity\Scholar\ScholarCloak.png" />
     <None Remove="Assets\Textures\Items\Vanity\Scholar\ScholarCloak_Body.png" />
     <None Remove="Assets\Textures\Items\Vanity\Scholar\ScholarHood.png" />

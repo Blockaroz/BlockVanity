@@ -32,15 +32,6 @@ public class RedMushroomCowHead : VanityItem
             .AddTile(TileID.Loom)
             .Register();
     }
-
-    public override bool CanRightClick() => true;
-
-    public override void RightClick(Player player)
-    {
-        Item.type = ModContent.ItemType<CoolRedMushroomCowHead>();
-        Item.SetDefaults(Type);
-        SoundEngine.PlaySound(SoundID.Grab);
-    }
 }
 
 [AutoloadEquip(EquipType.Head)]
@@ -50,18 +41,9 @@ public class CoolRedMushroomCowHead : VanityItem
 
     public override void SetStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
-    public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<BrownMushroomCowHide>() && legs.type == ModContent.ItemType<BrownMushroomCowTrotters>();
+    public override bool IsArmorSet(Item head, Item body, Item legs) => body.type == ModContent.ItemType<RedMushroomCowHide>() && legs.type == ModContent.ItemType<RedMushroomCowTrotters>();
 
     public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().brown = true;
-
-    public override bool CanRightClick() => true;
-
-    public override void RightClick(Player player)
-    {
-        Item.type = ModContent.ItemType<RedMushroomCowHead>();
-        Item.SetDefaults(Type);
-        SoundEngine.PlaySound(SoundID.Grab);
-    }
 }
 
 [AutoloadEquip(EquipType.Body)]
