@@ -29,38 +29,6 @@ public class ScholarStaffProj : ModProjectile
 
     private float MaxTime => MathHelper.Max(Player.itemAnimationMax, 4);
 
-    private float SwingEase(float x)
-    {
-        float[] curve = [
-            -0.1f * (float)Math.Pow(x, 0.4f),
-            (float)Math.Pow(2.8f * x - 0.3f, 4f) - 0.05f,
-            3f * (float)Math.Pow(2f * x - 1.1f, 3f) + 0.53f,
-            2f * (float)Math.Pow(x - 0.5f, 2f) + 0.53f,
-        ];
-        if (x < 0)
-        {
-            return 0;
-        }
-        else if (x < 0.3f)
-        {
-            return MathHelper.Lerp(curve[0], curve[1], Utils.GetLerpValue(0.15f, 0.3f, x, true));
-        }
-        else if (x < 0.4f)
-        {
-            return MathHelper.Lerp(curve[1], curve[2], Utils.GetLerpValue(0.3f, 0.4f, x, true));
-        }
-        else if (x < 0.6f)
-        {
-            return MathHelper.Lerp(curve[2], curve[3], Utils.GetLerpValue(0.5f, 0.6f, x, true));
-        }
-        else if (x < 1f)
-        {
-            return MathHelper.Lerp(curve[3], 1f, Utils.GetLerpValue(0.8f, 1f, x, true));
-        }
-
-        return 1f;
-    }
-
     public ref float Time => ref Projectile.ai[0];
     public ref float Charge => ref Projectile.ai[1];
 
@@ -86,6 +54,14 @@ public class ScholarStaffProj : ModProjectile
 
             if (++Charge > 50)
                 Charge = 50;
+
+            //for (int i = 0; i < 2; i++)
+            //    ParticleEngine.particles.NewParticle(new FlameParticle(Color.Orange with { A = 0 }, Color.DarkRed with { A = 30 }, 70, -Vector2.UnitY * 0.15f), Main.MouseWorld, Main.rand.NextVector2Circular(5, 5), Main.rand.NextFloat(MathHelper.TwoPi), 2f);
+        }
+        else
+        {
+            Projectile.Kill();
+
         }
 
         if (Time == 0 || Time == (int)(MaxTime * 0.4f))

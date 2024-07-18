@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics.Shaders;
+using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Graphics.ParticleRendering;
 
@@ -14,5 +15,4 @@ public interface IParticleData
 
 public interface IShaderParticleData : IParticleData
 {
-    public abstract void ApplyShader(Particle particle, SpriteBatch spriteBatch);
 }

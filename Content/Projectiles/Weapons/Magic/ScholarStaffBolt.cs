@@ -60,7 +60,7 @@ public class ScholarStaffBolt : ModProjectile
         Projectile.localAI[0] += 0.5f + Speed * 0.5f;
 
         if (Projectile.timeLeft % 18 == 0 || Main.rand.NextBool(25))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true, 10), Projectile.Center + Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.5f, 0f, Main.rand.NextFloat(0.5f, 0.7f));
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true, 10), Projectile.Center + Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.5f, 0f, Main.rand.NextFloat(0.5f, 1f));
 
         Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.33f);
     }
@@ -77,10 +77,10 @@ public class ScholarStaffBolt : ModProjectile
         for (int i = 0; i < 16; i++)
         {
             Vector2 offset = Main.rand.NextVector2Circular(24, 24);
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset, offset * Main.rand.NextFloat(0.1f) * (i / 16f) + Projectile.velocity * 0.1f, 0f, Main.rand.NextFloat(1f, 1.2f));
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset / 2f, offset * Main.rand.NextFloat(0.3f) * (i / 16f) + Projectile.velocity * 0.1f, 0f, Main.rand.NextFloat(1f, 2f));
         }
 
-        ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 0 }, true), Projectile.Center, Vector2.Zero, 0f, 1.1f * Projectile.scale);
+        ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 0 }, true), Projectile.Center, Vector2.Zero, 0f, Projectile.scale);
     }
 
     public static readonly Color EnergyColor = Color.Lerp(Color.DodgerBlue, Color.Turquoise, 0.6f);

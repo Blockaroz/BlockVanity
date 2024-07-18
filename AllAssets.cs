@@ -64,8 +64,11 @@ public static class AllAssets
         Textures.Glow = RequestSlowArrayAuto<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/Glow_");
 
         Textures.FishEyes = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/FishEyes");
+        Textures.FireDissolveNoise = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FireDissolveNoise");
         Textures.OrionNoise = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/OrionNoise");
         Textures.SeasideColorMap = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/SeasideColorMap");
+
+        Textures.Particle = RequestSlowArrayAuto<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Particles/Particle_");
 
         Textures.BlueFishSkin = [
             ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Head", AssetRequestMode.ImmediateLoad),
@@ -81,6 +84,7 @@ public static class AllAssets
             ];
 
         Effects.BasicTrail = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
+        Effects.Dissolve = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dissolve", AssetRequestMode.ImmediateLoad);
         Effects.OrionShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/OrionShader", AssetRequestMode.ImmediateLoad);
         Effects.SeasideHairShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/SeasideHairShader", AssetRequestMode.ImmediateLoad);
 
@@ -91,8 +95,11 @@ public static class AllAssets
     {
         public static SlowAsset<Texture2D>[] Glow;
         public static SlowAsset<Texture2D> FishEyes;
+        public static SlowAsset<Texture2D> FireDissolveNoise;
         public static SlowAsset<Texture2D> OrionNoise;
         public static SlowAsset<Texture2D> SeasideColorMap;
+
+        public static SlowAsset<Texture2D>[] Particle;
 
         public static Asset<Texture2D>[] BlueFishSkin;
     }
@@ -105,6 +112,7 @@ public static class AllAssets
     public static class Effects
     {
         public static Asset<Effect> BasicTrail;
+        public static Asset<Effect> Dissolve;
         public static Asset<Effect> OrionShader;
         public static Asset<Effect> SeasideHairShader;
     }

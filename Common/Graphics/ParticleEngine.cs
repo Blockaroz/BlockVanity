@@ -21,7 +21,7 @@ public static class ParticleEngine
         orig(self);
 
         if (Main.gameMenu)
-            particles.Clear();
+            particles.Init();
         else
             particles.Update();
     }
@@ -30,6 +30,6 @@ public static class ParticleEngine
     {
         orig(self);
 
-        particles.Draw(Main.spriteBatch);
+        particles.Draw(Main.spriteBatch, false);
     }
 }

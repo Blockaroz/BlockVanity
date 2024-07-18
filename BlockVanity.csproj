@@ -13,7 +13,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Effects\BasicTrail.fx" />
+    <None Remove="Assets\Effects\Dissolve.fx" />
     <None Remove="Assets\Effects\SeasideHairShader.fx" />
+    <None Remove="Assets\Textures\Extras\FireDissolveNoise.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Arms.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands_Back.png" />
@@ -38,6 +40,7 @@
     <None Remove="Assets\Textures\Items\Vanity\Scholar\ScholarShorts_Legs.png" />
     <None Remove="Assets\Textures\Items\Vanity\SkullInSunglasses.png" />
     <None Remove="Assets\Textures\Items\Vanity\SkullInSunglasses_Head.png" />
+    <None Remove="Assets\Textures\Particles\Particle_0.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ParticleEngine">
