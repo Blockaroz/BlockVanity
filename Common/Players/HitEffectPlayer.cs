@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static BlockVanity.AllAssets;
 
 namespace BlockVanity.Common.Players;
 

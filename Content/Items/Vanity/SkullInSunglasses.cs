@@ -33,7 +33,5 @@ public class SkullInSunglasses : VanityItem
             .Register();
     }
 
-    public override bool IsVanitySet(int head, int body, int legs) => true;
-
-    public override void PreUpdateVanitySet(Player player) => HitEffectPlayer.SetEquipHitSound(player, SoundID.NPCHit2);
+    public override void PreUpdateVanitySet(Player player) => HitEffectPlayer.SetEquipHitSound(player, SoundID.NPCHit2 with { PitchVariance = 0.5f });
 }

@@ -19,7 +19,9 @@ public class MushroomCowHead : VanityItem
 
     public override void SetStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
-    public override bool IsVanitySet(int head, int body, int legs) => true;
+    public override bool IsVanitySet(int head, int body, int legs) =>
+        body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body) &&
+        legs == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowTrotters), EquipType.Legs);
 
     public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 
@@ -50,7 +52,9 @@ public class GamingMushroomCowHead : VanityItem
 
     public override void SetStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
-    public override bool IsVanitySet(int head, int body, int legs) => true;
+    public override bool IsVanitySet(int head, int body, int legs) =>
+        body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body) &&
+        legs == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowTrotters), EquipType.Legs);
 
     public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 }
@@ -60,7 +64,9 @@ public class MushroomCowHide : VanityItem
 {
     public MushroomCowHide() : base(ItemRarityID.Blue) { }
 
-    public override bool IsVanitySet(int head, int body, int legs) => true;
+    public override bool IsVanitySet(int head, int body, int legs) =>
+        (head == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHead), EquipType.Head) || head == EquipLoader.GetEquipSlot(Mod, nameof(GamingMushroomCowHead), EquipType.Head)) &&
+        legs == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowTrotters), EquipType.Legs);
 
     public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 
@@ -80,7 +86,9 @@ public class MushroomCowTrotters : VanityItem
 {
     public MushroomCowTrotters() : base(ItemRarityID.Blue) { }
 
-    public override bool IsVanitySet(int head, int body, int legs) => true;
+    public override bool IsVanitySet(int head, int body, int legs) =>
+        (head == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHead), EquipType.Head) || head == EquipLoader.GetEquipSlot(Mod, nameof(GamingMushroomCowHead), EquipType.Head)) &&
+        body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body);
 
     public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 

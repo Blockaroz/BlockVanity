@@ -49,7 +49,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Sounds\HitSounds\" />
     <Folder Include="Content\Quests\" />
   </ItemGroup>
 </Project>
