@@ -8,9 +8,9 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
+namespace BlockVanity.Content.Items.Pets.AncientFloatingSkyLantern
 {
-    public class FloatingSkyLanternProj : ModProjectile
+    public class AncientFloatingSkyLanternProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

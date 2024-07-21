@@ -150,26 +150,8 @@ public class FishSkinPlayer : ModPlayer
             bool flag = drawinfo.drawPlayer.head > 0 && !ArmorIDs.Head.Sets.DrawHead[drawinfo.drawPlayer.head];
 
             if (!flag && drawinfo.drawPlayer.faceHead > 0)
-            {
-                Vector2 faceHeadOffsetFromHelmet = drawinfo.drawPlayer.GetFaceHeadOffsetFromHelmet();
-                DrawData item = new DrawData(TextureAssets.AccFace[drawinfo.drawPlayer.faceHead].Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect + faceHeadOffsetFromHelmet, drawinfo.drawPlayer.bodyFrame, drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
-                item.shader = drawinfo.cFaceHead;
-                drawinfo.DrawDataCache.Add(item);
-                if (drawinfo.drawPlayer.face <= 0 || !ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[drawinfo.drawPlayer.face])
-                    return;
+                orig(ref drawinfo);
 
-                float num = 0f;
-                if (drawinfo.drawPlayer.face == 5)
-                {
-                    int faceHead = drawinfo.drawPlayer.faceHead;
-                    if ((uint)(faceHead - 10) <= 3u)
-                        num = 2 * drawinfo.drawPlayer.direction;
-                }
-
-                item = new DrawData(TextureAssets.AccFace[drawinfo.drawPlayer.face].Value, new Vector2((float)(int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)) + num, (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
-                item.shader = drawinfo.cFace;
-                drawinfo.DrawDataCache.Add(item);
-            }
             else if (!drawinfo.drawPlayer.invis && !flag)
             {
                 Color headColor = drawinfo.colorArmorHead;
@@ -187,8 +169,8 @@ public class FishSkinPlayer : ModPlayer
                 drawinfo.DrawDataCache.Add(newData);
                 newData = new DrawData(AllAssets.Textures.FishEyes.Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, eyeColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
                 drawinfo.DrawDataCache.Add(newData);
-                
-                Texture2D eyelids = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinID.Eyes].Value;
+
+                Texture2D eyelids = TextureAssets.Players[drawinfo.skinVar, 15].Value;
                 Vector2 headOffset = Main.OffsetsPlayerHeadgear[drawinfo.drawPlayer.bodyFrame.Y / drawinfo.drawPlayer.bodyFrame.Height];
                 headOffset.Y -= 2f;
                 headOffset *= (float)(-drawinfo.playerEffect.HasFlag(SpriteEffects.FlipVertically).ToDirectionInt());

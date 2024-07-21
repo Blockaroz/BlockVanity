@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using BlockVanity.Common.Graphics;
+using BlockVanity.Common.Graphics.ParticleRendering;
+using BlockVanity.Content.Particles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -8,60 +13,31 @@ namespace BlockVanity.Common.Players;
 
 public class MushroomCowVisualPlayer : ModPlayer
 {
+    public int mushCount;
+
     public bool red;
-    public bool brown;
-    public bool glowing;
-    private bool AnyCow { get => red || brown || glowing; }
+    public int cMushroom;
+    private bool AnyEffect => red;
 
     public override void FrameEffects()
     {
-        bool rightSpeed = Player.velocity.Length() < 4f;
-        ArmorShaderData shader = GameShaders.Armor.GetSecondaryShader(Player.cBody, Player);
-        if (AreaEffectsToggle.ToggledOn(Player) && rightSpeed && !Main.gameMenu & !Main.gamePaused && AnyCow)
+        if (!Main.gamePaused && !Main.gameMenu && AreaEffectsToggle.IsActive(Player) && AnyEffect)
         {
-            Vector2 mushPos = Player.Bottom + Main.rand.NextVector2Circular(40, 30);
-            bool doMushroom = true;
-            const int maxTiles = 5;
-            for (int i = -2; i < maxTiles; i++)
+            if (Main.rand.NextBool(10) || (Math.Abs(Player.velocity.X) > Player.maxRunSpeed * 0.9f && Main.rand.NextBool()))
             {
-                Point mushTile = new Point((int)(mushPos.X / 16f), (int)(mushPos.Y / 16f));
-                if (WorldGen.ActiveAndWalkableTile(mushTile.X, mushTile.Y + i))
-                {
-                    mushPos.Y = (mushTile.Y + i) * 16f;
-                    break;
-                }
+                Vector2 mushPos = Player.MountedCenter + Player.velocity;
+                Vector2 mushVel = Main.rand.NextVector2CircularEdge(70, 110);
+                Vector2 mushCollision = Collision.AnyCollision(mushPos - Vector2.One * 4, mushVel, 8, 8);
 
-                if (i >= maxTiles - 1)
-                    doMushroom = false;
-            }
+                mushPos += mushCollision;
 
-            float scale = Utils.GetLerpValue(120, 40, (mushPos - Player.Center).Length()) * 1.11f;
+                bool placeMushroom = WorldGen.SolidOrSlopedTile((int)Math.Floor(mushPos.X / 16), (int)Math.Floor(mushPos.Y / 16));
 
-            if (red && doMushroom && Main.rand.NextBool(15))
-            {
-            }
-            if (brown && doMushroom)
-            {
-                if (Main.rand.NextBool(20))
+                if (red && placeMushroom)
                 {
-                }
-                if (Main.rand.NextBool(70))
-                {
-                    Dust shroomDust = Dust.NewDustPerfect(Player.Center + Main.rand.NextVector2Circular(12, 6), DustID.Electric, -Vector2.UnitY.RotatedByRandom(1f) * 2f, 0, Color.White, 0.5f);
-                    shroomDust.noGravity = true;
-                    shroomDust.shader = shader;
-                }
-            }
-            if (glowing)
-            {
-                if (doMushroom && Main.rand.NextBool(18))
-                {
-                }
-
-                if (Main.rand.NextBool(80))
-                {
-                    Dust shroomDust = Dust.NewDustPerfect(Player.Bottom + Main.rand.NextVector2Circular(24, 2), DustID.GlowingMushroom, -Vector2.UnitY.RotatedByRandom(1f), 0, Color.White, 0.8f);
-                    shroomDust.shader = shader;
+                    float scale = Utils.GetLerpValue(120, 40, (mushPos - Player.Center).Length()) * 2f * Main.rand.NextFloat(0.8f, 1.2f);
+                    float rotation = mushCollision.ToRotation() - MathHelper.PiOver2 + Main.rand.NextFloat(-0.15f, 0.15f);
+                    ParticleEngine.particles.NewParticle(new GrowingMushroomParticle(0, Main.rand.Next(150, 250)), mushPos, Vector2.Zero, rotation, scale);
                 }
             }
         }
@@ -70,7 +46,6 @@ public class MushroomCowVisualPlayer : ModPlayer
     public override void ResetEffects()
     {
         red = false;
-        brown = false;
-        glowing = false;
+        mushCount = 0;
     }
 }

@@ -60,7 +60,7 @@ public class ScholarStaffBolt : ModProjectile
         Projectile.localAI[0] += 0.5f + Speed * 0.5f;
 
         if (Projectile.timeLeft % 18 == 0 || Main.rand.NextBool(25))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true, 10), Projectile.Center + Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.5f, 0f, Main.rand.NextFloat(0.5f, 1f));
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true, 6), Projectile.Center + Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.5f, 0f, Main.rand.NextFloat(1f, 2f));
 
         Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.33f);
     }
@@ -74,10 +74,10 @@ public class ScholarStaffBolt : ModProjectile
         hitSound.PitchVariance = 0.1f;
         SoundEngine.PlaySound(hitSound, Projectile.Center);
 
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < 10; i++)
         {
-            Vector2 offset = Main.rand.NextVector2Circular(24, 24);
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset / 2f, offset * Main.rand.NextFloat(0.3f) * (i / 16f) + Projectile.velocity * 0.1f, 0f, Main.rand.NextFloat(1f, 2f));
+            Vector2 offset = Main.rand.NextVector2Circular(10, 8);
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset, offset * Main.rand.NextFloat(0.3f) - Vector2.UnitY * 0.2f, 0f, Main.rand.NextFloat(2f, 3f));
         }
 
         ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 0 }, true), Projectile.Center, Vector2.Zero, 0f, Projectile.scale);

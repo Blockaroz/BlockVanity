@@ -22,7 +22,7 @@ public class PlumeriaHairpin : VanityItem
 
     public override void UpdateArmorSet(Player player)
     {
-        if (AreaEffectsToggle.ToggledOn(player))
+        if (AreaEffectsToggle.IsActive(player))
             Lighting.AddLight(player.MountedCenter, Color.SlateGray.ToVector3() * 0.33f);
     }
 
@@ -39,4 +39,18 @@ public class MyrtleDress : VanityItem
 public class MyrtleSandals : VanityItem
 {
     public MyrtleSandals() : base(ItemRarityID.Green) { }
+
+    public override void Load()
+    {
+        if (Main.netMode == NetmodeID.Server)
+            return;
+
+        EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Legs}Female", EquipType.Legs,  name: this.Name + "Female");
+    }
+
+    public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
+    {
+        if (!male)
+            equipSlot = EquipLoader.GetEquipSlot(Mod, this.Name + "Female", EquipType.Legs);
+    }
 }

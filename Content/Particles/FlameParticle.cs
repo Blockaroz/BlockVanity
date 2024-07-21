@@ -16,22 +16,25 @@ public struct FlameParticle : IShaderParticleData
     private int style;
     private Vector2 gravity;
     private float rotationVelocity;
+    private float fadeTime;
 
-    private float Progress => (float)timeLeft / maxTime;
+    private readonly float Progress => timeLeft / (maxTime - 1f);
 
-    public FlameParticle(Color color, Color fadeColor, int timeLeft, Vector2 gravity = default)
+    public FlameParticle(Color color, Color fadeColor, int timeLeft, Vector2 gravity = default, float fadeTime = 0.25f)
     {
         this.color = color;
         this.fadeColor = fadeColor;
         maxTime = timeLeft;
         style = Main.rand.Next(15);
+        this.fadeTime = fadeTime;
         this.gravity = gravity;
     }
 
     public void OnSpawn(Particle particle)
     {
-        particle.scale *= Main.rand.NextFloat(0.9f, 1.1f);
-        rotationVelocity = Math.Sign(particle.velocity.X) * Main.rand.NextFloat() * -0.2f;
+        particle.scale *= Main.rand.NextFloat(0.8f, 1.2f);
+        particle.rotation = particle.velocity.ToRotation() - MathHelper.PiOver2;
+        rotationVelocity = Math.Sign(particle.velocity.X) * Main.rand.NextFloat() * -0.15f;
     }
 
     public void Update(Particle particle)
@@ -47,24 +50,28 @@ public struct FlameParticle : IShaderParticleData
 
     public void Draw(Particle particle, SpriteBatch spriteBatch)
     {
-        Texture2D texture = AllAssets.Textures.Particle[0].Value;
+        Texture2D texture = AllAssets.Textures.Particle[1].Value;
         Texture2D glow = AllAssets.Textures.Glow[0].Value;
         Rectangle frame = texture.Frame(1, 15, 0, style);
-        Color drawColor = Color.Lerp(color, fadeColor, Utils.GetLerpValue(0f, 0.4f, Progress, true)) * Utils.GetLerpValue(1f, 0.7f, Progress, true);
-        float drawScale = particle.scale * MathF.Sqrt(Utils.GetLerpValue(0f, 2f, timeLeft, true)) * (0.7f + Progress * 0.6f);
+        float drawScale = particle.scale * MathF.Sqrt(Utils.GetLerpValue(-2f, 2f, timeLeft, true)) * (0.7f + MathF.Pow(Progress, 2f));
 
-        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), fadeColor * Utils.GetLerpValue(0.5f, 0f, Progress, true) * 0.2f, particle.rotation * 2f, glow.Size() * 0.5f, particle.scale * 0.5f * Utils.GetLerpValue(0f, 1f, timeLeft, true), 0, 0);
+        Color drawColor = Color.Lerp(color, fadeColor, Utils.GetLerpValue(0.2f - fadeTime * 0.5f, 0.2f + fadeTime, Progress, true));
+        Color glowColor = fadeColor * MathF.Pow(Utils.GetLerpValue(0.7f, 0f, Progress, true), 2f) * 0.12f;
+        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), glowColor, particle.rotation, glow.Size() * 0.5f, drawScale * 0.66f, 0, 0);
 
         Effect dissolveEffect = AllAssets.Effects.Dissolve.Value;
         dissolveEffect.Parameters["uTexture0"].SetValue(AllAssets.Textures.FireDissolveNoise.Value);
-        dissolveEffect.Parameters["uTextureScale"].SetValue(new Vector2(1f + particle.scale * 0.1f + Progress * 0.1f));
+        dissolveEffect.Parameters["uTextureScale"].SetValue(new Vector2(0.65f * (0.7f + particle.scale * 0.3f) + Progress * 0.05f));
         dissolveEffect.Parameters["uFrameCount"].SetValue(15);
-        dissolveEffect.Parameters["uProgress"].SetValue(1f - MathF.Sqrt(1f - Progress));
+        dissolveEffect.Parameters["uSourceRect"].SetValue(new Vector4(frame.X, frame.Y, frame.Width, frame.Height));
+        dissolveEffect.Parameters["uProgress"].SetValue(Progress / 3f);
         dissolveEffect.Parameters["uPower"].SetValue(1f + Progress * 60f);
         dissolveEffect.Parameters["uNoiseStrength"].SetValue(1f);
+        dissolveEffect.Parameters["uRotation"].SetValue(-particle.rotation * Math.Sign(rotationVelocity) * 0.9f + gravity.ToRotation());
         dissolveEffect.CurrentTechnique.Passes[0].Apply();
 
-        spriteBatch.Draw(texture, particle.position - Main.screenPosition, frame, drawColor, particle.rotation, frame.Size() * new Vector2(0.5f, 0.4f), drawScale * 0.45f, 0, 0);
+        SpriteEffects flip = rotationVelocity > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+        spriteBatch.Draw(texture, particle.position - Main.screenPosition, frame, drawColor, particle.rotation, frame.Size() * 0.5f, drawScale * 0.45f, flip, 0);
 
         Main.pixelShader.CurrentTechnique.Passes[0].Apply();
     }

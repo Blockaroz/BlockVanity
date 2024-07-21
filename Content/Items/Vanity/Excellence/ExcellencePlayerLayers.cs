@@ -36,7 +36,7 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
         headPos.ApplyVerticalOffset(drawInfo);
 
         float headOffY = Main.OffsetsPlayerHeadgear[drawInfo.drawPlayer.bodyFrame.Y / drawInfo.drawPlayer.bodyFrame.Height].Y;
-        bool useFallFrame = drawInfo.drawPlayer.GetModPlayer<ExcellencePlayer>().headAltFrame;
+        bool useFallFrame = drawInfo.drawPlayer.velocity.Y * drawInfo.drawPlayer.gravDir > 0;
 
         DrawData headData = new DrawData(headTexture.Value, headPos, headTexture.Value.Frame(1, 2, 0, useFallFrame ? 1 : 0), drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
         headData.shader = drawInfo.cHead;

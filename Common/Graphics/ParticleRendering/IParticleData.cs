@@ -15,4 +15,5 @@ public interface IParticleData
 
 public interface IShaderParticleData : IParticleData
 {
+    public virtual bool ShaderEnabled => true;
 }

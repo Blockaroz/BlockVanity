@@ -85,6 +85,7 @@ public class ReskinPlayer : ModPlayer
             TextureAssets.Players[drawInfo.skinVar, 7] = QueuedSkinTextures[(int)SkinID.Arms];
             TextureAssets.Players[drawInfo.skinVar, 9] = QueuedSkinTextures[(int)SkinID.Hands];
             TextureAssets.Players[drawInfo.skinVar, 10] = QueuedSkinTextures[(int)SkinID.Legs];
+            TextureAssets.Players[drawInfo.skinVar, 15] = QueuedSkinTextures[(int)SkinID.Eyes];
         }
     }
 
@@ -98,18 +99,12 @@ public class ReskinPlayer : ModPlayer
 
         int maleVar = MaleSkinVar(drawinfo);
         int femVar = FemaleSkinVar(drawinfo);
-        TextureAssets.Players[maleVar, 0] = OriginalSkinTextures[0];
-        TextureAssets.Players[maleVar, 3] = OriginalSkinTextures[1];
-        TextureAssets.Players[maleVar, 5] = OriginalSkinTextures[2];
-        TextureAssets.Players[maleVar, 7] = OriginalSkinTextures[3];
-        TextureAssets.Players[maleVar, 9] = OriginalSkinTextures[4];
-        TextureAssets.Players[maleVar, 10] = OriginalSkinTextures[5];
-        TextureAssets.Players[femVar, 0] = OriginalSkinTextures[6];
-        TextureAssets.Players[femVar, 3] = OriginalSkinTextures[7];
-        TextureAssets.Players[femVar, 5] = OriginalSkinTextures[8];
-        TextureAssets.Players[femVar, 7] = OriginalSkinTextures[9];
-        TextureAssets.Players[femVar, 9] = OriginalSkinTextures[10];
-        TextureAssets.Players[femVar, 10] = OriginalSkinTextures[11];
+        int[] ids = [0, 3, 5, 7, 9, 10, 15];
+        for (int i = 0; i < ids.Length; i++)
+        {
+            TextureAssets.Players[maleVar, ids[i]] = OriginalSkinTextures[i];
+            TextureAssets.Players[femVar, ids[i]] = OriginalSkinTextures[i + ids.Length];
+        }
     }
 
     private static void SetOriginalSkinTextures(PlayerDrawSet drawInfo, bool force = false)
@@ -128,12 +123,14 @@ public class ReskinPlayer : ModPlayer
                 TextureAssets.Players[maleVar, 7],
                 TextureAssets.Players[maleVar, 9],
                 TextureAssets.Players[maleVar, 10],
+                TextureAssets.Players[maleVar, 15],
                 TextureAssets.Players[femVar, 0],
                 TextureAssets.Players[femVar, 3],
                 TextureAssets.Players[femVar, 5],
                 TextureAssets.Players[femVar, 7],
                 TextureAssets.Players[femVar, 9],
                 TextureAssets.Players[femVar, 10],
+                TextureAssets.Players[femVar, 15],
                 ];
         }
     }

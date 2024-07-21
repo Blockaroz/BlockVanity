@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
+namespace BlockVanity.Content.Items.Pets.AncientFloatingSkyLantern
 {
-    public class FloatingSkyLanternBuff : ModBuff
+    public class AncientFloatingSkyLanternBuff : ModBuff
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +21,7 @@ namespace BlockVanity.Content.Items.Pets.FloatingSkyLantern
             player.GetModPlayer<MiscEffectPlayer>().floatingSkyLanternPet = true;
             player.buffTime[buffIndex] = 18000;
 
-            int projType = ModContent.ProjectileType<FloatingSkyLanternProj>();
+            int projType = ModContent.ProjectileType<AncientFloatingSkyLanternProj>();
             Vector2 pos = new Vector2(player.position.X + player.width / 2f, player.position.Y + player.height / 2f);
             if (player.ownedProjectileCounts[projType] <= 0 && player.whoAmI == Main.myPlayer)
             {

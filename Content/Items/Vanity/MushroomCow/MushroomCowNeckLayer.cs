@@ -6,20 +6,20 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.MushroomCow;
 
-public class RedMushroomCowNeckLayer : PlayerDrawLayer
+public class MushroomCowNeckLayer : PlayerDrawLayer
 {
     public static SlowAsset<Texture2D> neckTexture;
 
     public override void Load()
     {
-        neckTexture = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/MushroomCow/RedMushroomCowHead_Neck");
+        neckTexture = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/MushroomCow/MushroomCowHead_Neck");
     }
 
     public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.NeckAcc);
 
     public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) =>
-        drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<RedMushroomCowHead>().Name, EquipType.Head) ||
-        drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<CoolRedMushroomCowHead>().Name, EquipType.Head);
+        drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<MushroomCowHead>().Name, EquipType.Head) ||
+        drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<GamingMushroomCowHead>().Name, EquipType.Head);
 
     public override bool IsHeadLayer => false;
 

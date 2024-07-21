@@ -12,7 +12,7 @@ public sealed class Particle
     public float rotation;
     public IParticleData data;
 
-    public void Draw(SpriteBatch spritebatch) => data.Draw(this, spritebatch);
+    public void Draw(SpriteBatch spritebatch) => data?.Draw(this, spritebatch);
 
-    public void Update() => data.Update(this);
+    public void Update() => data?.Update(this);
 }

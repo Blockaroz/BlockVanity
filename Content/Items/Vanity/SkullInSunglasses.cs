@@ -1,4 +1,6 @@
-﻿using BlockVanity.Common.Utilities;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.Players;
+using BlockVanity.Common.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -19,7 +21,7 @@ public class SkullInSunglasses : VanityItem
         createSound.MaxInstances = 0;
         createSound.Type = SoundType.Ambient;
         if (!Main.dedServ && !Main.gameMenu)
-            SoundEngine.PlaySound(createSound, Main.LocalPlayer.Center);
+            SoundEngine.PlaySound(createSound, Main.LocalPlayer.position);
     }
 
     public override void AddRecipes()
@@ -30,4 +32,8 @@ public class SkullInSunglasses : VanityItem
             .AddCondition(Condition.InGraveyard)
             .Register();
     }
+
+    public override bool IsVanitySet(int head, int body, int legs) => true;
+
+    public override void PreUpdateVanitySet(Player player) => HitEffectPlayer.SetEquipHitSound(player, SoundID.NPCHit2);
 }

@@ -89,6 +89,8 @@ public static class AllAssets
         Effects.SeasideHairShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/SeasideHairShader", AssetRequestMode.ImmediateLoad);
 
         //Sounds.FishyHit = new SoundStyle($"{nameof(BlockVanity)}/Assets/Sounds/HitSounds/FishyHit_", 0, 3);
+        Sounds.DemonHitMale = new SoundStyle($"{nameof(BlockVanity)}/Assets/Sounds/HitSounds/DemonSkin_HurtMale", 1, 3);
+        Sounds.DemonHitFemale = new SoundStyle($"{nameof(BlockVanity)}/Assets/Sounds/HitSounds/DemonSkin_HurtFemale", 1, 3);
     }
 
     public static class Textures
@@ -107,6 +109,9 @@ public static class AllAssets
     public static class Sounds
     {
         public static SoundStyle FishyHit;
+
+        public static SoundStyle DemonHitMale;
+        public static SoundStyle DemonHitFemale;
     }
 
     public static class Effects

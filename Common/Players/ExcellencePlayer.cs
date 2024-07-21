@@ -10,24 +10,13 @@ namespace BlockVanity.Common.Systems.Players;
 public class ExcellencePlayer : ModPlayer
 {
     public bool enabled;
-    public bool headAltFrame;
 
     public override void Load()
     {
-        On_Player.PlayerFrame += SlowDownAnimation;
         On_Player.UpdateVisibleAccessory += EnableExcellence;
         On_PlayerDrawLayers.DrawPlayer_21_Head += HideHead;
         On_PlayerDrawLayers.DrawPlayer_13_Leggings += HideLegs;
         //Torso uses normal frames
-    }
-
-    private void SlowDownAnimation(On_Player.orig_PlayerFrame orig, Player self)
-    {
-        orig(self);
-
-        //int bodyFrame = self.bodyFrame.Y / self.bodyFrame.Height;
-        //bool headBounce = bodyFrame == 10 || bodyFrame == 11 || bodyFrame == 16 || bodyFrame == 17;
-        self.GetModPlayer<ExcellencePlayer>().headAltFrame = self.velocity.Y * self.gravDir > 0;
     }
 
     private void HideLegs(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
@@ -55,25 +44,8 @@ public class ExcellencePlayer : ModPlayer
         }
     }
 
-    public override void ModifyHurt(ref Player.HurtModifiers modifiers)
-    {
-        if (enabled)
-            modifiers.DisableSound();
-    }
-
-    public override void OnHurt(Player.HurtInfo info)
-    {
-        if (enabled)
-        {
-
-        }
-    }
-
     public override void ResetEffects()
     {
-        if (Player.velocity.X == 0)
-            headAltFrame = false;
-
         enabled = false;
     }
 }

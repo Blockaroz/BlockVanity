@@ -54,14 +54,6 @@ public class ScholarStaffProj : ModProjectile
 
             if (++Charge > 50)
                 Charge = 50;
-
-            //for (int i = 0; i < 2; i++)
-            //    ParticleEngine.particles.NewParticle(new FlameParticle(Color.Orange with { A = 0 }, Color.DarkRed with { A = 30 }, 70, -Vector2.UnitY * 0.15f), Main.MouseWorld, Main.rand.NextVector2Circular(5, 5), Main.rand.NextFloat(MathHelper.TwoPi), 2f);
-        }
-        else
-        {
-            Projectile.Kill();
-
         }
 
         if (Time == 0 || Time == (int)(MaxTime * 0.4f))
@@ -84,7 +76,7 @@ public class ScholarStaffProj : ModProjectile
         }
         else
         {
-            float rotationForHand = MathHelper.Lerp(-MathHelper.Pi / 9f, new Vector2(Math.Abs(Projectile.velocity.X), Projectile.velocity.Y * Player.gravDir).ToRotation() + MathHelper.Pi / 2f, MathF.Sqrt(Utils.GetLerpValue(MaxTime * 0.3f, MaxTime, Time, true)));
+            float rotationForHand = MathHelper.Lerp(MathHelper.Pi / 9f, new Vector2(Math.Abs(Projectile.velocity.X), Projectile.velocity.Y * Player.gravDir).ToRotation() + MathHelper.Pi / 2f, MathF.Sqrt(Utils.GetLerpValue(MaxTime * 0.4f, MaxTime, Time, true)));
             float rotation = MathHelper.Lerp(-MathHelper.Pi / 9f, new Vector2(Math.Abs(Projectile.velocity.X), Projectile.velocity.Y * Player.gravDir).ToRotation() + MathHelper.Pi / 2f, MathF.Sqrt(Utils.GetLerpValue(MaxTime * 0.4f, MaxTime * 0.5f, Time, true)));
             Projectile.rotation = rotation * Player.direction * Player.gravDir + MathHelper.PiOver2  - MathHelper.PiOver2 * Player.gravDir;
             Player.bodyFrame.Y = VanityUtils.BodyFrameArmFromRotation(Player, rotationForHand) * Player.bodyFrame.Height;
@@ -124,7 +116,7 @@ public class ScholarStaffProj : ModProjectile
         }
 
         if (Time > (int)(MaxTime * 0.4f) && Time < (int)(MaxTime * 0.8f))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(ScholarStaffBolt.EnergyColor with { A = 0 }, true), crystalPos + Main.rand.NextVector2Circular(6, 6), Main.rand.NextVector2Circular(2, 2) + Projectile.velocity * 0.3f, 0f, Main.rand.NextFloat(1f, 1.2f));
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(ScholarStaffBolt.EnergyColor with { A = 0 }, true), crystalPos + Main.rand.NextVector2Circular(6, 6), Main.rand.NextVector2Circular(1, 1) + Projectile.velocity * 0.2f, 0f, Main.rand.NextFloat(2f, 3f));
 
         if (Time > (int)MaxTime)
         {

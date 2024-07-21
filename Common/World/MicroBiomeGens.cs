@@ -42,7 +42,7 @@ public class MicroBiomeGens : ModSystem
 
                 if (WorldGen.SolidTileAllowTopSlope(i, j + 1) && WorldGen.SolidTileAllowTopSlope(i + 1, j + 1) && !WorldGen.SolidOrSlopedTile(i, j) && !WorldGen.SolidOrSlopedTile(i + 1, j))
                 {
-                    if (Main.tile[i, j + 1].TileType == TileID.Sand && Main.tile[i + 1, j + 1].TileType == TileID.Sand && Main.tile[i, j].LiquidAmount > 0)
+                    if (Main.tile[i, j + 1].TileType == TileID.Sand && Main.tile[i + 1, j + 1].TileType == TileID.Sand)
                     {
                         Main.tile[i, j].ClearTile();
                         Main.tile[i + 1, j].ClearTile();

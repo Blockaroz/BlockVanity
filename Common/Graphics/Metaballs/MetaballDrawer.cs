@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Common.Systems.Metaballs;
+namespace BlockVanity.Common.Graphics.Metaballs;
 
 public abstract class MetaballDrawer : ILoadable
 {

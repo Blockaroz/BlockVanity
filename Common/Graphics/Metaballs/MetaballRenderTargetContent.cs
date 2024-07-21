@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.GameContent;
 
-namespace BlockVanity.Common.Systems.Metaballs;
+namespace BlockVanity.Common.Graphics.Metaballs;
 
 public class MetaballRenderTargetContent : ARenderTargetContentByRequest
 {

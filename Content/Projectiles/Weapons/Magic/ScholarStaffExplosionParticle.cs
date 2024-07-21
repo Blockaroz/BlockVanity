@@ -42,12 +42,12 @@ public struct ScholarStaffExplosionParticle : IParticleData
         Texture2D texture = TextureAssets.Projectile[ModContent.ProjectileType<ScholarStaffBolt>()].Value;
         Texture2D glow = AllAssets.Textures.Glow[1].Value;
 
-        float growScale = particle.scale * (0.7f + MathF.Sqrt(Utils.GetLerpValue(10, 5, lifeTime, true)) * 1.5f);
+        float growScale = particle.scale * (0.2f + MathF.Sqrt(Utils.GetLerpValue(10, 1, lifeTime, true)) * 2f);
 
         spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), Color.Black * Utils.GetLerpValue(2, 5, lifeTime, true), particle.rotation * -0.5f, glow.Size() * 0.5f, growScale * 0.2f, 0, 0);
         spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), Color.White with { A = 0 } * 2f, 0f, texture.Size() * 0.5f, growScale * MathF.Pow(Utils.GetLerpValue(0, 5, lifeTime, true), 2f), 0, 0);
         spriteBatch.Draw(texture, particle.position - Main.screenPosition, texture.Frame(), color with { A = 0 }, 0f, texture.Size() * 0.5f, growScale * MathF.Pow(Utils.GetLerpValue(0, 5, lifeTime, true), 2f) * 1.1f, 0, 0);
-        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * Utils.GetLerpValue(0, 8, lifeTime, true), particle.rotation, glow.Size() * 0.5f, growScale * 0.3f, 0, 0);
-        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * Utils.GetLerpValue(0, 8, lifeTime, true), particle.rotation * -0.7f, glow.Size() * 0.5f, growScale * 0.2f, 0, 0);
+        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * Utils.GetLerpValue(0, 4, lifeTime, true), particle.rotation, glow.Size() * 0.5f, growScale * 0.35f, 0, 0);
+        spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), color with { A = 0 } * Utils.GetLerpValue(0, 4, lifeTime, true), particle.rotation * -0.7f, glow.Size() * 0.5f, growScale * 0.2f, 0, 0);
     }
 }

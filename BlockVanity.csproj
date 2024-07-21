@@ -20,10 +20,10 @@
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands_Back.png" />
     <None Remove="Assets\Textures\Extras\Glow_1.png" />
-    <None Remove="Assets\Textures\Extras\Glow_2.png" />
+    <None Remove="Assets\Textures\Extras\Particle_0.png" />
     <None Remove="Assets\Textures\Items\Dyes\PurpleOrionDye.png" />
     <None Remove="Assets\Textures\Items\Dyes\YellowOrionDye.png" />
-    <None Remove="Assets\Textures\Items\Pets\FloatingSkyLantern\BlackEyeLens.png" />
+    <None Remove="Assets\Textures\Items\Pets\AncientFloatingSkyLantern\BlackEyeLens.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlackEyeLens.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlockheadVanity\Blockhead.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlockheadVanity\Blockhead_Eyes0.png" />
@@ -40,7 +40,8 @@
     <None Remove="Assets\Textures\Items\Vanity\Scholar\ScholarShorts_Legs.png" />
     <None Remove="Assets\Textures\Items\Vanity\SkullInSunglasses.png" />
     <None Remove="Assets\Textures\Items\Vanity\SkullInSunglasses_Head.png" />
-    <None Remove="Assets\Textures\Particles\Particle_0.png" />
+    <None Remove="Assets\Textures\Particles\Particle_1.png" />
+    <None Remove="Localization\en-US_Mods.BlockVanity.Quests.hjson" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ParticleEngine">
@@ -49,5 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Sounds\HitSounds\" />
+    <Folder Include="Content\Quests\" />
   </ItemGroup>
 </Project>

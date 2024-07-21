@@ -23,9 +23,9 @@ public class Blockhead : VanityItem
     public override void AddRecipes()
     {
         CreateRecipe()
-            .AddIngredient<Cardboard>(16)
-            .AddIngredient(ItemID.Silk, 5)
+            .AddIngredient(ItemID.Silk, 6)
             .AddIngredient(ItemID.Lens, 2)
+            .AddIngredient(ItemID.FamiliarWig)
             .AddTile(TileID.WorkBenches)
             .Register();
     }

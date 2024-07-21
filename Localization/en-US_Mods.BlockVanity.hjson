@@ -1,16 +1,11 @@
 Buffs: {
-	FloatingSkyLanternBuff: {
-		DisplayName: Floating Sky Lantern
-		Description: A sky lantern is following you around
+	AncientFloatingSkyLanternBuff: {
+		DisplayName: Ancient loating Sky Lantern
+		Description: A sky lantern lights your way
 	}
 }
 
 Items: {
-	Cardboard: {
-		DisplayName: Cardboard
-		Tooltip: ""
-	}
-
 	GreenOrionDye: {
 		DisplayName: Green Orion Dye
 		Tooltip: ""
@@ -18,26 +13,6 @@ Items: {
 
 	OrionDye: {
 		DisplayName: Orion Dye
-		Tooltip: ""
-	}
-
-	PurpleOrionDye: {
-		DisplayName: Purple Orion Dye
-		Tooltip: ""
-	}
-
-	RedOrionDye: {
-		DisplayName: Red Orion Dye
-		Tooltip: ""
-	}
-
-	WhiteOrionDye: {
-		DisplayName: White Orion Dye
-		Tooltip: ""
-	}
-
-	YellowOrionDye: {
-		DisplayName: Yellow Orion Dye
 		Tooltip: ""
 	}
 
@@ -58,21 +33,21 @@ Items: {
 
 	Excellence: {
 		DisplayName: Excellence
+		Tooltip: Transforms the holder into a jester-god
+	}
+
+	MushroomCowHead: {
+		DisplayName: Mushroom Cow Head
 		Tooltip: ""
 	}
 
-	RedMushroomCowHead: {
-		DisplayName: Red Mushroom Cow Head
+	MushroomCowHide: {
+		DisplayName: Mushroom Cow Hide
 		Tooltip: ""
 	}
 
-	RedMushroomCowHide: {
-		DisplayName: Red Mushroom Cow Hide
-		Tooltip: ""
-	}
-
-	RedMushroomCowTrotters: {
-		DisplayName: Red Mushroom Cow Trotters
+	MushroomCowTrotters: {
+		DisplayName: Mushroom Cow Trotters
 		Tooltip: ""
 	}
 
@@ -96,14 +71,14 @@ Items: {
 		Tooltip: ""
 	}
 
-	CoolRedMushroomCowHead: {
-		DisplayName: Cool Red Mushroom Cow Head
+	GamingMushroomCowHead: {
+		DisplayName: Gaming Mushroom Cow Head
 		Tooltip: ""
 	}
 
 	FishFood: {
 		DisplayName: Fish Food
-		Tooltip: Transforms the holder into the original neptunian
+		Tooltip: Transforms the holder into a neptunian
 	}
 
 	MyrtleDress: {
@@ -117,7 +92,7 @@ Items: {
 	}
 
 	PlumeriaHairpin: {
-		DisplayName: Plumeria Hairpin
+		DisplayName: Blooming Plumeria
 		Tooltip: ""
 	}
 
@@ -130,12 +105,22 @@ Items: {
 		DisplayName: Seaside Hair Dye
 		Tooltip: ""
 	}
+
+	AncientFloatingSkyLantern: {
+		DisplayName: Ancient Floating Sky Lantern
+		Tooltip: ""
+	}
+
+	CardboardBox: {
+		DisplayName: Cardboard Box
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
-	FloatingSkyLanternProj.DisplayName: Floating Sky Lantern
 	ScholarStaffBolt.DisplayName: Scholar Staff
 	ScholarStaffProj.DisplayName: Scholar Staff
+	AncientFloatingSkyLanternProj.DisplayName: Ancient Floating Sky Lantern
 }
 
 AreaEffectsToggle: {
@@ -143,4 +128,9 @@ AreaEffectsToggle: {
 	OffText: Area effects off
 }
 
-Tiles.PlumeriaPlant.MapEntry: Plumeria
+HitSoundToggle: {
+	OnText: Hit sounds replaced
+	OffText: Hit sounds normal
+}
+
+Tiles.PlumeriaPlant.MapEntry: Blooming Plumeria

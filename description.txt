@@ -1,4 +1,7 @@
-Blockaroz' Vanity adds several vanity items, accessories, pets, and blocks to enhance your movement and decorative experiences.
+Blockaroz' Vanity adds several vanity items, pets, and blocks to enhance your movement and decorative experiences.
+
+-Magic Wardrobe-
+Acts as a questline, where you can unlock and claim quest rewards for vanity.
 
 -Vanity-
 Some vanities have special effects, like sprouting mushrooms when stationary or smoke when moving
@@ -13,3 +16,4 @@ Accessories that you can wear to create particles or other visual effects when y
 
 -Special Thanks-
 * Moonburn
+* THEREDSTONEBRO

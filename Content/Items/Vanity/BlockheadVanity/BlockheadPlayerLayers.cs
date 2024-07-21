@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.BlockheadVanity;
@@ -13,7 +14,7 @@ public class BlockheadNeck : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.NeckAcc);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.armor[10].IsAir && drawInfo.drawPlayer.armor[0].ModItem is Blockhead || drawInfo.drawPlayer.armor[10].ModItem is Blockhead;
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<Blockhead>().Name, EquipType.Head);
 
     public override bool IsHeadLayer => false;
 

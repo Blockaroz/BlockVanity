@@ -1,12 +1,11 @@
-﻿using BlockVanity.Content.Items.Vanity.Myrtle;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BlockVanity.Content.Items.Dyes;
+using BlockVanity.Content.Items.Vanity.Myrtle;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using BlockVanity.Content.Items.Dyes;
-using Terraria.ID;
 
 namespace BlockVanity.Common.Players;
 
@@ -61,8 +60,6 @@ public class MiscEffectPlayer : ModPlayer
     {
         accBlackEye = false;
         blockheadSkin = false;
-
         floatingSkyLanternPet = false;
-        
     }
 }
