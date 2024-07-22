@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Items.Vanity;
 
 [AutoloadEquip(EquipType.Head)]
-public class SkullInSunglasses : VanityItem
+public class SkullInSunglasses : VanityItem, IUpdateArmorInVanity
 {
     public SkullInSunglasses() : base(ItemRarityID.Blue) { }
 
@@ -33,5 +33,5 @@ public class SkullInSunglasses : VanityItem
             .Register();
     }
 
-    public override void PreUpdateVanitySet(Player player) => HitEffectPlayer.SetEquipHitSound(player, SoundID.NPCHit2 with { PitchVariance = 0.5f });
+    public override void UpdateEquip(Player player) => HitEffectPlayer.SetEquipHitSound(player, SoundID.NPCHit2 with { PitchVariance = 0.5f });
 }

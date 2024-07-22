@@ -44,12 +44,20 @@ public struct GrowingMushroomParticle : IShaderParticleData
     {
         int tileX = (int)Math.Floor(particle.position.X / 16);
         int tileY = (int)Math.Floor(particle.position.Y / 16);
+        if (!WorldGen.InWorld(tileX, tileY))
+        {
+            particle.active = false;
+            return;
+        }
+
         Tile tile = Main.tile[tileX, tileY];
 
-        if (timeLeft < 8)
+        if (timeLeft < 3)
         {
-            int dustType = -1;
-            TileLoader.CreateDust(tileX, tileY, tile.TileType, ref dustType);
+            Dust d = Main.dust[WorldGen.KillTile_MakeTileDust(tileX, tileY, tile)];
+            d.scale *= 0.8f;
+            d.noGravity = Main.rand.NextBool();
+            d.velocity *= 0.2f;
         }
 
         if (timeLeft++ > maxTime)
@@ -60,7 +68,7 @@ public struct GrowingMushroomParticle : IShaderParticleData
     {
         Texture2D texture = AllAssets.Textures.Particle[2].Value;
 
-        float drawscale = Easing.BackOut(Utils.GetLerpValue(0, 25, timeLeft, true)) * MathF.Cbrt(Utils.GetLerpValue(maxTime, maxTime - 50, timeLeft, true)) * (1f + MathF.Sin(timeLeft / 20f) * 0.05f);
+        float drawscale = Easing.BackOut(Utils.GetLerpValue(0, 25, timeLeft, true)) * MathF.Sqrt(Utils.GetLerpValue(maxTime, maxTime - 50, timeLeft, true)) * (1f + MathF.Sin(timeLeft / 20f) * 0.05f);
         Rectangle drawFrame = texture.Frame(7, 1, frame, style);
         Color drawColor = Lighting.GetColor((int)(particle.position.X / 16), (int)(particle.position.Y / 16));
         DrawData drawData = new DrawData(texture, particle.position - Main.screenPosition, drawFrame, drawColor, particle.rotation, drawFrame.Size() * new Vector2(0.5f, 1f), drawscale, 0, 0);

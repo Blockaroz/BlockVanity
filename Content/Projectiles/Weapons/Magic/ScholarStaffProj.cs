@@ -98,6 +98,10 @@ public class ScholarStaffProj : ModProjectile
             {
                 Projectile.velocity = Player.DirectionTo(Main.MouseWorld) * 5f;
 
+                Vector2 shootPoint = crystalPos;
+                if (!Collision.CanHitLine(Player.Center, 0, 0, shootPoint, 0, 0))
+                    shootPoint = Player.Center;
+
                 int count = (int)Math.Floor(Charge / 20) + 1;
                 for (int i = 0; i < count; i++)
                 {
@@ -106,7 +110,7 @@ public class ScholarStaffProj : ModProjectile
 
                     float inaccuracy = Charge / 300f;
                     int damage = (int)(Projectile.damage * (1f + Charge / 50f));
-                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), crystalPos, crystalPos.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0)), ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
+                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, shootPoint.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0)), ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
                     bolt.ai[0] = Main.rand.NextFloat(0.6f, 1.5f);
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
                 }
