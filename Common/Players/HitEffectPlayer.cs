@@ -1,10 +1,7 @@
-﻿using System.Numerics;
-using BlockVanity.Common.Utilities;
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
-using static BlockVanity.AllAssets;
 
 namespace BlockVanity.Common.Players;
 

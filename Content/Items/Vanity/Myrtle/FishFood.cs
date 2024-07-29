@@ -9,5 +9,5 @@ public class FishFood : VanityItem
 {
     public FishFood() : base(ItemRarityID.Green, 20, 28, accessory: true) { }
 
-    public override void UpdateVanity(Player player) => HitEffectPlayer.SetSkinHitSound(player, AllAssets.Sounds.DemonHitFemale);
+    public override void UpdateVanity(Player player) => HitEffectPlayer.SetSkinHitSound(player, AllAssets.Sounds.DemonHit);
 }

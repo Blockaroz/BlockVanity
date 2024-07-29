@@ -1,6 +1,6 @@
 Buffs: {
-	AncientFloatingSkyLanternBuff: {
-		DisplayName: Ancient loating Sky Lantern
+	FloatingSkyLanternBuff: {
+		DisplayName: Floating Sky Lantern
 		Description: A sky lantern lights your way
 	}
 }
@@ -106,13 +106,23 @@ Items: {
 		Tooltip: ""
 	}
 
-	AncientFloatingSkyLantern: {
-		DisplayName: Ancient Floating Sky Lantern
+	CardboardBox: {
+		DisplayName: Cardboard Box
 		Tooltip: ""
 	}
 
-	CardboardBox: {
-		DisplayName: Cardboard Box
+	QuestCompleter: {
+		DisplayName: Quest Completer
+		Tooltip: ""
+	}
+
+	QuestResetter: {
+		DisplayName: Quest Resetter
+		Tooltip: ""
+	}
+
+	RadiationDye: {
+		DisplayName: Radiation Dye
 		Tooltip: ""
 	}
 }
@@ -120,7 +130,7 @@ Items: {
 Projectiles: {
 	ScholarStaffBolt.DisplayName: Scholar Staff
 	ScholarStaffProj.DisplayName: Scholar Staff
-	AncientFloatingSkyLanternProj.DisplayName: Ancient Floating Sky Lantern
+	FloatingSkyLanternProjectile.DisplayName: Floating Sky Lantern
 }
 
 AreaEffectsToggle: {
@@ -134,3 +144,4 @@ HitSoundToggle: {
 }
 
 Tiles.PlumeriaPlant.MapEntry: Blooming Plumeria
+"Keybinds.QuestUI Test Bind.DisplayName": Quest U I  Test  Bind

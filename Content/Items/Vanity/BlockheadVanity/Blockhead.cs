@@ -25,7 +25,7 @@ public class Blockhead : VanityItem
         CreateRecipe()
             .AddIngredient(ItemID.Silk, 6)
             .AddIngredient(ItemID.Lens, 2)
-            .AddIngredient(ItemID.FamiliarWig)
+            .AddIngredient<CardboardBox>()
             .AddTile(TileID.WorkBenches)
             .Register();
     }

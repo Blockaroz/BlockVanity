@@ -1,5 +1,6 @@
 ﻿using BlockVanity.Common.Players;
 using BlockVanity.Common.Utilities;
+using BlockVanity.Content.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -48,7 +49,7 @@ public class MushroomCowHead : VanityItem
 [AutoloadEquip(EquipType.Head)]
 public class GamingMushroomCowHead : VanityItem
 {
-    public GamingMushroomCowHead() : base(ItemRarityID.Green) { }
+    public GamingMushroomCowHead() : base(ModContent.RarityType<WardrobeRarity>()) { }
 
     public override void SetStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 

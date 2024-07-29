@@ -20,7 +20,7 @@ public class MiscEffectPlayer : ModPlayer
 
     public override void UpdateEquips()
     {
-        for (int i = 10; i < 12; i++)
+        for (int i = 10; i < 13; i++)
         {
             if (Player.armor[i].ModItem is IUpdateArmorInVanity)
                 ItemLoader.UpdateEquip(Player.armor[i], Player);

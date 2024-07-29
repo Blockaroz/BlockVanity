@@ -61,40 +61,46 @@ public static class AllAssets
 
     public static void Load()
     {
-        Textures.Glow = RequestSlowArrayAuto<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/Glow_");
+        string assetpath = $"{nameof(BlockVanity)}/Assets/";
+        Textures.Glow = RequestSlowArrayAuto<Texture2D>(assetpath + "Textures/Extras/Glow_");
 
-        Textures.FishEyes = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/FishEyes");
-        Textures.FireDissolveNoise = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FireDissolveNoise");
-        Textures.OrionNoise = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/OrionNoise");
-        Textures.SeasideColorMap = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/SeasideColorMap");
+        Textures.FishEyes = new SlowAsset<Texture2D>(assetpath + "Textures/Extras/FishSkin/FishEyes");
+        Textures.FireDissolveNoise = new SlowAsset<Texture2D>(assetpath + "Textures/Extras/FireDissolveNoise");
+        Textures.OrionNoise = new SlowAsset<Texture2D>(assetpath + "Textures/Extras/OrionNoise");
+        Textures.SeasideColorMap = new SlowAsset<Texture2D>(assetpath + "Textures/Extras/SeasideColorMap");
 
-        Textures.Particle = RequestSlowArrayAuto<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Particles/Particle_");
+        Textures.Particle = RequestSlowArrayAuto<Texture2D>(assetpath + "Textures/Particles/Particle_");
+        Textures.Bar = RequestSlowArrayAuto<Texture2D>(assetpath + "Textures/Extras/Bar_");
 
         Textures.BlueFishSkin = [
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Head", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_High", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Ears_Low", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Eyes", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Body", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Arms", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Hands_Back", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Legs", AssetRequestMode.ImmediateLoad),
-            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/FishSkin/BlueFishSkin_Tail", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Head", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_High", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_Low", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Eyes", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Body", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Arms", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Hands", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Hands_Back", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Legs", AssetRequestMode.ImmediateLoad),
+            ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Tail", AssetRequestMode.ImmediateLoad),
             ];
 
-        Effects.BasicTrail = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
-        Effects.Dissolve = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dissolve", AssetRequestMode.ImmediateLoad);
-        Effects.OrionShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/OrionShader", AssetRequestMode.ImmediateLoad);
-        Effects.SeasideHairShader = ModContent.Request<Effect>($"{nameof(BlockVanity)}/Assets/Effects/SeasideHairShader", AssetRequestMode.ImmediateLoad);
+        Effects.BasicTrail = ModContent.Request<Effect>(assetpath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
+        Effects.Dissolve = ModContent.Request<Effect>(assetpath + "Effects/Dissolve", AssetRequestMode.ImmediateLoad);
 
-        //Sounds.FishyHit = new SoundStyle($"{nameof(BlockVanity)}/Assets/Sounds/HitSounds/FishyHit_", 0, 3);
-        Sounds.DemonHitMale = new SoundStyle($"{nameof(BlockVanity)}/Assets/Sounds/HitSounds/DemonSkin_HurtMale", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
-        Sounds.DemonHitFemale = new SoundStyle($"{nameof(BlockVanity)}/Assets/Sounds/HitSounds/DemonSkin_HurtFemale", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
+        Effects.OrionShader = ModContent.Request<Effect>(assetpath + "Effects/OrionShader", AssetRequestMode.ImmediateLoad);
+        Effects.RadiationDyeShader = ModContent.Request<Effect>(assetpath + "Effects/OrionShader", AssetRequestMode.ImmediateLoad);
+        Effects.SeasideHairShader = ModContent.Request<Effect>(assetpath + "Effects/SeasideHairShader", AssetRequestMode.ImmediateLoad);
+
+        //Sounds.FishyHit = new SoundStyle(assetpath + "Sounds/HitSounds/FishySkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
+        Sounds.DemonHit = new SoundStyle(assetpath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
     }
 
     public static class Textures
     {
+        public static readonly string PearlPlaceholder = $"{nameof(BlockVanity)}/Assets/Textures/Placeholder_Pearl";
+        public static readonly string JesterPlaceholder = $"{nameof(BlockVanity)}/Assets/Textures/Placeholder_Jester";
+
         public static SlowAsset<Texture2D>[] Glow;
         public static SlowAsset<Texture2D> FishEyes;
         public static SlowAsset<Texture2D> FireDissolveNoise;
@@ -103,6 +109,8 @@ public static class AllAssets
 
         public static SlowAsset<Texture2D>[] Particle;
 
+        public static SlowAsset<Texture2D>[] Bar;
+
         public static Asset<Texture2D>[] BlueFishSkin;
     }
 
@@ -110,15 +118,16 @@ public static class AllAssets
     {
         public static SoundStyle FishyHit;
 
-        public static SoundStyle DemonHitMale;
-        public static SoundStyle DemonHitFemale;
+        public static SoundStyle DemonHit;
     }
 
     public static class Effects
     {
         public static Asset<Effect> BasicTrail;
         public static Asset<Effect> Dissolve;
+
         public static Asset<Effect> OrionShader;
+        public static Asset<Effect> RadiationDyeShader;
         public static Asset<Effect> SeasideHairShader;
     }
 }

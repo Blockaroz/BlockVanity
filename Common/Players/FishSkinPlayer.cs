@@ -23,11 +23,11 @@ public class FishSkinPlayer : ModPlayer
 
     public Asset<Texture2D>[] SkinTextures => skinStyle switch
     {
-        (int)SkinStyle.BlueFish => AllAssets.Textures.BlueFishSkin,
+        (int)FishSkinStyle.BlueFish => AllAssets.Textures.BlueFishSkin,
         _ => AllAssets.Textures.BlueFishSkin
     };
 
-    public enum SkinStyle
+    public enum FishSkinStyle
     {
         BlueFish
     }
@@ -52,7 +52,7 @@ public class FishSkinPlayer : ModPlayer
             switch (fishPlayer.skinStyle)
             {
                 default:
-                case (int)SkinStyle.BlueFish:
+                case (int)FishSkinStyle.BlueFish:
                     fishPlayer.Male = drawInfo.drawPlayer.Male;
                     drawInfo.drawPlayer.Male = false;
                     break;
@@ -69,7 +69,7 @@ public class FishSkinPlayer : ModPlayer
             switch (fishPlayer.skinStyle)
             {
                 default:
-                case (int)SkinStyle.BlueFish:
+                case (int)FishSkinStyle.BlueFish:
                     drawInfo.colorHead = drawInfo.colorArmorHead;
                     drawInfo.colorBodySkin = drawInfo.colorArmorBody;
                     drawInfo.colorLegs = drawInfo.colorArmorLegs;
@@ -210,7 +210,7 @@ public class FishSkinPlayer : ModPlayer
 
             FishSkinPlayer fishPlayer = self.GetModPlayer<FishSkinPlayer>();
             fishPlayer.enabled = true;
-            fishPlayer.skinStyle = (int)SkinStyle.BlueFish;
+            fishPlayer.skinStyle = (int)FishSkinStyle.BlueFish;
 
             fishPlayer.headFinVector.Y -= Utils.GetLerpValue(0.3f, 0.96f, MathF.Sin(self.miscCounterNormalized * 10), true);
             float bounce = Main.OffsetsPlayerHeadgear[self.bodyFrame.Y / self.bodyFrame.Height].Y;

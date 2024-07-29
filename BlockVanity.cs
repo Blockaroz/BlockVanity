@@ -1,6 +1,7 @@
 ﻿using BlockVanity.Common.Graphics;
-using BlockVanity.Common.Graphics.ParticleRendering;
+using BlockVanity.Common.Quests;
 using BlockVanity.Common.Utilities;
+using BlockVanity.Content;
 using ReLogic.Content.Sources;
 using Terraria.ModLoader;
 
@@ -14,6 +15,7 @@ public class BlockVanity : Mod
     {
         AllAssets.Load();
         ParticleEngine.Load();
+
         Instance = this;
     }
 

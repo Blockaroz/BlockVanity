@@ -69,9 +69,9 @@ public class ScholarStaffBolt : ModProjectile
 
     public override void OnKill(int timeLeft)
     {
-        SoundStyle hitSound = SoundID.DD2_LightningBugZap;
+        SoundStyle hitSound = SoundID.Item101.WithPitchOffset(0.5f).WithVolumeScale(0.6f);
         hitSound.MaxInstances = 0;
-        hitSound.PitchVariance = 0.1f;
+        hitSound.PitchVariance = 0.3f;
         SoundEngine.PlaySound(hitSound, Projectile.Center);
 
         for (int i = 0; i < 10; i++)

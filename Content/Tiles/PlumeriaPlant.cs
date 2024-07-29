@@ -76,12 +76,3 @@ public class PlumeriaPlant : ModTile
         spriteBatch.Draw(glowTexture.Value, new Vector2(i * 16, j * 16) + glowTexture.Value.Size() * 0.5f - Main.screenPosition + new Vector2(!Main.drawToScreen ? Main.offScreenRange : 0), glowTexture.Value.Frame(), glowColor * 0.66f, rotation * 0.2f, glowTexture.Value.Size() * new Vector2(0.5f, 0.4f), scale, 0, 0);
     }
 }
-public class PlumeriaPlantPlacer : ModItem
-{
-    public override string Texture => $"{nameof(BlockVanity)}/Assets/Textures/Tiles/PlumeriaPlant";
-
-    public override void SetDefaults()
-    {
-        Item.DefaultToPlaceableTile(ModContent.TileType<PlumeriaPlant>());
-    }
-}

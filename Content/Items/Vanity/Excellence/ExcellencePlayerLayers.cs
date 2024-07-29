@@ -48,7 +48,7 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
             headGlowData.shader = drawInfo.cHead;
             drawInfo.DrawDataCache.Add(headGlowData);
 
-            Color shakeColor = new Color(255, 0, 0, 0);
+            Color shakeColor = new Color(255, 255, 255, 0);
             for (int i = 0; i < 2; i++)
             {
                 Vector2 offset = Main.rand.NextVector2Circular(2, 2) * 0.67f;

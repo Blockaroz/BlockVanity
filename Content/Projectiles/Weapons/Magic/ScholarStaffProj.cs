@@ -1,5 +1,6 @@
 ﻿using System;
 using BlockVanity.Common.Graphics;
+using BlockVanity.Common.UI;
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -52,8 +53,20 @@ public class ScholarStaffProj : ModProjectile
         {
             Time = 0;
 
-            if (++Charge > 50)
-                Charge = 50;
+            if (Charge < 70)
+                Charge++;
+
+            if (Charge == 69)
+            {
+                Charge = 70;
+                SoundEngine.PlaySound(SoundID.DD2_LightningAuraZap, Player.Center);
+            }
+            if (Player.whoAmI == Main.myPlayer && Charge > 20)
+            {
+                ChargeBar.UseShineWhenFull();
+                ChargeBar.UseColors(Color.BlueViolet, Color.White);
+                ChargeBar.Display((Charge - 20) / 50f, 1);
+            }
         }
 
         if (Time == 0 || Time == (int)(MaxTime * 0.4f))
@@ -89,7 +102,10 @@ public class ScholarStaffProj : ModProjectile
 
         if (Time == (int)(MaxTime * 0.5f))
         {
-            SoundStyle sound = SoundID.DD2_BetsyFireballImpact.WithPitchOffset(0.5f - Charge / 60f);
+            float realCharge = Math.Clamp(Charge - 20, 0, 50) / 50f;
+            int count = (int)Math.Floor(realCharge * 2f) + 1;
+
+            SoundStyle sound = count > 2 ? SoundID.Item105 : (count > 1 ? SoundID.Item101 : SoundID.Item1);
             sound.MaxInstances = 0;
             sound.PitchVariance = 0.1f;
             SoundEngine.PlaySound(sound, Projectile.Center);
@@ -102,14 +118,13 @@ public class ScholarStaffProj : ModProjectile
                 if (!Collision.CanHitLine(Player.Center, 0, 0, shootPoint, 0, 0))
                     shootPoint = Player.Center;
 
-                int count = (int)Math.Floor(Charge / 20) + 1;
                 for (int i = 0; i < count; i++)
                 {
                     if (i > 0)
                         Player.CheckMana(Player.GetManaCost(Player.HeldItem), true);
 
-                    float inaccuracy = Charge / 300f;
-                    int damage = (int)(Projectile.damage * (1f + Charge / 50f));
+                    float inaccuracy = realCharge / 6f;
+                    int damage = (int)(Projectile.damage * (1f + realCharge));
                     Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, shootPoint.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0)), ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
                     bolt.ai[0] = Main.rand.NextFloat(0.6f, 1.5f);
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
