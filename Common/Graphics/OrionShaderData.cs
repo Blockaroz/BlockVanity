@@ -23,7 +23,7 @@ public class OrionShaderData : ArmorShaderData
     public override void Apply(Entity entity, DrawData? drawData = null)
     {
         base.Apply(entity, drawData);
-        UseImage(AllAssets.Textures.OrionNoise.asset);
+        UseImage(AllAssets.Textures.OrionNoise);
         Shader.Parameters["uDirection"].SetValue(entity is null ? 1 : entity.direction);
         Shader.Parameters["uColor"].SetValue(_color0.ToVector3());
         Shader.Parameters["uSecondaryColor"].SetValue(_color1.ToVector3());

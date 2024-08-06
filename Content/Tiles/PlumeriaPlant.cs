@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using BlockVanity.Common.Utilities;
 using BlockVanity.Content.Items.Vanity.Myrtle;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.GameContent.Metadata;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,7 +14,7 @@ namespace BlockVanity.Content.Tiles;
 
 public class PlumeriaPlant : ModTile
 {
-    public static SlowAsset<Texture2D> glowTexture;
+    public static Asset<Texture2D> glowTexture;
 
     public override void SetStaticDefaults()
     {
@@ -48,7 +41,7 @@ public class PlumeriaPlant : ModTile
 
         AddMapEntry(new Color(201, 229, 255), CreateMapEntryName());
 
-        glowTexture = new SlowAsset<Texture2D>(Texture + "_Glow");
+        glowTexture = ModContent.Request<Texture2D>(Texture + "_Glow");
     }
 
     public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

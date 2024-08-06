@@ -55,7 +55,7 @@ public struct FlameParticle : IShaderParticleData
         Rectangle frame = texture.Frame(1, 15, 0, style);
         float drawScale = particle.scale * MathF.Sqrt(Utils.GetLerpValue(-2f, 2f, timeLeft, true)) * (0.7f + MathF.Pow(Progress, 2f));
 
-        Color drawColor = Color.Lerp(color, fadeColor, Utils.GetLerpValue(0.2f - fadeTime * 0.5f, 0.2f + fadeTime, Progress, true));
+        Color drawColor = Color.Lerp(color, fadeColor, Utils.GetLerpValue(0.1f - fadeTime * 0.2f, 0.1f + fadeTime, Progress, true));
         Color glowColor = fadeColor * MathF.Pow(Utils.GetLerpValue(0.7f, 0f, Progress, true), 2f) * 0.12f;
         spriteBatch.Draw(glow, particle.position - Main.screenPosition, glow.Frame(), glowColor, particle.rotation, glow.Size() * 0.5f, drawScale * 0.66f, 0, 0);
 

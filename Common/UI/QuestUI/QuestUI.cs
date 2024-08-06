@@ -14,6 +14,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace BlockVanity.Common.UI.QuestUI;
@@ -24,13 +25,14 @@ public class QuestUI : UIState
 
     private QuestUIInfoPage _infoPage;
 
+    private UIElement _entryGridSpace;
     private QuestUIEntryGrid _entryGrid;
 
     private List<QuestEntry> _originalEntries;
     private List<QuestEntry> _workingEntries;
 
-    private EntryFilterer<QuestEntry, IEntryFilter<QuestEntry>> _filterer;
-    private EntrySorter<QuestEntry, IEntrySortStep<QuestEntry>> _sorter;
+    private QuestSorter _sorter;
+    private QuestUISortingGrid _sortingGrid;
 
     private UIText _pageIndexesText;
     private UIText _sortText;
@@ -42,9 +44,7 @@ public class QuestUI : UIState
 
     public QuestUI(QuestDatabase questDatabase)
     {
-        _filterer = new EntryFilterer<QuestEntry, IEntryFilter<QuestEntry>>();
-        _sorter = new EntrySorter<QuestEntry, IEntrySortStep<QuestEntry>>();
-
+        _sorter = new QuestSorter();
         _originalEntries = new List<QuestEntry>(questDatabase.Entries);
         _workingEntries = new List<QuestEntry>(questDatabase.Entries);
         BuildPage();
@@ -61,14 +61,13 @@ public class QuestUI : UIState
         mainElement.Top.Set(150, 0.05f);
         mainElement.HAlign = 0.5f;
         Append(mainElement);
-        MakeExitButton(mainElement);
+        AddBackButton(mainElement);
 
         UIPanel mainPanel = new UIPanel();
         mainPanel.Width.Set(0f, 1f);
         mainPanel.Height.Set(-100f, 1f);
         mainPanel.BackgroundColor = new Color(33, 43, 79) * 0.8f;
         mainPanel.PaddingTop -= 4f;
-        mainElement.Append(mainPanel);
 
         UIElement topPanel = new UIElement
         {
@@ -98,22 +97,36 @@ public class QuestUI : UIState
         infoPanel.SetPadding(0f);
         infoPanel.Append(infoPageUI);
 
-        UIElement gridSpace = new UIElement
+        UIElement gridSpace = _entryGridSpace = new UIElement
         {
             Width = new StyleDimension(-12f - infoPageUI.Width.Pixels, 1f),
             Height = new StyleDimension(-(topPanel.Height.Pixels + 12), 1f),
             VAlign = 1f
         };
-        QuestUIEntryGrid entryGrid = _entryGrid = new QuestUIEntryGrid(_workingEntries, null);
-        entryGrid.OnGridContentsChanged += UpdateRange;
+        QuestUIEntryGrid entryGrid = _entryGrid = new QuestUIEntryGrid(_workingEntries, ClickEntryGridButton);
+        entryGrid.OnUpdateGrid += UpdateGrid;
         AddBackAndForwardButtons(topPanel);
         gridSpace.Append(entryGrid);
 
-        mainPanel.Append(gridSpace);
         mainPanel.Append(infoPanel);
+        mainPanel.Append(gridSpace);
         mainPanel.Append(topPanel);
 
         _searchBar.SetContents(null, forced: true);
+
+        QuestUISortingGrid sortingGrid = _sortingGrid = new QuestUISortingGrid(_sorter);
+        sortingGrid.OnLeftClick += ClickCloseSortingGrid;
+        sortingGrid.OnClickingOption += UpdateContents;
+
+        _sorter.Steps.Clear();
+
+        for (int i = 0; i < QuestSortSteps.DefaultSteps.Count; i++)
+        {
+            if (QuestSortSteps.DefaultSteps[i].Hidden)
+                _sorter.Steps.Add(QuestSortSteps.DefaultSteps[i]);
+        }
+
+        mainElement.Append(mainPanel);
 
         UpdateContents();
     }
@@ -126,32 +139,27 @@ public class QuestUI : UIState
 
     public void UpdateContents()
     {
-        //_sortText.SetText(_sorter.GetDisplayName());
-        FilterEntries();
+        _sortText.SetText($"{Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.UI.SortBy").Value} ({_sortingGrid?.Selections?.Count ?? 0})");
+        SortEntries();
         FillInEntries();
     }
 
     private void FillInEntries()
     {
-
-    }
-
-    private void FilterEntries()
-    {
-        _workingEntries.Clear();
-        _workingEntries.AddRange(_originalEntries.Where(_filterer.FitsFilter));
+        if (_entryGrid != null && _entryGrid.Parent != null)
+            _entryGrid.FillInEntries();
     }
 
     private void SortEntries() => _workingEntries.Sort(_sorter);
 
-    private void UpdateRange()
+    private void UpdateGrid()
     {
         _pageIndexesText?.SetText(_entryGrid.GetRangeText());
     }
 
-    private void MakeExitButton(UIElement outerContainer)
+    private void AddBackButton(UIElement outerContainer)
     {
-        UITextPanel<LocalizedText> uITextPanel = new UITextPanel<LocalizedText>(Language.GetText("UI.Back"), 0.7f, large: true)
+        UITextPanel<LocalizedText> backButton = new UITextPanel<LocalizedText>(Language.GetText("UI.Back"), 0.7f, large: true)
         {
             Width = StyleDimension.FromPixelsAndPercent(300f, 0f),
             Height = StyleDimension.FromPixels(50f),
@@ -160,11 +168,11 @@ public class QuestUI : UIState
             Top = StyleDimension.FromPixels(-25f)
         };
 
-        uITextPanel.OnMouseOver += FadedMouseOver;
-        uITextPanel.OnMouseOut += FadedMouseOut;
-        uITextPanel.OnLeftMouseDown += Click_GoBack;
-        uITextPanel.SetSnapPoint("ExitButton", 0);
-        outerContainer.Append(uITextPanel);
+        backButton.OnMouseOver += FadedMouseOver;
+        backButton.OnMouseOut += FadedMouseOut;
+        backButton.OnLeftMouseDown += Click_GoBack;
+        backButton.SetSnapPoint("ExitButton", 0);
+        outerContainer.Append(backButton);
     }
 
     private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)
@@ -224,7 +232,7 @@ public class QuestUI : UIState
             VAlign = 0.5f
         };
 
-        searchManualButton.OnLeftClick += Click_SearchArea;
+        searchManualButton.OnLeftClick += ClickSearchBar;
         searchManualButton.SetHoverImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Search_Border"));
         searchManualButton.SetVisibility(1f, 1f);
         searchManualButton.SetSnapPoint("SearchButton", 0);
@@ -251,7 +259,7 @@ public class QuestUI : UIState
             IgnoresMouseInteraction = true
         };
 
-        searchPanel.OnLeftClick += Click_SearchArea;
+        searchPanel.OnLeftClick += ClickSearchBar;
         searchBar.OnContentsChanged += OnSearchContentsChanged;
         searchPanel.Append(searchBar);
         searchBar.OnStartTakingInput += OnStartTakingInput;
@@ -264,12 +272,12 @@ public class QuestUI : UIState
             Left = new StyleDimension(-2f, 0f)
         };
 
-        cancelButton.OnMouseOver += searchCancelButton_OnMouseOver;
-        cancelButton.OnLeftClick += searchCancelButton_OnClick;
+        cancelButton.OnMouseOver += MouseOverTickSound;
+        cancelButton.OnLeftClick += ClickCancelSearch;
         searchPanel.Append(cancelButton);
     }
 
-    private void searchCancelButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
+    private void ClickCancelSearch(UIMouseEvent evt, UIElement listeningElement)
     {
         if (_searchBar.HasContents)
         {
@@ -281,7 +289,7 @@ public class QuestUI : UIState
 
     }
 
-    private void searchCancelButton_OnMouseOver(UIMouseEvent evt, UIElement listeningElement)
+    private void MouseOverTickSound(UIMouseEvent evt, UIElement listeningElement)
     {
         SoundEngine.PlaySound(SoundID.MenuTick);
     }
@@ -320,11 +328,12 @@ public class QuestUI : UIState
     private void OnSearchContentsChanged(string contents)
     {
         _searchString = contents;
-        _filterer.SetSearchFilter(contents);
+        _sorter.searchString = _searchString;
+
         UpdateContents();
     }
 
-    private void Click_SearchArea(UIMouseEvent evt, UIElement listeningElement)
+    private void ClickSearchBar(UIMouseEvent evt, UIElement listeningElement)
     {
         if (evt.Target.Parent != _searchBoxPanel)
         {
@@ -349,8 +358,8 @@ public class QuestUI : UIState
         sortButton.SetHoverImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Wide_Border"));
         sortButton.SetVisibility(1f, 1f);
         sortButton.SetSnapPoint("SortButton", 0);
-        //uIImageButton2.OnLeftClick += OpenOrCloseSortingOptions;
-        mainElement.Append(sortButton);
+
+        sortButton.OnLeftClick += OpenOrCloseSortingOptions;
         UIText sortText = _sortText = new UIText("", 0.8f)
         {
             Left = new StyleDimension(34f, 0f),
@@ -361,6 +370,57 @@ public class QuestUI : UIState
         };
 
         sortButton.Append(sortText);
+
+        UIImageButton sortOrderButton = new UIImageButton(ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/UI/Quests/SortAscending"))
+        {
+            Left = new StyleDimension(-(infoSpace.Width.Pixels + 140), 0f),
+            HAlign = 1f
+        };
+
+        sortOrderButton.SetHoverImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Border"));
+        sortOrderButton.SetVisibility(1f, 1f);
+        sortOrderButton.SetSnapPoint("SortOrderButton", 1);
+        sortOrderButton.OnLeftClick += SwitchSortOrder;
+
+        mainElement.Append(sortOrderButton);
+        mainElement.Append(sortButton);
+    }
+
+    private void OpenOrCloseSortingOptions(UIMouseEvent evt, UIElement listeningElement)
+    {
+        if (_sortingGrid.Parent != null)
+        {
+            CloseSortingGrid();
+            return;
+        }
+
+        _entryGridSpace?.RemoveChild(_sortingGrid);
+        _entryGridSpace?.Append(_sortingGrid);
+    }
+
+    private void ClickCloseSortingGrid(UIMouseEvent evt, UIElement listeningElement)
+    {
+        if (evt.Target == _sortingGrid)
+            CloseSortingGrid();
+    }
+
+    private void CloseSortingGrid()
+    {
+        UpdateContents();
+        _entryGridSpace?.RemoveChild(_sortingGrid);
+    }
+
+    private void SwitchSortOrder(UIMouseEvent evt, UIElement listeningElement)
+    {
+        UIImageButton button = (UIImageButton)evt.Target;
+        _sorter.descending = !_sorter.descending;
+
+        if (_sorter.descending)
+            button.SetImage(ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/UI/Quests/SortDescending"));
+        else
+            button.SetImage(ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/UI/Quests/SortAscending"));
+
+        UpdateContents();
     }
 
     public override void LeftClick(UIMouseEvent evt)
@@ -396,5 +456,13 @@ public class QuestUI : UIState
     {
         ((UIPanel)evt.Target).BackgroundColor = new Color(63, 82, 151) * 0.8f;
         ((UIPanel)evt.Target).BorderColor = Color.Black;
+    }
+
+    private void ClickEntryGridButton(UIMouseEvent evt, UIElement listeningElement)
+    {
+        QuestUIEntryGridButton entryButton = (QuestUIEntryGridButton)listeningElement;
+
+        SoundEngine.PlaySound(SoundID.MenuTick);
+
     }
 }

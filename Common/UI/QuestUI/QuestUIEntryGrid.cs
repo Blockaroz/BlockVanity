@@ -18,20 +18,20 @@ namespace BlockVanity.Common.UI.QuestUI;
 public class QuestUIEntryGrid : UIElement
 {
     private List<QuestEntry> _workingEntries;
-    private MouseEvent _clickOnEntryEvent;
+    private MouseEvent _clickEntry;
     private int _firstEntry;
     private int _lastEntry;
 
-    public event Action OnGridContentsChanged;
+    public event Action OnUpdateGrid;
 
-    public QuestUIEntryGrid(List<QuestEntry> workingSet, MouseEvent clickOnEntryEvent)
+    public QuestUIEntryGrid(List<QuestEntry> workingSet, MouseEvent clickEntry)
     {
         Width = new StyleDimension(0f, 1f);
         Height = new StyleDimension(0f, 1f);
         SetPadding(0f);
 
         _workingEntries = workingSet;
-        _clickOnEntryEvent = clickOnEntryEvent;
+        _clickEntry = clickEntry;
 
         FillInEntries();
     }
@@ -64,28 +64,13 @@ public class QuestUIEntryGrid : UIElement
                 if (entryIndex >= list.Count)
                     break;
 
-                QuestUIEntryGridButton entryButton = new QuestUIEntryGridButton(list[entryIndex]);
+                UIElement entryButton = new QuestUIEntryGridButton(list[entryIndex]);
                 entryIndex++;
-                entryButton.OnLeftClick += _clickOnEntryEvent;
+                entryButton.OnLeftClick += _clickEntry;
                 entryButton.VAlign = entryButton.HAlign = 0.5f;
                 entryButton.Left.Set(0f, (float)k / maxEntriesWidth - 0.5f + (0.5f / maxEntriesWidth));
                 entryButton.Top.Set(0f, (float)j / maxEntriesHeight - 0.5f + (0.5f / maxEntriesHeight));
-                entryButton.Width.Set(QuestUIEntryGridButton.EntryWidth, 0f);
-                entryButton.Height.Set(QuestUIEntryGridButton.EntryHeight, 0f);
                 entryButton.SetSnapPoint("Entries", entryIndex, new Vector2(0.5f, 0.7f));
-
-                //UIImage placeholderImage;
-                //if (entryIndex % 2 == 0)
-                //    placeholderImage = new UIImage(ModContent.Request<Texture2D>(ModContent.GetInstance<Content.Items.Vanity.Excellence.Excellence>().Texture));
-                //else
-                //    placeholderImage = new UIImage(ModContent.Request<Texture2D>(AllAssets.Textures.JesterPlaceholder));
-
-                //placeholderImage.Color = Color.Lerp(Color.White, Color.Black * 0.5f, (entryIndex / (float)list.Count));
-                //placeholderImage.ScaleToFit = false;
-                //placeholderImage.ImageScale = 1.5f;
-                //placeholderImage.VAlign = placeholderImage.HAlign = 0.5f;
-                //placeholderImage.OverrideSamplerState = SamplerState.PointWrap;
-                //entryButton.Append(placeholderImage);
 
                 Append(entryButton);
             }
@@ -127,7 +112,7 @@ public class QuestUIEntryGrid : UIElement
     {
         _firstEntry = Utils.Clamp(_firstEntry + offset, 0, Math.Max(0, _lastEntry - maxEntriesToHave));
 
-        OnGridContentsChanged?.Invoke();
+        OnUpdateGrid?.Invoke();
     }
 
     public void MakeButtonGoByOffset(UIElement element, int howManyPages)

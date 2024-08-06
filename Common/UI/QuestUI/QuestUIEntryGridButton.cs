@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlockVanity.Common.Quests;
+﻿using BlockVanity.Common.Quests;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Audio;
 using Terraria;
-using Terraria.UI;
+using Terraria.Audio;
+using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
-using Terraria.Localization;
-using Terraria.GameContent.Bestiary;
+using Terraria.UI;
 
 namespace BlockVanity.Common.UI.QuestUI;
 
@@ -24,37 +18,33 @@ public class QuestUIEntryGridButton : UIElement
 
     public QuestEntry Entry { get; private set; }
 
-    //remove
-    private string _hoverName;
-
     public QuestUIEntryGridButton(QuestEntry entry)
     {
         Entry = entry;
-        Height.Set(EntryWidth, 0f);
-        Width.Set(EntryHeight, 0f);
+        Width.Set(EntryWidth, 0f);
+        Height.Set(EntryHeight, 0f);
+        SetPadding(0f);
 
-        UIElement mainElement = new UIElement
+        UIPanel mainElement = new UIPanel
         {
             Width = new StyleDimension(-4f, 1f),
             Height = new StyleDimension(-4f, 1f),
             IgnoresMouseInteraction = true,
             OverflowHidden = true,
             HAlign = 0.5f,
-            VAlign = 0.5f
+            VAlign = 0.5f,
+            BackgroundColor = Color.Black * 0.2f,
+            BorderColor = Color.Transparent
         };
-
         mainElement.SetPadding(0f);
+
         QuestUIEntryIcon icon = _icon = new QuestUIEntryIcon(entry, false);
         mainElement.Append(icon);
+
         Append(mainElement);
 
-        base.OnMouseOver += MouseOver;
-        base.OnMouseOut += MouseOut;
-    }
-
-    private void MouseOut(UIMouseEvent evt, UIElement listeningElement)
-    {
-        _icon.ForceHover = false;
+        OnMouseOver += MouseOver;
+        OnMouseOut += MouseOut;
     }
 
     private void MouseOver(UIMouseEvent evt, UIElement listeningElement)
@@ -63,9 +53,20 @@ public class QuestUIEntryGridButton : UIElement
         _icon.ForceHover = true;
     }
 
+    private void MouseOut(UIMouseEvent evt, UIElement listeningElement)
+    {
+        _icon.ForceHover = false;
+    }
+
     protected override void DrawSelf(SpriteBatch spriteBatch)
     {
         if (IsMouseHovering)
-            Main.instance.MouseText(Entry.Name.Value, 0, 0);
+        {
+            string text = "???";
+            if (Entry.Completion != QuestCompletionState.Hidden)
+                text = Entry.Name.Value;
+
+            Main.instance.MouseText(text, 0, 0);
+        }
     }
 }

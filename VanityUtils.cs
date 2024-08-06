@@ -49,13 +49,7 @@ public static class VanityUtils
     }
 
     public delegate void DrawSittingLegsDelegate(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false);
-
-    public static DrawSittingLegsDelegate DrawSittingLegs;
-
-    public static void Load()
-    {
-        DrawSittingLegs = typeof(PlayerDrawLayers).GetMethod("DrawSittingLegs", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).CreateDelegate<DrawSittingLegsDelegate>(typeof(PlayerDrawLayers));
-    }
+    public delegate void DrawSittingCoatsDelegate(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false);
 
     public static Vector2 GetCompositeOffset_BackArm(ref PlayerDrawSet drawinfo) => new Vector2(6 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : (-1)), 2 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipVertically)) ? 1 : (-1)));
     public static Vector2 GetCompositeOffset_FrontArm(ref PlayerDrawSet drawinfo) => new Vector2(-5 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : (-1)), 0f);
@@ -76,5 +70,16 @@ public static class VanityUtils
             return 0;
     }
 
-    public static ReskinPlayer GetSkinPlayer(this Player player) => player.GetModPlayer<ReskinPlayer>();
+    public static void DrawSittingLongCoats(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false)
+    {
+        Vector2 position = new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.legFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.legFrame.Height + 4f)) + drawinfo.drawPlayer.legPosition + drawinfo.legVect;
+        Rectangle legFrame = drawinfo.drawPlayer.legFrame;
+        position += drawinfo.legsOffset;
+        position.X += 2 * drawinfo.drawPlayer.direction;
+        legFrame.Y = legFrame.Height * 5;
+
+        DrawData item = new DrawData(textureToDraw, position, legFrame, matchingColor, drawinfo.drawPlayer.legRotation, drawinfo.legVect, 1f, drawinfo.playerEffect);
+        item.shader = shaderIndex;
+        drawinfo.DrawDataCache.Add(item);
+    }
 }

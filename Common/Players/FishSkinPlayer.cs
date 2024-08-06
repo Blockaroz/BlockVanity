@@ -36,16 +36,19 @@ public class FishSkinPlayer : ModPlayer
     {
         On_PlayerDrawLayers.DrawPlayer_21_Head_TheFace += DrawFishSkin_SpecialFace;
         IL_PlayerDrawLayers.DrawPlayer_21_Head += DrawFishSkin_Ears;
-        On_Player.UpdateVisibleAccessory += EnableSkins;
+        On_Player.UpdateVisibleAccessory += EnableSkinUpdateAttachments;
+        On_Player.PlayerFrame += SetGenderPreFrame;
 
-        ReskinPlayer.OnPreCopyVariables += SetGender;
+        ReskinPlayer.OnPreCopyVariables += SetGenderPreDraw;
         ReskinPlayer.OnSetNewSkin += SetSkin;
         ReskinPlayer.OnSetNormalSkin += ResetSkin;
     }
 
-    private void SetGender(ref PlayerDrawSet drawInfo)
+    private static void StoreGender(ref Player player)
     {
-        FishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>();
+        FishSkinPlayer fishPlayer = player.GetModPlayer<FishSkinPlayer>();
+
+        fishPlayer.Male = player.Male ? true : false;
 
         if (fishPlayer.enabled)
         {
@@ -53,11 +56,15 @@ public class FishSkinPlayer : ModPlayer
             {
                 default:
                 case (int)FishSkinStyle.BlueFish:
-                    fishPlayer.Male = drawInfo.drawPlayer.Male;
-                    drawInfo.drawPlayer.Male = false;
+                    player.Male = false;
                     break;
             }
         }
+    }
+
+    private void SetGenderPreDraw(ref PlayerDrawSet drawInfo)
+    {
+        StoreGender(ref drawInfo.drawPlayer);
     }
 
     private void SetSkin(ref PlayerDrawSet drawInfo)
@@ -76,7 +83,7 @@ public class FishSkinPlayer : ModPlayer
                     break;
             }
 
-            drawInfo.drawPlayer.GetSkinPlayer().SetSkin(SkinTextures);
+            drawInfo.drawPlayer.GetModPlayer<ReskinPlayer>().SetSkin(SkinTextures);
         }
     }
 
@@ -127,7 +134,7 @@ public class FishSkinPlayer : ModPlayer
 
             if (drawinfo.hatHair || drawinfo.fullHair || drawinfo.drawPlayer.head < 0)
             {
-                Texture2D earsLowTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinID.EarsLow].Value;
+                Texture2D earsLowTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc2].Value;
                 DrawData earData = new DrawData(earsLowTexture, headPos, earsLowTexture.Frame(), drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation + lowerEarWobble, drawinfo.headVect, 1f, drawinfo.playerEffect, 0);
                 earData.shader = drawinfo.skinDyePacked;
                 drawinfo.DrawDataCache.Add(earData);
@@ -135,7 +142,7 @@ public class FishSkinPlayer : ModPlayer
                 if ((upperEars && drawinfo.drawPlayer.head > 0) || drawinfo.hatHair)
                     return;
 
-                Texture2D earsHighTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinID.EarsHigh].Value;
+                Texture2D earsHighTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc1].Value;
                 earData = new DrawData(earsHighTexture, headPos, earsHighTexture.Frame(), drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation + upperEarWobble, drawinfo.headVect, 1f, drawinfo.playerEffect, 0);
                 earData.shader = drawinfo.skinDyePacked;
                 drawinfo.DrawDataCache.Add(earData);
@@ -200,13 +207,13 @@ public class FishSkinPlayer : ModPlayer
             orig(ref drawinfo);
     }
 
-    private void EnableSkins(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
+    private void EnableSkinUpdateAttachments(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
     {
         orig(self, itemSlot, item, modded);
 
-        if (item.ModItem is FishFood fishFood)
+        if (item.ModItem is FishFood)
         {
-            self.GetSkinPlayer().enabled = true;
+            self.GetModPlayer<ReskinPlayer>().enabled = true;
 
             FishSkinPlayer fishPlayer = self.GetModPlayer<FishSkinPlayer>();
             fishPlayer.enabled = true;
@@ -214,9 +221,8 @@ public class FishSkinPlayer : ModPlayer
 
             fishPlayer.headFinVector.Y -= Utils.GetLerpValue(0.3f, 0.96f, MathF.Sin(self.miscCounterNormalized * 10), true);
             float bounce = Main.OffsetsPlayerHeadgear[self.bodyFrame.Y / self.bodyFrame.Height].Y;
-            if (bounce < 1)
+            if (bounce < 2)
                 fishPlayer.headFinVector.X += self.direction * 0.5f;
-
 
             fishPlayer.tailCounter += Math.Abs(self.velocity.X) / (Main.OffsetsPlayerHeadgear.Length - 1f);
             fishPlayer.tailCounter %= MathHelper.TwoPi;
@@ -243,7 +249,17 @@ public class FishSkinPlayer : ModPlayer
 
             fishPlayer.headFinVector.X = MathHelper.Lerp(fishPlayer.headFinVector.X, 0f, 0.4f);
             fishPlayer.headFinVector.Y = MathHelper.Lerp(fishPlayer.headFinVector.Y, self.velocity.Y, 0.3f);
+
+            StoreGender(ref self);
         }
+    }
+
+    private void SetGenderPreFrame(On_Player.orig_PlayerFrame orig, Player self)
+    {
+        orig(self);
+
+        if (self.GetModPlayer<FishSkinPlayer>().enabled)
+            self.Male = self.GetModPlayer<FishSkinPlayer>().Male;
     }
 
     public override void ResetEffects()

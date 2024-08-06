@@ -144,4 +144,10 @@ HitSoundToggle: {
 }
 
 Tiles.PlumeriaPlant.MapEntry: Blooming Plumeria
-"Keybinds.QuestUI Test Bind.DisplayName": Quest U I  Test  Bind
+"Keybinds.QuestUI Test Bind.DisplayName": Quest UI Test Bind
+
+UI: {
+	SortBy: Sort
+	Sort_QuestID: Quest ID
+	Sort_StarCount: Stars
+}

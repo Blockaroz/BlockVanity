@@ -1,4 +1,4 @@
-﻿using BlockVanity.Common;
+﻿using BlockVanity.Common.UI;
 using BlockVanity.Common.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -51,6 +51,6 @@ public class MyrtleSandals : VanityItem
     public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
     {
         if (!male)
-            equipSlot = EquipLoader.GetEquipSlot(Mod, this.Name + "Female", EquipType.Legs);
+            equipSlot = EquipLoader.GetEquipSlot(Mod, Name + "Female", EquipType.Legs);
     }
 }

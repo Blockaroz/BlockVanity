@@ -125,7 +125,8 @@ public class ScholarStaffProj : ModProjectile
 
                     float inaccuracy = realCharge / 6f;
                     int damage = (int)(Projectile.damage * (1f + realCharge));
-                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, shootPoint.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0)), ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
+                    Vector2 boltVelocity = Player.velocity * 0.05f + shootPoint.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
+                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
                     bolt.ai[0] = Main.rand.NextFloat(0.6f, 1.5f);
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
                 }
@@ -145,7 +146,7 @@ public class ScholarStaffProj : ModProjectile
 
         Time++;
 
-        Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.2f);
+        Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.1f);
     }
 
     public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => false;
@@ -163,17 +164,8 @@ public class ScholarStaffProj : ModProjectile
 
         Vector2 scale = new Vector2(1f + swingProgress * (1f - swingProgress) * 1.6f) * Projectile.scale;
 
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.Lerp(lightColor, Color.White, 0.1f), Projectile.rotation, new Vector2(0.5f, 0.8f) * frame.Size(), scale, effects, 0);
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, glowFrame, Color.White, Projectile.rotation, new Vector2(0.5f, 0.8f) * glowFrame.Size(), scale, effects, 0);
-
-        Vector2 crystalPos = Projectile.Center + new Vector2(0, -25).RotatedBy(Projectile.rotation) * scale;
-
-        Vector2 stretch = new Vector2(1f, 1.2f) * scale * 0.1f;
-
-        Color glowColor = ScholarStaffBolt.EnergyColor * (0.2f + swingProgress * (1f - swingProgress) * 0.5f);
-        glowColor.A = 0;
-
-        Main.EntitySpriteDraw(glow, crystalPos - Main.screenPosition, glow.Frame(), glowColor, Projectile.rotation, glow.Size() * 0.5f, stretch * (2f + swingProgress * (1f - swingProgress) * 2f), effects, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.Lerp(lightColor, Color.White, 0.2f), Projectile.rotation, new Vector2(0.5f, 0.75f) * frame.Size(), scale, effects, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, glowFrame, Color.Gray with { A = 0 }, Projectile.rotation, new Vector2(0.5f, 0.75f) * glowFrame.Size(), scale, effects, 0);
 
         return false;
     }

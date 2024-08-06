@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.Bestiary;
@@ -9,6 +10,7 @@ namespace BlockVanity.Common.Quests;
 public class ItemQuestIcon : IQuestEntryIcon
 {
     private Item _item;
+    private float _fade;
 
     public ItemQuestIcon(int itemType)
     {
@@ -17,16 +19,23 @@ public class ItemQuestIcon : IQuestEntryIcon
 
     public void Update(QuestEntry entry, EntryIconDrawSettings settings)
     {
+        _fade = MathHelper.Lerp(_fade, settings.IsHovered ? 1f : 0f, settings.IsHovered ? 0.2f : 0.1f);
+        if (_fade < 0.05f)
+            _fade = 0f;
+        if (_fade > 0.99f)
+            _fade = 1f;
     }
 
     public void Draw(QuestEntry entry, SpriteBatch spriteBatch, EntryIconDrawSettings settings)
     {
-        // UIItemIcon uses context 31, which has extra logic 
         Color drawColor = Color.White;
-        float drawScale = settings.IsPortrait ? 2f : 1.5f;
+        float drawScale = 1.5f + _fade * 0.5f;
 
         if (entry.Completion == QuestCompletionState.Hidden)
             drawColor = Color.Black;
+
+        Texture2D shadow = AllAssets.Textures.Glow[0].Value;
+        spriteBatch.Draw(shadow, settings.iconbox.Center(), shadow.Frame(), Color.Black * 0.2f, 0, shadow.Size() * 0.5f, 1f, 0, 0);
 
         ItemSlot.DrawItemIcon(_item, 31, spriteBatch, settings.iconbox.Center(), drawScale, 2048, drawColor);
     }

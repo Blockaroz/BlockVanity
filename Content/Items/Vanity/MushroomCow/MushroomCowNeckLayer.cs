@@ -1,6 +1,7 @@
 ﻿using BlockVanity.Common.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -8,11 +9,11 @@ namespace BlockVanity.Content.Items.Vanity.MushroomCow;
 
 public class MushroomCowNeckLayer : PlayerDrawLayer
 {
-    public static SlowAsset<Texture2D> neckTexture;
+    public static Asset<Texture2D> neckTexture;
 
     public override void Load()
     {
-        neckTexture = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/MushroomCow/MushroomCowHead_Neck");
+        neckTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/MushroomCow/MushroomCowHead_Neck");
     }
 
     public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.NeckAcc);

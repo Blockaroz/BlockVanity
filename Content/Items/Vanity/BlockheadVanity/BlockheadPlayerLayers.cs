@@ -3,6 +3,7 @@ using BlockVanity.Common.Utilities;
 using BlockVanity.Content.Items.Vanity.MushroomCow;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -31,18 +32,18 @@ public class BlockheadNeck : PlayerDrawLayer
 
 public class BlockheadHead : PlayerDrawLayer
 {
-    public static SlowAsset<Texture2D> headTexture;
-    public static SlowAsset<Texture2D> neckTexture;
-    public static SlowAsset<Texture2D>[] eyesTexture;
+    public static Asset<Texture2D> headTexture;
+    public static Asset<Texture2D> neckTexture;
+    public static Asset<Texture2D>[] eyesTexture;
 
     public override void Load()
     {
-        headTexture = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Head");
-        neckTexture = new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Neck");
+        headTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Head");
+        neckTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Neck");
         eyesTexture = [
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Eyes0"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Eyes1"),
-            new SlowAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Eyes2")
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Eyes0"),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Eyes1"),
+            ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/BlockheadVanity/Blockhead_Eyes2")
             ];
     }
 

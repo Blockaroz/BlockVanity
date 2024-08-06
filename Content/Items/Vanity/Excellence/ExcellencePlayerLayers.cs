@@ -3,6 +3,7 @@ using BlockVanity.Common.Utilities;
 using BlockVanity.Content.Items.Vanity.MushroomCow;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -11,21 +12,21 @@ namespace BlockVanity.Content.Items.Vanity.Excellence;
 
 public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 {
-    public static SlowAsset<Texture2D> headTexture;
-    public static SlowAsset<Texture2D> headGlowTexture;
+    public static Asset<Texture2D> headTexture;
+    public static Asset<Texture2D> headGlowTexture;
 
     public override void Load()
     {
         string texturePath = $"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Excellence/Excellence";
-        headTexture = new SlowAsset<Texture2D>($"{texturePath}_{EquipType.Head}");
-        headGlowTexture = new SlowAsset<Texture2D>($"{texturePath}_{EquipType.Head}_Glow");
+        headTexture = ModContent.Request<Texture2D>($"{texturePath}_{EquipType.Head}");
+        headGlowTexture = ModContent.Request<Texture2D>($"{texturePath}_{EquipType.Head}_Glow");
     }
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
     public override bool IsHeadLayer => true;
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<Excellence>().Name, EquipType.Head);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Head);
 
     private float _oldHeadY;
     private int _oldFrame;
@@ -62,17 +63,17 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 
 public class ExcellencePlayerLegsLayer : PlayerDrawLayer
 {
-    public static SlowAsset<Texture2D> legsTexture;
+    public static Asset<Texture2D> legsTexture;
 
     public override void Load()
     {
         string texturePath = $"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Excellence/Excellence";
-        legsTexture = new SlowAsset<Texture2D>($"{texturePath}_{EquipType.Legs}");
+        legsTexture = ModContent.Request<Texture2D>($"{texturePath}_{EquipType.Legs}");
     }
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Leggings);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<Excellence>().Name, EquipType.Legs);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs);
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {

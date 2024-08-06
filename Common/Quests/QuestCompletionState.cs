@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace BlockVanity.Common.Quests;
 
-namespace BlockVanity.Common.Quests;
-
-public enum QuestCompletionState
+public enum QuestCompletionState : int
 {
     Hidden,
-    NotDone,
+    Available,
     Completed,
     Claimed
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using BlockVanity.Common.Quests;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.UI.Elements;
+using Terraria.Localization;
 using Terraria.UI;
 
 namespace BlockVanity.Common.UI.QuestUI;
@@ -10,6 +12,11 @@ public class QuestUIInfoPage : UIPanel
     private UIList _list;
     private UIScrollbar _scrollbar;
     private bool _isScrollbarAttached;
+
+    private IQuestEntryIcon _portrait;
+
+    private UITextPanel<string> _claimPanel;
+    private QuestUIRewardList _rewardList;
 
     public QuestUIInfoPage()
     {
@@ -51,6 +58,11 @@ public class QuestUIInfoPage : UIPanel
         border.BorderColor = new Color(89, 116, 213);
         border.BackgroundColor = Color.Transparent;
         Append(border);
+    }
+
+    public void UpdateInfo()
+    {
+
     }
 
     private void ManualSort(List<UIElement> list)

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.Graphics.Renderers;
 using Terraria.ID;
+using Terraria.Initializers;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Players;
@@ -27,18 +28,19 @@ public class ReskinPlayer : ModPlayer
         QueuedSkinTextures = textures;
     }    
   
-    public enum SkinID
+    public enum SkinPieceID
     {
         Head,
-        EarsHigh,
-        EarsLow,
         Eyes,
         Body,
         Arms,
         Hands,
         HandsBack,
         Legs,
-        Tail,
+        LegsSlim,
+        Misc1,
+        Misc2,
+        Misc3,
         Length
     }
 
@@ -79,13 +81,18 @@ public class ReskinPlayer : ModPlayer
 
         if (enabled && QueuedSkinTextures != null)
         {
-            TextureAssets.Players[drawInfo.skinVar, 0] = QueuedSkinTextures[(int)SkinID.Head];
-            TextureAssets.Players[drawInfo.skinVar, 3] = QueuedSkinTextures[(int)SkinID.Body];
-            TextureAssets.Players[drawInfo.skinVar, 5] = QueuedSkinTextures[(int)SkinID.HandsBack];
-            TextureAssets.Players[drawInfo.skinVar, 7] = QueuedSkinTextures[(int)SkinID.Arms];
-            TextureAssets.Players[drawInfo.skinVar, 9] = QueuedSkinTextures[(int)SkinID.Hands];
-            TextureAssets.Players[drawInfo.skinVar, 10] = QueuedSkinTextures[(int)SkinID.Legs];
-            TextureAssets.Players[drawInfo.skinVar, 15] = QueuedSkinTextures[(int)SkinID.Eyes];
+            TextureAssets.Players[drawInfo.skinVar, 0] = QueuedSkinTextures[(int)SkinPieceID.Head];
+            TextureAssets.Players[drawInfo.skinVar, 3] = QueuedSkinTextures[(int)SkinPieceID.Body];
+            TextureAssets.Players[drawInfo.skinVar, 5] = QueuedSkinTextures[(int)SkinPieceID.HandsBack];
+            TextureAssets.Players[drawInfo.skinVar, 7] = QueuedSkinTextures[(int)SkinPieceID.Arms];
+            TextureAssets.Players[drawInfo.skinVar, 9] = QueuedSkinTextures[(int)SkinPieceID.Hands];
+
+            if (drawInfo.drawPlayer.Male)
+                TextureAssets.Players[drawInfo.skinVar, 10] = QueuedSkinTextures[(int)SkinPieceID.Legs];
+            else
+                TextureAssets.Players[drawInfo.skinVar, 10] = QueuedSkinTextures[(int)SkinPieceID.LegsSlim];
+
+            TextureAssets.Players[drawInfo.skinVar, 15] = QueuedSkinTextures[(int)SkinPieceID.Eyes];
         }
     }
 
@@ -114,17 +121,17 @@ public class ReskinPlayer : ModPlayer
             int maleVar = MaleSkinVar(drawInfo);
             int femVar = FemaleSkinVar(drawInfo);
 
-            LoadOriginalSkins(drawInfo);
+            LoadOriginalSkins(drawInfo, force);
 
             OriginalSkinTextures = [
-                TextureAssets.Players[maleVar, 0],
-                TextureAssets.Players[maleVar, 3],
-                TextureAssets.Players[maleVar, 5],
-                TextureAssets.Players[maleVar, 7],
+                TextureAssets.Players[0, 0],
+                TextureAssets.Players[0, 3],
+                TextureAssets.Players[0, 5],
+                TextureAssets.Players[0, 7],
                 TextureAssets.Players[maleVar, 9],
                 TextureAssets.Players[maleVar, 10],
                 TextureAssets.Players[maleVar, 15],
-                TextureAssets.Players[femVar, 0],
+                TextureAssets.Players[0, 0],
                 TextureAssets.Players[femVar, 3],
                 TextureAssets.Players[femVar, 5],
                 TextureAssets.Players[femVar, 7],
@@ -137,17 +144,7 @@ public class ReskinPlayer : ModPlayer
 
     private static void LoadOriginalSkins(PlayerDrawSet drawInfo, bool force = false)
     {
-        int maleVar = MaleSkinVar(drawInfo);
-        int femVar = FemaleSkinVar(drawInfo);
-
-        int[] pieceIDs = [0, 3, 5, 7, 9, 10];
-        for (int i = 0; i < pieceIDs.Length; i++)
-        {
-            if (!TextureAssets.Players[maleVar, pieceIDs[i]].IsLoaded || force)
-                TextureAssets.Players[maleVar, pieceIDs[i]] = Main.Assets.Request<Texture2D>("Images/Player_" + maleVar + "_" + pieceIDs[i], AssetRequestMode.AsyncLoad);
-            if (!TextureAssets.Players[femVar, pieceIDs[i]].IsLoaded || force)
-                TextureAssets.Players[femVar, pieceIDs[i]] = Main.Assets.Request<Texture2D>("Images/Player_" + femVar + "_" + pieceIDs[i], AssetRequestMode.AsyncLoad);
-        }
+        PlayerDataInitializer.Load();
     }
 
     public override void ResetEffects()

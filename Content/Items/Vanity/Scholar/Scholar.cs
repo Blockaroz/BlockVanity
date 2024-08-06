@@ -24,6 +24,11 @@ public class ScholarCloak : VanityItem
 {
     public ScholarCloak() : base(ItemRarityID.Blue) { }
 
+    public override void SetStaticDefaults()
+    {
+        ArmorIDs.Body.Sets.showsShouldersWhileJumping[Item.bodySlot] = true;
+    }
+
     public override void AddRecipes()
     {
         CreateRecipe()

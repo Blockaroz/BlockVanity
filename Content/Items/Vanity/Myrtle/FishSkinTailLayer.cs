@@ -23,7 +23,7 @@ public class FishSkinTailLayer : PlayerDrawLayer
         FishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>();
         if (fishPlayer.tailRotations != null)
         {
-            Texture2D tailTexture = fishPlayer.SkinTextures[(int)ReskinPlayer.SkinID.Tail].Value;
+            Texture2D tailTexture = fishPlayer.SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc3].Value;
             int originX = drawInfo.drawPlayer.direction > 0 ? 1 : 0;
             Rectangle upperTailFrame = tailTexture.Frame(3, 1, 2, 0);
             Rectangle midTailFrame = tailTexture.Frame(3, 1, 1, 0);
@@ -31,13 +31,13 @@ public class FishSkinTailLayer : PlayerDrawLayer
 
             Vector2 upperTailPos = drawInfo.BodyPosition() + new Vector2(0, (8 + Main.OffsetsPlayerHeadgear[drawInfo.drawPlayer.bodyFrame.Y / drawInfo.drawPlayer.bodyFrame.Height].Y) * drawInfo.drawPlayer.gravDir);
             Vector2 midTailPos = upperTailPos + new Vector2(-10 * drawInfo.drawPlayer.direction, 4 * drawInfo.drawPlayer.gravDir).RotatedBy(fishPlayer.tailRotations[0]);
-            Vector2 lowerTailPos = midTailPos + new Vector2(-8 * drawInfo.drawPlayer.direction, -6 * drawInfo.drawPlayer.gravDir).RotatedBy(fishPlayer.tailRotations[1]);
+            Vector2 lowerTailPos = midTailPos + new Vector2(-8 * drawInfo.drawPlayer.direction, -4 * drawInfo.drawPlayer.gravDir).RotatedBy(fishPlayer.tailRotations[1]);
 
             DrawData tailData = new DrawData(tailTexture, upperTailPos, upperTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[0], new Vector2(originX * upperTailFrame.Width, 14), 1f, drawInfo.playerEffect, 0);
             drawInfo.DrawDataCache.Add(tailData);            
             tailData = new DrawData(tailTexture, midTailPos, midTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[1], new Vector2(originX * midTailFrame.Width, 14 + 4 * drawInfo.drawPlayer.gravDir), 1f, drawInfo.playerEffect, 0);
             drawInfo.DrawDataCache.Add(tailData);           
-            tailData = new DrawData(tailTexture, lowerTailPos, lowerTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[2], new Vector2(originX * lowerTailFrame.Width, 14 - 2 * drawInfo.drawPlayer.gravDir), 1f, drawInfo.playerEffect, 0);
+            tailData = new DrawData(tailTexture, lowerTailPos, lowerTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[2], new Vector2(originX * lowerTailFrame.Width, 14), 1f, drawInfo.playerEffect, 0);
             drawInfo.DrawDataCache.Add(tailData);
 
         }

@@ -49,7 +49,7 @@ public class MushroomCowHead : VanityItem
 [AutoloadEquip(EquipType.Head)]
 public class GamingMushroomCowHead : VanityItem
 {
-    public GamingMushroomCowHead() : base(ModContent.RarityType<WardrobeRarity>()) { }
+    public GamingMushroomCowHead() : base(ModContent.RarityType<VanityQuestRarity>()) { }
 
     public override void SetStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 

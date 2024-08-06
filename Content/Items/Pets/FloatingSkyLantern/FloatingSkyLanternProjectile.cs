@@ -122,11 +122,11 @@ public class FloatingSkyLanternProjectile : ModProjectile
         Projectile.localAI[0] += 0.1f;
     }
 
-    public static SlowAsset<Texture2D> tasselTexture;
+    public static Asset<Texture2D> tasselTexture;
 
     public override void Load()
     {
-        tasselTexture = new SlowAsset<Texture2D>(Texture + "_Tassel");
+        tasselTexture = ModContent.Request<Texture2D>(Texture + "_Tassel");
     }
 
     public override bool PreDraw(ref Color lightColor)

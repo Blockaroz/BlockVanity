@@ -18,6 +18,9 @@ public class QuestSystem : ModSystem
 
     public override void Load()
     {
+        if (Main.dedServ)
+            return;
+
         testBind = KeybindLoader.RegisterKeybind(Mod, "QuestUI Test Bind", Microsoft.Xna.Framework.Input.Keys.Y);
 
         database = new QuestDatabase();
@@ -25,6 +28,9 @@ public class QuestSystem : ModSystem
 
     public override void PostAddRecipes()
     {
+        if (Main.dedServ)
+            return;
+
         AllQuests.AddQuests(ref database);
         questUI = new QuestUI(database);
     }

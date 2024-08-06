@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlockVanity.Common.Quests;
 using BlockVanity.Content.Rarities;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
@@ -14,7 +15,7 @@ namespace BlockVanity.Content.Items.TestItems;
 
 public class QuestResetter : ModItem
 {
-    public override string Texture => AllAssets.Textures.PearlPlaceholder;
+    public override string Texture => AllAssets.Textures.Placeholder;
 
     public override Color? GetAlpha(Color lightColor) => new Color(255, 40, 40);
 
@@ -27,18 +28,23 @@ public class QuestResetter : ModItem
         Item.consumable = true;
         Item.width = 24;
         Item.height = 24;
-        Item.rare = ModContent.RarityType<WardrobeRarity>();
+        Item.rare = ModContent.RarityType<VanityQuestRarity>();
     }
 
     public override bool? UseItem(Player player)
     {
+        foreach (QuestEntry item in QuestSystem.database.Entries)
+        {
+            item.Completion = QuestCompletionState.Hidden;
+        }
+
         return true;
     }
 }
 
 public class QuestCompleter : ModItem
 {
-    public override string Texture => AllAssets.Textures.PearlPlaceholder;
+    public override string Texture => AllAssets.Textures.Placeholder;
 
     public override Color? GetAlpha(Color lightColor) => Color.White;
 
@@ -51,11 +57,17 @@ public class QuestCompleter : ModItem
         Item.consumable = true;
         Item.width = 24;
         Item.height = 24;
-        Item.rare = ModContent.RarityType<WardrobeRarity>();
+        Item.rare = ModContent.RarityType<VanityQuestRarity>();
     }
 
     public override bool? UseItem(Player player)
     {
+        foreach (QuestEntry item in QuestSystem.database.Entries)
+        {
+            if (item.Completion != QuestCompletionState.Claimed)
+                item.Completion = QuestCompletionState.Completed;
+        }
+
         return true;
     }
 }

@@ -6,21 +6,21 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Common;
+namespace BlockVanity.Common.UI;
 
-public class HitSoundToggle : BuilderToggle
+public class AreaEffectsToggle : BuilderToggle
 {
     public static LocalizedText OnText;
     public static LocalizedText OffText;
 
-    public override Position OrderPosition => new After(ModContent.GetInstance<AreaEffectsToggle>());
+    public override Position OrderPosition => new After(BlockSwap);
 
     public override bool Active() => true;
 
     public override void SetStaticDefaults()
     {
-        OnText = Mod.GetLocalization("HitSoundToggle.OnText");
-        OffText = Mod.GetLocalization("HitSoundToggle.OffText");
+        OnText = Mod.GetLocalization("AreaEffectsToggle.OnText");
+        OffText = Mod.GetLocalization("AreaEffectsToggle.OffText");
     }
 
     public override string DisplayValue() => CurrentState == 0 ? OnText.Value : OffText.Value;
@@ -40,5 +40,5 @@ public class HitSoundToggle : BuilderToggle
         return true;
     }
 
-    public static bool IsActive(Player player) => player.builderAccStatus[ModContent.GetInstance<HitSoundToggle>().Type] == 0;
+    public static bool IsActive(Player player) => player.builderAccStatus[ModContent.GetInstance<AreaEffectsToggle>().Type] == 0;
 }

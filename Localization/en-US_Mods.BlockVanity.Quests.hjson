@@ -1,1 +1,14 @@
-Myrtle.Name: Myrtle
+CardboardBox: {
+	Name: The Box
+	Description: No Description
+}
+
+Myrtle: {
+	Name: Myrtle
+	Description: No Description
+}
+
+"": {
+	Name: ???
+	Description: ???
+}
