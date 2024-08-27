@@ -12,3 +12,8 @@ Myrtle: {
 	Name: ???
 	Description: ???
 }
+
+CaveScholar: {
+	Name: Scholarly
+	Description: Obtain a Scholar's Staff
+}

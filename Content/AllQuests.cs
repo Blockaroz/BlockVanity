@@ -4,6 +4,9 @@ using BlockVanity.Content.Hairs;
 using BlockVanity.Content.Items.Dyes;
 using BlockVanity.Content.Items.Vanity;
 using BlockVanity.Content.Items.Vanity.Myrtle;
+using BlockVanity.Content.Items.Vanity.Scholar;
+using BlockVanity.Content.Items.Weapons.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using static Terraria.ModLoader.ModContent;
@@ -12,6 +15,10 @@ namespace BlockVanity.Content;
 
 public static class AllQuests
 {
+    public static readonly int StarCountCommon = 1;
+    public static readonly int StarCountUncommon = 4;
+    public static readonly int StarCountRare = 5;
+
     public static void AddQuests(ref QuestDatabase database)
     {
         database.Clear();
@@ -21,32 +28,40 @@ public static class AllQuests
             NameKey = "CardboardBox",
             CompleteCondition = () => true,
             //AvailableCondition = null,
+            StarCount = StarCountCommon,
             Icon = new ItemQuestIcon(ItemType<CardboardBox>()),
             Portrait = new PlayerQuestIcon(CreatePlayer(head: ItemType<CardboardBox>())),
-            Rewards = [
-                ItemType<CardboardBox>()],
-
-            Reclaimable = true,
-            ReclaimPrice = Item.buyPrice(0, 3, 50, 0),
-            StarCount = 1
+            Reward = new QuestRewardData([
+                ItemType<CardboardBox>()], Item.buyPrice(0, 3, 50, 0))
         });
 
-        Player myrtlePlayer = CreatePlayer(ItemType<PlumeriaHairpin>(), ItemType<MyrtleDress>(), ItemType<MyrtleSandals>(), ItemType<FishFood>());
+        Player myrtlePlayer = CreatePlayer(head: ItemType<PlumeriaHairpin>(), body: ItemType<MyrtleDress>(), legs: ItemType<MyrtleSandals>(), acc1: ItemType<FishFood>());
         myrtlePlayer.hair = GetInstance<FishyHair>().Type;
         myrtlePlayer.hairDye = ContentSamples.ItemsByType[ItemType<SeasideHairDye>()].hairDye;
         database.Add(new QuestEntry
         {
             NameKey = "Myrtle",
             CompleteCondition = () => Main.LocalPlayer.HasItem(ItemType<PlumeriaHairpin>()),
+            StarCount = StarCountUncommon,
             Icon = new PlayerQuestIcon(myrtlePlayer),
-            Rewards = [
+            Reward = new QuestRewardData([
                 ItemType<MyrtleDress>(),
                 ItemType<MyrtleSandals>(),
                 ItemType<FishFood>(),
-                ItemType<SeasideHairDye>()],
+                ItemType<SeasideHairDye>()], Item.buyPrice(0, 3, 50, 0))
+        });
 
-            Reclaimable = true,
-            ReclaimPrice = Item.buyPrice(0, 3, 50, 0)
+        Player scholarPlayer = CreatePlayer(head: ItemType<ScholarHood>(), body: ItemType<ScholarCloak>());
+        scholarPlayer.eyeColor = Color.Red;
+        database.Add(new QuestEntry
+        {
+            NameKey = "CaveScholar",
+            CompleteCondition = () => true,
+            AvailableCondition = () => Main.hardMode,
+            StarCount = StarCountRare,
+            Icon = new PlayerQuestIcon(scholarPlayer),
+            Reward = new QuestRewardData([
+                ItemType<ScholarStaff>()], Item.buyPrice(0, 5, 0, 0))
         });
 
         SetDatabaseIDs(ref database);

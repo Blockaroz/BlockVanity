@@ -1,7 +1,5 @@
 ﻿using BlockVanity.Common.Utilities;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 

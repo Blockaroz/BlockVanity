@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BlockVanity.Common.Quests;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.ID;
@@ -54,14 +48,12 @@ public class QuestUI : UIState
     {
         RemoveAllChildren();
         UIElement mainElement = new UIElement();
-        mainElement.Width.Set(0f, 0.875f);
-        mainElement.Height.Set(-200f, 1f);
-        mainElement.MaxWidth.Set(1000f, 0f);
-        mainElement.MinWidth.Set(900f, 0f);
-        mainElement.Top.Set(150, 0.05f);
+        mainElement.Width.Set(880f, 0f);
+        mainElement.Height.Set(-250f, 1f);
+        mainElement.MinHeight.Set(600f, 0f);
         mainElement.HAlign = 0.5f;
+        mainElement.VAlign = 0.8f;
         Append(mainElement);
-        AddBackButton(mainElement);
 
         UIPanel mainPanel = new UIPanel();
         mainPanel.Width.Set(0f, 1f);
@@ -78,28 +70,26 @@ public class QuestUI : UIState
 
         topPanel.SetPadding(0f);
 
+        int searchWidth = 180;
+
         QuestUIInfoPage infoPageUI = _infoPage = new QuestUIInfoPage()
         {
-            Height = new StyleDimension(12f, 1f),
-            HAlign = 1f
+            Width = new StyleDimension(searchWidth + 166, 0f),
+            Height = new StyleDimension(-(topPanel.Height.Pixels + 12), 1f),
+            VAlign = 1f,
+            HAlign = 1f,
         };
+        mainPanel.Append(infoPageUI);
 
-        AddSortButton(topPanel, infoPageUI);
-        AddSearchBar(topPanel, infoPageUI);
+        AddBackButton(mainElement);
+        AddSortButton(topPanel, searchWidth);
+        AddSearchBar(topPanel, searchWidth);
 
-        UIElement infoPanel = new UIElement
-        {
-            Width = new StyleDimension(0f, 1f),
-            Height = new StyleDimension(-(topPanel.Height.Pixels + 6), 1f),
-            VAlign = 1f
-        };
-
-        infoPanel.SetPadding(0f);
-        infoPanel.Append(infoPageUI);
+        infoPageUI.SetPadding(0f);
 
         UIElement gridSpace = _entryGridSpace = new UIElement
         {
-            Width = new StyleDimension(-12f - infoPageUI.Width.Pixels, 1f),
+            Width = new StyleDimension(0f, 1f),
             Height = new StyleDimension(-(topPanel.Height.Pixels + 12), 1f),
             VAlign = 1f
         };
@@ -108,7 +98,6 @@ public class QuestUI : UIState
         AddBackAndForwardButtons(topPanel);
         gridSpace.Append(entryGrid);
 
-        mainPanel.Append(infoPanel);
         mainPanel.Append(gridSpace);
         mainPanel.Append(topPanel);
 
@@ -178,6 +167,7 @@ public class QuestUI : UIState
     private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)
     {
         SoundEngine.PlaySound(SoundID.MenuClose);
+
         if (Main.gameMenu)
             Main.menuMode = 0;
         else
@@ -224,11 +214,11 @@ public class QuestUI : UIState
         _pageIndexesText = pageIndexesText;
     }
 
-    private void AddSearchBar(UIElement innerTopContainer, QuestUIInfoPage infoSpace)
+    private void AddSearchBar(UIElement innerTopContainer, int width)
     {
         UIImageButton searchManualButton = new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Search"))
         {
-            Left = new StyleDimension(-(infoSpace.Width.Pixels + 2), 1f),
+            Left = new StyleDimension(-width, 1f),
             VAlign = 0.5f
         };
 
@@ -239,8 +229,8 @@ public class QuestUI : UIState
         innerTopContainer.Append(searchManualButton);
         UIPanel searchPanel = _searchBoxPanel = new UIPanel
         {
-            Left = new StyleDimension(-infoSpace.Width.Pixels + searchManualButton.Width.Pixels + 3f, 1f),
-            Width = new StyleDimension(infoSpace.Width.Pixels - searchManualButton.Width.Pixels - 3f, 0f),
+            Left = new StyleDimension(-width + searchManualButton.Width.Pixels + 3f, 1f),
+            Width = new StyleDimension(width - searchManualButton.Width.Pixels - 3f, 0f),
             Height = new StyleDimension(0f, 1f),
             VAlign = 0.5f
         };
@@ -260,8 +250,9 @@ public class QuestUI : UIState
         };
 
         searchPanel.OnLeftClick += ClickSearchBar;
-        searchBar.OnContentsChanged += OnSearchContentsChanged;
         searchPanel.Append(searchBar);
+
+        searchBar.OnContentsChanged += OnSearchContentsChanged;
         searchBar.OnStartTakingInput += OnStartTakingInput;
         searchBar.OnEndTakingInput += OnEndTakingInput;
         searchBar.OnNeedingVirtualKeyboard += OpenVirtualKeyboardWhenNeeded;
@@ -296,8 +287,8 @@ public class QuestUI : UIState
 
     private void OpenVirtualKeyboardWhenNeeded()
     {
-        int maxInputLength = 40;
-        UIVirtualKeyboard uIVirtualKeyboard = new UIVirtualKeyboard(Language.GetText("UI.PlayerNameSlot").Value, _searchString, OnFinishedSettingName, GoBackHere, 0, allowEmpty: true);
+        int maxInputLength = 64;
+        UIVirtualKeyboard uIVirtualKeyboard = new UIVirtualKeyboard(Language.GetText("UI.PlayerNameSlot").Value, _searchString, OnFinishedSettingName, CloseKeyboard, 0, allowEmpty: true);
         uIVirtualKeyboard.SetMaxInputLength(maxInputLength);
         UserInterface.ActiveInstance.SetState(uIVirtualKeyboard);
     }
@@ -306,13 +297,18 @@ public class QuestUI : UIState
     {
         string contents = name.Trim();
         _searchBar.SetContents(contents);
+        CloseKeyboard();
+    }
+
+    private void CloseKeyboard()
+    {
         GoBackHere();
+        _searchBar.ToggleTakingText();
     }
 
     private void GoBackHere()
     {
         UserInterface.ActiveInstance.SetState(this);
-        _searchBar.ToggleTakingText();
     }
 
     private void OnStartTakingInput()
@@ -347,11 +343,11 @@ public class QuestUI : UIState
         _clicked = true;
     }
 
-    private void AddSortButton(UIElement mainElement, QuestUIInfoPage infoSpace)
+    private void AddSortButton(UIElement mainElement, int width)
     {
         UIImageButton sortButton = new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Sorting"))
         {
-            Left = new StyleDimension(-(infoSpace.Width.Pixels + 20), 0f),
+            Left = new StyleDimension(-(width + 20), 0f),
             HAlign = 1f
         };
 
@@ -373,7 +369,7 @@ public class QuestUI : UIState
 
         UIImageButton sortOrderButton = new UIImageButton(ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/UI/Quests/SortAscending"))
         {
-            Left = new StyleDimension(-(infoSpace.Width.Pixels + 140), 0f),
+            Left = new StyleDimension(-(width + 140), 0f),
             HAlign = 1f
         };
 
@@ -462,7 +458,8 @@ public class QuestUI : UIState
     {
         QuestUIEntryGridButton entryButton = (QuestUIEntryGridButton)listeningElement;
 
-        SoundEngine.PlaySound(SoundID.MenuTick);
+        _infoPage.OpenEntry(entryButton.Entry);
 
+        SoundEngine.PlaySound(SoundID.MenuTick);
     }
 }

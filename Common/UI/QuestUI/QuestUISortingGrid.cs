@@ -54,7 +54,8 @@ public class QuestUISortingGrid : UIPanel
             Height = new StyleDimension(height * 28 + 10, 0f),
             HAlign = 1f,
             VAlign = 0f,
-            Top = new StyleDimension(0f, 0f)
+            Top = new StyleDimension(0f, 0f),
+            Left = new StyleDimension(-200, 0f)
         };
 
         mainPanel.BorderColor = new Color(89, 116, 213, 255) * 0.9f;
@@ -142,6 +143,7 @@ public class QuestUISortingGrid : UIPanel
         {
             Vector2 indexPos = new Vector2(item.GetDimensions().X - 13f, item.GetDimensions().Y + item.GetDimensions().Height / 2f);
             int index = _selections.IndexOf(item.OptionValue);
+
             if (index >= 0)
                 Utils.DrawBorderString(spriteBatch, (index + 1).ToString(), indexPos, Color.White, 1f, 0.4f, 0.4f);
             else

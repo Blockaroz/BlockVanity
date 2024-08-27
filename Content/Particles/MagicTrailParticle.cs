@@ -18,7 +18,7 @@ public struct MagicTrailParticle : IParticleData
     public Vector2[] oldPos;
     public float[] oldRot;
 
-    public MagicTrailParticle(Color color, bool emitLight = false, int trailLength = 24)
+    public MagicTrailParticle(Color color, bool emitLight = false, int trailLength = 10)
     {
         this.color = color;
         this.trailLength = trailLength;

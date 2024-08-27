@@ -1,14 +1,11 @@
 ﻿using System;
-using Terraria;
-using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Quests;
 
 public sealed class QuestEntry
 {
-    public bool HasRewards => Rewards != null && Rewards.Length > 0;
+    public bool HasRewards => Reward.HasRewards;
 
     public bool IsCompleteOrClaimed => Completion == (QuestCompletionState.Claimed | QuestCompletionState.Completed);
 
@@ -24,21 +21,7 @@ public sealed class QuestEntry
     public Func<bool> AvailableCondition { get; set; }
     public Func<bool> CompleteCondition { get; set; }
 
-    public int[] Rewards { get; set; }
-    public bool Reclaimable { get; set; }
-    private int reclaimPrice;
-    public int ReclaimPrice
-    {
-        get => reclaimPrice;
-        set
-        {
-            int additional = 0;
-            foreach (int itemType in Rewards)
-                additional += ContentSamples.ItemsByType[itemType].value;
-
-            reclaimPrice = value + additional;
-        }
-    }
+    public QuestRewardData Reward { get; set; }
 
     public int StarCount { get; set; }
 

@@ -40,7 +40,7 @@ public static class AllAssets
         Textures.Glow = RequestArrayAuto<Texture2D>(assetpath + "Textures/Extras/Glow_");
 
         Textures.FishEyes = ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/FishEyes");
-        Textures.FireDissolveNoise = ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FireDissolveNoise");
+        Textures.FireDissolveNoise = RequestArrayAuto<Texture2D>(assetpath + "Textures/Extras/FireDissolveNoise_");
         Textures.OrionNoise = ModContent.Request<Texture2D>(assetpath + "Textures/Extras/OrionNoise");
         Textures.SeasideColorMap = ModContent.Request<Texture2D>(assetpath + "Textures/Extras/SeasideColorMap");
 
@@ -78,7 +78,7 @@ public static class AllAssets
 
         public static Asset<Texture2D>[] Glow;
         public static Asset<Texture2D> FishEyes;
-        public static Asset<Texture2D> FireDissolveNoise;
+        public static Asset<Texture2D>[] FireDissolveNoise;
         public static Asset<Texture2D> OrionNoise;
         public static Asset<Texture2D> SeasideColorMap;
 

@@ -36,13 +36,18 @@ public class PlayerQuestIcon : IQuestEntryIcon
 
     public void Update(QuestEntry entry, EntryIconDrawSettings settings)
     {
-        _fade = MathHelper.Lerp(_fade, Utils.ToInt(settings.IsHovered), settings.IsHovered ? 0.2f : 0.1f);
-        if (_fade < 0.1f)
+        if (settings.IsPortrait)
             _fade = 0f;
-        if (_fade > 0.99f)
-            _fade = 1f;
+        else
+        {
+            _fade = MathHelper.Lerp(_fade, Utils.ToInt(settings.IsHovered), settings.IsHovered ? 0.2f : 0.1f);
+            if (_fade < 0.1f)
+                _fade = 0f;
+            if (_fade > 0.99f)
+                _fade = 1f;
+        }
 
-        _player.velocity.X = Utils.ToInt(settings.IsHovered) * 1.3f;
+        _player.velocity.X = Utils.ToInt(settings.IsHovered || settings.IsPortrait) * 1.3f;
 
         _player.ResetEffects();
         _player.ResetVisibleAccessories();

@@ -49,7 +49,11 @@ public class ScholarStaffProj : ModProjectile
         Player.SetDummyItemTime(2);
         Player.ChangeDir(Math.Sign(Projectile.velocity.X));
 
-        if (Player.channel)
+        float realCharge = Math.Clamp(Charge - 20, 0, 50) / 50f;
+        int count = (int)Math.Floor(realCharge * 2f) + 1;
+        int manaNeeded = Player.GetManaCost(Player.HeldItem) * count;
+
+        if (Player.channel && Player.CheckMana(manaNeeded))
         {
             Time = 0;
 
@@ -102,9 +106,6 @@ public class ScholarStaffProj : ModProjectile
 
         if (Time == (int)(MaxTime * 0.5f))
         {
-            float realCharge = Math.Clamp(Charge - 20, 0, 50) / 50f;
-            int count = (int)Math.Floor(realCharge * 2f) + 1;
-
             SoundStyle sound = count > 2 ? SoundID.Item105 : (count > 1 ? SoundID.Item101 : SoundID.Item1);
             sound.MaxInstances = 0;
             sound.PitchVariance = 0.1f;
@@ -118,16 +119,17 @@ public class ScholarStaffProj : ModProjectile
                 if (!Collision.CanHitLine(Player.Center, 0, 0, shootPoint, 0, 0))
                     shootPoint = Player.Center;
 
+                Vector2 boltDirection = shootPoint.DirectionTo(Main.MouseWorld);
+
+                Player.CheckMana(manaNeeded, true);
+
                 for (int i = 0; i < count; i++)
                 {
-                    if (i > 0)
-                        Player.CheckMana(Player.GetManaCost(Player.HeldItem), true);
-
                     float inaccuracy = realCharge / 6f;
                     int damage = (int)(Projectile.damage * (1f + realCharge));
-                    Vector2 boltVelocity = Player.velocity * 0.05f + shootPoint.DirectionTo(Main.MouseWorld).RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
+                    Vector2 boltVelocity = Player.velocity * 0.05f + boltDirection.RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
                     Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
-                    bolt.ai[0] = Main.rand.NextFloat(0.6f, 1.5f);
+                    bolt.ai[0] = Main.rand.NextFloat(0.6f, 1.2f);
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
                 }
 
@@ -148,6 +150,8 @@ public class ScholarStaffProj : ModProjectile
 
         Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.1f);
     }
+
+    public override bool? CanCutTiles() => false;
 
     public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => false;
 

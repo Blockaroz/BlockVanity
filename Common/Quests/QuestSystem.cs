@@ -47,7 +47,6 @@ public class QuestSystem : ModSystem
         {
             SoundEngine.PlaySound(SoundID.MenuOpen);
 
-            AllQuests.AddQuests(ref database);
             questUI = new QuestUI(database);
 
             IngameFancyUI.OpenUIState(questUI);

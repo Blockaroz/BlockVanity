@@ -54,7 +54,7 @@ public static class QuestSortSteps
     {
         public bool Hidden => false;
 
-        public int Compare(QuestEntry x, QuestEntry y) => x.ReclaimPrice.CompareTo(y.ReclaimPrice);
+        public int Compare(QuestEntry x, QuestEntry y) => x.Reward.Price.CompareTo(y.Reward.Price);
 
         public string GetDisplayNameKey() => "BestiaryInfo.Sort_Coins";
     }
