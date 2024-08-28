@@ -30,8 +30,16 @@ float2 uLegacyArmorSheetSize;
 float4 PixelShaderFunction(float4 base : COLOR0, float2 input : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, input);
-
-    return color * base;
+    float lightness = (color.r + color.g + color.b) / 3;
+    
+    float maxC = max(color.r, max(color.g, color.b));
+    float minC = min(color.r, min(color.g, color.b));  
+    float saturation = (maxC - minC) / (1. - abs(2 * clamp(lightness, 0, 1.5) - 1));
+    
+    float3 radColor = lerp(uSecondaryColor, uColor, smoothstep(0, 0.4, lightness) * (0.9 + sin(uTime * 3.14) * 0.1)) * (1.2 + sin(uTime * 3.14) * 0.1);
+    float3 finalColor = lerp(lightness * 1.2, pow(radColor * lightness * 1.3, 1.3), clamp(saturation + sin(uTime * 3.14) * 0.02, 0, 1));
+    
+    return float4(finalColor, color.a) * base;
 }
 
 technique Technique1

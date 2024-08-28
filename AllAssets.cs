@@ -61,11 +61,11 @@ public static class AllAssets
             ModContent.Request<Texture2D>(assetpath + "Textures/Extras/FishSkin/BlueFishSkin_Tail")
             ];
 
-        Effects.BasicTrail = ModContent.Request<Effect>(assetpath + "Effects/BasicTrail");
-        Effects.Dissolve = ModContent.Request<Effect>(assetpath + "Effects/Dissolve");
+        Effects.BasicTrail = ModContent.Request<Effect>(assetpath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
+        Effects.Dissolve = ModContent.Request<Effect>(assetpath + "Effects/Dissolve", AssetRequestMode.ImmediateLoad);
 
         Effects.OrionShader = ModContent.Request<Effect>(assetpath + "Effects/OrionShader");
-        Effects.RadiationDyeShader = ModContent.Request<Effect>(assetpath + "Effects/OrionShader");
+        Effects.RadiationDyeShader = ModContent.Request<Effect>(assetpath + "Effects/RadiationDyeShader");
         Effects.SeasideHairShader = ModContent.Request<Effect>(assetpath + "Effects/SeasideHairShader");
 
         //Sounds.FishyHit = new SoundStyle(assetpath + "Sounds/HitSounds/FishySkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };

@@ -17,7 +17,7 @@ public class RadiationDye : ModItem
         Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
-            GameShaders.Armor.BindShader(Type, new ArmorShaderData(AllAssets.Effects.RadiationDyeShader, "ShaderPass")).UseColor(0.3f, 3f, 0.1f);
+            GameShaders.Armor.BindShader(Type, new ArmorShaderData(AllAssets.Effects.RadiationDyeShader, "ShaderPass")).UseColor(1.6f, 3f, 0.3f).UseSecondaryColor(1.3f, 3f, 1.3f);
     }
 
     public override void SetDefaults()

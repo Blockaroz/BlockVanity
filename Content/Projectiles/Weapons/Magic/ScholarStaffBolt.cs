@@ -27,8 +27,8 @@ public class ScholarStaffBolt : ModProjectile
 
     public override void SetDefaults()
     {
-        Projectile.width = 24;
-        Projectile.height = 24;
+        Projectile.width = 18;
+        Projectile.height = 18;
         Projectile.friendly = true;
         Projectile.hostile = false;
         Projectile.tileCollide = true;
@@ -84,7 +84,7 @@ public class ScholarStaffBolt : ModProjectile
 
         Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), Color.Black * 0.7f, 0f, glow.Size() * 0.5f, 0.4f * Projectile.scale, 0, 0);
         Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), color, Projectile.rotation, texture.Size() * 0.5f, 1f, 0, 0);
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), new Color(225, 255, 255, 0), Projectile.rotation, texture.Size() * 0.5f, 0.7f, 0, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), new Color(225, 255, 255, 0), Projectile.rotation, texture.Size() * 0.5f, 0.84f, 0, 0);
         Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 }, 0f, glow.Size() * 0.5f, 0.35f * Projectile.scale, 0, 0);
         Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 } * 0.3f, 0f, glow.Size() * 0.5f, 0.6f * Projectile.scale, 0, 0);
 
