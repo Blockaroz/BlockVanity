@@ -68,15 +68,17 @@ public class QuestUIEntryIcon : UIElement
             IsHovered = IsMouseHovering || ForceHover
         });
 
-        if (_hoverFade > 0)
+        if (_hoverFade > 0 && _entry.Completion != QuestCompletionState.Hidden)
         {
             Vector2 bottomOfEntry = dimensions.Center() + new Vector2(0f, dimensions.Height * 0.35f);
             Vector2 textPosition = dimensions.Center() + new Vector2(0, dimensions.Height * (0.8f - _hoverFade * 0.45f));
             Texture2D back = AllAssets.Textures.Glow[0].Value;
-            Texture2D starTexture = TextureAssets.Star[0].Value;
+            Texture2D starTexture = AllAssets.Textures.VanityStar.Value;
+            Rectangle starFrame = starTexture.Frame(1, 2, 0, 0);
 
             spriteBatch.Draw(back, bottomOfEntry, back.Frame(), Color.Black * 0.5f * _hoverFade, 0f, back.Size() * new Vector2(0.5f, 0.35f), new Vector2(1.2f, 1f), 0, 0);
-            spriteBatch.Draw(starTexture, textPosition + Vector2.UnitX * 5, starTexture.Frame(), Color.White, 0f, starTexture.Size() * new Vector2(0f, 0.5f), 1f, 0, 0);
+            spriteBatch.Draw(starTexture, textPosition + Vector2.UnitX * 5, starFrame, Color.White, 0f, starFrame.Size() * new Vector2(0f, 0.5f), 0.5f, 0, 0);
+            
             string countText = _entry.StarCount.ToString();
             Utils.DrawBorderString(spriteBatch, countText, textPosition, Color.White, 1f, 1f, 0.36f);
 

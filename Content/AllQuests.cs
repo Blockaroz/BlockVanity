@@ -2,6 +2,7 @@
 using BlockVanity.Common.Quests;
 using BlockVanity.Content.Hairs;
 using BlockVanity.Content.Items.Dyes;
+using BlockVanity.Content.Items.TestItems;
 using BlockVanity.Content.Items.Vanity;
 using BlockVanity.Content.Items.Vanity.Myrtle;
 using BlockVanity.Content.Items.Vanity.Scholar;
@@ -56,13 +57,38 @@ public static class AllQuests
         database.Add(new QuestEntry
         {
             NameKey = "CaveScholar",
-            CompleteCondition = () => true,
             AvailableCondition = () => Main.hardMode,
+            CompleteCondition = () => true,
             StarCount = StarCountRare,
             Icon = new PlayerQuestIcon(scholarPlayer),
             Reward = new QuestRewardData([
                 ItemType<ScholarStaff>()], Item.buyPrice(0, 5, 0, 0))
         });
+
+        Player lichPlayer = CreatePlayer(head: ItemID.Skull);
+        database.Add(new QuestEntry
+        {
+            NameKey = "RoyalLich",
+            AvailableCondition = () => Main.hardMode,
+            CompleteCondition = () => true,
+            SkipFreeClaim = true,
+            StarCount = StarCountRare,
+            Icon = new PlayerQuestIcon(lichPlayer),
+            Reward = new QuestRewardData([
+                ItemType<ScholarStaff>()], Item.buyPrice(0, 5, 0, 0))
+        });
+
+        for (int i = 0; i < 100; i++)
+        {
+            database.Add(new QuestEntry
+            {
+                NameKey = "TestQuest",
+                CompleteCondition = Main.rand.NextBool() ? () => true : () => false,
+                AvailableCondition = Main.rand.NextBool() ? () => true : () => false,
+                StarCount = i / 6,
+                Icon = new ItemQuestIcon(ItemType<QuestCompleter>())
+            });
+        }
 
         SetDatabaseIDs(ref database);
     }

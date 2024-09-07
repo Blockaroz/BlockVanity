@@ -29,7 +29,8 @@ public class QuestUISortingGrid : UIPanel
         _buttons = new List<GroupOptionButton<int>>();
         _selections = new List<int>();
         Width = new StyleDimension(0f, 1f);
-        Height = new StyleDimension(0f, 1f);
+        Height = new StyleDimension(-36f, 1f);
+        Top = new StyleDimension(36f, 0f);
         BackgroundColor = new Color(35, 40, 83) * 0.5f;
         BorderColor = new Color(35, 40, 83) * 0.5f;
         IgnoresMouseInteraction = false;
@@ -54,8 +55,7 @@ public class QuestUISortingGrid : UIPanel
             Height = new StyleDimension(height * 28 + 10, 0f),
             HAlign = 1f,
             VAlign = 0f,
-            Top = new StyleDimension(0f, 0f),
-            Left = new StyleDimension(-200, 0f)
+            Left = new StyleDimension(-220, 0f)
         };
 
         mainPanel.BorderColor = new Color(89, 116, 213, 255) * 0.9f;

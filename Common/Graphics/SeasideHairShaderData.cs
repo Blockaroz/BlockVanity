@@ -7,14 +7,13 @@ namespace BlockVanity.Common.Graphics;
 
 public class SeasideHairShaderData : HairShaderData
 {
-    public SeasideHairShaderData() : base(AllAssets.Effects.SeasideHairShader, "ShaderPass") { }
+    public SeasideHairShaderData() : base(AllAssets.Effects.SeasideHairDye, "ShaderPass") { }
 
     public override Color GetColor(Player player, Color lightColor) => lightColor;
 
     public override void Apply(Player player, DrawData? drawData = null)
     {
         base.Apply(player, drawData);
-        UseImage(AllAssets.Textures.SeasideColorMap);
         Shader.Parameters["uTime"]?.SetValue(Main.GlobalTimeWrappedHourly / 2f);
         Shader.CurrentTechnique.Passes[0].Apply();
     }

@@ -125,6 +125,11 @@ Items: {
 		DisplayName: Radiation Dye
 		Tooltip: ""
 	}
+
+	PhantomDye: {
+		DisplayName: Phantom Dye
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

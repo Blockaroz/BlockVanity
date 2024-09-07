@@ -35,10 +35,21 @@ public class QuestSystem : ModSystem
         questUI = new QuestUI(database);
     }
 
+    private int checkCounter;
+    public bool RequestCheck { get; set; }
+
     public override void PostUpdatePlayers()
     {
         if (Main.netMode != NetmodeID.Server)
-            database.CheckQuests();
+        {
+            if (checkCounter++ > 6 || RequestCheck)
+            {
+                database.CheckQuests();
+
+                RequestCheck = false;
+                checkCounter = 0;
+            }
+        }
     }
 
     public override void UpdateUI(GameTime gameTime)

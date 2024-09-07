@@ -7,7 +7,7 @@ namespace BlockVanity.Common.Graphics;
 
 public class OrionShaderData : ArmorShaderData
 {
-    public OrionShaderData() : base(AllAssets.Effects.OrionShader, "ShaderPass") { }
+    public OrionShaderData() : base(AllAssets.Effects.OrionDye, "ShaderPass") { }
 
     public void UseColors(Color glow, Color secondary, Color fade)
     {

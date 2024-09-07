@@ -53,6 +53,18 @@ public class MiscEffectPlayer : ModPlayer
         return Enumerable.Empty<Item>();
     }
 
+    public override void GetDyeTraderReward(List<int> rewardPool)
+    {
+        if (Main.hardMode)
+        {
+            if (NPC.downedPirates)
+                rewardPool.Add(ModContent.ItemType<PhantomDye>());
+
+            if (NPC.downedGolemBoss)
+                rewardPool.Add(ModContent.ItemType<RadiationDye>());
+        }
+    }
+
     public override void ResetEffects()
     {
         accBlackEye = false;

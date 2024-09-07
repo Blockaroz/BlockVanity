@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using BlockVanity.Common.Quests;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +17,8 @@ namespace BlockVanity.Common.UI.QuestUI;
 public class QuestUI : UIState
 {
     private bool _clicked;
+
+    private UIPanel _mainPanel;
 
     private QuestUIInfoPage _infoPage;
 
@@ -48,14 +51,16 @@ public class QuestUI : UIState
     {
         RemoveAllChildren();
         UIElement mainElement = new UIElement();
-        mainElement.Width.Set(880f, 0f);
+        mainElement.Width.Set(980f, 0f);
+        mainElement.MinWidth.Set(650f, 0f);
+        mainElement.MaxWidth.Set(980f, 0f);
         mainElement.Height.Set(-250f, 1f);
-        mainElement.MinHeight.Set(600f, 0f);
+        mainElement.MinHeight.Set(500f, 0f);
         mainElement.HAlign = 0.5f;
-        mainElement.VAlign = 0.8f;
+        mainElement.VAlign = 0.7f;
         Append(mainElement);
 
-        UIPanel mainPanel = new UIPanel();
+        UIPanel mainPanel = _mainPanel = new UIPanel();
         mainPanel.Width.Set(0f, 1f);
         mainPanel.Height.Set(-100f, 1f);
         mainPanel.BackgroundColor = new Color(33, 43, 79) * 0.8f;
@@ -70,26 +75,25 @@ public class QuestUI : UIState
 
         topPanel.SetPadding(0f);
 
-        int searchWidth = 180;
+        const int miscWidth = 200;
 
         QuestUIInfoPage infoPageUI = _infoPage = new QuestUIInfoPage()
         {
-            Width = new StyleDimension(searchWidth + 166, 0f),
+            Width = new StyleDimension(494, 0f),
             Height = new StyleDimension(-(topPanel.Height.Pixels + 12), 1f),
             VAlign = 1f,
             HAlign = 1f,
         };
         mainPanel.Append(infoPageUI);
+        infoPageUI.SetPadding(0f);
 
         AddBackButton(mainElement);
-        AddSortButton(topPanel, searchWidth);
-        AddSearchBar(topPanel, searchWidth);
-
-        infoPageUI.SetPadding(0f);
+        AddSortButton(topPanel, miscWidth);
+        AddSearchBar(topPanel, miscWidth);
 
         UIElement gridSpace = _entryGridSpace = new UIElement
         {
-            Width = new StyleDimension(0f, 1f),
+            Width = new StyleDimension(-(infoPageUI.Width.Pixels + 12), 1f),
             Height = new StyleDimension(-(topPanel.Height.Pixels + 12), 1f),
             VAlign = 1f
         };
@@ -136,7 +140,10 @@ public class QuestUI : UIState
     private void FillInEntries()
     {
         if (_entryGrid != null && _entryGrid.Parent != null)
-            _entryGrid.FillInEntries();
+        { 
+            _entryGrid.SetWorkingEntries(_workingEntries);
+            _entryGrid.FillInEntries(); 
+        }
     }
 
     private void SortEntries() => _workingEntries.Sort(_sorter);
@@ -280,6 +287,11 @@ public class QuestUI : UIState
 
     }
 
+    //private void ClickExpandInfoPage(UIMouseEvent evt, UIElement listeningElement)
+    //{
+
+    //}
+
     private void MouseOverTickSound(UIMouseEvent evt, UIElement listeningElement)
     {
         SoundEngine.PlaySound(SoundID.MenuTick);
@@ -390,8 +402,8 @@ public class QuestUI : UIState
             return;
         }
 
-        _entryGridSpace?.RemoveChild(_sortingGrid);
-        _entryGridSpace?.Append(_sortingGrid);
+        _mainPanel?.RemoveChild(_sortingGrid);
+        _mainPanel?.Append(_sortingGrid);
     }
 
     private void ClickCloseSortingGrid(UIMouseEvent evt, UIElement listeningElement)
@@ -403,7 +415,7 @@ public class QuestUI : UIState
     private void CloseSortingGrid()
     {
         UpdateContents();
-        _entryGridSpace?.RemoveChild(_sortingGrid);
+        _mainPanel?.RemoveChild(_sortingGrid);
     }
 
     private void SwitchSortOrder(UIMouseEvent evt, UIElement listeningElement)

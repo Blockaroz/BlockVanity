@@ -13,6 +13,7 @@ public sealed class QuestEntry
     public LocalizedText Description => Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.Quests.{NameKey}.Description");
 
     public QuestCompletionState Completion { get; set; }
+    public bool SkipFreeClaim { get; set; }
 
     public string NameKey { get; set; }
     public IQuestEntryIcon Icon { get; set; }

@@ -4,8 +4,12 @@ using BlockVanity.Common.Quests;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
+using Terraria.ModLoader.UI;
 using Terraria.UI;
 
 namespace BlockVanity.Common.UI.QuestUI;
@@ -14,9 +18,12 @@ public class QuestUIInfoPage : UIElement
 {
     private QuestUIRewardList _rewardList;
 
+    private UIList _elementList;
     private UIText _id;
     private UIText _name;
-    private UIText _description;
+    private UITextPanel<string> _description;
+    private UIPanel _descriptionPanel;
+    private UIImageButton _expandButton;
     private IQuestEntryIcon _portrait;
     private int _stars;
 
@@ -33,7 +40,7 @@ public class QuestUIInfoPage : UIElement
             Height = new StyleDimension(400f, 1f),
             OverflowHidden = true
         };
-        mainPanel.BackgroundColor = new Color(73, 85, 186);
+        mainPanel.BackgroundColor = new Color(73, 90, 180);
         mainPanel.BorderColor = new Color(89, 116, 213);
         mainPanel.SetPadding(0f);
         Append(mainPanel);
@@ -46,22 +53,33 @@ public class QuestUIInfoPage : UIElement
         separator.Color = new Color(89, 116, 213);
         mainPanel.Append(separator);
 
-        UIText nameText = _name = new UIText("", 0.5f, true);
-        nameText.DynamicallyScaleDownToWidth = true;
-        nameText.Width.Set(0f, 1f);
-        nameText.Height.Set(24f, 0f);
-        nameText.Top.Set(12f, 0f);
-        mainPanel.Append(nameText);
-
         UIText idText = _id = new UIText("");
-        idText.Top.Set(10, 0f);
-        idText.Left.Set(18, 0f);
+        idText.Top.Set(10f, 0f);
+        idText.Left.Set(6f, 0f);
         idText.TextColor = Colors.RarityTrash;
+        idText.TextOriginX = 0f;
         mainPanel.Append(idText);
 
+        UIText nameText = _name = new UIText("", 0.5f, true);
+        nameText.DynamicallyScaleDownToWidth = true;
+        nameText.HAlign = 0.5f;
+        nameText.Width.Set(-14f, 1f);
+        nameText.Height.Set(24f, 0f);
+        nameText.Top.Set(12f, 0f);
+        nameText.TextOriginX = 0.5f;
 
-        UIText description = _description = new UIText("", 0.5f, true);
+        mainPanel.Append(nameText);
 
+        UIList list = _elementList = new UIList();
+        list.Top.Set(40f, 0f);
+        list.Height.Set(-6f, 1f);
+
+        UITextPanel<string> descriptPanel = _description = new UITextPanel<string>("");
+
+        descriptPanel.BackgroundColor = Color.Black * 0.4f;
+        descriptPanel.BorderColor = Color.White * 0.4f;
+        list.Add(descriptPanel);
+        mainPanel.Append(list);
 
         UIPanel border = new UIPanel()
         {
@@ -72,28 +90,37 @@ public class QuestUIInfoPage : UIElement
         border.BorderColor = new Color(89, 116, 213);
         border.SetPadding(0f);
         mainPanel.Append(border);
+
+        Close();
     }
 
     public void OpenEntry(QuestEntry entry)
     {
-        _id?.SetText($"#{entry.id + 1}");
-        _name?.SetText(entry.Name.Value);
-        _description?.SetText(entry.Description.Value);
-        _portrait = entry.Portrait ?? entry.Icon;
-        _stars = entry.StarCount;
+        if (entry == null)
+        {
+            Close();
+            return;
+        }
+
+        if (entry.Completion != QuestCompletionState.Hidden)
+        {
+            _name?.SetText(entry.Name.Value);
+            _id?.SetText($"#{entry.id + 1}");
+            _description?.SetText(entry.Description.Value);
+            _portrait = entry.Portrait ?? entry.Icon;
+            _stars = entry.StarCount;
+        }
+        else
+            Close();
     }
 
     public void Close()
     {
-        _id.SetText("");
-        _name.SetText("");
+        _name.SetText("???");
+        _id.SetText("#-");
+
         _description.SetText("");
         _portrait = null;
         _stars = 0;
-    }
-
-    protected override void DrawSelf(SpriteBatch spriteBatch)
-    {
-        base.DrawSelf(spriteBatch);
     }
 }

@@ -10,7 +10,7 @@ public class SeasideHairDye : ModItem
 {
     public override void SetStaticDefaults()
     {
-        GameShaders.Hair.BindShader(Type, new SeasideHairShaderData());
+        GameShaders.Hair.BindShader(Type, new SeasideHairShaderData().UseImage(AllAssets.Textures.SeasideColorMap));
     }
 
     public override void SetDefaults()

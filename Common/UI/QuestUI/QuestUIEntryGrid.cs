@@ -22,6 +22,8 @@ public class QuestUIEntryGrid : UIElement
     private int _firstEntry;
     private int _lastEntry;
 
+    public void SetWorkingEntries(List<QuestEntry> entries) => _workingEntries = entries;
+
     public event Action OnUpdateGrid;
 
     public QuestUIEntryGrid(List<QuestEntry> workingSet, MouseEvent clickEntry)
