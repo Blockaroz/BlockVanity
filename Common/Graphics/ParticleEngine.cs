@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Graphics.ParticleRendering;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Renderers;
 
@@ -30,6 +31,6 @@ public static class ParticleEngine
     {
         orig(self);
 
-        particles.Draw(Main.spriteBatch, false);
+        particles.Draw(Main.spriteBatch, Main.screenPosition, BlendState.AlphaBlend, Main.Transform);
     }
 }

@@ -130,6 +130,26 @@ Items: {
 		DisplayName: Phantom Dye
 		Tooltip: ""
 	}
+
+	StylotronItem: {
+		DisplayName: Stylotron
+		Tooltip: ""
+	}
+
+	CountChaosGown: {
+		DisplayName: Count Chaos Gown
+		Tooltip: ""
+	}
+
+	CountChaosHornedHead: {
+		DisplayName: Count Chaos Horned Head
+		Tooltip: ""
+	}
+
+	CountChaosCuirass: {
+		DisplayName: Count Chaos Cuirass
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -148,11 +168,27 @@ HitSoundToggle: {
 	OffText: Hit sounds normal
 }
 
-Tiles.PlumeriaPlant.MapEntry: Blooming Plumeria
+Tiles: {
+	PlumeriaPlant.MapEntry: Blooming Plumeria
+	Stylotron.MapEntry: Stylotron
+}
+
 "Keybinds.QuestUI Test Bind.DisplayName": Quest UI Test Bind
 
 UI: {
 	SortBy: Sort
 	Sort_QuestID: Quest ID
 	Sort_StarCount: Stars
+}
+
+Configs: {
+	Config: {
+		DisplayName: Config
+		Headers.Mods.BlockVanity.Config.WardrobeUIPosition: Mods. Block Vanity. Config. Wardrobe U I Position Header
+
+		wardrobeUIPosition: {
+			Label: wardrobe U I Position
+			Tooltip: ""
+		}
+	}
 }

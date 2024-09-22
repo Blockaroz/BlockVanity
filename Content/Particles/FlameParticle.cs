@@ -45,7 +45,7 @@ public struct FlameParticle : IParticleData
         particle.rotation += (1f - MathF.Sqrt(Progress)) * rotationVelocity;
     }
 
-    public void Draw(Particle particle, SpriteBatch spriteBatch)
+    public void Draw(Particle particle, SpriteBatch spriteBatch, Vector2 anchorPosition)
     {
         Texture2D texture = AllAssets.Textures.Particle[1].Value;
         Texture2D bloom = AllAssets.Textures.Particle[2].Value;
@@ -55,7 +55,7 @@ public struct FlameParticle : IParticleData
         Color bloomColor = fadeColor * (1f - Progress);
 
         Vector2 drawScale = new Vector2(1f - Progress * 0.1f, 1f + Progress * 0.1f) * particle.scale * 0.8f * Utils.GetLerpValue(-2f, 4f, timeLeft, true);
-        spriteBatch.Draw(bloom, particle.position - Main.screenPosition, frame, bloomColor, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);        
-        spriteBatch.Draw(texture, particle.position - Main.screenPosition, frame, baseColor, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);    
+        spriteBatch.Draw(bloom, particle.position - anchorPosition, frame, bloomColor, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);        
+        spriteBatch.Draw(texture, particle.position - anchorPosition, frame, baseColor, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);    
     }
 }

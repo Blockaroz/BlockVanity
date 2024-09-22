@@ -63,7 +63,7 @@ public static class QuestSortSteps
     {
         public bool Hidden => false;
 
-        public int Compare(QuestEntry x, QuestEntry y) => x.Name.Value.CompareTo(y.Name.Value);
+        public int Compare(QuestEntry x, QuestEntry y) => x.Title.Value.CompareTo(y.Title.Value);
 
         public string GetDisplayNameKey() => "BestiaryInfo.Sort_Alphabetical";
     }

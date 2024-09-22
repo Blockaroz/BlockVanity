@@ -1,35 +1,40 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.ID;
 
 namespace BlockVanity.Common.Quests;
 
 public struct QuestRewardData
 {
+    public static QuestRewardData Empty = new QuestRewardData([], -1);
+
     public int[] Rewards { get; }
 
     public int Price { get; }
+    public bool SkipFreeClaim { get; }
     public bool Reclaimable => Price > -1;
 
     public bool HasRewards => Rewards != null && Rewards.Length > 0;
 
-    public QuestRewardData(int[] rewards, int reclaimPrice = 0)
+    public QuestRewardData(int[] rewards, int reclaimPrice, bool skipFreeClaim = false)
     {
         Rewards = rewards;
         Price = reclaimPrice;
+        SkipFreeClaim = skipFreeClaim;
 
         if (Price > -1)
         {
-            int priceOnTop = 0;
+            int rewardValue = 0;
             foreach (int itemType in Rewards)
-                priceOnTop += ContentSamples.ItemsByType[itemType].value;
+                rewardValue += ContentSamples.ItemsByType[itemType].value;
 
-            Price += priceOnTop;
+            Price = Math.Max(Price, rewardValue);
         }
     }
 
     public void Claim(Player player, bool free = false)
     {
-        if (free)
+        if (free && !SkipFreeClaim)
         {
             GiveItems(player);
             return;

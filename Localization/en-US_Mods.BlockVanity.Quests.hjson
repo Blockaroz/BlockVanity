@@ -1,3 +1,8 @@
+"": {
+	Name: ???
+	Description: ???
+}
+
 CardboardBox: {
 	Name: The Box
 	Description: No Description
@@ -8,22 +13,17 @@ Myrtle: {
 	Description: No Description
 }
 
-"": {
-	Name: ???
-	Description: ???
+Scholar: {
+	Name: Scholar
+	Description: Obtain a Scholar's Staff
 }
 
-CaveScholar: {
-	Name: Scholarly
-	Description: Obtain a Scholar's Staff
+BoneKing: {
+	Name: In the Hall of Bones and Evil
+	Description: Mods.BlockVanity.Quests.BoneKing.Description
 }
 
 TestQuest: {
 	Name: Tester's Quest
 	Description: Debug the mod!
-}
-
-RoyalLich: {
-	Name: In the Hall of Bones and Evil
-	Description: Mods.BlockVanity.Quests.RoyalLich.Description
 }

@@ -26,7 +26,7 @@ public struct ObsoleteShaderFlameParticle : IShaderParticleData
         this.color = color;
         this.fadeColor = fadeColor;
         maxTime = timeLeft;
-        style = Main.rand.Next(6);
+        style = Main.rand.Next(5);
         this.fadeTime = fadeTime;
         this.gravity = gravity;
     }
@@ -57,11 +57,11 @@ public struct ObsoleteShaderFlameParticle : IShaderParticleData
         //particle.rotation += (1f - MathF.Cbrt(Progress)) * rotationVelocity;
     }
 
-    public void Draw(Particle particle, SpriteBatch spriteBatch)
+    public void Draw(Particle particle, SpriteBatch spriteBatch, Vector2 anchorPosition)
     {
-        Texture2D texture = ModContent.Request<Texture2D>("BlockVanity/Assets/Textures/Particles/Particle_1_Test").Value;
+        Texture2D texture = ModContent.Request<Texture2D>("BlockVanity/Assets/Textures/Particles/Particle_4").Value;
 
-        Rectangle frame = texture.Frame(1, 6, 0, style);
+        Rectangle frame = texture.Frame(1, 5, 0, style);
         float drawScale = 1f;//particle.scale * MathF.Sqrt(Utils.GetLerpValue(-1f, 4f, timeLeft, true));
 
         Color drawColor = Color.Lerp(color, fadeColor, Utils.GetLerpValue(0.2f - fadeTime * 0.2f, 0.3f + fadeTime, Progress, true));
@@ -81,25 +81,25 @@ public struct ObsoleteShaderFlameParticle : IShaderParticleData
         SpriteEffects flip = rotationVelocity > 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         //spriteBatch.Draw(texture, particle.position - Main.screenPosition, frame, drawColor, particle.rotation, frame.Size() * 0.5f, drawScale, flip, 0);
 
-        int texSize = 96;
-        float styleCount = 6;
-        float frameCountForSheet = 60;
-        int framesOffset = 40;
+        int texSize = 70;
+        float styleCount = 5;
+        float frameCountForSheet = 25;
+        int framesOffset = 0;
         float framesOnScreen = 20;
 
-        spriteBatch.Draw(TextureAssets.BlackTile.Value, Vector2.UnitY * 80, new Rectangle(0, 0, (int)(frameCountForSheet * texSize), (int)(texSize * styleCount)), Color.Black, particle.rotation, Vector2.Zero, drawScale, 0, 0);
+        spriteBatch.Draw(TextureAssets.BlackTile.Value, Vector2.UnitY * 80, new Rectangle(0, 0, (int)(frameCountForSheet * texSize), (int)(texSize * styleCount)), Color.Black, particle.rotation, Vector2.Zero, 1f, 0, 0);
 
         for (int i = 0; i < framesOnScreen; i++)
         {
             float fakeProgress = (i + framesOffset) / (frameCountForSheet);
 
-            dissolveEffect.Parameters["uTextureScale"].SetValue(new Vector2(0.4f + fakeProgress * 0.7f) * new Vector2(1.5f, 1f));
+            dissolveEffect.Parameters["uTextureScale"].SetValue(Vector2.One);//new Vector2(0.4f + fakeProgress * 0.7f) * new Vector2(1.5f, 1f));
             dissolveEffect.Parameters["uPower"].SetValue(0.2f + MathF.Pow(fakeProgress, 2f) * 30f);
             dissolveEffect.Parameters["uProgress"].SetValue(fakeProgress);
 
             for (int j = 0; j < styleCount; j++)
             {
-                frame = texture.Frame(1, 6, 0, j);
+                frame = texture.Frame(1, (int)styleCount, 0, j);
                 dissolveEffect.Parameters["uSourceRect"].SetValue(new Vector4(frame.X, frame.Y, frame.Width, frame.Height));
                 dissolveEffect.CurrentTechnique.Passes[0].Apply();
 
@@ -113,15 +113,15 @@ public struct ObsoleteShaderFlameParticle : IShaderParticleData
 
         for (int i = 0; i < styleCount; i++)
         {
-            dissolveEffect.Parameters["uTextureScale"].SetValue(new Vector2(0.4f + Progress * 0.7f) * new Vector2(1.5f, 1f));
+            dissolveEffect.Parameters["uTextureScale"].SetValue(Vector2.One);//(new Vector2(0.4f + Progress * 0.7f) * new Vector2(1.5f, 1f));
             dissolveEffect.Parameters["uPower"].SetValue(0.2f + MathF.Pow(Progress, 2f) * 30f);
             dissolveEffect.Parameters["uProgress"].SetValue(Progress);
-            frame = texture.Frame(1, 6, 0, i);
+            frame = texture.Frame(1, (int)styleCount, 0, i);
             dissolveEffect.Parameters["uSourceRect"].SetValue(new Vector4(frame.X, frame.Y, frame.Width, frame.Height));
             dissolveEffect.CurrentTechnique.Passes[0].Apply();
 
 
-            spriteBatch.Draw(texture, Vector2.UnitY * (styleCount * 96 + 80) + new Vector2(48) + Vector2.UnitX * i * 96, frame, Color.White, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);
+            spriteBatch.Draw(texture, Vector2.UnitY * (styleCount * texSize + 80) + new Vector2(48) + Vector2.UnitX * i * 96, frame, Color.White, particle.rotation, frame.Size() * 0.5f, drawScale * 2f, 0, 0);
         }
 
         Main.pixelShader.CurrentTechnique.Passes[0].Apply();

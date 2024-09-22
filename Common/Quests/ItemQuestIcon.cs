@@ -7,7 +7,7 @@ using Terraria.UI;
 
 namespace BlockVanity.Common.Quests;
 
-public class ItemQuestIcon : IQuestEntryIcon
+public class ItemQuestIcon : IQuestPicture
 {
     private Item _item;
     private float _fade;

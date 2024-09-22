@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace BlockVanity;
 
@@ -81,5 +82,22 @@ public static class VanityUtils
         DrawData item = new DrawData(textureToDraw, position, legFrame, matchingColor, drawinfo.drawPlayer.legRotation, drawinfo.legVect, 1f, drawinfo.playerEffect);
         item.shader = shaderIndex;
         drawinfo.DrawDataCache.Add(item);
+    }
+
+    public static Player CreatePlayer(int head = -1, int body = -1, int legs = -1, int acc1 = -1, int acc2 = -1)
+    {
+        Player newPlayer = new Player();
+        if (head > -1)
+            newPlayer.armor[10] = ContentSamples.ItemsByType[head];
+        if (body > -1)
+            newPlayer.armor[11] = ContentSamples.ItemsByType[body];
+        if (legs > -1)
+            newPlayer.armor[12] = ContentSamples.ItemsByType[legs];
+        if (acc1 > -1)
+            newPlayer.armor[13] = ContentSamples.ItemsByType[acc1];
+        if (acc2 > -1)
+            newPlayer.armor[14] = ContentSamples.ItemsByType[acc2];
+
+        return newPlayer;
     }
 }

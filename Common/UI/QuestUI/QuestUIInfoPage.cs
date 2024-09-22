@@ -17,15 +17,15 @@ namespace BlockVanity.Common.UI.QuestUI;
 public class QuestUIInfoPage : UIElement
 {
     private QuestUIRewardList _rewardList;
+    private QuestUIPortrait _portrait;
 
     private UIList _elementList;
     private UIText _id;
     private UIText _name;
+
     private UITextPanel<string> _description;
     private UIPanel _descriptionPanel;
     private UIImageButton _expandButton;
-    private IQuestEntryIcon _portrait;
-    private int _stars;
 
     public QuestUIInfoPage()
     {
@@ -74,11 +74,14 @@ public class QuestUIInfoPage : UIElement
         list.Top.Set(40f, 0f);
         list.Height.Set(-6f, 1f);
 
-        UITextPanel<string> descriptPanel = _description = new UITextPanel<string>("");
+        QuestUIPortrait portrait = _portrait = new QuestUIPortrait();
+        list.Add(portrait);
 
+        UITextPanel<string> descriptPanel = _description = new UITextPanel<string>("");
         descriptPanel.BackgroundColor = Color.Black * 0.4f;
         descriptPanel.BorderColor = Color.White * 0.4f;
         list.Add(descriptPanel);
+
         mainPanel.Append(list);
 
         UIPanel border = new UIPanel()
@@ -104,11 +107,10 @@ public class QuestUIInfoPage : UIElement
 
         if (entry.Completion != QuestCompletionState.Hidden)
         {
-            _name?.SetText(entry.Name.Value);
+            _name?.SetText(entry.Title.Value);
             _id?.SetText($"#{entry.id + 1}");
             _description?.SetText(entry.Description.Value);
-            _portrait = entry.Portrait ?? entry.Icon;
-            _stars = entry.StarCount;
+            _portrait.SetEntry(entry);
         }
         else
             Close();
@@ -120,7 +122,6 @@ public class QuestUIInfoPage : UIElement
         _id.SetText("#-");
 
         _description.SetText("");
-        _portrait = null;
-        _stars = 0;
+        _portrait.SetEntry(null);
     }
 }

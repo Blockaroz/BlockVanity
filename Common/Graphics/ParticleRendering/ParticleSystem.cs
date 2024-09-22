@@ -9,7 +9,7 @@ namespace BlockVanity.Common.Graphics.ParticleRendering;
 
 public class ParticleSystem
 {
-    public List<Particle> Particles;
+    public List<Particle> Particles { get; private set; }
 
     private int _poolSize;
     private bool _allowShaders;
@@ -59,9 +59,8 @@ public class ParticleSystem
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, bool ui)
+    public void Draw(SpriteBatch spriteBatch, Vector2 anchorPosition, BlendState blendState, Matrix transform)
     {
-        Matrix transform = ui ? Main.UIScaleMatrix : Main.Transform;
         List<Particle> normalParticles = new List<Particle>();
         List<Particle> shaderParticles = new List<Particle>();
 
@@ -76,24 +75,24 @@ public class ParticleSystem
             }
         }
 
-        spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
+        spriteBatch.Begin(SpriteSortMode.Deferred, blendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
 
         if (normalParticles.Count > 0)
         {
             foreach (Particle particle in normalParticles)
-                particle.Draw(spriteBatch);
+                particle.Draw(spriteBatch, anchorPosition);
         }
 
         spriteBatch.End();
 
         if (_allowShaders)
         {
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
+            spriteBatch.Begin(SpriteSortMode.Immediate, blendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
 
             if (shaderParticles.Count > 0)
             {
                 foreach (Particle particle in shaderParticles)
-                    particle.Draw(spriteBatch);
+                    particle.Draw(spriteBatch, anchorPosition);
             }
 
             spriteBatch.End();

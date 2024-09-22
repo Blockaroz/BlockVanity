@@ -5,7 +5,7 @@ using Terraria.GameContent.Bestiary;
 
 namespace BlockVanity.Common.Quests;
 
-public interface IQuestEntryIcon
+public interface IQuestPicture
 {
     public void Update(QuestEntry entry, EntryIconDrawSettings settings);
 

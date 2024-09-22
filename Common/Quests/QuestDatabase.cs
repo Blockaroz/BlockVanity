@@ -59,14 +59,14 @@ public class QuestDatabase
         {
             if (quest.Completion == QuestCompletionState.Hidden)
             {
-                if (quest.AvailableCondition?.Invoke() ?? true)
+                if (quest.IsAvailable())
                     quest.Completion = QuestCompletionState.Available;
             }
             else if (quest.Completion == QuestCompletionState.Available)
             {
-                bool unlocked = quest.CompleteCondition?.Invoke() ?? true;
+                bool unlocked = quest.IsComplete();
 
-                if (quest.HasRewards)
+                if (quest.Reward.HasRewards)
                     quest.Completion = QuestCompletionState.Completed;
                 else
                     quest.Completion = QuestCompletionState.Claimed;

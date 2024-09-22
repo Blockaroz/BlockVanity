@@ -79,7 +79,7 @@ public class QuestUI : UIState
 
         QuestUIInfoPage infoPageUI = _infoPage = new QuestUIInfoPage()
         {
-            Width = new StyleDimension(494, 0f),
+            Width = new StyleDimension(600, 0f),
             Height = new StyleDimension(-(topPanel.Height.Pixels + 12), 1f),
             VAlign = 1f,
             HAlign = 1f,
@@ -127,12 +127,12 @@ public class QuestUI : UIState
     public override void Recalculate()
     {
         base.Recalculate();
-        FillInEntries();
+        UpdateContents();
     }
 
     public void UpdateContents()
     {
-        _sortText.SetText($"{Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.UI.SortBy").Value} ({_sortingGrid?.Selections?.Count ?? 0})");
+        _sortText?.SetText($"{Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.UI.SortBy").Value} ({_sortingGrid?.Selections?.Count ?? 0})");
         SortEntries();
         FillInEntries();
     }
@@ -146,7 +146,7 @@ public class QuestUI : UIState
         }
     }
 
-    private void SortEntries() => _workingEntries.Sort(_sorter);
+    private void SortEntries() => _workingEntries?.Sort(_sorter);
 
     private void UpdateGrid()
     {

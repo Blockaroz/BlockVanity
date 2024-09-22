@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Quests;
 
-public class PlayerQuestIcon : IQuestEntryIcon
+public class PlayerQuestIcon : IQuestPicture
 {
     private bool _drawWithoutTarget;
     private Player _player;
@@ -30,7 +30,7 @@ public class PlayerQuestIcon : IQuestEntryIcon
         catch
         {
             _drawWithoutTarget = true;
-            ModContent.GetInstance<BlockVanity>().Logger.Warn("Quest icon failed to create target");
+            BlockVanity.Instance.Logger.Warn("Quest icon failed to create target");
         }
     }
 

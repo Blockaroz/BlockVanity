@@ -35,17 +35,17 @@ public abstract class BaseOrionDye : ModItem
     }
 }
 
-public class OrionDye : BaseOrionDye
-{
-    public override Color MainColor => new Color(28, 155, 255);
-    public override Color SecondaryColor => new Color(55, 39, 211);
+//public class OrionDye : BaseOrionDye
+//{
+//    public override Color MainColor => new Color(28, 155, 255);
+//    public override Color SecondaryColor => new Color(55, 39, 211);
 
-    public override void AddRecipes()
-    {
-        CreateRecipe(3)
-            .AddIngredient(ItemID.BottledWater)
-            .AddIngredient(ItemID.LunarBar, 3)
-            .AddTile(TileID.DyeVat)
-            .Register();
-    }
-}
+//    public override void AddRecipes()
+//    {
+//        CreateRecipe(3)
+//            .AddIngredient(ItemID.BottledWater)
+//            .AddIngredient(ItemID.LunarBar, 3)
+//            .AddTile(TileID.DyeVat)
+//            .Register();
+//    }
+//}

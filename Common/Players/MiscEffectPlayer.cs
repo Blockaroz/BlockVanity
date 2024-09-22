@@ -12,11 +12,24 @@ namespace BlockVanity.Common.Players;
 
 public class MiscEffectPlayer : ModPlayer
 {
+    public bool disableBootsEffect;
+
     public bool accBlackEye;
     public bool blockheadSkin;
 
     //pets
     public bool floatingSkyLanternPet;
+
+    public override void Load()
+    {
+        On_Player.SpawnFastRunParticles += DisableFastRunParticles;
+    }
+
+    private void DisableFastRunParticles(On_Player.orig_SpawnFastRunParticles orig, Player self)
+    {
+        if (!self.GetModPlayer<MiscEffectPlayer>().disableBootsEffect)
+            orig(self);
+    }
 
     public override void UpdateEquips()
     {
@@ -31,7 +44,8 @@ public class MiscEffectPlayer : ModPlayer
     {
         if (blockheadSkin)
         {
-            drawInfo.colorBodySkin = Player.skinColor.ToGrayscale();
+            Color lightColor = drawInfo.drawPlayer.GetImmuneAlpha(Lighting.GetColorClamped((int)((double)drawInfo.Position.X + (double)drawInfo.drawPlayer.width * 0.5) / 16, (int)(((double)drawInfo.Position.Y + (double)drawInfo.drawPlayer.height * 0.5) / 16.0), drawInfo.drawPlayer.skinColor.ToGrayscale()), drawInfo.shadow);
+            drawInfo.colorBodySkin = lightColor;
             drawInfo.colorHead = drawInfo.colorBodySkin;
         }
 
@@ -67,6 +81,7 @@ public class MiscEffectPlayer : ModPlayer
 
     public override void ResetEffects()
     {
+        disableBootsEffect = false;
         accBlackEye = false;
         blockheadSkin = false;
         floatingSkyLanternPet = false;

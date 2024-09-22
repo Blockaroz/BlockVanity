@@ -3,28 +3,37 @@ using Terraria.Localization;
 
 namespace BlockVanity.Common.Quests;
 
-public sealed class QuestEntry
+public abstract class QuestEntry
 {
-    public bool HasRewards => Reward.HasRewards;
-
     public bool IsCompleteOrClaimed => Completion == (QuestCompletionState.Claimed | QuestCompletionState.Completed);
 
-    public LocalizedText Name => Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.Quests.{NameKey}.Name");
-    public LocalizedText Description => Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.Quests.{NameKey}.Description");
+    public LocalizedText Title => Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.Quests.{Name}.Name");
+    public LocalizedText Description => Language.GetOrRegister($"Mods.{nameof(BlockVanity)}.Quests.{Name}.Description");
 
     public QuestCompletionState Completion { get; set; }
-    public bool SkipFreeClaim { get; set; }
 
-    public string NameKey { get; set; }
-    public IQuestEntryIcon Icon { get; set; }
-    public IQuestEntryIcon Portrait { get; set; }
+    public virtual string Name => GetType().Name.Replace("Quest", "");
 
-    public Func<bool> AvailableCondition { get; set; }
-    public Func<bool> CompleteCondition { get; set; }
+    public IQuestPicture Portrait { get; private set; }
+    public IQuestPicture Icon { get; private set; }
 
-    public QuestRewardData Reward { get; set; }
+    public abstract QuestRewardData Reward { get; }
+    public abstract int StarCount { get; }
 
-    public int StarCount { get; set; }
+    public virtual bool IsAvailable() => true;
+    public abstract bool IsComplete();
+
+    public abstract IQuestPicture GetPortrait();
+    public virtual IQuestPicture GetIcon() => GetPortrait();
 
     internal int id;
+
+    internal void SetData(int i)
+    {
+        id = i;
+        Portrait = GetPortrait();
+        Icon = GetIcon();
+        _ = Title.Value;
+        _ = Description.Value;
+    }
 }

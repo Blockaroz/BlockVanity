@@ -64,7 +64,7 @@ public class QuestUIEntryGridButton : UIElement
         {
             string text = "???";
             if (Entry.Completion != QuestCompletionState.Hidden)
-                text = Entry.Name.Value;
+                text = Entry.Title.Value;
 
             Main.instance.MouseText(text, 0, 0);
         }

@@ -31,8 +31,8 @@ public class QuestSorter : IComparer<QuestEntry>
 
     private int SearchCompare(QuestEntry x, QuestEntry y)
     {
-        bool matchesX = searchString.ToLower().Contains(x.Name.Value, StringComparison.OrdinalIgnoreCase);
-        bool matchesY = searchString.ToLower().Contains(y.Name.Value, StringComparison.OrdinalIgnoreCase);
+        bool matchesX = searchString.ToLower().Contains(x.Title.Value, StringComparison.OrdinalIgnoreCase);
+        bool matchesY = searchString.ToLower().Contains(y.Title.Value, StringComparison.OrdinalIgnoreCase);
         return matchesX.CompareTo(matchesY);
     }
 }

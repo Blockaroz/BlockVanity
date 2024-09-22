@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlockVanity.Common.Graphics.ParticleRendering;
+﻿using BlockVanity.Common.Graphics.ParticleRendering;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Renderers;
+using Terraria;
 using Terraria.UI;
 
 namespace BlockVanity.Common.UI;
@@ -33,6 +29,6 @@ public class UIParticleSystem : UIElement
 
     protected override void DrawSelf(SpriteBatch spriteBatch)
     {
-        particles.Draw(spriteBatch, true);
+        particles.Draw(spriteBatch, Vector2.Zero, BlendState.AlphaBlend, Main.UIScaleMatrix);
     }
 }

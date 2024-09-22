@@ -67,7 +67,7 @@ public struct MagicTrailParticle : IParticleData
             particle.active = false;
     }
 
-    public void Draw(Particle particle, SpriteBatch spriteBatch)
+    public void Draw(Particle particle, SpriteBatch spriteBatch, Vector2 anchorPosition)
     {
         Texture2D texture = AllAssets.Textures.Particle[0].Value;
 
