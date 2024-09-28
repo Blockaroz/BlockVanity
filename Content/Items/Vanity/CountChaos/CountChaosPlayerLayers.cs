@@ -26,6 +26,9 @@ public class ChaosFireLayer : PlayerDrawLayer
         if (particlePlayer.IsReady && drawInfo.shadow == 0f)
         {
             DrawData data = particlePlayer.GetChaosFire();
+            data.position = drawInfo.Center - Main.screenPosition;
+            data.color = Color.Lerp(Color.White, drawInfo.colorArmorBody, 0.7f);
+            data.effect = Main.GameViewMatrix.Effects;
             data.shader = particlePlayer.flameShader;
             drawInfo.DrawDataCache.Add(data);
         }
@@ -56,15 +59,71 @@ public class CountChaosGownLayer : PlayerDrawLayer
     }
 }
 
-public class CountChaosCuirassGemLayer : PlayerDrawLayer
+public class CountChaosGlowBodyLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Torso);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
-        DrawData data = new DrawData(CountChaosCuirass.glowTextureArmor.Value, drawInfo.BodyPosition(), drawInfo.compTorsoFrame, drawInfo.colorArmorBody with { A = 0 }, drawInfo.drawPlayer.bodyRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
+        Texture2D glowTexture = CountChaosCuirass.glowTextureArmor.Value;
+        Vector2 position = drawInfo.BodyPosition();
+        position.ApplyVerticalOffset(drawInfo);
+        position.Y += drawInfo.torsoOffset;
+
+        Color color = Color.Lerp(Color.White, drawInfo.colorArmorBody, 0.5f) with { A = 0 };
+        DrawData data = new DrawData(glowTexture, position, drawInfo.compTorsoFrame, color * (1f - drawInfo.shadow) * 0.7f, drawInfo.drawPlayer.bodyRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
+        data.shader = drawInfo.drawPlayer.cBody;
+        drawInfo.DrawDataCache.Add(data);
+    }
+}
+
+public class CountChaosGlowArmOnLayer : PlayerDrawLayer
+{
+    public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.ArmOverItem);
+
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
+
+    protected override void Draw(ref PlayerDrawSet drawInfo)
+    {
+        Texture2D glowTexture = CountChaosCuirass.glowTextureArmor.Value;
+        Vector2 compOffset = VanityUtils.GetCompositeOffset_FrontArm(ref drawInfo);
+        Vector2 position = drawInfo.BodyPosition();
+        position.ApplyVerticalOffset(drawInfo);
+        position.Y += drawInfo.torsoOffset;
+
+        Color color = Color.Lerp(Color.White, drawInfo.colorArmorBody, 0.5f) with { A = 0 };
+        DrawData shoulderData = new DrawData(glowTexture, position, drawInfo.compFrontShoulderFrame, color * (1f - drawInfo.shadow) * 0.4f, drawInfo.drawPlayer.bodyRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
+        shoulderData.shader = drawInfo.drawPlayer.cBody;
+        drawInfo.DrawDataCache.Add(shoulderData);
+
+        DrawData data = new DrawData(glowTexture, position + compOffset, drawInfo.compFrontArmFrame, color * (1f - drawInfo.shadow) * 0.4f, drawInfo.compositeFrontArmRotation, drawInfo.bodyVect + compOffset, 1f, drawInfo.playerEffect, 0);
+        data.shader = drawInfo.drawPlayer.cBody;
+        drawInfo.DrawDataCache.Add(data);
+    }
+}
+
+public class CountChaosGlowArmOffLayer : PlayerDrawLayer
+{
+    public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.OffhandAcc);
+
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
+
+    protected override void Draw(ref PlayerDrawSet drawInfo)
+    {
+        Texture2D glowTexture = CountChaosCuirass.glowTextureArmor.Value;
+        Vector2 compOffset = VanityUtils.GetCompositeOffset_BackArm(ref drawInfo);
+        Vector2 position = drawInfo.BodyPosition();
+        position.ApplyVerticalOffset(drawInfo);
+        position.Y += drawInfo.torsoOffset;
+
+        Color color = Color.Lerp(Color.White, drawInfo.colorArmorBody, 0.5f) with { A = 0 };
+        DrawData shoulderData = new DrawData(glowTexture, position, drawInfo.compBackShoulderFrame, color * (1f - drawInfo.shadow) * 0.4f, drawInfo.drawPlayer.bodyRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
+        shoulderData.shader = drawInfo.drawPlayer.cBody;
+        drawInfo.DrawDataCache.Add(shoulderData);
+
+        DrawData data = new DrawData(glowTexture, position + compOffset, drawInfo.compBackArmFrame, color * (1f - drawInfo.shadow) * 0.4f, drawInfo.compositeBackArmRotation, drawInfo.bodyVect + compOffset, 1f, drawInfo.playerEffect, 0);
         data.shader = drawInfo.drawPlayer.cBody;
         drawInfo.DrawDataCache.Add(data);
     }

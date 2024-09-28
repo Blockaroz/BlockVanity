@@ -1,15 +1,13 @@
 ﻿using System;
-using BlockVanity.Common.Graphics;
+using System.Collections.Generic;
 using BlockVanity.Common.Graphics.ParticleRendering;
 using BlockVanity.Content.Items.Vanity.CountChaos;
 using BlockVanity.Content.Particles;
-using log4net.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using static Terraria.GameContent.Animations.IL_Actions.Sprites;
 
 namespace BlockVanity.Common.Players;
 
@@ -19,6 +17,7 @@ public class CountChaosPlayer : ModPlayer
     {
         On_Main.CheckMonoliths += DrawAllTargets;
         On_Player.PlayerFrame += SlowLegs;
+        On_Player.SetArmorEffectVisuals += ArmorShadows;
     }
 
     private void DrawAllTargets(On_Main.orig_CheckMonoliths orig)
@@ -39,32 +38,78 @@ public class CountChaosPlayer : ModPlayer
 
     public override void Initialize()
     {
-        chaosFireParticles = new ParticleSystem(500, false);
+        chaosFireParticles = new ParticleSystem(200, false);
         chaosFireParticles.Init();
 
         Main.QueueMainThreadAction(() =>
         {
-            chaosFireTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 600, 600);
+            chaosFireTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 300, 300);
         });
 
         drawToTarget += DrawParticlesToTarget;
     }
 
+    public static readonly BlendState MinimumColorBlend = new BlendState()
+    {
+        AlphaBlendFunction = BlendFunction.Max,
+        ColorBlendFunction = BlendFunction.Min,
+        ColorSourceBlend = Blend.One,
+        ColorDestinationBlend = Blend.One,
+        AlphaSourceBlend = Blend.One,
+        AlphaDestinationBlend = Blend.One
+    };
+
     public void DrawParticlesToTarget(SpriteBatch spriteBatch)
     {
         spriteBatch.GraphicsDevice.SetRenderTarget(chaosFireTarget);
         spriteBatch.GraphicsDevice.Clear(Color.Transparent);
-        BlendState minimumColorBlend = new BlendState()
+
+        if (chaosFireParticles != null)
         {
-            ColorBlendFunction = BlendFunction.Max,
-            ColorSourceBlend = Blend.One,
-            ColorDestinationBlend = Blend.One,
-            AlphaBlendFunction = BlendFunction.Add,
-            AlphaSourceBlend = Blend.One,
-            AlphaDestinationBlend = Blend.One
-        };
-        chaosFireParticles?.Draw(spriteBatch, Player.MountedCenter / 4f - new Vector2(600), minimumColorBlend, Matrix.CreateScale(0.5f));
+            const float rescale = 0.5f;
+            Vector2 anchor = OffsetAnchor - new Vector2(150 / rescale);
+            Matrix transform = Matrix.CreateScale(rescale) * Main.GameViewMatrix.EffectMatrix;
+
+            if (chaosFireParticles.Particles.Count <= 0)
+                return;
+
+            List<Particle> normalParticles = new List<Particle>();
+
+            foreach (Particle particle in chaosFireParticles.Particles)
+            {
+                if (particle.active)
+                    normalParticles.Add(particle);
+            }
+
+            Effect colorOnly = AllAssets.Effects.TransparencyMask.Value;
+            colorOnly.Parameters["uColor"].SetValue(Vector3.One);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, colorOnly, transform);
+
+            if (normalParticles.Count > 0)
+            {
+                foreach (Particle particle in normalParticles)
+                    particle.Draw(spriteBatch, anchor);
+            }
+
+            spriteBatch.End();
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, MinimumColorBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, transform);
+
+            if (normalParticles.Count > 0)
+            {
+                foreach (Particle particle in normalParticles)
+                    particle.Draw(spriteBatch, anchor);
+            }
+
+            spriteBatch.End();
+        }
     }
+
+    public int flameShader;
+    public bool IsReady => chaosFireTarget != null;
+    public DrawData GetChaosFire() => new DrawData(chaosFireTarget, Player.MountedCenter - Main.screenPosition, chaosFireTarget.Frame(), Color.White, -Player.fullRotation, chaosFireTarget.Size() * 0.5f, 2f, 0);
+
+    private Vector2 OffsetAnchor => Player.MountedCenter / 15f;
 
     public override void FrameEffects()
     {
@@ -72,17 +117,18 @@ public class CountChaosPlayer : ModPlayer
 
         if (Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs))
         {
-            Vector2 legVel = new Vector2(0.1f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
-            Vector2 legPos = Player.MountedCenter / 4f + new Vector2(2 * Player.direction, 12 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.5f;
-            Vector2 legGrav = new Vector2(-Player.direction * 0.03f, -0.07f * Player.gravDir);
-            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 40), legGrav), legPos, Player.velocity * 0.1f + legVel, MathHelper.PiOver2 * Main.rand.Next(4), Main.rand.NextFloat(0.5f, 0.8f));
+            Vector2 legVel = new Vector2(-0.2f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
+            Vector2 legPos = OffsetAnchor + new Vector2(2 * Player.direction, 12 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.1f;
+            Vector2 legGrav = new Vector2(-Player.direction * 0.04f, -0.07f * Player.gravDir);
+            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 30), legGrav), legPos, Player.velocity * 0.05f + legVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(0.5f, 0.7f));
             flameShader = Player.cLegs;
         }
+
         if (Player.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head))
         {
             Vector2 particleVel = new Vector2(Main.rand.NextFloat(-0.4f, 0.3f) * Player.direction, -Main.rand.NextFloat(-0.2f, 0.5f) * Player.gravDir);
-            Vector2 particlePos = Player.MountedCenter / 4f + Main.rand.NextVector2Circular(6, 8) + new Vector2(-7 * Player.direction, -10 * Player.gravDir).RotatedBy(Player.fullRotation);
-            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 40), -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f)), particlePos, Player.velocity * 0.15f + particleVel, MathHelper.PiOver2 * Main.rand.Next(4), Main.rand.NextFloat(1f, 1.1f));
+            Vector2 particlePos = OffsetAnchor + Main.rand.NextVector2Circular(8, 10) + new Vector2(-8 * Player.direction, -8 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
+            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(30, 40), -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f) * Player.gravDir), particlePos, -Player.velocity * Main.rand.NextFloat(0.1f) + particleVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.2f));
             flameShader = Player.cBody;
         }
     }
@@ -98,7 +144,7 @@ public class CountChaosPlayer : ModPlayer
         {
             CountChaosPlayer chaosPlayer = self.GetModPlayer<CountChaosPlayer>();
 
-            chaosPlayer.walkCounter += Math.Abs(self.velocity.X * 0.2f);
+            chaosPlayer.walkCounter += Math.Abs(self.velocity.X * 0.275f);
             while (chaosPlayer.walkCounter > 8)
             {
                 chaosPlayer.walkCounter -= 8;
@@ -116,9 +162,16 @@ public class CountChaosPlayer : ModPlayer
         }
     }
 
-    public int flameShader;
+    private void ArmorShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)
+    {
+        bool head = self.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head);
+        bool body = self.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
+        bool legs = self.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
+        if (head && body && legs)
+            self.armorEffectDrawShadowSubtle = true;
 
-    public bool IsReady => chaosFireTarget != null;
+        else
+            orig(self, drawPlayer);
+    }
 
-    public DrawData GetChaosFire() => new DrawData(chaosFireTarget, Player.MountedCenter - Main.screenPosition, chaosFireTarget.Frame(), Color.White, -Player.fullRotation, chaosFireTarget.Size() * 0.5f, 2f, 0, 0);
 }

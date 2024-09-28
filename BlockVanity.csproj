@@ -17,6 +17,7 @@
     <None Remove="Assets\Effects\PhantomDye.fx" />
     <None Remove="Assets\Effects\RadiationDye.fx" />
     <None Remove="Assets\Effects\SeasideHairDye.fx" />
+    <None Remove="Assets\Effects\TransparencyMask.fx" />
     <None Remove="Assets\Textures\Extras\FireDissolveNoise.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Arms.png" />
     <None Remove="Assets\Textures\Extras\FishSkin\BlueFishSkin_Hands.png" />

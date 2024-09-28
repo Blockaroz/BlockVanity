@@ -65,6 +65,7 @@ public static class AllAssets
 
         Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
         Effects.Dissolve = ModContent.Request<Effect>(assetsPath + "Effects/Dissolve", AssetRequestMode.ImmediateLoad);
+        Effects.TransparencyMask = ModContent.Request<Effect>(assetsPath + "Effects/TransparencyMask", AssetRequestMode.ImmediateLoad);
 
         Effects.PhantomDye = ModContent.Request<Effect>(assetsPath + "Effects/PhantomDye");
         Effects.RadiationDye = ModContent.Request<Effect>(assetsPath + "Effects/RadiationDye");
@@ -106,6 +107,7 @@ public static class AllAssets
     {
         public static Asset<Effect> BasicTrail;
         public static Asset<Effect> Dissolve;
+        public static Asset<Effect> TransparencyMask;
 
         public static Asset<Effect> PhantomDye;
         public static Asset<Effect> RadiationDye;
@@ -113,5 +115,6 @@ public static class AllAssets
 
         public static Asset<Effect> SeasideHairDye;
         public static Asset<Effect> SparklingAshHairDye;
+
     }
 }

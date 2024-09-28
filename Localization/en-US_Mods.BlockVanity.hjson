@@ -137,17 +137,17 @@ Items: {
 	}
 
 	CountChaosGown: {
-		DisplayName: Count Chaos Gown
+		DisplayName: Count Chaos' Gown
 		Tooltip: ""
 	}
 
 	CountChaosHornedHead: {
-		DisplayName: Count Chaos Horned Head
+		DisplayName: Count Chaos' Horned Head
 		Tooltip: ""
 	}
 
 	CountChaosCuirass: {
-		DisplayName: Count Chaos Cuirass
+		DisplayName: Count Chaos' Cuirass
 		Tooltip: ""
 	}
 }
