@@ -42,7 +42,7 @@ public struct ScholarStaffExplosionParticle : IParticleData
         Texture2D texture = TextureAssets.Projectile[ModContent.ProjectileType<ScholarStaffBolt>()].Value;
         Texture2D glow = AllAssets.Textures.Glow[1].Value;
 
-        float growScale = particle.scale * (0.3f + MathF.Sqrt(Utils.GetLerpValue(10, 2, lifeTime, true)) * 2f);
+        float growScale = particle.scale * (0.1f + MathF.Sqrt(Utils.GetLerpValue(10, 6, lifeTime, true)) * 1.5f);
 
         spriteBatch.Draw(glow, particle.position - anchorPosition, glow.Frame(), Color.Black * Utils.GetLerpValue(2, 5, lifeTime, true), particle.rotation * -0.5f, glow.Size() * 0.5f, growScale * 0.2f, 0, 0);
         spriteBatch.Draw(texture, particle.position - anchorPosition, texture.Frame(), Color.White with { A = 0 } * 2f, 0f, texture.Size() * 0.5f, growScale * MathF.Pow(Utils.GetLerpValue(0, 6, lifeTime, true), 2f), 0, 0);

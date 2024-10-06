@@ -16,7 +16,7 @@ public class ScholarStaff : ModItem
     public override void SetStaticDefaults()
     {
         ItemID.Sets.gunProj[Type] = true;
-        ItemID.Sets.SkipsInitialUseSound[Type] = true;
+        ItemID.Sets.CanBePlacedOnWeaponRacks[Type] = true;
         ItemID.Sets.CanBePlacedOnWeaponRacks[Type] = true;
     }
 
@@ -42,14 +42,16 @@ public class ScholarStaff : ModItem
         Item.autoReuse = true;
     }
 
-    public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+    public override void Load()
     {
-        mult = 0f;
+        On_Player.ItemCheck_PayMana += DoNotPayMana;
     }
 
-    public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+    private bool DoNotPayMana(On_Player.orig_ItemCheck_PayMana orig, Player self, Item sItem, bool canUse)
     {
-        Projectile staff = Projectile.NewProjectileDirect(source, position, velocity, type, damage, knockback, player.whoAmI, -1);
-        return false;
+        if (sItem.type == ModContent.ItemType<ScholarStaff>())
+            return self.CheckMana(sItem.mana, false);
+
+        return orig(self, sItem, canUse);
     }
 }

@@ -14,6 +14,7 @@ public struct ChaosFlameParticle : IParticleData
     private int style;
     private Vector2 gravity;
     private float rotationVelocity;
+    private int randomEffect;
 
     private const int FrameCount = 60;
     private readonly float Progress => timeLeft / (float)maxTime;
@@ -23,6 +24,7 @@ public struct ChaosFlameParticle : IParticleData
         maxTime = timeLeft;
         this.gravity = gravity;
         style = Main.rand.Next(6);
+        randomEffect = Main.rand.Next(3);
     }
 
     public void OnSpawn(Particle particle)
@@ -48,6 +50,6 @@ public struct ChaosFlameParticle : IParticleData
 
         Color baseColor = Color.White;
         Vector2 drawScale = new Vector2(1.1f - Progress * 0.2f) * particle.scale * Utils.GetLerpValue(-2f, 3f, timeLeft, true);
-        spriteBatch.Draw(texture, particle.position - anchorPosition, frame, baseColor, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);    
+        spriteBatch.Draw(texture, particle.position - anchorPosition, frame, baseColor, particle.rotation, frame.Size() * 0.5f, drawScale, (SpriteEffects)randomEffect, 0);    
     }
 }

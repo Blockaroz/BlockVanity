@@ -34,18 +34,18 @@ public class Excellence : VanityItem
         if (Main.netMode == NetmodeID.Server)
             return;
 
-        int head = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
-        int body = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
-        int legs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+        Item.headSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
+        Item.bodySlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+        Item.legSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
 
-        ArmorIDs.Head.Sets.DrawHead[head] = false;
+        ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
-        ArmorIDs.Body.Sets.HidesTopSkin[body] = true;
-        ArmorIDs.Body.Sets.DisableBeltAccDraw[body] = true;
-        ArmorIDs.Body.Sets.DisableHandOnAndOffAccDraw[body] = true;
+        ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
+        ArmorIDs.Body.Sets.DisableBeltAccDraw[Item.bodySlot] = true;
+        ArmorIDs.Body.Sets.DisableHandOnAndOffAccDraw[Item.bodySlot] = true;
 
-        ArmorIDs.Legs.Sets.HidesTopSkin[legs] = true;
-        ArmorIDs.Legs.Sets.OverridesLegs[legs] = true;
+        ArmorIDs.Legs.Sets.HidesTopSkin[Item.legSlot] = true;
+        ArmorIDs.Legs.Sets.OverridesLegs[Item.legSlot] = true;
     }
 
     public override void UpdateVanity(Player player) => player.GetModPlayer<MiscEffectPlayer>().disableBootsEffect = true;

@@ -41,16 +41,17 @@ public class ScholarStaffBolt : ModProjectile
 
     public override void AI()
     {
-        float speed = 7f * Speed;
+        float speed = 11f * Speed;
 
         Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.velocity.SafeNormalize(Vector2.Zero) * speed, 0.16f);
 
-        Projectile.localAI[0] += 0.5f + Speed * 0.5f;
+        Projectile.localAI[0] += (0.5f + Speed * 0.5f) * Projectile.direction;
 
-        if (Main.rand.NextBool(35))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true, 6), Projectile.Center + Projectile.velocity * 0.6f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.5f, 0f, Main.rand.NextFloat(1f, 2f));
+        if (Main.rand.NextBool(15))
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 50 }, true, 6), Projectile.Center + Projectile.velocity * 0.6f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.3f, 0f, Main.rand.NextFloat(1f, 2f));
 
         //if (Projectile.timeLeft % 5 == 0 || Main.rand.NextBool(15))
+        //    ParticleEngine.particles.NewParticle(new FlameParticle(Color.LightCyan with { A = 50 }, EnergyColor with { A = 50 }, 90), Projectile.Center + Projectile.velocity * 0.6f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.7f, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(0.5f, 2f));
 
         Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.33f);
     }
@@ -67,10 +68,10 @@ public class ScholarStaffBolt : ModProjectile
         for (int i = 0; i < 10; i++)
         {
             Vector2 offset = Main.rand.NextVector2Circular(10, 8);
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 0 }, true), Projectile.Center + offset, offset * Main.rand.NextFloat(0.3f) - Vector2.UnitY * 0.2f, 0f, Main.rand.NextFloat(2f, 3f));
+            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 50 }, true), Projectile.Center + offset, offset * Main.rand.NextFloat(0.3f) - Vector2.UnitY * 0.2f, 0f, Main.rand.NextFloat(2f, 3f));
         }
 
-        ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 0 }, true), Projectile.Center, Vector2.Zero, 0f, Projectile.scale);
+        ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 50 }, true), Projectile.Center, Vector2.Zero, 0f, Projectile.scale);
     }
 
     public static readonly Color EnergyColor = Color.Lerp(Color.DodgerBlue, Color.Turquoise, 0.6f);
@@ -82,11 +83,10 @@ public class ScholarStaffBolt : ModProjectile
 
         Color color = EnergyColor with { A = 50 };
 
-        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), Color.Black * 0.7f, 0f, glow.Size() * 0.5f, 0.4f * Projectile.scale, 0, 0);
+        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 60 }, Projectile.localAI[0] * 0.03f, glow.Size() * 0.5f, 0.35f * Projectile.scale, 0, 0);
+        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 20 } * 0.3f, -Projectile.localAI[0] * 0.07f, glow.Size() * 0.5f, 0.6f * Projectile.scale, 0, 0);
         Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), color, Projectile.rotation, texture.Size() * 0.5f, 1f, 0, 0);
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), new Color(225, 255, 255, 0), Projectile.rotation, texture.Size() * 0.5f, 0.84f, 0, 0);
-        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 }, 0f, glow.Size() * 0.5f, 0.35f * Projectile.scale, 0, 0);
-        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 0 } * 0.3f, 0f, glow.Size() * 0.5f, 0.6f * Projectile.scale, 0, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), Color.White with { A = 0 }, Projectile.rotation, texture.Size() * 0.5f, 0.84f, 0, 0);
 
         return false;
     }

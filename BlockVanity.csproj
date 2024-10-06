@@ -26,7 +26,6 @@
     <None Remove="Assets\Textures\Extras\Particle_0.png" />
     <None Remove="Assets\Textures\Items\Dyes\PurpleOrionDye.png" />
     <None Remove="Assets\Textures\Items\Dyes\YellowOrionDye.png" />
-    <None Remove="Assets\Textures\Items\Pets\FloatingSkyLantern\BlackEyeLens.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlackEyeLens.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlockheadVanity\Blockhead.png" />
     <None Remove="Assets\Textures\Items\Vanity\BlockheadVanity\Blockhead_Eyes0.png" />
@@ -52,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Textures\Items\Pets\" />
+    <Folder Include="Content\Items\Pets\" />
     <Folder Include="Content\Items\Vanity\BoneKing\" />
   </ItemGroup>
 </Project>

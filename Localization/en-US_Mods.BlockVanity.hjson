@@ -150,6 +150,16 @@ Items: {
 		DisplayName: Count Chaos' Cuirass
 		Tooltip: ""
 	}
+
+	SonicItem: {
+		DisplayName: Sonic Item
+		Tooltip: ""
+	}
+
+	PhantomRuby: {
+		DisplayName: Phantom Ruby
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

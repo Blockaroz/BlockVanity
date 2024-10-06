@@ -10,7 +10,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Common.Players;
+namespace BlockVanity.Common.Players.Skins;
 
 public class FishSkinPlayer : ModPlayer
 {
@@ -139,7 +139,7 @@ public class FishSkinPlayer : ModPlayer
                 earData.shader = drawinfo.skinDyePacked;
                 drawinfo.DrawDataCache.Add(earData);
 
-                if ((upperEars && drawinfo.drawPlayer.head > 0) || drawinfo.hatHair)
+                if (upperEars && drawinfo.drawPlayer.head > 0 || drawinfo.hatHair)
                     return;
 
                 Texture2D earsHighTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc1].Value;
@@ -163,33 +163,33 @@ public class FishSkinPlayer : ModPlayer
             {
                 Color headColor = drawinfo.colorArmorHead;
 
-                DrawData headData = new DrawData(TextureAssets.Players[drawinfo.skinVar, 0].Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, headColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
+                DrawData headData = new DrawData(TextureAssets.Players[drawinfo.skinVar, 0].Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.bodyFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, headColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
                 headData.shader = drawinfo.skinDyePacked;
                 DrawData newData = headData;
 
                 Color eyeColor = new Color(
-                    Math.Clamp(drawinfo.colorArmorHead.R / 255f * 3f, 0, 1f), 
-                    Math.Clamp(drawinfo.colorArmorHead.G / 255f * 3f, 0, 1f), 
-                    Math.Clamp(drawinfo.colorArmorHead.B / 255f * 3f, 0, 1f), 
+                    Math.Clamp(drawinfo.colorArmorHead.R / 255f * 3f, 0, 1f),
+                    Math.Clamp(drawinfo.colorArmorHead.G / 255f * 3f, 0, 1f),
+                    Math.Clamp(drawinfo.colorArmorHead.B / 255f * 3f, 0, 1f),
                     drawinfo.colorArmorHead.A / 255f);
 
                 drawinfo.DrawDataCache.Add(newData);
-                newData = new DrawData(AllAssets.Textures.FishEyes.Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, eyeColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
+                newData = new DrawData(AllAssets.Textures.FishEyes.Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.bodyFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, eyeColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
                 drawinfo.DrawDataCache.Add(newData);
 
                 Texture2D eyelids = TextureAssets.Players[drawinfo.skinVar, 15].Value;
                 Vector2 headOffset = Main.OffsetsPlayerHeadgear[drawinfo.drawPlayer.bodyFrame.Y / drawinfo.drawPlayer.bodyFrame.Height];
                 headOffset.Y -= 2f;
-                headOffset *= (float)(-drawinfo.playerEffect.HasFlag(SpriteEffects.FlipVertically).ToDirectionInt());
+                headOffset *= -drawinfo.playerEffect.HasFlag(SpriteEffects.FlipVertically).ToDirectionInt();
                 Rectangle value = eyelids.Frame(1, 3, 0, (int)drawinfo.drawPlayer.eyeHelper.CurrentEyeFrame);
-                headData = new DrawData(eyelids, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect + headOffset, value, headColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
+                headData = new DrawData(eyelids, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.bodyFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect + headOffset, value, headColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
                 headData.shader = drawinfo.skinDyePacked;
                 newData = headData;
                 drawinfo.DrawDataCache.Add(newData);
 
                 if (drawinfo.drawPlayer.yoraiz0rDarkness)
                 {
-                    headData = new DrawData(TextureAssets.Extra[67].Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
+                    headData = new DrawData(TextureAssets.Extra[67].Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.bodyFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
                     headData.shader = drawinfo.skinDyePacked;
                     newData = headData;
                     drawinfo.DrawDataCache.Add(newData);
@@ -197,7 +197,7 @@ public class FishSkinPlayer : ModPlayer
 
                 if (drawinfo.drawPlayer.face > 0 && ArmorIDs.Face.Sets.DrawInFaceUnderHairLayer[drawinfo.drawPlayer.face])
                 {
-                    newData = new DrawData(TextureAssets.AccFace[drawinfo.drawPlayer.face].Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
+                    newData = new DrawData(TextureAssets.AccFace[drawinfo.drawPlayer.face].Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.bodyFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
                     newData.shader = drawinfo.cFace;
                     drawinfo.DrawDataCache.Add(newData);
                 }

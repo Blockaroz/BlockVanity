@@ -53,7 +53,7 @@ public class ScholarStaffProj : ModProjectile
         int count = (int)Math.Floor(realCharge * 2f) + 1;
         int manaNeeded = Player.GetManaCost(Player.HeldItem) * count;
 
-        if (Player.channel && Player.CheckMana(manaNeeded))
+        if (Player.channel && Player.CheckMana(manaNeeded, false))
         {
             Time = 0;
 
@@ -127,9 +127,9 @@ public class ScholarStaffProj : ModProjectile
                 {
                     float inaccuracy = realCharge / 6f;
                     int damage = (int)(Projectile.damage * (1f + realCharge));
-                    Vector2 boltVelocity = Player.velocity * 0.05f + boltDirection.RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
+                    Vector2 boltVelocity = boltDirection.RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
                     Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
-                    bolt.ai[0] = Main.rand.NextFloat(0.6f, 1.2f);
+                    bolt.ai[0] = Main.rand.NextFloat(0.8f, 1.2f);
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
                 }
 
@@ -158,7 +158,6 @@ public class ScholarStaffProj : ModProjectile
     public override bool PreDraw(ref Color lightColor)
     {
         Texture2D texture = TextureAssets.Projectile[Type].Value;
-        Texture2D glow = AllAssets.Textures.Glow[0].Value;
 
         int dir = Player.direction * (int)Player.gravDir;
         SpriteEffects effects = dir > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

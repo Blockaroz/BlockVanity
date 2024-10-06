@@ -20,18 +20,17 @@ public class ExcellencePlayer : ModPlayer
         On_Player.PlayerFrame += SlowLegs;
         On_PlayerDrawLayers.DrawPlayer_21_Head += HideHead;
         On_PlayerDrawLayers.DrawPlayer_13_Leggings += HideLegs;
-        //Torso uses normal frames
-    }
-
-    private void HideLegs(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
-    {
-        if (drawinfo.drawPlayer.legs != EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs))
-            orig(ref drawinfo);
     }
 
     private void HideHead(On_PlayerDrawLayers.orig_DrawPlayer_21_Head orig, ref PlayerDrawSet drawinfo)
     {
         if (drawinfo.drawPlayer.head != EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Head))
+            orig(ref drawinfo);
+    }
+
+    private void HideLegs(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
+    {
+        if (drawinfo.drawPlayer.legs != EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs))
             orig(ref drawinfo);
     }
 
@@ -56,10 +55,15 @@ public class ExcellencePlayer : ModPlayer
             orig(self, drawPlayer);
     }
 
-    private void ExcellenceRunEffect(On_Player.orig_SpawnFastRunParticles orig, Player self)
+    public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
     {
-        if (!self.GetModPlayer<MiscEffectPlayer>().disableBootsEffect)
-            orig(self);
+        if (enabled)
+        {
+            if (drawInfo.shadow > 0f)
+            {
+                a = 0.2f;
+            }
+        }
     }
 
     internal float walkCounter;
@@ -69,13 +73,14 @@ public class ExcellencePlayer : ModPlayer
     {
         orig(self);
 
-        ExcellencePlayer excellencePlayer = self.GetModPlayer<ExcellencePlayer>();
-
-        if (excellencePlayer.enabled)
+        if (self.legs == EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs))
         {
+            ExcellencePlayer excellencePlayer = self.GetModPlayer<ExcellencePlayer>();
+
             if (self.velocity.Y == 0)
             {
-                excellencePlayer.walkCounter += Math.Abs(self.velocity.X * 0.5f);
+                if (!Main.gameInactive)
+                    excellencePlayer.walkCounter += Math.Abs(self.velocity.X * 0.6f);
 
                 while (excellencePlayer.walkCounter > 8)
                 {
@@ -94,7 +99,11 @@ public class ExcellencePlayer : ModPlayer
                     self.legFrameCounter = 0.0;
                     self.legFrame.Y = excellencePlayer.walkFrame;
                 }
-
+                else
+                {
+                    excellencePlayer.walkCounter = 0;
+                    excellencePlayer.walkFrame = 0;
+                }
             }
         }
     }

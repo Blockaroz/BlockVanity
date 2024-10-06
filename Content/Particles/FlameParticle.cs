@@ -54,7 +54,7 @@ public struct FlameParticle : IParticleData
         Color baseColor = Color.Lerp(color, fadeColor, Utils.GetLerpValue(0.25f, 0.45f, Progress, true)) * (1f - Progress);
         Color bloomColor = fadeColor * (1f - Progress);
 
-        Vector2 drawScale = new Vector2(1f - Progress * 0.1f, 1f + Progress * 0.1f) * particle.scale * 0.8f * Utils.GetLerpValue(-2f, 4f, timeLeft, true);
+        Vector2 drawScale = new Vector2(1f - Progress * 0.1f, 1f + Progress * 0.1f) * particle.scale * 0.8f * Utils.GetLerpValue(-5f, 4f, timeLeft, true);
         spriteBatch.Draw(bloom, particle.position - anchorPosition, frame, bloomColor, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);        
         spriteBatch.Draw(texture, particle.position - anchorPosition, frame, baseColor, particle.rotation, frame.Size() * 0.5f, drawScale, 0, 0);    
     }

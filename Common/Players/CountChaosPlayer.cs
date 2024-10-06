@@ -109,10 +109,13 @@ public class CountChaosPlayer : ModPlayer
     public bool IsReady => chaosFireTarget != null;
     public DrawData GetChaosFire() => new DrawData(chaosFireTarget, Player.MountedCenter - Main.screenPosition, chaosFireTarget.Frame(), Color.White, -Player.fullRotation, chaosFireTarget.Size() * 0.5f, 2f, 0);
 
-    private Vector2 OffsetAnchor => Player.MountedCenter / 15f;
+    private Vector2 OffsetAnchor => Player.MountedCenter / 32f;
 
     public override void FrameEffects()
     {
+        if (Main.gameInactive)
+            return;
+
         chaosFireParticles.Update();
 
         if (Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs))
@@ -124,10 +127,10 @@ public class CountChaosPlayer : ModPlayer
             flameShader = Player.cLegs;
         }
 
-        if (Player.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head))
+        if (Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body))
         {
             Vector2 particleVel = new Vector2(Main.rand.NextFloat(-0.4f, 0.3f) * Player.direction, -Main.rand.NextFloat(-0.2f, 0.5f) * Player.gravDir);
-            Vector2 particlePos = OffsetAnchor + Main.rand.NextVector2Circular(8, 10) + new Vector2(-8 * Player.direction, -8 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
+            Vector2 particlePos = OffsetAnchor + Main.rand.NextVector2Circular(6, 10) + new Vector2(-8 * Player.direction, -6 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
             chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(30, 40), -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f) * Player.gravDir), particlePos, -Player.velocity * Main.rand.NextFloat(0.1f) + particleVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.2f));
             flameShader = Player.cBody;
         }
@@ -144,7 +147,9 @@ public class CountChaosPlayer : ModPlayer
         {
             CountChaosPlayer chaosPlayer = self.GetModPlayer<CountChaosPlayer>();
 
-            chaosPlayer.walkCounter += Math.Abs(self.velocity.X * 0.275f);
+            if (!Main.gameInactive)
+                chaosPlayer.walkCounter += Math.Abs(self.velocity.X * 0.275f);
+
             while (chaosPlayer.walkCounter > 8)
             {
                 chaosPlayer.walkCounter -= 8;
@@ -155,6 +160,12 @@ public class CountChaosPlayer : ModPlayer
                 chaosPlayer.walkFrame = self.legFrame.Height * 19;
             else if (chaosPlayer.walkFrame > self.legFrame.Height * 19)
                 chaosPlayer.walkFrame = self.legFrame.Height * 7;
+
+            if (self.velocity.X == 0)
+            {
+                chaosPlayer.walkFrame = 0;
+                chaosPlayer.walkCounter = 0;
+            }
 
             self.bodyFrameCounter = 0.0;
             self.legFrameCounter = 0.0;
