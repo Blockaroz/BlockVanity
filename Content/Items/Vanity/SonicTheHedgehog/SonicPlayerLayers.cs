@@ -28,7 +28,7 @@ public class SonicHeadLayer : PlayerDrawLayer
         Texture2D headTexture = TextureAssets.ArmorHead[EquipLoader.GetEquipSlot(Mod, nameof(PhantomRuby), EquipType.Head)].Value;
         Rectangle headFrame = headTexture.Frame(1, 3, 0, (int)drawInfo.drawPlayer.eyeHelper.CurrentEyeFrame);
 
-        bool running = drawInfo.drawPlayer.velocity.Y == 0 && drawInfo.drawPlayer.GetModPlayer<SonicTheHedgehogPlayer>().IsRunning;
+        bool running = drawInfo.drawPlayer.direction == Math.Sign(drawInfo.drawPlayer.velocity.X) && drawInfo.drawPlayer.GetModPlayer<SonicTheHedgehogPlayer>().IsRunning;
         Vector2 headPos = drawInfo.HeadPosition() + new Vector2(4 * Utils.ToInt(running) * drawInfo.drawPlayer.direction, 0);
         headPos.ApplyVerticalOffset(drawInfo);
         Vector2 headVect = drawInfo.headVect + new Vector2(4, 0);
