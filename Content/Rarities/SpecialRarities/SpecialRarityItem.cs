@@ -24,9 +24,7 @@ public class SpecialRarityItem : GlobalItem
     //        ILCursor c = new ILCursor(il);
     //        c.TryGotoNext(n => n.MatchCall(typeof(ChatManager), "DrawColorCodedStringWithShadow"));
     //        c.TryGotoPrev(n => n.MatchLdsfld<Main>("spriteBatch"));
-
     //        ILLabel label = c.DefineLabel();
-
     //        c.Emit(OpCodes.Ldloc_1);
     //        c.Emit(OpCodes.Ldloc_0);
     //        c.Emit(OpCodes.Ldloc, 7);
@@ -38,10 +36,9 @@ public class SpecialRarityItem : GlobalItem
     //                rarity.DrawRareLine(text, new Vector2(x, y), 0f, Vector2.Zero, Vector2.One);
     //                return true;
     //            }
-
     //            return false;
     //        });
-    //        c.Emit(OpCodes.Brtrue, label);
+    //        c.Emit(OpCodes.Brfalse, label);
     //        c.Emit(OpCodes.Ret);
     //        c.MarkLabel(label);
     //    }
@@ -52,10 +49,10 @@ public class SpecialRarityItem : GlobalItem
     //    }
     //}
 
-    private void DrawPopupName(ILContext il)
-    {
+    //private void DrawPopupName(ILContext il)
+    //{
 
-    }
+    //}
 
     public override bool PreDrawTooltipLine(Item item, DrawableTooltipLine line, ref int yOffset)
     {
