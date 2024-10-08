@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using BlockVanity.Common.Graphics.ParticleRendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -127,3 +127,4 @@ public struct ObsoleteShaderFlameParticle : IShaderParticleData
         Main.pixelShader.CurrentTechnique.Passes[0].Apply();
     }
 }
+*/

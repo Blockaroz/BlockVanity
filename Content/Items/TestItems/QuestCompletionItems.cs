@@ -28,7 +28,7 @@ public class QuestResetter : ModItem
         Item.consumable = true;
         Item.width = 24;
         Item.height = 24;
-        Item.rare = ModContent.RarityType<VanityQuestRarity>();
+        Item.rare = ModContent.RarityType<CommonVanityRarity>();
     }
 
     public override bool? UseItem(Player player)
@@ -57,7 +57,7 @@ public class QuestCompleter : ModItem
         Item.consumable = true;
         Item.width = 24;
         Item.height = 24;
-        Item.rare = ModContent.RarityType<VanityQuestRarity>();
+        Item.rare = ModContent.RarityType<CommonVanityRarity>();
     }
 
     public override bool? UseItem(Player player)

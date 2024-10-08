@@ -15,7 +15,7 @@ namespace BlockVanity.Content.Items.Vanity.SonicTheHedgehog;
 
 public class PhantomRuby : VanityItem
 {
-    public PhantomRuby() : base(ModContent.RarityType<VanityQuestRarity>(), 32, 36, Item.buyPrice(gold: 8), true) { }
+    public PhantomRuby() : base(ModContent.RarityType<CommonVanityRarity>(), 32, 36, Item.buyPrice(gold: 8), true) { }
 
     public override void Load()
     {

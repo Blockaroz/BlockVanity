@@ -109,7 +109,7 @@ public class CountChaosPlayer : ModPlayer
     public bool IsReady => chaosFireTarget != null;
     public DrawData GetChaosFire() => new DrawData(chaosFireTarget, Player.MountedCenter - Main.screenPosition, chaosFireTarget.Frame(), Color.White, -Player.fullRotation, chaosFireTarget.Size() * 0.5f, 2f, 0);
 
-    private Vector2 OffsetAnchor => Player.MountedCenter / 32f;
+    private Vector2 OffsetAnchor => Player?.MountedCenter / 32f ?? Vector2.Zero;
 
     public override void FrameEffects()
     {

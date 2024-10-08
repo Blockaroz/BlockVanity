@@ -53,7 +53,10 @@ public class Excellence : VanityItem
     public override void Update(ref float gravity, ref float maxFallSpeed)
     {
         Item.position.Y += MathF.Sin(Item.timeSinceItemSpawned * 0.05f) * 0.3f;
+        Lighting.AddLight(Item.Center, Color.DarkRed.ToVector3());
     }
+
+    public override Color? GetAlpha(Color lightColor) => Color.White;
 
     public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
     {

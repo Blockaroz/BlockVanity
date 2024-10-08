@@ -16,11 +16,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	FloatingSkyLantern: {
-		DisplayName: Floating Sky Lantern
-		Tooltip: ""
-	}
-
 	BlackEyeLens: {
 		DisplayName: Black Eye Lens
 		Tooltip: ""
@@ -151,13 +146,13 @@ Items: {
 		Tooltip: ""
 	}
 
-	SonicItem: {
-		DisplayName: Sonic Item
+	PhantomRuby: {
+		DisplayName: Phantom Ruby
 		Tooltip: ""
 	}
 
-	PhantomRuby: {
-		DisplayName: Phantom Ruby
+	DemonHead: {
+		DisplayName: Demon Head
 		Tooltip: ""
 	}
 }

@@ -11,8 +11,6 @@ namespace BlockVanity.Common.Quests;
 
 public class QuestSystem : ModSystem
 {
-    public ModKeybind testBind;
-
     public QuestUI questUI;
     public static QuestDatabase database;
 
@@ -20,8 +18,6 @@ public class QuestSystem : ModSystem
     {
         if (Main.dedServ)
             return;
-
-        testBind = KeybindLoader.RegisterKeybind(Mod, "QuestUI Test Bind", Microsoft.Xna.Framework.Input.Keys.Y);
 
         database = new QuestDatabase();
     }
@@ -54,14 +50,14 @@ public class QuestSystem : ModSystem
 
     public override void UpdateUI(GameTime gameTime)
     {
-        if (testBind.JustPressed && !Main.inFancyUI)
-        {
-            SoundEngine.PlaySound(SoundID.MenuOpen);
+        //if (!Main.inFancyUI)
+        //{
+        //    SoundEngine.PlaySound(SoundID.MenuOpen);
 
-            questUI = new QuestUI(database);
+        //    questUI = new QuestUI(database);
 
-            IngameFancyUI.OpenUIState(questUI);
-            questUI.UpdateContents();
-        }
+        //    IngameFancyUI.OpenUIState(questUI);
+        //    questUI.UpdateContents();
+        //}
     }
 }
