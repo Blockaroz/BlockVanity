@@ -102,20 +102,37 @@ public class ScholarStaffProj : ModProjectile
         Projectile.Center = Player.HandPosition.Value - new Vector2(0, 4 * Player.gravDir) - Projectile.velocity;
 
         Vector2 scale = new Vector2(1f + (swingProgress * (1f - swingProgress)) * 2f) * Projectile.scale;
-        Vector2 crystalPos = Projectile.Center + new Vector2(30, 0).RotatedBy(Projectile.velocity.ToRotation()) * scale;
+        Vector2 staffEndPos = Projectile.Center + new Vector2(30, 0).RotatedBy(Projectile.velocity.ToRotation()) * scale;
 
         if (Time == (int)(MaxTime * 0.5f))
         {
-            SoundStyle sound = count > 2 ? SoundID.Item105 : (count > 1 ? SoundID.Item101 : SoundID.Item1);
-            sound.MaxInstances = 0;
-            sound.PitchVariance = 0.1f;
-            SoundEngine.PlaySound(sound, Projectile.Center);
+            if (count > 2)
+            {
+                SoundStyle sound = SoundID.Item122;
+                sound.MaxInstances = 0;
+                sound.PitchVariance = 0.1f;
+                SoundEngine.PlaySound(sound, Projectile.Center);
+            }
+            else if (count > 1)
+            {
+                SoundStyle sound = SoundID.Item158;
+                sound.MaxInstances = 0;
+                sound.PitchVariance = 0.1f;
+                SoundEngine.PlaySound(sound, Projectile.Center);
+            }
+            else
+            {
+                SoundStyle sound = SoundID.Item158;
+                sound.MaxInstances = 0;
+                sound.PitchVariance = 0.1f;
+                SoundEngine.PlaySound(sound, Projectile.Center);
+            }
 
             if (Projectile.owner == Main.myPlayer)
             {
                 Projectile.velocity = Player.DirectionTo(Main.MouseWorld) * 5f;
 
-                Vector2 shootPoint = crystalPos;
+                Vector2 shootPoint = staffEndPos;
                 if (!Collision.CanHitLine(Player.Center, 0, 0, shootPoint, 0, 0))
                     shootPoint = Player.Center;
 
@@ -125,11 +142,11 @@ public class ScholarStaffProj : ModProjectile
 
                 for (int i = 0; i < count; i++)
                 {
-                    float inaccuracy = realCharge / 6f;
+                    float spread = realCharge / 6f;
                     int damage = (int)(Projectile.damage * (1f + realCharge));
-                    Vector2 boltVelocity = boltDirection.RotatedByRandom(0.03f + inaccuracy * 0.1f).RotatedBy(inaccuracy * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
+                    Vector2 boltVelocity = boltDirection.RotatedBy(spread * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
                     Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
-                    bolt.ai[0] = Main.rand.NextFloat(0.8f, 1.2f);
+                    bolt.ai[0] = Main.rand.NextFloat(7.8f, 8.2f);
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
                 }
 
@@ -137,8 +154,14 @@ public class ScholarStaffProj : ModProjectile
             }
         }
 
-        if (Time > (int)(MaxTime * 0.4f) && Time < (int)(MaxTime * 0.8f))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(ScholarStaffBolt.EnergyColor with { A = 0 }, true), crystalPos + Main.rand.NextVector2Circular(6, 6), Main.rand.NextVector2Circular(1, 1) + Projectile.velocity * 0.2f, 0f, Main.rand.NextFloat(2f, 3f));
+        if (Time >= (int)(MaxTime * 0.5f) && Time < (int)(MaxTime * 0.8f))
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Dust.NewDustPerfect(staffEndPos, DustID.Smoke, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.5f), 100, Color.LightGray, Main.rand.NextFloat(1f, 2f));
+                ParticleEngine.particles.NewParticle(new PixelSpotParticle(ScholarStaffBolt.EnergyColor with { A = 50 }, 140, true), staffEndPos, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.2f, 0.4f), 0f, Main.rand.NextFloat(1f, 3f));
+            }
+        }
 
         if (Time > (int)MaxTime)
         {
@@ -165,10 +188,10 @@ public class ScholarStaffProj : ModProjectile
         Rectangle frame = texture.Frame(2, 1, 0, 0);
         Rectangle glowFrame = texture.Frame(2, 1, 1, 0);
 
-        Vector2 scale = new Vector2(1f + swingProgress * (1f - swingProgress) * 1.6f) * Projectile.scale;
+        Vector2 scale = new Vector2(1f + swingProgress * (1f - swingProgress)) * Projectile.scale;
 
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.Lerp(lightColor, Color.White, 0.2f), Projectile.rotation, new Vector2(0.5f, 0.75f) * frame.Size(), scale, effects, 0);
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, glowFrame, Color.Gray with { A = 0 }, Projectile.rotation, new Vector2(0.5f, 0.75f) * glowFrame.Size(), scale, effects, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.Lerp(lightColor, Color.White, 0.2f), Projectile.rotation, new Vector2(0.5f, 0.8f) * frame.Size(), scale, effects, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, glowFrame, Color.Gray with { A = 0 }, Projectile.rotation, new Vector2(0.5f, 0.8f) * glowFrame.Size(), scale, effects, 0);
 
         return false;
     }

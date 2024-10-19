@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using BlockVanity.Common.Graphics;
 using BlockVanity.Common.Utilities;
 using BlockVanity.Content.Particles;
+using log4net.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.Graphics;
+using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,6 +23,7 @@ public class ScholarStaffBolt : ModProjectile
 
     public override void SetStaticDefaults()
     {
+        Main.projFrames[Type] = 8;
         ProjectileID.Sets.TrailingMode[Type] = 2;
         ProjectileID.Sets.TrailCacheLength[Type] = 10;
         //HitSound = new SoundStyle();
@@ -27,8 +31,8 @@ public class ScholarStaffBolt : ModProjectile
 
     public override void SetDefaults()
     {
-        Projectile.width = 18;
-        Projectile.height = 18;
+        Projectile.width = 24;
+        Projectile.height = 24;
         Projectile.friendly = true;
         Projectile.hostile = false;
         Projectile.tileCollide = true;
@@ -39,21 +43,36 @@ public class ScholarStaffBolt : ModProjectile
 
     public ref float Speed => ref Projectile.ai[0];
 
+    public override void OnSpawn(IEntitySource source)
+    {
+        Projectile.spriteDirection = Utils.ToDirectionInt(Main.rand.NextBool());
+        Projectile.frame = Main.rand.Next(8);
+    }
+
     public override void AI()
     {
-        float speed = 11f * Speed;
+        Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * Speed;
+        Projectile.localAI[0]++;
+        if (Projectile.frameCounter++ > 3)
+        {
+            Projectile.frameCounter = 0;
+            if (++Projectile.frame >= 8)
+                Projectile.frame = 0;
+        }
 
-        Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.velocity.SafeNormalize(Vector2.Zero) * speed, 0.16f);
+        //if (Projectile.localAI[0] % 5 == 0)
+        //    ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 60, true), Projectile.Center + Main.rand.NextVector2Circular(5, 5), Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1f, 1.5f));
 
-        Projectile.localAI[0] += (0.5f + Speed * 0.5f) * Projectile.direction;
+        if (Main.rand.NextBool(20) || Projectile.localAI[0] % 40 == 0)
+            ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 60, true), Projectile.Center + Main.rand.NextVector2Circular(15, 15), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1.5f, 2.5f));
 
-        if (Main.rand.NextBool(15))
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 50 }, true, 6), Projectile.Center + Projectile.velocity * 0.6f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.3f, 0f, Main.rand.NextFloat(1f, 2f));
+        if (Main.rand.NextBool(5))
+            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 10), DustID.Smoke, Projectile.velocity.RotatedByRandom(0.5f) * Main.rand.NextFloat(0.5f), 160, Color.DarkCyan, Main.rand.NextFloat(1f, 2f));
 
-        //if (Projectile.timeLeft % 5 == 0 || Main.rand.NextBool(15))
-        //    ParticleEngine.particles.NewParticle(new FlameParticle(Color.LightCyan with { A = 50 }, EnergyColor with { A = 50 }, 90), Projectile.Center + Projectile.velocity * 0.6f + Main.rand.NextVector2Circular(10, 10), Projectile.velocity * 0.7f, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(0.5f, 2f));
+        Projectile.scale = 1.125f;
 
-        Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.33f);
+        Projectile.rotation = Projectile.velocity.X * 0.005f;
+        Lighting.AddLight(Projectile.Center, EnergyColor.ToVector3() * 0.33f);
     }
 
     public override bool OnTileCollide(Vector2 oldVelocity) => true;
@@ -65,28 +84,34 @@ public class ScholarStaffBolt : ModProjectile
         hitSound.PitchVariance = 0.3f;
         SoundEngine.PlaySound(hitSound, Projectile.Center);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 14; i++)
         {
-            Vector2 offset = Main.rand.NextVector2Circular(10, 8);
-            ParticleEngine.particles.NewParticle(new MagicTrailParticle(EnergyColor with { A = 50 }, true), Projectile.Center + offset, offset * Main.rand.NextFloat(0.3f) - Vector2.UnitY * 0.2f, 0f, Main.rand.NextFloat(2f, 3f));
-        }
-
-        ParticleEngine.particles.NewParticle(new ScholarStaffExplosionParticle(EnergyColor with { A = 50 }, true), Projectile.Center, Vector2.Zero, 0f, Projectile.scale);
+            Vector2 offset = Main.rand.NextVector2Circular(8, 8);
+            ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 80, true), Projectile.Center + offset, Projectile.velocity * 0.2f + offset * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1.5f, 3f));
+        }        
+        
+        //for (int i = 0; i < 11; i++)
+        //{
+        //    Vector2 offset = Main.rand.NextVector2Circular(5, 5);
+        //    ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 100, true), Projectile.Center + offset, Projectile.velocity * 0.2f + offset * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1.5f, 3f));
+        //}
     }
 
-    public static readonly Color EnergyColor = Color.Lerp(Color.DodgerBlue, Color.Turquoise, 0.6f);
+    public static readonly Color EnergyColor = new Color(22, 224, 214);
 
     public override bool PreDraw(ref Color lightColor)
     {
         Texture2D texture = TextureAssets.Projectile[Type].Value;
         Texture2D glow = AllAssets.Textures.Glow[0].Value;
+        Rectangle frame = texture.Frame(1, 8, 0, Projectile.frame);
 
-        Color color = EnergyColor with { A = 50 };
+        lightColor = EnergyColor * 0.5f;
+        SpriteEffects effects = Projectile.spriteDirection > 0 ? SpriteEffects.FlipHorizontally : 0;
 
-        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 60 }, Projectile.localAI[0] * 0.03f, glow.Size() * 0.5f, 0.35f * Projectile.scale, 0, 0);
-        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), color with { A = 20 } * 0.3f, -Projectile.localAI[0] * 0.07f, glow.Size() * 0.5f, 0.6f * Projectile.scale, 0, 0);
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), color, Projectile.rotation, texture.Size() * 0.5f, 1f, 0, 0);
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), Color.White with { A = 0 }, Projectile.rotation, texture.Size() * 0.5f, 0.84f, 0, 0);
+        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), lightColor with { A = 50 }, -Projectile.localAI[0] * 0.07f, glow.Size() * 0.5f, 0.4f * Projectile.scale, effects, 0);
+
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, effects, 0);
+        Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), lightColor with { A = 0 } * 0.3f, Projectile.localAI[0] * 0.03f, glow.Size() * 0.5f, 0.7f * Projectile.scale, effects, 0);
 
         return false;
     }

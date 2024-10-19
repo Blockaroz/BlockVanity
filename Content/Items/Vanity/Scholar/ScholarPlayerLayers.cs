@@ -22,7 +22,7 @@ public class ScholarHoodEyesLayer : PlayerDrawLayer
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, ModContent.GetInstance<ScholarHood>().Name, EquipType.Head);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(ScholarHood), EquipType.Head);
 
     public override bool IsHeadLayer => true;
 

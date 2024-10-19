@@ -8,7 +8,7 @@ using Terraria.GameContent;
 
 namespace BlockVanity.Content.Particles;
 
-public struct MagicTrailParticle : IParticleData
+public struct MagicEmberParticle : IParticleData
 {
     public Color color;
     public int trailLength;
@@ -18,7 +18,7 @@ public struct MagicTrailParticle : IParticleData
     public Vector2[] oldPos;
     public float[] oldRot;
 
-    public MagicTrailParticle(Color color, bool emitLight = false, int trailLength = 10)
+    public MagicEmberParticle(Color color, bool emitLight = false, int trailLength = 10)
     {
         this.color = color;
         this.trailLength = trailLength;

@@ -15,6 +15,7 @@ public struct QuestRewardData
     public bool Reclaimable => Price > -1;
 
     public bool HasRewards => Rewards != null && Rewards.Length > 0;
+    public int MoneyReward { get; }
 
     public QuestRewardData(int[] rewards, int reclaimPrice, bool skipFreeClaim = false)
     {
@@ -32,8 +33,17 @@ public struct QuestRewardData
         }
     }
 
+    public QuestRewardData(int moneyReward)
+    {
+        Rewards = [];
+        Price = 0;
+        SkipFreeClaim = true;
+        MoneyReward = 0;
+    }
+
     public void Claim(Player player, bool free = false)
     {
+        if (HasRewards)
         if (free && !SkipFreeClaim)
         {
             GiveItems(player);

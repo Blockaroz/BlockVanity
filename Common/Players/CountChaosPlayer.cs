@@ -64,10 +64,16 @@ public class CountChaosPlayer : ModPlayer
         spriteBatch.GraphicsDevice.SetRenderTarget(chaosFireTarget);
         spriteBatch.GraphicsDevice.Clear(Color.Transparent);
 
-        if (chaosFireParticles != null)
+        if (chaosFireParticles != null && Player != null)
         {
+            //bool head = Player.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head);
+            //bool body = Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
+            //bool legs = Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
+            //if (!(body || legs))
+            //    return;
+    
             const float rescale = 0.5f;
-            Vector2 anchor = OffsetAnchor - new Vector2(150 / rescale);
+            Vector2 anchor = GetOffsetAnchor() - new Vector2(150 / rescale);
             Matrix transform = Matrix.CreateScale(rescale) * Main.GameViewMatrix.EffectMatrix;
 
             if (chaosFireParticles.Particles.Count <= 0)
@@ -109,7 +115,7 @@ public class CountChaosPlayer : ModPlayer
     public bool IsReady => chaosFireTarget != null;
     public DrawData GetChaosFire() => new DrawData(chaosFireTarget, Player.MountedCenter - Main.screenPosition, chaosFireTarget.Frame(), Color.White, -Player.fullRotation, chaosFireTarget.Size() * 0.5f, 2f, 0);
 
-    private Vector2 OffsetAnchor => Player?.MountedCenter / 32f ?? Vector2.Zero;
+    private Vector2 GetOffsetAnchor() => Player?.MountedCenter / 16f ?? Vector2.Zero;
 
     public override void FrameEffects()
     {
@@ -121,17 +127,17 @@ public class CountChaosPlayer : ModPlayer
         if (Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs))
         {
             Vector2 legVel = new Vector2(-0.2f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
-            Vector2 legPos = OffsetAnchor + new Vector2(2 * Player.direction, 12 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.1f;
+            Vector2 legPos = GetOffsetAnchor() + new Vector2(2 * Player.direction, 10 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
             Vector2 legGrav = new Vector2(-Player.direction * 0.04f, -0.07f * Player.gravDir);
-            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 30), legGrav), legPos, Player.velocity * 0.05f + legVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(0.5f, 0.7f));
+            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 30), legGrav), legPos, Player.velocity * 0.05f + legVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(0.5f, 1f));
             flameShader = Player.cLegs;
         }
 
         if (Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body))
         {
-            Vector2 particleVel = new Vector2(Main.rand.NextFloat(-0.4f, 0.3f) * Player.direction, -Main.rand.NextFloat(-0.2f, 0.5f) * Player.gravDir);
-            Vector2 particlePos = OffsetAnchor + Main.rand.NextVector2Circular(6, 10) + new Vector2(-8 * Player.direction, -6 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
-            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(30, 40), -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f) * Player.gravDir), particlePos, -Player.velocity * Main.rand.NextFloat(0.1f) + particleVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.2f));
+            Vector2 particleVel = new Vector2(Main.rand.NextFloat(-0.7f, 0.2f) * Player.direction, -Main.rand.NextFloat(-0.2f, 0.5f) * Player.gravDir);
+            Vector2 particlePos = GetOffsetAnchor() + Main.rand.NextVector2Circular(6, 10) + new Vector2(-6 * Player.direction, -6 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.5f;
+            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 30), -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f) * Player.gravDir), particlePos, -Player.velocity * Main.rand.NextFloat(0.1f) + particleVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.2f));
             flameShader = Player.cBody;
         }
     }

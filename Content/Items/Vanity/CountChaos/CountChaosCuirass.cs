@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Utilities;
+using BlockVanity.Content.Rarities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -12,7 +13,7 @@ namespace BlockVanity.Content.Items.Vanity.CountChaos;
 [AutoloadEquip(EquipType.Body)]
 public class CountChaosCuirass : VanityItem
 {
-    public CountChaosCuirass() : base(ItemRarityID.Cyan, 36, 34) { }
+    public CountChaosCuirass() : base(ModContent.RarityType<VanityRareCommon>(), 36, 34) { }
 
     public override void SetStaticDefaults()
     {

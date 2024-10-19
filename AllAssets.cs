@@ -37,9 +37,9 @@ public static class AllAssets
     public static void Load()
     {
         string assetsPath = $"{nameof(BlockVanity)}/Assets/";
+        Textures.Pixel = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/Pixel");
         Textures.Glow = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Glow_");
 
-        Textures.FishEyes = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/FishEyes");
         Textures.FireDissolveNoise = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/FireDissolveNoise_");
         Textures.OrionNoise = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/OrionNoise");
         Textures.SeasideColorMap = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/SeasideColorMap");
@@ -60,6 +60,7 @@ public static class AllAssets
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_Low"),
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Tail")
             ];
+        Textures.FishEyes = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/FishEyes");
 
         Textures.VanityStar = ModContent.Request<Texture2D>(assetsPath + "Textures/UI/VanityStar");
 
@@ -82,7 +83,8 @@ public static class AllAssets
         public static readonly string Placeholder = $"{nameof(BlockVanity)}/Assets/Textures/Placeholder_Pearl";
 
         public static Asset<Texture2D>[] Glow;
-        public static Asset<Texture2D> FishEyes;
+        public static Asset<Texture2D> Pixel;
+
         public static Asset<Texture2D>[] FireDissolveNoise;
         public static Asset<Texture2D> OrionNoise;
         public static Asset<Texture2D> SeasideColorMap;
@@ -92,6 +94,7 @@ public static class AllAssets
         public static Asset<Texture2D>[] Bar;
 
         public static Asset<Texture2D>[] BlueFishSkin;
+        public static Asset<Texture2D> FishEyes;
 
         public static Asset<Texture2D> VanityStar;
     }
