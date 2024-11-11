@@ -1,6 +1,7 @@
 ﻿using BlockVanity.Common.Graphics;
 using BlockVanity.Common.UI;
 using BlockVanity.Common.Utilities;
+using BlockVanity.Content.Dusts;
 using BlockVanity.Content.Items.Vanity.BoneKing.Platinum;
 using BlockVanity.Content.Items.Vanity.Scholar;
 using BlockVanity.Content.Particles;
@@ -58,7 +59,7 @@ public class HellforgedKingSkull : VanityItem
         {
             int randomShader = Main.rand.NextFromList(player.cHead, player.cBody, player.cLegs);
 
-            if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(15))
             {
                 Dust spark = Dust.NewDustDirect(player.MountedCenter - new Vector2(10, 20), 20, 40, DustID.Torch, 0f, -5f);
                 spark.velocity.Y -= player.gravDir;
@@ -70,11 +71,14 @@ public class HellforgedKingSkull : VanityItem
                     spark.shader = GameShaders.Armor.GetSecondaryShader(randomShader, player);
             }            
             
-            if (Main.rand.NextBool(10))
+            if (Main.rand.NextBool(12))
             {
                 Vector2 particlePos = player.MountedCenter + Main.rand.NextVector2Circular(player.width, player.height / 2f);
-                Vector2 particleVel = new Vector2(player.velocity.X * 0.1f, -player.gravDir);
-                ParticleEngine.particles.NewParticle(new PixelSpotParticleDyeable(Color.OrangeRed with { A = 0 }, Main.rand.Next(40, 60), randomShader), particlePos, particleVel, 1f, Main.rand.NextFloat(0.5f, 1f)); 
+                Vector2 particleVel = new Vector2(player.velocity.X * 0.1f, -player.gravDir).RotatedByRandom(0.5f);
+                Dust fire = Dust.NewDustPerfect(particlePos, ModContent.DustType<HellfireSparkDust>(), particleVel, 0, Color.LightGoldenrodYellow with { A = 0 }, Main.rand.NextFloat(0.5f, 1f));
+                fire.fadeIn = Main.rand.Next(100, 120);
+                if (randomShader > 0)
+                    fire.shader = GameShaders.Armor.GetSecondaryShader(randomShader, player);
             }
         }
     }
