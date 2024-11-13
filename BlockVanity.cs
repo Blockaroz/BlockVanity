@@ -21,13 +21,7 @@ public class BlockVanity : Mod
         Instance = this;
     }
 
-    public override IContentSource CreateDefaultContentSource()
-    {
-        SmartContentSource source = new SmartContentSource(base.CreateDefaultContentSource());
-        source.AddDirectoryRedirect("Content", "Assets/Textures");
-        source.AddDirectoryRedirect("Common", "Assets/Textures");
-        return source;
-    }
+    public override IContentSource CreateDefaultContentSource() => new AssetDirectorySource(base.CreateDefaultContentSource());
 
     public static Dictionary<int, int[]> StylesByID { get; private set; }
 

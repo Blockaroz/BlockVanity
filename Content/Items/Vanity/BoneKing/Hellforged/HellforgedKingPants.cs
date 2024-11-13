@@ -5,6 +5,7 @@ using BlockVanity.Content.Items.Vanity.BoneKing.Platinum;
 using BlockVanity.Content.Rarities;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.BoneKing.Hellforged;
@@ -12,6 +13,9 @@ namespace BlockVanity.Content.Items.Vanity.BoneKing.Hellforged;
 [AutoloadEquip(EquipType.Legs)]
 public class HellforgedKingPants : VanityItem
 {
+    public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingPants>().DisplayName;
+    public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingPants>().Tooltip;
+
     public HellforgedKingPants() : base(ModContent.RarityType<VanityRareCommon>(), 30, 18) { }
 
     public override void SetStaticDefaults()

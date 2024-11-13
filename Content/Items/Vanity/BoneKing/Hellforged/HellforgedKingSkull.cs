@@ -13,6 +13,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.BoneKing.Hellforged;
@@ -26,6 +27,9 @@ public class HellforgedKingSkull : VanityItem
 
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this, equipTexture: new OversizedHeadEquipTexture(0, -4));
     }
+
+    public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingSkull>().DisplayName;
+    public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingSkull>().Tooltip;
 
     public HellforgedKingSkull() : base(ModContent.RarityType<VanityRareCommon>(), 30, 34) { }
 
@@ -58,6 +62,7 @@ public class HellforgedKingSkull : VanityItem
         if (AreaEffectsToggle.IsActive(player))
         {
             int randomShader = Main.rand.NextFromList(player.cHead, player.cBody, player.cLegs);
+            ArmorShaderData shaderData = GameShaders.Armor.GetSecondaryShader(randomShader, player);
 
             if (Main.rand.NextBool(15))
             {
@@ -68,7 +73,7 @@ public class HellforgedKingSkull : VanityItem
                 spark.noLight = true;
                 spark.fadeIn = 1f;
                 if (randomShader > 0)
-                    spark.shader = GameShaders.Armor.GetSecondaryShader(randomShader, player);
+                    spark.shader = shaderData;
             }            
             
             if (Main.rand.NextBool(12))
@@ -79,7 +84,6 @@ public class HellforgedKingSkull : VanityItem
                 fire.fadeIn = Main.rand.Next(100, 120);
                 if (randomShader > 0)
                     fire.shader = GameShaders.Armor.GetSecondaryShader(randomShader, player);
-            }
         }
     }
 

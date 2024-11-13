@@ -14,6 +14,7 @@ namespace BlockVanity.Content.Items.Vanity.BoneKing.Platinum;
 public class PlatinumBoneKingPants : VanityItem
 {
     public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingPants>().DisplayName;
+    public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingPants>().Tooltip;
 
     public PlatinumBoneKingPants() : base(ModContent.RarityType<VanityRareCommon>(), 30, 18) { }
 

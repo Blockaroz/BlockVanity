@@ -170,40 +170,6 @@ Items: {
 		DisplayName: Bone King's Skull
 		Tooltip: ""
 	}
-
-	FrostbuiltKingGarb: {
-		DisplayName: Frostbuilt King's Garb
-		Tooltip: ""
-	}
-
-	FrostbuiltKingPants: {
-		DisplayName: Frostbuilt King's Pants
-		Tooltip: ""
-	}
-
-	FrostbuiltKingSkull: {
-		DisplayName: Frostbuilt King's Skull
-		Tooltip: ""
-	}
-
-	HellforgedKingGarb: {
-		DisplayName: Hellforged King's Garb
-		Tooltip: ""
-	}
-
-	HellforgedKingPants: {
-		DisplayName: Hellforged King's Pants
-		Tooltip: ""
-	}
-
-	HellforgedKingSkull: {
-		DisplayName: Hellforged King's Skull
-		Tooltip: ""
-	}
-
-	PlatinumBoneKingGarb.Tooltip: ""
-	PlatinumBoneKingPants.Tooltip: ""
-	PlatinumBoneKingSkull.Tooltip: ""
 }
 
 Projectiles: {
@@ -227,8 +193,6 @@ Tiles: {
 	Stylotron.MapEntry: Stylotron
 }
 
-"Keybinds.QuestUI Test Bind.DisplayName": Quest UI Test Bind
-
 UI: {
 	SortBy: Sort
 	Sort_QuestID: Quest ID
@@ -238,10 +202,10 @@ UI: {
 Configs: {
 	Config: {
 		DisplayName: Config
-		Headers.Mods.BlockVanity.Config.WardrobeUIPosition: Mods. Block Vanity. Config. Wardrobe U I Position Header
+		Headers.Mods.BlockVanity.Config.WardrobeUIPosition: Wardrobe Button Position
 
 		wardrobeUIPosition: {
-			Label: wardrobe U I Position
+			Label: Wardrobe Button Position
 			Tooltip: ""
 		}
 	}

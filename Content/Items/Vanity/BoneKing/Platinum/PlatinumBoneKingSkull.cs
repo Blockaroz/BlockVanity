@@ -19,6 +19,7 @@ public class PlatinumBoneKingSkull : VanityItem
     }
 
     public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingSkull>().DisplayName;
+    public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingSkull>().Tooltip;
 
     public PlatinumBoneKingSkull() : base(ModContent.RarityType<VanityRareCommon>(), 30, 34) { }
 

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.BoneKing.Frostbuilt;
@@ -15,6 +16,9 @@ namespace BlockVanity.Content.Items.Vanity.BoneKing.Frostbuilt;
 [AutoloadEquip(EquipType.Body)]
 public class FrostbuiltKingGarb : VanityItem
 {
+    public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingGarb>().DisplayName;
+    public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingGarb>().Tooltip;
+
     public FrostbuiltKingGarb() : base(ModContent.RarityType<VanityRareCommon>(), 34, 32) { }
 
     public override void SetStaticDefaults()

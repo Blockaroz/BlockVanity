@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.BoneKing.Hellforged;
@@ -15,6 +16,9 @@ namespace BlockVanity.Content.Items.Vanity.BoneKing.Hellforged;
 [AutoloadEquip(EquipType.Body)]
 public class HellforgedKingGarb : VanityItem
 {
+    public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingGarb>().DisplayName;
+    public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingGarb>().Tooltip;
+
     public HellforgedKingGarb() : base(ModContent.RarityType<VanityRareCommon>(), 34, 32) { }
 
     public override void SetStaticDefaults()

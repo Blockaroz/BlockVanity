@@ -8,6 +8,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.BoneKing.Frostbuilt;
@@ -21,6 +22,9 @@ public class FrostbuiltKingSkull : VanityItem
 
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this, equipTexture: new OversizedHeadEquipTexture(0, -4));
     }
+
+    public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingSkull>().DisplayName;
+    public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingSkull>().Tooltip;
 
     public FrostbuiltKingSkull() : base(ModContent.RarityType<VanityRareCommon>(), 30, 34) { }
 

@@ -18,9 +18,7 @@ public class HellforgedKingHeadGlowLayer : PlayerDrawLayer
     {
         Vector2 pos = drawInfo.HeadPosition();
 
-        Color drawColor = Color.White with { A = 200 };
-        if (drawInfo.shadow > 0f)
-            drawColor = Color.DarkOrange with { A = 0 } * (1f - drawInfo.shadow);
+        Color drawColor = Color.White with { A = 200 } * (1f - drawInfo.shadow);
 
         DrawData glowData = new DrawData(HellforgedKingSkull.glowTextureArmor.Value, pos, drawInfo.drawPlayer.bodyFrame, drawColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
         glowData.shader = drawInfo.cHead;
@@ -41,9 +39,7 @@ public class HellforgedKingBodyGlowLayer : PlayerDrawLayer
         position.ApplyVerticalOffset(drawInfo);
         position.Y += drawInfo.torsoOffset;
 
-        Color drawColor = Color.White with { A = 200 };
-        if (drawInfo.shadow > 0f)
-            drawColor = Color.DarkOrange with { A = 0 } * (1f - drawInfo.shadow);
+        Color drawColor = Color.White with { A = 200 } * (1f - drawInfo.shadow);
 
         DrawData data = new DrawData(glowTexture, position, drawInfo.compTorsoFrame, drawColor, drawInfo.drawPlayer.bodyRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
         data.shader = drawInfo.drawPlayer.cBody;
@@ -66,9 +62,7 @@ public class HellforgedKingArmOnGlowLayer : PlayerDrawLayer
         position.ApplyVerticalOffset(drawInfo);
         position.Y += drawInfo.torsoOffset;
 
-        Color drawColor = Color.White with { A = 200 };
-        if (drawInfo.shadow > 0f)
-            drawColor = Color.DarkOrange with { A = 0 } * (1f - drawInfo.shadow);
+        Color drawColor = Color.White with { A = 200 } * (1f - drawInfo.shadow);
 
         DrawData shoulderData = new DrawData(glowTexture, position, drawInfo.compFrontShoulderFrame, drawColor, drawInfo.drawPlayer.bodyRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
         shoulderData.shader = drawInfo.drawPlayer.cBody;
@@ -97,9 +91,7 @@ public class HellforgedKingArmOffGlowLayer : PlayerDrawLayer
         position.ApplyVerticalOffset(drawInfo);
         position.Y += drawInfo.torsoOffset;
 
-        Color drawColor = Color.White with { A = 200 };
-        if (drawInfo.shadow > 0f)
-            drawColor = Color.DarkOrange with { A = 0 } * (1f - drawInfo.shadow);
+        Color drawColor = Color.White with { A = 200 } * (1f - drawInfo.shadow);
 
         DrawData shoulderData = new DrawData(glowTexture, position, drawInfo.compBackShoulderFrame, drawColor, drawInfo.drawPlayer.bodyRotation, drawInfo.bodyVect, 1f, drawInfo.playerEffect, 0);
         shoulderData.shader = drawInfo.drawPlayer.cBody;
