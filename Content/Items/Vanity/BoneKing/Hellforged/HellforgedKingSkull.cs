@@ -74,8 +74,8 @@ public class HellforgedKingSkull : VanityItem
                 spark.fadeIn = 1f;
                 if (randomShader > 0)
                     spark.shader = shaderData;
-            }            
-            
+            }
+
             if (Main.rand.NextBool(12))
             {
                 Vector2 particlePos = player.MountedCenter + Main.rand.NextVector2Circular(player.width, player.height / 2f);
@@ -84,6 +84,7 @@ public class HellforgedKingSkull : VanityItem
                 fire.fadeIn = Main.rand.Next(100, 120);
                 if (randomShader > 0)
                     fire.shader = GameShaders.Armor.GetSecondaryShader(randomShader, player);
+            }
         }
     }
 
