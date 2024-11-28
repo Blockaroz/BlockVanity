@@ -11,14 +11,13 @@ namespace BlockVanity;
 
 public class BlockVanity : Mod
 {
-    public static Mod Instance;
+    public static BlockVanity GetInstance() => ModContent.GetInstance<BlockVanity>();
 
     public override void Load()
     {
         ParticleEngine.Load();
         AllAssets.Load();
         StylesByID = new Dictionary<int, int[]>();
-        Instance = this;
     }
 
     public override IContentSource CreateDefaultContentSource() => new AssetDirectorySource(base.CreateDefaultContentSource());

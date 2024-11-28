@@ -30,7 +30,7 @@ public class PlayerQuestIcon : IQuestPicture
         catch
         {
             _drawWithoutTarget = true;
-            BlockVanity.Instance.Logger.Warn("Quest icon failed to create target");
+            BlockVanity.GetInstance().Logger.Warn("Quest icon failed to create target");
         }
     }
 
