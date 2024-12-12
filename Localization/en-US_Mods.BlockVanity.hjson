@@ -3,6 +3,11 @@ Buffs: {
 		DisplayName: Floating Sky Lantern
 		Description: A sky lantern lights your way
 	}
+
+	HauntedCandelabraBuff: {
+		DisplayName: Haunted Candelabra
+		Description: A sentient candelabra lights your way
+	}
 }
 
 Items: {
@@ -170,12 +175,18 @@ Items: {
 		DisplayName: Bone King's Skull
 		Tooltip: ""
 	}
+
+	HauntedCandle: {
+		DisplayName: Haunted Candle
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
 	ScholarStaffBolt.DisplayName: Scholar Staff
 	ScholarStaffProj.DisplayName: Scholar Staff
 	FloatingSkyLanternProjectile.DisplayName: Floating Sky Lantern
+	HauntedCandelabra.DisplayName: Haunted Candelabra
 }
 
 AreaEffectsToggle: {
