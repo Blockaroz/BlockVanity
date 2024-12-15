@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlockVanity.Common.Graphics.ParticleRendering;
+using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Items.Vanity.CountChaos;
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
@@ -30,7 +30,7 @@ public class CountChaosPlayer : ModPlayer
         orig();
     }
 
-    public ParticleSystem chaosFireParticles;
+    public ParticleSystem<ChaosFlameParticle> chaosFireParticles;
 
     private RenderTarget2D chaosFireTarget;
 
@@ -38,7 +38,7 @@ public class CountChaosPlayer : ModPlayer
 
     public override void Initialize()
     {
-        chaosFireParticles = new ParticleSystem(200, false);
+        chaosFireParticles = new ParticleSystem<ChaosFlameParticle>(200);
         chaosFireParticles.Init();
 
         Main.QueueMainThreadAction(() =>

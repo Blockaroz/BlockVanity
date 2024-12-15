@@ -15,7 +15,6 @@ public class BlockVanity : Mod
 
     public override void Load()
     {
-        ParticleEngine.Load();
         AllAssets.Load();
         StylesByID = new Dictionary<int, int[]>();
     }

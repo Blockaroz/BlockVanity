@@ -1,6 +1,6 @@
 ﻿using System;
 using BlockVanity.Common.Graphics;
-using BlockVanity.Common.Graphics.ParticleRendering;
+using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

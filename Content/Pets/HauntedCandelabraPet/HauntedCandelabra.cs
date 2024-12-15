@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlockVanity.Content.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -114,24 +115,24 @@ public class HauntedCandelabra : ModProjectile
     public void DoDust()
     {
         ArmorShaderData shader = GameShaders.Armor.GetSecondaryShader(Main.player[Projectile.owner].cLight, Main.player[Projectile.owner]);
-        Color flameColor = Color.Silver with { A = 10 };
-
+        Color flameColor = Color.White with { A = 30 };
+        int dustType = ModContent.DustType<HauntedFlameDust>();
         float directionAmt = Projectile.direction * MathF.Cos(Projectile.frame / 12f * MathHelper.TwoPi);
         if (Main.rand.NextBool(3))
         {
-            Dust flame = Dust.NewDustPerfect(Projectile.Center + new Vector2(0, -32) + Main.rand.NextVector2Circular(2, 2), 296, Main.rand.NextVector2Circular(1, 1) - Vector2.UnitY, 0, flameColor, 0.5f + Main.rand.NextFloat());
+            Dust flame = Dust.NewDustPerfect(Projectile.Center + new Vector2(0, -36) + Main.rand.NextVector2Circular(2, 2), dustType, Main.rand.NextVector2Circular(1, 2) - Vector2.UnitY * 2, 0, flameColor, 0.5f + Main.rand.NextFloat());
             flame.noGravity = true;
             flame.shader = shader;
         }
         if (Main.rand.NextBool(3))
         {
-            Dust flame = Dust.NewDustPerfect(Projectile.Center + new Vector2(-10 * directionAmt, -26) + Main.rand.NextVector2Circular(2, 2), 296, Main.rand.NextVector2Circular(1, 1) - Vector2.UnitY, 0, flameColor, 0.5f + Main.rand.NextFloat());
+            Dust flame = Dust.NewDustPerfect(Projectile.Center + new Vector2(-10 * directionAmt, -30) + Main.rand.NextVector2Circular(2, 2), dustType, Main.rand.NextVector2Circular(1, 2) - Vector2.UnitY * 2, 0, flameColor, 0.5f + Main.rand.NextFloat());
             flame.noGravity = true;
             flame.shader = shader;
         }
         if (Main.rand.NextBool(3))
         {
-            Dust flame = Dust.NewDustPerfect(Projectile.Center + new Vector2(10 * directionAmt, -22) + Main.rand.NextVector2Circular(2, 2), 296, Main.rand.NextVector2Circular(1, 1) - Vector2.UnitY, 0, flameColor, 0.5f + Main.rand.NextFloat());
+            Dust flame = Dust.NewDustPerfect(Projectile.Center + new Vector2(10 * directionAmt, -26) + Main.rand.NextVector2Circular(2, 2), dustType, Main.rand.NextVector2Circular(1, 2) - Vector2.UnitY * 2, 0, flameColor, 0.5f + Main.rand.NextFloat());
             flame.noGravity = true;
             flame.shader = shader;
         }

@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using BlockVanity.Common.Graphics;
-using BlockVanity.Common.Utilities;
-using BlockVanity.Content.Particles;
-using log4net.Core;
+﻿using BlockVanity.Content.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.Graphics;
-using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -64,7 +57,10 @@ public class ScholarStaffBolt : ModProjectile
         //    ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 60, true), Projectile.Center + Main.rand.NextVector2Circular(5, 5), Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1f, 1.5f));
 
         if (Main.rand.NextBool(20) || Projectile.localAI[0] % 40 == 0)
-            ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 60, true), Projectile.Center + Main.rand.NextVector2Circular(15, 15), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1.5f, 2.5f));
+        {
+            Dust pixelDust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15, 15), ModContent.DustType<PixelSpotDust>(), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 0, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 2.5f));
+            pixelDust.fadeIn = 60;
+        }
 
         if (Main.rand.NextBool(5))
             Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 10), DustID.Smoke, Projectile.velocity.RotatedByRandom(0.5f) * Main.rand.NextFloat(0.5f), 160, Color.DarkCyan, Main.rand.NextFloat(1f, 2f));
@@ -87,8 +83,9 @@ public class ScholarStaffBolt : ModProjectile
         for (int i = 0; i < 14; i++)
         {
             Vector2 offset = Main.rand.NextVector2Circular(8, 8);
-            ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 80, true), Projectile.Center + offset, Projectile.velocity * 0.2f + offset * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1.5f, 3f));
-        }        
+            Dust pixelDust = Dust.NewDustPerfect(Projectile.Center + offset, ModContent.DustType<PixelSpotDust>(), Projectile.velocity * 0.2f + offset * Main.rand.NextFloat(0.5f), 0, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
+            pixelDust.fadeIn = 80;
+        }
         
         //for (int i = 0; i < 11; i++)
         //{
