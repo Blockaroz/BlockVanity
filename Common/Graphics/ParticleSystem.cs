@@ -79,6 +79,15 @@ public class ParticleSystem<T> where T : IParticleData
 
     public void Draw(SpriteBatch spriteBatch, Vector2 anchorPosition, BlendState blendState, Matrix transform, Effect effect = null)
     {
+        spriteBatch.Begin(SpriteSortMode.Deferred, blendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, transform);
+
+        Draw(spriteBatch, anchorPosition);
+
+        spriteBatch.End();
+    }
+
+    public void Draw(SpriteBatch spriteBatch, Vector2 anchorPosition)
+    {
         List<Particle> activeParticles = new List<Particle>();
 
         foreach (Particle particle in Particles)
@@ -87,14 +96,10 @@ public class ParticleSystem<T> where T : IParticleData
                 activeParticles.Add(particle);
         }
 
-        spriteBatch.Begin(SpriteSortMode.Deferred, blendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, transform);
-
         if (activeParticles.Count > 0)
         {
             foreach (Particle particle in activeParticles)
                 particle.Draw(spriteBatch, anchorPosition);
         }
-
-        spriteBatch.End();
     }
 }

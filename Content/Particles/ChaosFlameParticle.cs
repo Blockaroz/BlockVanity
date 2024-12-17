@@ -22,7 +22,7 @@ public struct ChaosFlameParticle : IParticleData
         maxTime = timeLeft + 2;
         this.gravity = gravity;
         style = Main.rand.Next(6);
-        randomEffect = Main.rand.Next(3);
+        randomEffect = Main.rand.NextBool() ? 0 : 1;
     }
 
     public void OnSpawn(Particle particle)
