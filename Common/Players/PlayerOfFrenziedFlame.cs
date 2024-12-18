@@ -12,6 +12,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria;
 using Terraria.GameContent;
+using BlockVanity.Content.Projectiles.Weapons.Magic;
 
 namespace BlockVanity.Common.Players;
 
@@ -45,7 +46,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
         Main.QueueMainThreadAction(() =>
         {
-            frenziedTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 400, 400);
+            frenziedTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
             drawToTarget += DrawParticlesToTarget;
         });
     }
@@ -74,16 +75,19 @@ public class PlayerOfFrenziedFlame : ModPlayer
             //    return;
 
             const float rescale = 1f;
-            Vector2 anchor = GetOffsetAnchor(Player) - new Vector2(200 * rescale);
+            Vector2 center = new Vector2(250 * rescale);
             Matrix transform = Matrix.CreateScale(1f / rescale) * Main.GameViewMatrix.EffectMatrix;
 
             if (frenziedParticles.Particles.Count <= 0)
                 return;
 
             spriteBatch.Begin(SpriteSortMode.Deferred, AddAlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
+            frenziedParticles.Draw(spriteBatch, GetOffsetAnchor(Player) - center);
+            spriteBatch.End();
 
-            frenziedParticles.Draw(spriteBatch, anchor);
-
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
+            Texture2D circleTexture = AllAssets.Textures.Glow[2].Value;
+            spriteBatch.Draw(circleTexture, center - new Vector2(0, 16), circleTexture.Frame(), Color.Black, 0f, circleTexture.Size() * 0.5f, 3f, 0, 0);
             spriteBatch.End();
         }
     }
@@ -92,7 +96,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
     public bool IsReady => frenziedTarget != null && frenziedParticles != null;
     public DrawData GetFrenzyTarget() => new DrawData(frenziedTarget, Player.MountedCenter - Main.screenPosition, frenziedTarget.Frame(), Color.White, -Player.fullRotation, frenziedTarget.Size() * 0.5f, 1f, 0);
 
-    private static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter / 24f ?? Vector2.Zero;
+    private static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter ?? Vector2.Zero;
 
     public override void FrameEffects()
     {
@@ -104,7 +108,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
         if (true)
         {
             Vector2 particleVelocity = Main.rand.NextVector2Circular(1, 1) * 0.7f - Vector2.UnitY * 0.1f + Player.velocity * 0.01f;
-            frenziedParticles.NewParticle(new FrenziedFlameParticle(140), GetOffsetAnchor(Player) + Player.velocity * 0.3f - new Vector2(0, 17), particleVelocity, 0f, 0.5f + Main.rand.NextFloat());
+            frenziedParticles.NewParticle(new FrenziedFlameParticle(140, Player), GetOffsetAnchor(Player) + Player.velocity * 0.3f - new Vector2(0, 17), particleVelocity, 0f, 0.5f + Main.rand.NextFloat());
             targetShader = Player.cHead;
         }
     }

@@ -20,14 +20,11 @@ public class FrenziedFlameHeadLayer : PlayerDrawLayer
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
         PlayerOfFrenziedFlame particlePlayer = drawInfo.drawPlayer.GetModPlayer<PlayerOfFrenziedFlame>();
-        if (particlePlayer.IsReady)
+        if (particlePlayer.IsReady && drawInfo.shadow <= 0f)
         {
             DrawData data = particlePlayer.GetFrenzyTarget();
-            data.position = drawInfo.Center - Main.screenPosition;
+            data.position = drawInfo.Center.Floor() - Main.screenPosition;
             data.color = Color.White;
-            if (drawInfo.shadow > 0f)
-                data.color *= (1f - drawInfo.shadow) * 0.5f;
-
             data.effect = Main.GameViewMatrix.Effects;
             data.shader = particlePlayer.targetShader;
             drawInfo.DrawDataCache.Add(data);

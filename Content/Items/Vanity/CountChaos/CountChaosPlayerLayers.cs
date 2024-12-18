@@ -21,7 +21,7 @@ public class ChaosFireLayer : PlayerDrawLayer
         if (particlePlayer.IsReady && drawInfo.shadow <= 0f)
         {
             DrawData data = particlePlayer.GetChaosFireTarget();
-            data.position = drawInfo.Center - Main.screenPosition;
+            data.position = drawInfo.Center.Floor() - Main.screenPosition;
             data.color = Color.Lerp(Color.White, drawInfo.colorArmorBody, 0.7f);
             data.effect = Main.GameViewMatrix.Effects;
             data.shader = particlePlayer.targetShader;
