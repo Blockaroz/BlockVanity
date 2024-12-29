@@ -15,7 +15,7 @@ public class FrenziedFlameHeadLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.FrozenOrWebbedDebuff);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => true;
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => false;
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using BlockVanity.Common.Graphics;
-using BlockVanity.Common.Utilities;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using ReLogic.Content.Sources;
@@ -23,7 +23,7 @@ public class BlockVanity : Mod
 
     public static Dictionary<int, int[]> StylesByID { get; private set; }
 
-    public static void RegisterAlternateStyles(int originalItem, params int[] styleItems)
+    public static void AddStyles(int originalItem, params int[] styleItems)
     {
         StylesByID.TryAdd(originalItem, styleItems);
 

@@ -1,5 +1,5 @@
-﻿using BlockVanity.Common.Utilities;
-using BlockVanity.Content.Rarities;
+﻿using BlockVanity.Content.Rarities;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;

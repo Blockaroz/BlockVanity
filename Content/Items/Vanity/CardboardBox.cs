@@ -1,4 +1,4 @@
-﻿using BlockVanity.Common.Utilities;
+﻿using BlockVanity.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

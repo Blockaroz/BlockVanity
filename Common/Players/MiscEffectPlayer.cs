@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BlockVanity.Common.Utilities;
 using BlockVanity.Content.Items.Dyes;
 using BlockVanity.Content.Items.Vanity.Myrtle;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -16,9 +16,6 @@ public class MiscEffectPlayer : ModPlayer
 
     public bool accBlackEye;
     public bool blockheadSkin;
-
-    //pets
-    public bool floatingSkyLanternPet;
 
     public override void Load()
     {
@@ -84,6 +81,5 @@ public class MiscEffectPlayer : ModPlayer
         disableBootsEffect = false;
         accBlackEye = false;
         blockheadSkin = false;
-        floatingSkyLanternPet = false;
     }
 }

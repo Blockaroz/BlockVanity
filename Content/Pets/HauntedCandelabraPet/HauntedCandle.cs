@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlockVanity.Content.Items.Placeable;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -19,6 +16,22 @@ public class HauntedCandle : ModItem
         Item.DefaultToVanitypet(ModContent.ProjectileType<HauntedCandelabra>(), Item.buffType);
     }
 
+    public override bool? UseItem(Player player)
+    {
+        if (player.whoAmI == Main.myPlayer)
+            player.AddBuff(Item.buffType, 3600);
+
+        return true;
+    }
+
+    public override void AddRecipes()
+    {
+        CreateRecipe()
+            .AddIngredient<HauntedCandleTileItem>()
+            .AddCondition(Condition.InGraveyard)
+            .Register();
+    }
+
     public static Asset<Texture2D> flameTexture;
 
     public override void Load()
@@ -28,9 +41,12 @@ public class HauntedCandle : ModItem
 
     public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
     {
+        spriteBatch.Draw(flameTexture.Value, position, flameTexture.Frame(), Color.White with { A = 200 }, 0, flameTexture.Size() * 0.5f, scale, 0, 0);
     }
 
     public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
+        Texture2D glowTexture = AllAssets.Textures.Glow[0].Value;
+        spriteBatch.Draw(flameTexture.Value, Item.Center - Main.screenPosition, flameTexture.Frame(), Color.White with { A = 200 }, rotation, flameTexture.Size() * 0.5f, scale, 0, 0);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlockVanity.Common.Utilities;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

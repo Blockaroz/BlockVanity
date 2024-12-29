@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json.Linq;
+using ReLogic.Threading;
 using Terraria;
+using Terraria.DataStructures;
 
 namespace BlockVanity.Common.Graphics;
 
@@ -16,90 +18,101 @@ public interface IParticleData
     public abstract void Draw(Particle particle, SpriteBatch spriteBatch, Vector2 anchorPosition);
 }
 
-public sealed class Particle
+public class Particle
 {
     public bool active;
+    internal int age;
+    public int index;
     public Vector2 position;
     public Vector2 velocity;
-    public float scale;
+    public Vector2 scale;
     public float rotation;
+    public Color color;
     public IParticleData data;
-
-    public void Draw(SpriteBatch spritebatch, Vector2 anchorPosition) => data?.Draw(this, spritebatch, anchorPosition);
-
-    public void Update() => data?.Update(this);
 }
 
-public class ParticleSystem<T> where T : IParticleData
+public class ParticleSystem
 {
-    public List<Particle> Particles { get; private set; }
+    public Particle[] Particles;
 
-    private int _poolSize;
+    public int PoolSize => Particles.Length;
 
-    public ParticleSystem(int poolSize = 500)
+    public ParticleSystem(int poolSize)
     {
-        _poolSize = poolSize;
-        Init();
+        Particles = new Particle[poolSize];
+        for (int i = 0; i < poolSize; i++)
+            Particles[i] = new Particle();
+
+        if (Main.dedServ)
+            return;
     }
 
-    public void NewParticle(T data, Vector2 position, Vector2 velocity, float rotation, float scale)
+    public void NewParticle(IParticleData data, Vector2 position, Vector2 velocity, float rotation, float scale)
     {
+        if (Main.dedServ)
+            return;
+
         Particle particle = RequestParticle();   
-        particle.active = true;
+        particle.age = 0;
         particle.data = data;
+        particle.active = true;
         particle.position = position;
         particle.velocity = velocity;
         particle.rotation = rotation;
-        particle.scale = scale;
+        particle.scale = new Vector2(scale);
         particle.data.OnSpawn(particle);
-
-        if (Particles.Count(n => n.active) > _poolSize)
-            Particles.Add(particle);
     }
 
-    public Particle RequestParticle() => Particles.FirstOrDefault(n => !n.active, new Particle());
-
-    public void Init()
+    public Particle RequestParticle()
     {
-        Particles = new List<Particle>(_poolSize);
-        for (int i = 0; i < _poolSize; i++)
-            Particles.Add(new Particle());
+        int distanceToDeath = Particles[0].age;
+        int oldest = 0;
+        for (int i = 0; i < PoolSize; i++)
+        {
+            if (distanceToDeath > Particles[i].age)
+            {
+                distanceToDeath = Particles[i].age;
+                oldest = i;
+            }
+
+            if (!Particles[i].active)
+            {
+                oldest = i;
+                break;
+            }
+        }
+
+        return Particles[oldest];
     }
 
     public void Update()
     {
-        foreach (Particle particle in Particles.ToList())
+        if (Main.dedServ)
+            return;
+
+        for (int i = 0; i < PoolSize; i++)
         {
-            if (particle.active)
-                particle.Update();
-            else if (Particles.Count > _poolSize)
-                Particles.RemoveAt(0);
+            if (Particles[i].active)
+            {
+                Particles[i].age++;
+                Particles[i].data.Update(Particles[i]);
+            }
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, Vector2 anchorPosition, BlendState blendState, Matrix transform, Effect effect = null)
+    public void Draw(SpriteBatch spriteBatch, Vector2 anchorPosition, BlendState blendState, Matrix transform, Effect effect)
     {
         spriteBatch.Begin(SpriteSortMode.Deferred, blendState, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, transform);
-
         Draw(spriteBatch, anchorPosition);
-
         spriteBatch.End();
-    }
-
+    }    
+    
     public void Draw(SpriteBatch spriteBatch, Vector2 anchorPosition)
     {
-        List<Particle> activeParticles = new List<Particle>();
-
-        foreach (Particle particle in Particles)
+        for (int i = 0; i < PoolSize; i++)
         {
-            if (particle.active)
-                activeParticles.Add(particle);
-        }
-
-        if (activeParticles.Count > 0)
-        {
-            foreach (Particle particle in activeParticles)
-                particle.Draw(spriteBatch, anchorPosition);
+            if (Particles[i].active)
+                Particles[i].data.Draw(Particles[i], spriteBatch, anchorPosition);
         }
     }
 }

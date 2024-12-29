@@ -1,4 +1,4 @@
-﻿using BlockVanity.Common.Utilities;
+﻿using BlockVanity.Core;
 using BlockVanity.Content.Projectiles.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +16,6 @@ public class ScholarStaff : ModItem
     public override void SetStaticDefaults()
     {
         ItemID.Sets.gunProj[Type] = true;
-        ItemID.Sets.CanBePlacedOnWeaponRacks[Type] = true;
         ItemID.Sets.CanBePlacedOnWeaponRacks[Type] = true;
     }
 

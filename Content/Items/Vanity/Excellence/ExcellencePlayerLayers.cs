@@ -1,5 +1,5 @@
 ﻿using BlockVanity.Common.Systems.Players;
-using BlockVanity.Common.Utilities;
+using BlockVanity.Core;
 using BlockVanity.Content.Items.Vanity.MushroomCow;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

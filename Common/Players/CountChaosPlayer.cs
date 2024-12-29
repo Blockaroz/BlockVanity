@@ -30,7 +30,7 @@ public class CountChaosPlayer : ModPlayer
         orig();
     }
 
-    public ParticleSystem<ChaosFlameParticle> chaosFireParticles;
+    public ParticleSystem chaosFireParticles;
 
     private RenderTarget2D chaosFireTarget;
 
@@ -38,12 +38,11 @@ public class CountChaosPlayer : ModPlayer
 
     public override void Initialize()
     {
-        chaosFireParticles = new ParticleSystem<ChaosFlameParticle>(200);
-        chaosFireParticles.Init();
+        chaosFireParticles = new ParticleSystem(200);
 
         Main.QueueMainThreadAction(() =>
         {
-            chaosFireTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 300, 300);
+            chaosFireTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 400, 400);
             drawToTarget += DrawParticlesToTarget;
         });
     }
@@ -72,17 +71,14 @@ public class CountChaosPlayer : ModPlayer
             //    return;
     
             const float rescale = 0.5f;
-            Vector2 anchor = GetOffsetAnchor(Player) - new Vector2(150 / rescale);
+            Vector2 anchor = GetOffsetAnchor(Player) - new Vector2(200 / rescale);
             Matrix transform = Matrix.CreateScale(rescale) * Main.GameViewMatrix.EffectMatrix;
-
-            if (chaosFireParticles.Particles.Count <= 0)
-                return;
 
             Effect colorOnly = AllAssets.Effects.TransparencyMask.Value;
             colorOnly.Parameters["uColor"].SetValue(Vector3.One);
 
-            chaosFireParticles.Draw(Main.spriteBatch, anchor, BlendState.AlphaBlend, transform, colorOnly);
-            chaosFireParticles.Draw(Main.spriteBatch, anchor, MinimumColorBlend, transform, null);
+            chaosFireParticles.Draw(spriteBatch, anchor, BlendState.AlphaBlend, transform, colorOnly);
+            chaosFireParticles.Draw(spriteBatch, anchor, MinimumColorBlend, transform, null);
         }
     }
 
@@ -104,7 +100,7 @@ public class CountChaosPlayer : ModPlayer
             Vector2 legVel = new Vector2(-0.2f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
             Vector2 legPos = GetOffsetAnchor(Player) + new Vector2(2 * Player.direction, 10 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
             Vector2 legGrav = new Vector2(-Player.direction * 0.04f, -0.07f * Player.gravDir);
-            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 30), legGrav), legPos, Player.velocity * 0.05f + legVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(0.5f, 1f));
+            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(25, 40), legGrav), legPos, Player.velocity * 0.05f + legVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(0.5f, 1f));
             targetShader = Player.cLegs;
         }
 
@@ -112,7 +108,7 @@ public class CountChaosPlayer : ModPlayer
         {
             Vector2 particleVel = new Vector2(Main.rand.NextFloat(-0.7f, 0.2f) * Player.direction, -Main.rand.NextFloat(-0.2f, 0.5f) * Player.gravDir);
             Vector2 particlePos = GetOffsetAnchor(Player) + Main.rand.NextVector2Circular(6, 10) + new Vector2(-6 * Player.direction, -6 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.5f;
-            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(20, 30), -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f) * Player.gravDir), particlePos, -Player.velocity * Main.rand.NextFloat(0.1f) + particleVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.2f));
+            chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(25, 40), -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f) * Player.gravDir), particlePos, -Player.velocity * Main.rand.NextFloat(0.1f) + particleVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(1f, 1.2f));
             targetShader = Player.cBody;
         }
     }
@@ -161,9 +157,7 @@ public class CountChaosPlayer : ModPlayer
         bool legs = self.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
         if (head && body && legs)
             self.armorEffectDrawShadowSubtle = true;
-
         else
             orig(self, drawPlayer);
     }
-
 }

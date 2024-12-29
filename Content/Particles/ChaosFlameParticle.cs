@@ -31,7 +31,7 @@ public struct ChaosFlameParticle : IParticleData
 
     public void Update(Particle particle)
     {
-        particle.velocity *= 1f - MathF.Pow(Progress, 3f) * 0.3f;
+        particle.velocity *= 1f - MathF.Pow(Progress, 3f) * 0.2f;
         particle.velocity += gravity;
         gravity *= 0.98f;
 
@@ -44,10 +44,9 @@ public struct ChaosFlameParticle : IParticleData
     public void Draw(Particle particle, SpriteBatch spriteBatch, Vector2 anchorPosition)
     {
         Texture2D texture = AllAssets.Textures.Particle[4].Value;
-        Texture2D bloom = AllAssets.Textures.Glow[0].Value;
         Rectangle frame = texture.Frame(9, 5, (int)MathF.Floor(Progress * 9), style);
 
-        Color baseColor = Color.White;
-        spriteBatch.Draw(texture, particle.position - anchorPosition, frame, baseColor, particle.rotation, frame.Size() * 0.5f, particle.scale, (SpriteEffects)randomEffect, 0);    
+        Vector2 roundedPosition = (particle.position - anchorPosition).Floor();
+        spriteBatch.Draw(texture, roundedPosition, frame, Color.White, particle.rotation, frame.Size() * 0.5f, particle.scale, (SpriteEffects)randomEffect, 0);    
     }
 }

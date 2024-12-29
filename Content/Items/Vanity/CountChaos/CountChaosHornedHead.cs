@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BlockVanity.Common.Utilities;
+using BlockVanity.Core;
 using Terraria.ID;
 using Terraria.ModLoader;
 

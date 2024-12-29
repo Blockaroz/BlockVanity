@@ -32,7 +32,6 @@ public class HauntedCandelabra : ModProjectile
         Projectile.height = 30;
         Projectile.penetrate = -1;
         Projectile.netImportant = true;
-        Projectile.timeLeft *= 5;
         Projectile.friendly = true;
         Projectile.ignoreWater = true;
         Projectile.tileCollide = false;
@@ -49,7 +48,7 @@ public class HauntedCandelabra : ModProjectile
             return;
         }
 
-        if (!player.dead && player.HasBuff(ModContent.BuffType<HauntedCandelabraBuff>()))
+        if (!player.dead && player.GetPets().hauntedCandelabra)
             Projectile.timeLeft = 2;
 
         Vector2 homePos = player.Center + new Vector2(50 * player.direction, -30 + MathF.Sin(Projectile.ai[0] / 240f * MathHelper.TwoPi) * 10f);
@@ -90,9 +89,9 @@ public class HauntedCandelabra : ModProjectile
         DoDust();
 
         if (Collision.SolidTiles(Projectile.position, Projectile.width, Projectile.height))
-            Lighting.AddLight(Projectile.Center, Color.IndianRed.ToVector3() * 0.5f);
+            Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.5f);
         else
-            Lighting.AddLight(Projectile.Center, Color.LightCoral.ToVector3() * 1.2f);
+            Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 1.2f);
 
         Projectile.ai[0]++;
     }
@@ -157,16 +156,19 @@ public class HauntedCandelabra : ModProjectile
 
         Vector2 baseOffset = new Vector2(0, 4).RotatedBy(Projectile.rotation) * Projectile.scale;
         float baseRoll = Projectile.velocity.X * 0.04f;
-        Color glowColor = Color.Gray with { A = 150 };
+        Color glowColor = Color.DimGray with { A = 40 };
         Color flameColor = Color.White with { A = 80 };
         int max = ProjectileID.Sets.TrailCacheLength[Type] - 1;
         for (int i = 0; i < max; i++)
         {
-            float p = 1f - (i - 1) / (max - 1f);
-            if (i > 0)
-                p *= 0.4f;
-            Vector2 oldCenter = Projectile.oldPos[i] + Projectile.Size / 2;
-            Main.EntitySpriteDraw(highlightTexture.Value, oldCenter - Main.screenPosition, frame, glowColor * p, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            for (int j = 0; j < 2; j++)
+            {
+                float p = 1f - (i + j / 2f - 1) / (max - 1f);
+                if (i > 0 || j > 0)
+                    p *= 0.5f;
+                Vector2 oldCenter = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i + 1], j / 2f) + Projectile.Size / 2;
+                Main.EntitySpriteDraw(highlightTexture.Value, oldCenter - Main.screenPosition, frame, glowColor * p, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
+            }
         }
 
         Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, lightColor, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);

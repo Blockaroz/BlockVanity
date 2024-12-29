@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.GameContent.ObjectInteractions;
 using Terraria.ID;
 using Terraria.Localization;
@@ -18,22 +19,30 @@ namespace BlockVanity.Content.Tiles;
 
 public class Stylotron : ModTile
 {
+    public static Asset<Texture2D> ringTexture;
+    public static Asset<Texture2D> ringGlowTexture;
+    public static Asset<Texture2D> flywheelTexture;
+
     public override void SetStaticDefaults()
-    {
-        Main.tileFrameImportant[Type] = true;
+    {   
         Main.tileLighted[Type] = true;
+        Main.tileFrameImportant[Type] = true;
+        Main.tileLavaDeath[Type] = true;
+        Main.tileNoAttach[Type] = true;
+
         TileID.Sets.HasOutlines[Type] = true;
 
         TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
-        TileObjectData.newTile.Width = 4;
+        TileObjectData.newTile.Height = 4;
         TileObjectData.newTile.Height = 5;
-        TileObjectData.newTile.CoordinateHeights = [16, 16, 16, 16, 16];
         TileObjectData.newTile.CoordinatePadding = 0;
+        TileObjectData.newTile.CoordinateHeights = [16, 16, 16, 16, 16];
         TileObjectData.newTile.Origin = new Point16(2, 4);
         TileObjectData.newTile.DrawYOffset = 2;
-        TileObjectData.newTile.StyleHorizontal = true;
+        TileObjectData.newTile.LavaPlacement = LiquidPlacement.NotAllowed;
+        TileObjectData.newTile.LavaDeath = true;
+        TileObjectData.newTile.Direction = TileObjectDirection.None;
         TileObjectData.addTile(Type);
-        TileObjectData.addAlternate(Type);
 
         DustType = DustID.WoodFurniture;
         AddMapEntry(new Color(54, 55, 63), Language.GetOrRegister(Mod.GetLocalizationKey("Tiles.Stylotron.MapEntry")));
@@ -50,21 +59,13 @@ public class Stylotron : ModTile
 
     public override bool CreateDust(int i, int j, ref int type)
     {
-        if (Main.rand.NextBool(3))
+        if (Main.rand.NextBool())
             type = DustID.Lead;
 
         return true;
     }
 
-    public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings)
-    {
-        return true;
-    }
-
-    public override void ModifySmartInteractCoords(ref int width, ref int height, ref int frameWidth, ref int frameHeight, ref int extraY)
-    {
-
-    }
+    public override bool HasSmartInteract(int i, int j, SmartInteractScanSettings settings) => true;
 
     public override bool RightClick(int i, int j)
     {
@@ -92,29 +93,10 @@ public class Stylotron : ModTile
         }
     }
 
-    public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
+    public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
     {
-        if (Main.tile[i, j].TileFrameX == 0 && Main.tile[i, j].TileFrameY == 0)
-        {
-            Color lightColor = Lighting.GetColor(i, j);
-            Color flywheelColor = Lighting.GetColor(i, j);
+        Main.instance.TilesRenderer.AddSpecialPoint(i, j, Terraria.GameContent.Drawing.TileDrawing.TileCounterType.Tree);
 
-            Vector2 position = new Vector2((i + 2) * 16 + 1, (j + 2) * 16 - 3);
-            if (!Main.drawToScreen)
-                position += new Vector2(Main.offScreenRange);
-
-            spriteBatch.Draw(flywheelTexture.Value, position + new Vector2(16, 18) - Main.screenPosition, flywheelTexture.Frame(), flywheelColor, -Main.GlobalTimeWrappedHourly * 7, flywheelTexture.Size() * 0.5f, 1f, 0, 0);
-
-            spriteBatch.Draw(ringTexture.Value, position - Main.screenPosition, ringTexture.Frame(), lightColor, 0, ringTexture.Size() * 0.5f, 1f, 0, 0);
-            spriteBatch.Draw(ringGlowTexture.Value, position - Main.screenPosition, ringGlowTexture.Frame(), Color.White with { A = 200 }, 0, ringGlowTexture.Size() * 0.5f, 1f, 0, 0);
-
-        }
-
-        if (Main.gamePaused || !Main.instance.IsActive)
-            return;
+        return true;
     }
-
-    private static Asset<Texture2D> ringTexture;
-    private static Asset<Texture2D> ringGlowTexture;
-    private static Asset<Texture2D> flywheelTexture;
 }

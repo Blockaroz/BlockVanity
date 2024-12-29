@@ -1,6 +1,6 @@
 ﻿using System;
 using BlockVanity.Common.Players;
-using BlockVanity.Common.Utilities;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -40,6 +40,8 @@ public static class VanityUtils
         float angle = MathF.Acos(Math.Clamp((c * c + firstLength * firstLength - secondLength * secondLength) / (c * firstLength * 2f), -1f, 1f)) * flip.ToDirectionInt();
         return start + (angle + start.AngleTo(end)).ToRotationVector2() * firstLength;
     }
+
+    public static Vector3 ToVector3(this Vector2 vector, float depth = 0f) => new Vector3(vector, depth);
 
     public static Matrix NormalizedEffectMatrix => Matrix.Invert(Main.GameViewMatrix.EffectMatrix) * Matrix.CreateOrthographicOffCenter(0f, Main.instance.GraphicsDevice.Viewport.Width, Main.instance.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
 
@@ -101,4 +103,6 @@ public static class VanityUtils
 
         return newPlayer;
     }
+
+    public static PetPlayer GetPets(this Player player) => player.GetModPlayer<PetPlayer>();
 }

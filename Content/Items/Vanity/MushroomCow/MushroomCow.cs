@@ -1,6 +1,7 @@
-﻿using BlockVanity.Common.Players;
-using BlockVanity.Common.Utilities;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.Players;
 using BlockVanity.Content.Rarities;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -18,7 +19,12 @@ public class MushroomCowHead : VanityItem
 {
     public MushroomCowHead() : base(ItemRarityID.Blue) { }
 
-    public override void SetStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+    public override void SetStaticDefaults()
+    {
+        ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+        NeckPlayerLayer.AddNeck(this);
+        BlockVanity.AddStyles(Type, ModContent.ItemType<MushroomCowHead>());
+    }
 
     public override bool IsVanitySet(int head, int body, int legs) =>
         body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body) &&
@@ -51,7 +57,11 @@ public class GamingMushroomCowHead : VanityItem
 {
     public GamingMushroomCowHead() : base(ModContent.RarityType<VanityRareCommon>()) { }
 
-    public override void SetStaticDefaults() => ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+    public override void SetStaticDefaults()
+    { 
+        ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+        NeckPlayerLayer.AddNeck(this);
+    }
 
     public override bool IsVanitySet(int head, int body, int legs) =>
         body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body) &&

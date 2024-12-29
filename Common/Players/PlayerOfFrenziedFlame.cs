@@ -33,7 +33,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
         orig();
     }
 
-    public ParticleSystem<FrenziedFlameParticle> frenziedParticles;
+    public ParticleSystem frenziedParticles;
 
     private RenderTarget2D frenziedTarget;
 
@@ -41,12 +41,11 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
     public override void Initialize()
     {
-        frenziedParticles = new ParticleSystem<FrenziedFlameParticle>(200);
-        frenziedParticles.Init();
+        frenziedParticles = new ParticleSystem(200);
 
         Main.QueueMainThreadAction(() =>
         {
-            frenziedTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
+            frenziedTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 800, 800);
             drawToTarget += DrawParticlesToTarget;
         });
     }
@@ -68,27 +67,18 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
         if (IsReady && Player != null)
         {
-            //bool head = Player.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head);
-            //bool body = Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
-            //bool legs = Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
-            //if (!(body || legs))
+            //if (Player.head != EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head))
             //    return;
 
             const float rescale = 1f;
-            Vector2 center = new Vector2(250 * rescale);
+            Vector2 center = GetOffsetAnchor(Player) - new Vector2(400 * rescale);
             Matrix transform = Matrix.CreateScale(1f / rescale) * Main.GameViewMatrix.EffectMatrix;
 
-            if (frenziedParticles.Particles.Count <= 0)
-                return;
+            frenziedParticles.Draw(spriteBatch, center, AddAlphaBlend, transform, null);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, AddAlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
-            frenziedParticles.Draw(spriteBatch, GetOffsetAnchor(Player) - center);
-            spriteBatch.End();
+            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, transform);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
-            Texture2D circleTexture = AllAssets.Textures.Glow[2].Value;
-            spriteBatch.Draw(circleTexture, center - new Vector2(0, 16), circleTexture.Frame(), Color.Black, 0f, circleTexture.Size() * 0.5f, 3f, 0, 0);
-            spriteBatch.End();
+            //spriteBatch.End();
         }
     }
 
@@ -100,16 +90,13 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
     public override void FrameEffects()
     {
-        if (Main.gameInactive)
+        if (Main.gameInactive || frenziedParticles == null)
             return;
 
         frenziedParticles.Update();
 
-        if (true)
-        {
-            Vector2 particleVelocity = Main.rand.NextVector2Circular(1, 1) * 0.7f - Vector2.UnitY * 0.1f + Player.velocity * 0.01f;
-            frenziedParticles.NewParticle(new FrenziedFlameParticle(140, Player), GetOffsetAnchor(Player) + Player.velocity * 0.3f - new Vector2(0, 17), particleVelocity, 0f, 0.5f + Main.rand.NextFloat());
-            targetShader = Player.cHead;
-        }
+        Vector2 particleVelocity = Main.rand.NextVector2Circular(1, 1) * 0.7f - Vector2.UnitY * 0.1f + Player.velocity * 0.01f;
+        frenziedParticles.NewParticle(new FrenziedFlameParticle(90, Player), GetOffsetAnchor(Player) + Player.velocity * 0.3f - new Vector2(0, 17), particleVelocity, 0f, 0.5f + Main.rand.NextFloat());
+        targetShader = Player.cHead;
     }
 }

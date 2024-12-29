@@ -180,6 +180,11 @@ Items: {
 		DisplayName: Haunted Candle
 		Tooltip: ""
 	}
+
+	HauntedCandleTileItem: {
+		DisplayName: Haunted Candle
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
@@ -204,20 +209,5 @@ Tiles: {
 	Stylotron.MapEntry: Stylotron
 }
 
-UI: {
-	SortBy: Sort
-	Sort_QuestID: Quest ID
-	Sort_StarCount: Stars
-}
-
-Configs: {
-	Config: {
-		DisplayName: Config
-		Headers.Mods.BlockVanity.Config.WardrobeUIPosition: Wardrobe Button Position
-
-		wardrobeUIPosition: {
-			Label: Wardrobe Button Position
-			Tooltip: ""
-		}
-	}
-}
+NPCs.ScholarStaffGhost.DisplayName: ???
+Configs.Config.DisplayName: Config

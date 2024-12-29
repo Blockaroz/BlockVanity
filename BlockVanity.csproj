@@ -7,9 +7,13 @@
   </PropertyGroup>
   <ItemGroup>
     <AdditionalFiles Remove="Assets\Textures\Extras\ColorMaps\**" />
+    <AdditionalFiles Remove="Assets\Textures\Items\Pets\**" />
     <Compile Remove="Assets\Textures\Extras\ColorMaps\**" />
+    <Compile Remove="Assets\Textures\Items\Pets\**" />
     <EmbeddedResource Remove="Assets\Textures\Extras\ColorMaps\**" />
+    <EmbeddedResource Remove="Assets\Textures\Items\Pets\**" />
     <None Remove="Assets\Textures\Extras\ColorMaps\**" />
+    <None Remove="Assets\Textures\Items\Pets\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Effects\BasicTrail.fx" />
@@ -51,7 +55,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Textures\Items\Pets\" />
     <Folder Include="Content\Pets\BulbLantern\" />
   </ItemGroup>
 </Project>
