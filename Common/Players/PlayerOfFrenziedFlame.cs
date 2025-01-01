@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BlockVanity.Common.Graphics;
-using BlockVanity.Content.Items.Vanity.CountChaos;
 using BlockVanity.Content.Particles;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using Terraria;
-using Terraria.GameContent;
-using BlockVanity.Content.Projectiles.Weapons.Magic;
 
 namespace BlockVanity.Common.Players;
 
@@ -41,7 +34,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
     public override void Initialize()
     {
-        frenziedParticles = new ParticleSystem(200);
+        frenziedParticles = new ParticleSystem(400);
 
         Main.QueueMainThreadAction(() =>
         {
@@ -74,19 +67,33 @@ public class PlayerOfFrenziedFlame : ModPlayer
             Vector2 center = GetOffsetAnchor(Player) - new Vector2(400 * rescale);
             Matrix transform = Matrix.CreateScale(1f / rescale) * Main.GameViewMatrix.EffectMatrix;
 
-            frenziedParticles.Draw(spriteBatch, center, AddAlphaBlend, transform, null);
+            Effect particleEffect = AllAssets.Effects.DistortDissolve.Value;
+            particleEffect.Parameters["uTexture"].SetValue(AllAssets.Textures.FireDissolveNoise[0].Value);
+            particleEffect.Parameters["uNoiseSpeed"].SetValue(0.4f);
+            particleEffect.Parameters["uNoiseStrength"].SetValue(0.67f);
+            particleEffect.Parameters["uNoiseScale"].SetValue(new Vector2(0.2f));
+            particleEffect.Parameters["uPower"].SetValue(55f);
+            particleEffect.Parameters["uDarkColor"].SetValue(new Color(170, 0, 21, 200).ToVector4());
+            particleEffect.Parameters["uGlowColor"].SetValue(new Color(255, 200, 10, 255).ToVector4());
+            frenziedParticles.Draw(spriteBatch, center, AddAlphaBlend, transform, particleEffect);
 
-            //spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect, transform);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, transform);
 
-            //spriteBatch.End();
+            Texture2D eyeTexture = AllAssets.Textures.FrenziedFlameLordEye.Value;
+            spriteBatch.Draw(eyeTexture, new Vector2(400 * rescale), eyeTexture.Frame(), Color.White, Player.miscCounterNormalized * MathHelper.TwoPi, eyeTexture.Size() * 0.5f, 0.11f, 0, 0);
+
+            Texture2D glowTexture = AllAssets.Textures.Glow[0].Value;
+            spriteBatch.Draw(glowTexture, new Vector2(400 * rescale), glowTexture.Frame(), new Color(50, 30, 21, 0), Player.miscCounterNormalized * MathHelper.TwoPi, glowTexture.Size() * 0.5f, 1f, 0, 0);
+
+            spriteBatch.End();
         }
     }
 
     public int targetShader;
     public bool IsReady => frenziedTarget != null && frenziedParticles != null;
-    public DrawData GetFrenzyTarget() => new DrawData(frenziedTarget, Player.MountedCenter - Main.screenPosition, frenziedTarget.Frame(), Color.White, -Player.fullRotation, frenziedTarget.Size() * 0.5f, 1f, 0);
+    public DrawData GetFrenzyTarget() => new DrawData(frenziedTarget, Vector2.Zero, frenziedTarget.Frame(), Color.White, -Player.fullRotation, frenziedTarget.Size() * 0.5f, 1f, 0);
 
-    private static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter ?? Vector2.Zero;
+    private static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter / 3f ?? Vector2.Zero;
 
     public override void FrameEffects()
     {
@@ -95,8 +102,10 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
         frenziedParticles.Update();
 
-        Vector2 particleVelocity = Main.rand.NextVector2Circular(1, 1) * 0.7f - Vector2.UnitY * 0.1f + Player.velocity * 0.01f;
-        frenziedParticles.NewParticle(new FrenziedFlameParticle(90, Player), GetOffsetAnchor(Player) + Player.velocity * 0.3f - new Vector2(0, 17), particleVelocity, 0f, 0.5f + Main.rand.NextFloat());
+        Vector2 particlePosition = GetOffsetAnchor(Player) + Player.velocity * 0.2f;
+        Vector2 particleVelocity = Main.rand.NextVector2Circular(1, 1) * 0.3f - Vector2.UnitY * 0.1f + Player.velocity * 0.001f;
+        frenziedParticles.NewParticle(new FrenziedFlameParticle(Main.rand.Next(200, 250), Player), particlePosition, particleVelocity, 0, 0.5f + Main.rand.NextFloat());
+
         targetShader = Player.cHead;
     }
 }

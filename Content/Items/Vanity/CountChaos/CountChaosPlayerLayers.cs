@@ -44,15 +44,15 @@ public class CountChaosGownLayer : PlayerDrawLayer
         Vector2 origin = new Vector2(drawInfo.legVect.X, 28 + 12 * drawInfo.drawPlayer.gravDir);
 
         position.ApplyVerticalOffset(drawInfo);
-        float xOffset = Utils.GetLerpValue(1, drawInfo.drawPlayer.accRunSpeed, Math.Abs(drawInfo.drawPlayer.velocity.X), true) * drawInfo.drawPlayer.direction * drawInfo.drawPlayer.gravDir;
-        float yOffset = Math.Clamp(-drawInfo.drawPlayer.velocity.Y * 0.1f, -0.2f, 2);
+        float xOffset = Utils.GetLerpValue(1, drawInfo.drawPlayer.accRunSpeed, Math.Abs(drawInfo.drawPlayer.velocity.X), true) * drawInfo.drawPlayer.direction;
+        float yOffset = Math.Clamp(-drawInfo.drawPlayer.velocity.Y * 0.1f * drawInfo.drawPlayer.gravDir, -0.1f, 3) * drawInfo.drawPlayer.gravDir;
         float originOffY = (drawInfo.isSitting ? -4 : 0);
 
-        DrawData data = new DrawData(legsTexture, position + new Vector2(-xOffset * 2, originOffY + yOffset * 2), legsTexture.Frame(2, 1, 1), drawInfo.colorArmorLegs, drawInfo.drawPlayer.legRotation + xOffset * 0.1f, origin, 1f, drawInfo.playerEffect, 0);
+        DrawData data = new DrawData(legsTexture, position + new Vector2(-xOffset * 1.5f, originOffY + yOffset * 2), legsTexture.Frame(2, 1, 1), drawInfo.colorArmorLegs, drawInfo.drawPlayer.legRotation + xOffset * 0.05f * drawInfo.drawPlayer.gravDir, origin, 1f, drawInfo.playerEffect, 0);
         data.shader = drawInfo.drawPlayer.cLegs;
         drawInfo.DrawDataCache.Add(data);
 
-        data = new DrawData(legsTexture, position + new Vector2(-xOffset, originOffY + yOffset), legsTexture.Frame(2, 1, 0), drawInfo.colorArmorLegs, drawInfo.drawPlayer.legRotation, origin, 1f, drawInfo.playerEffect, 0);
+        data = new DrawData(legsTexture, position + new Vector2(-xOffset * 0.5f, originOffY + yOffset), legsTexture.Frame(2, 1, 0), drawInfo.colorArmorLegs, drawInfo.drawPlayer.legRotation, origin, 1f, drawInfo.playerEffect, 0);
         data.shader = drawInfo.drawPlayer.cLegs;
         drawInfo.DrawDataCache.Add(data);
 

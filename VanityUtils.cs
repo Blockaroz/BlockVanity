@@ -105,4 +105,14 @@ public static class VanityUtils
     }
 
     public static PetPlayer GetPets(this Player player) => player.GetModPlayer<PetPlayer>();
+
+    public static readonly BlendState MultiplyBlend = new BlendState
+    {
+        ColorBlendFunction = BlendFunction.ReverseSubtract,
+        ColorDestinationBlend = Blend.One,
+        ColorSourceBlend = Blend.SourceAlpha,
+        AlphaBlendFunction = BlendFunction.ReverseSubtract,
+        AlphaDestinationBlend = Blend.One,
+        AlphaSourceBlend = Blend.SourceAlpha
+    };
 }

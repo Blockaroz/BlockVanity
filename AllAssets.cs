@@ -60,12 +60,15 @@ public static class AllAssets
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_Low"),
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Tail")
             ];
+
         Textures.FishEyes = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/FishEyes");
 
         Textures.VanityStar = ModContent.Request<Texture2D>(assetsPath + "Textures/UI/VanityStar");
 
+        Textures.FrenziedFlameLordEye = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FrenziedFlameLordEye");
+
         Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
-        Effects.Dissolve = ModContent.Request<Effect>(assetsPath + "Effects/Dissolve", AssetRequestMode.ImmediateLoad);
+        Effects.DistortDissolve = ModContent.Request<Effect>(assetsPath + "Effects/DistortDissolveEffect", AssetRequestMode.ImmediateLoad);
         Effects.TransparencyMask = ModContent.Request<Effect>(assetsPath + "Effects/TransparencyMask", AssetRequestMode.ImmediateLoad);
 
         Effects.PhantomDye = ModContent.Request<Effect>(assetsPath + "Effects/PhantomDye");
@@ -97,6 +100,8 @@ public static class AllAssets
         public static Asset<Texture2D> FishEyes;
 
         public static Asset<Texture2D> VanityStar;
+
+        public static Asset<Texture2D> FrenziedFlameLordEye;
     }
 
     public static class Sounds
@@ -109,7 +114,7 @@ public static class AllAssets
     public static class Effects
     {
         public static Asset<Effect> BasicTrail;
-        public static Asset<Effect> Dissolve;
+        public static Asset<Effect> DistortDissolve;
         public static Asset<Effect> TransparencyMask;
 
         public static Asset<Effect> PhantomDye;

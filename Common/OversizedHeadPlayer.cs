@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Common;
 
-public class OversizedHeadPlayerLayer : ModPlayer
+public class OversizedHeadPlayer : ModPlayer
 {
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {

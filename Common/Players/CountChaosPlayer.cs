@@ -97,9 +97,9 @@ public class CountChaosPlayer : ModPlayer
 
         if (Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs))
         {
-            Vector2 legVel = new Vector2(-0.2f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
-            Vector2 legPos = GetOffsetAnchor(Player) + new Vector2(2 * Player.direction, 10 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
-            Vector2 legGrav = new Vector2(-Player.direction * 0.04f, -0.07f * Player.gravDir);
+            Vector2 legVel = new Vector2(-0.3f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
+            Vector2 legPos = GetOffsetAnchor(Player) + new Vector2(0, 14 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
+            Vector2 legGrav = new Vector2(-Player.direction * 0.01f, -0.1f * Player.gravDir);
             chaosFireParticles.NewParticle(new ChaosFlameParticle(Main.rand.Next(25, 40), legGrav), legPos, Player.velocity * 0.05f + legVel, Main.rand.Next(4) * MathHelper.PiOver2, Main.rand.NextFloat(0.5f, 1f));
             targetShader = Player.cLegs;
         }

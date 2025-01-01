@@ -17,13 +17,15 @@ public class FrenziedFlameHeadLayer : PlayerDrawLayer
 
     public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => false;
 
+    public override bool IsHeadLayer => true;
+
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
         PlayerOfFrenziedFlame particlePlayer = drawInfo.drawPlayer.GetModPlayer<PlayerOfFrenziedFlame>();
         if (particlePlayer.IsReady && drawInfo.shadow <= 0f)
         {
             DrawData data = particlePlayer.GetFrenzyTarget();
-            data.position = drawInfo.Center.Floor() - Main.screenPosition;
+            data.position = drawInfo.Center.Floor() + new Vector2(0, -18 + drawInfo.mountOffSet / 2f) - Main.screenPosition;
             data.color = Color.White;
             data.effect = Main.GameViewMatrix.Effects;
             data.shader = particlePlayer.targetShader;

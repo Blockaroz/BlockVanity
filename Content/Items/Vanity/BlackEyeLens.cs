@@ -11,7 +11,7 @@ public class BlackEyeLens : VanityItem
 {
     public BlackEyeLens() : base(ItemRarityID.Blue, accessory: true) { }
 
-    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<MiscEffectPlayer>().accBlackEye = !hideVisual;
+    public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<MiscEffectPlayer>().accBlackLens = !hideVisual;
 
     public override void UpdateVanity(Player player) => UpdateAccessory(player, false);
 

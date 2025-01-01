@@ -185,6 +185,11 @@ Items: {
 		DisplayName: Haunted Candle
 		Tooltip: ""
 	}
+
+	BlockarozHead: {
+		DisplayName: Blockaroz Head
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

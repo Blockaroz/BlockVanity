@@ -21,7 +21,7 @@ public class NeckPlayerLayer : PlayerDrawLayer
     public static void AddNeck(ModItem item)
     {
         neckTextures ??= new Dictionary<int, Asset<Texture2D>>();
-        neckTextures.Add(item.Item.headSlot, ModContent.Request<Texture2D>(item.Texture + $"_{EquipType.Neck}"));
+        neckTextures.Add(item.Item.headSlot, ModContent.Request<Texture2D>($"{item.Texture}_Neck"));
     }
 
     public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.NeckAcc);

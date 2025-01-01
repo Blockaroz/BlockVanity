@@ -14,8 +14,7 @@ public class MiscEffectPlayer : ModPlayer
 {
     public bool disableBootsEffect;
 
-    public bool accBlackEye;
-    public bool blockheadSkin;
+    public bool accBlackLens;
 
     public override void Load()
     {
@@ -39,14 +38,7 @@ public class MiscEffectPlayer : ModPlayer
 
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
-        if (blockheadSkin)
-        {
-            Color lightColor = drawInfo.drawPlayer.GetImmuneAlpha(Lighting.GetColorClamped((int)((double)drawInfo.Position.X + (double)drawInfo.drawPlayer.width * 0.5) / 16, (int)(((double)drawInfo.Position.Y + (double)drawInfo.drawPlayer.height * 0.5) / 16.0), drawInfo.drawPlayer.skinColor.ToGrayscale()), drawInfo.shadow);
-            drawInfo.colorBodySkin = lightColor;
-            drawInfo.colorHead = drawInfo.colorBodySkin;
-        }
-
-        if (accBlackEye)
+        if (accBlackLens)
             drawInfo.colorEyeWhites = new Color(20, 20, 20);
     }
 
@@ -79,7 +71,6 @@ public class MiscEffectPlayer : ModPlayer
     public override void ResetEffects()
     {
         disableBootsEffect = false;
-        accBlackEye = false;
-        blockheadSkin = false;
+        accBlackLens = false;
     }
 }
