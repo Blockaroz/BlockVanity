@@ -11,21 +11,25 @@ public struct FrenziedFlameParticle : IParticleData
 {
     private int maxTime;
     private int timeLeft;
+    private int frameStyle;
     private int styleX;
     private int styleY;
     private Player player;
     private Vector2 oldPos;
+    private float strayPercent;
 
     private readonly float Progress => timeLeft / (float)maxTime;
 
-    public FrenziedFlameParticle(int timeLeft, Player hostPlayer)
+    public FrenziedFlameParticle(int timeLeft, float strayPercent, Player player)
     {
         maxTime = timeLeft + 2;
+        frameStyle = Main.rand.Next(5);
         styleX = Main.rand.Next(100);
         styleY = Main.rand.Next(100);
-        player = hostPlayer;
-        if (player != null)
-            oldPos = player.position;
+        this.player = player;
+        this.strayPercent = strayPercent;
+        if (this.player != null)
+            oldPos = this.player.position;
     }
 
     public void OnSpawn(Particle particle)
@@ -35,22 +39,27 @@ public struct FrenziedFlameParticle : IParticleData
 
     public void Update(Particle particle)
     {
-        particle.velocity *= 0.97f + Progress * 0.07f;
+        particle.velocity *= 0.9f;
         if (timeLeft++ > maxTime)
             particle.active = false;
 
-        particle.rotation = Utils.AngleLerp(particle.rotation, particle.velocity.ToRotation(), 0.1f);
+        particle.rotation = Utils.AngleLerp(particle.rotation, particle.velocity.ToRotation(), 0.05f);
 
         particle.position += particle.velocity;
         if (player != null)
         {
-            particle.position += (player.position - oldPos) / 3f * (1f - Progress * 0.1f);
-            oldPos = player.position;
-            float distance = particle.position.Distance(player.MountedCenter / 3f);
-            if (distance > 220)
-                timeLeft += 2;
+            Vector2 difference = (player.position - oldPos) / 4f;
+            if (difference.Length() > 200)
+                particle.position += difference;
+            else
+                particle.position += difference * (1f - Progress * strayPercent);
 
-            if (distance > 500)
+            oldPos = player.position;
+            float distance = particle.position.Distance(player.MountedCenter / 4f);
+            if (distance > 200)
+                timeLeft++;
+
+            if (distance > 270)
                 particle.active = false;
         }
     }
@@ -58,10 +67,10 @@ public struct FrenziedFlameParticle : IParticleData
     public void Draw(Particle particle, SpriteBatch spriteBatch, Vector2 anchorPosition)
     {
         Texture2D texture = AllAssets.Textures.Particle[5].Value;
-        Rectangle frame = texture.Frame();
+        Rectangle frame = texture.Frame(1, 5, 0, frameStyle);
 
         Color drawColor = new Color(styleX / 100f, styleY / 100f, Progress);
-        float scaleMod = (0.2f + Progress * 0.2f + Utils.GetLerpValue(20, 300, particle.position.Distance(player.MountedCenter / 3f), true)) * MathF.Sqrt(Utils.GetLerpValue(-5, 5, timeLeft, true));
+        float scaleMod = (0.3f + Progress * 0.6f + Utils.GetLerpValue(20, 320, particle.position.Distance(player.MountedCenter / 4f), true)) * MathF.Cbrt(Utils.GetLerpValue(-5, 35, timeLeft, true));
         spriteBatch.Draw(texture, particle.position - anchorPosition, frame, drawColor, particle.rotation, frame.Size() * 0.5f, particle.scale * scaleMod, 0, 0);
     }
 }

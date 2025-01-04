@@ -46,7 +46,6 @@ public class HauntedCandle : ModItem
 
     public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
-        Texture2D glowTexture = AllAssets.Textures.Glow[0].Value;
         spriteBatch.Draw(flameTexture.Value, Item.Center - Main.screenPosition, flameTexture.Frame(), Color.White with { A = 200 }, rotation, flameTexture.Size() * 0.5f, scale, 0, 0);
     }
 }

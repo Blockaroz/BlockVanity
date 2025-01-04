@@ -26,6 +26,13 @@ public static class VanityUtils
         drawPos += value * -drawInfo.playerEffect.HasFlag(SpriteEffects.FlipVertically).ToDirectionInt();
     }
 
+    public static Vector2 GetVerticalOffset(Player player)
+    {
+        Vector2 value = Main.OffsetsPlayerHeadgear[player.bodyFrame.Y / player.bodyFrame.Height];
+        value.Y -= 2f;
+        return value * player.gravDir;
+    }
+
     /// <summary>
     /// Calculates the midpoint limb of a two-limbed IK system via trigonometry.
     /// </summary>

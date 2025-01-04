@@ -190,6 +190,11 @@ Items: {
 		DisplayName: Blockaroz Head
 		Tooltip: ""
 	}
+
+	EyeOfFrenziedFlame: {
+		DisplayName: Eye Of Frenzied Flame
+		Tooltip: Turns the wearer into a Lord of Frenzied Flame
+	}
 }
 
 Projectiles: {
