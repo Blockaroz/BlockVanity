@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Items.Vanity.CountChaos;
-using BlockVanity.Content.Particles;
+using BlockVanity.Content.Particles.SpecialParticles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -30,7 +30,7 @@ public class CountChaosPlayer : ModPlayer
         orig();
     }
 
-    public ParticleSystem chaosFireParticles;
+    public NotFastParticleSystem chaosFireParticles;
 
     private RenderTarget2D chaosFireTarget;
 
@@ -38,7 +38,7 @@ public class CountChaosPlayer : ModPlayer
 
     public override void Initialize()
     {
-        chaosFireParticles = new ParticleSystem(200);
+        chaosFireParticles = new NotFastParticleSystem(200);
 
         Main.QueueMainThreadAction(() =>
         {

@@ -1,4 +1,5 @@
-﻿using BlockVanity.Content.Dusts;
+﻿using BlockVanity.Common.Graphics;
+using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -53,17 +54,23 @@ public class ScholarStaffBolt : ModProjectile
                 Projectile.frame = 0;
         }
 
-        //if (Projectile.localAI[0] % 5 == 0)
-        //    ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 60, true), Projectile.Center + Main.rand.NextVector2Circular(5, 5), Projectile.velocity.RotatedByRandom(0.3f) * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1f, 1.5f));
+        if (Projectile.localAI[0] % 7 == 0 || Main.rand.NextBool(5))
+        {
+            MagicMicroBurstParticle burstParticle = MagicMicroBurstParticle.pool.RequestParticle();
+            Vector2 particleVelocity = Projectile.velocity * Main.rand.NextFloat(2f) + Main.rand.NextVector2Circular(4, 4);
+            burstParticle.Prepare(Projectile.Center, particleVelocity , particleVelocity.ToRotation() + Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.Next(15, 40), EnergyColor with { A = 50 }, new Color(5, 25, 30, 200), 0.5f + Main.rand.NextFloat());
+            //ParticleEngine.Particles.Add(burstParticle);
+        }
 
         if (Main.rand.NextBool(20) || Projectile.localAI[0] % 40 == 0)
         {
-            Dust pixelDust = Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(15, 15), ModContent.DustType<PixelSpotDust>(), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 0, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 2.5f));
-            pixelDust.fadeIn = 60;
+            PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+            particle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(15, 15), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 60, 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, 1.5f + Main.rand.NextFloat());
+            ParticleEngine.Particles.Add(particle);
         }
 
         if (Main.rand.NextBool(5))
-            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 10), DustID.Smoke, Projectile.velocity.RotatedByRandom(0.5f) * Main.rand.NextFloat(0.5f), 160, Color.DarkCyan, Main.rand.NextFloat(1f, 2f));
+            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 10), DustID.Smoke, Projectile.velocity.RotatedByRandom(0.5f) * Main.rand.NextFloat(0.5f), 160, Color.DarkCyan, 1f + Main.rand.NextFloat());
 
         Projectile.scale = 1.125f;
 
@@ -83,15 +90,10 @@ public class ScholarStaffBolt : ModProjectile
         for (int i = 0; i < 14; i++)
         {
             Vector2 offset = Main.rand.NextVector2Circular(8, 8);
-            Dust pixelDust = Dust.NewDustPerfect(Projectile.Center + offset, ModContent.DustType<PixelSpotDust>(), Projectile.velocity * 0.2f + offset * Main.rand.NextFloat(0.5f), 0, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
-            pixelDust.fadeIn = 80;
+            PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+            particle.Prepare(Projectile.Center + offset, Projectile.velocity * Main.rand.NextFloat(0.6f) + offset * 0.2f, Main.rand.Next(40, 80), 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
+            ParticleEngine.Particles.Add(particle);
         }
-        
-        //for (int i = 0; i < 11; i++)
-        //{
-        //    Vector2 offset = Main.rand.NextVector2Circular(5, 5);
-        //    ParticleEngine.particles.NewParticle(new PixelSpotParticle(EnergyColor with { A = 50 }, 100, true), Projectile.Center + offset, Projectile.velocity * 0.2f + offset * Main.rand.NextFloat(0.5f), 0f, Main.rand.NextFloat(1.5f, 3f));
-        //}
     }
 
     public static readonly Color EnergyColor = new Color(22, 224, 214);

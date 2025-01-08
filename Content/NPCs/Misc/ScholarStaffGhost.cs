@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Items.Weapons.Magic;
+using BlockVanity.Content.Particles;
+using BlockVanity.Content.Projectiles.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -26,7 +29,7 @@ public class ScholarStaffGhost : ModNPC
 
     public override void SetDefaults()
     {
-        NPC.width = 20;
+        NPC.width = 40;
         NPC.height = 40;
         NPC.lifeMax = 5;
         NPC.rarity = 3;
@@ -59,17 +62,24 @@ public class ScholarStaffGhost : ModNPC
             int xLocation = (int)(NPC.Center.X / 16f);
             waterLine = yLocation * 16;
 
-            int liquidAmount = Framing.GetTileSafely(xLocation, yLocation).LiquidAmount;
-            if (liquidAmount > 2)
+            Tile tile = Framing.GetTileSafely(xLocation, yLocation);
+            if (tile.LiquidAmount > 2 || WorldGen.SolidTile(tile))
             {
-                waterLine += liquidAmount / 255;
+                waterLine += tile.LiquidAmount / 255;
                 break;
             }
         }
 
         NPC.velocity.Y = MathHelper.Lerp(NPC.velocity.Y, (waterLine - NPC.position.Y - NPC.height * 2) * 0.1f, 0.1f);
 
-        Lighting.AddLight(NPC.Center, Color.DarkTurquoise.ToVector3() * Utils.GetLerpValue(0, 100, NPC.ai[0], true));
+        Lighting.AddLight(NPC.Center, Color.DarkTurquoise.ToVector3() * Utils.GetLerpValue(0, 100, NPC.ai[0], true) * 0.5f * (0.8f + MathF.Sin(NPC.ai[1] * 0.04f) * 0.2f));
+
+        if (Main.rand.NextBool(30))
+        {
+            PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+            particle.Prepare(NPC.Center + Main.rand.NextVector2Circular(20, 30), Main.rand.NextVector2Circular(4, 3), Main.rand.Next(400, 750), 150, Color.White with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 0 }, 0.5f + Main.rand.NextFloat());
+            ParticleEngine.Particles.Add(particle);
+        }
 
         if (Main.dayTime)
         {
@@ -81,6 +91,7 @@ public class ScholarStaffGhost : ModNPC
             NPC.ai[0]++;
 
         NPC.ai[0] = MathHelper.Clamp(NPC.ai[0], 0, 150);
+        NPC.ai[1]++;
     }
 
     public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -91,8 +102,8 @@ public class ScholarStaffGhost : ModNPC
 
         float fadeIn = Utils.GetLerpValue(40, 150, NPC.ai[0], true) * Utils.GetLerpValue(0, 60, NPC.timeLeft, true);
         float fadeInGlow = Utils.GetLerpValue(0, 150, NPC.ai[0], true) * Utils.GetLerpValue(0, 60, NPC.timeLeft, true);
-        spriteBatch.Draw(texture, NPC.Center - screenPos, solidFrame, Color.Turquoise with { A = 250 } * 0.5f * fadeIn, NPC.rotation, solidFrame.Size() * 0.5f, NPC.scale, 0, 0);
-        spriteBatch.Draw(texture, NPC.Center - screenPos, ghostFrame, Color.Silver with { A = 10 } * fadeInGlow, NPC.rotation, ghostFrame.Size() * 0.5f, NPC.scale, 0, 0);
+        spriteBatch.Draw(texture, NPC.Center - screenPos, solidFrame, Color.DarkTurquoise with { A = 250 } * 0.2f * fadeIn, NPC.rotation, solidFrame.Size() * 0.5f, NPC.scale, 0, 0);
+        spriteBatch.Draw(texture, NPC.Center - screenPos, ghostFrame, Color.DarkGray with { A = 0 } * fadeInGlow, NPC.rotation, ghostFrame.Size() * 0.5f, NPC.scale, 0, 0);
 
         return false;
     }

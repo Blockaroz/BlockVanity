@@ -22,6 +22,7 @@ public class EyeOfFrenziedFlame : VanityItem
     public override void SetStaticDefaults()
     {
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+        ArmorIDs.Head.Sets.IsTallHat[Item.headSlot] = true;
     }
 
     public override bool IsArmorSet(Item head, Item body, Item legs) => true;

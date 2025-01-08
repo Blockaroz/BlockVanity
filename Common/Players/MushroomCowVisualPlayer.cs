@@ -1,13 +1,4 @@
-﻿using System;
-using BlockVanity.Common.Graphics;
-using BlockVanity.Common.Graphics;
-using BlockVanity.Content.Particles;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.Graphics.Shaders;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Players;
 

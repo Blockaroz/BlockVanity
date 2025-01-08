@@ -41,6 +41,8 @@ public class ScholarStaff : ModItem
         Item.autoReuse = true;
     }
 
+    public override Color? GetAlpha(Color lightColor) => Color.Lerp(Color.White, lightColor * 1.5f, 0.9f) with { A = 180 };
+
     public override void Load()
     {
         On_Player.ItemCheck_PayMana += DoNotPayMana;

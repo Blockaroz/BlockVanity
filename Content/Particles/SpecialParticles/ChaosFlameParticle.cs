@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 
-namespace BlockVanity.Content.Particles;
+namespace BlockVanity.Content.Particles.SpecialParticles;
 
 public struct ChaosFlameParticle : IParticleData
 {
@@ -47,6 +47,6 @@ public struct ChaosFlameParticle : IParticleData
         Rectangle frame = texture.Frame(9, 5, (int)MathF.Floor(Progress * 9), style);
 
         Vector2 roundedPosition = (particle.position - anchorPosition).Floor();
-        spriteBatch.Draw(texture, roundedPosition, frame, Color.White, particle.rotation, frame.Size() * 0.5f, particle.scale, (SpriteEffects)randomEffect, 0);    
+        spriteBatch.Draw(texture, roundedPosition, frame, Color.White, particle.rotation, frame.Size() * 0.5f, particle.scale, (SpriteEffects)randomEffect, 0);
     }
 }

@@ -11,13 +11,13 @@ using Microsoft.Xna.Framework;
 
 namespace BlockVanity.Content.Items.Vanity.Midra;
 
-public class FrenziedFlameHeadLayer : PlayerDrawLayer
+public class FrenziedFlameHeadEffectLayer : PlayerDrawLayer
 {
-    public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.ProjectileOverArm);
+    public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.FrozenOrWebbedDebuff);
 
     public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(EyeOfFrenziedFlame), EquipType.Head);
 
-    public override bool IsHeadLayer => true;
+    public override bool IsHeadLayer => false;
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
@@ -35,7 +35,7 @@ public class FrenziedFlameHeadLayer : PlayerDrawLayer
     }
 }
 
-public class FrenziedFlameBackLayer : PlayerDrawLayer
+public class FrenziedFlameBackHeadEffectLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Wings);
 

@@ -31,13 +31,13 @@ public class Particle
     public IParticleData data;
 }
 
-public class ParticleSystem
+public class NotFastParticleSystem
 {
     public Particle[] Particles;
 
     public int PoolSize => Particles.Length;
 
-    public ParticleSystem(int poolSize)
+    public NotFastParticleSystem(int poolSize)
     {
         Particles = new Particle[poolSize];
         for (int i = 0; i < poolSize; i++)

@@ -1,7 +1,5 @@
 ﻿using System;
-using BlockVanity.Common.Graphics;
 using BlockVanity.Common.UI;
-using BlockVanity.Content.Dusts;
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -160,9 +158,9 @@ public class ScholarStaffProj : ModProjectile
             for (int i = 0; i < 2; i++)
             {
                 Dust.NewDustPerfect(staffEndPos, DustID.Smoke, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.5f), 100, Color.LightGray, Main.rand.NextFloat(1f, 2f));
-                
-                Dust pixelDust = Dust.NewDustPerfect(staffEndPos, ModContent.DustType<PixelSpotDust>(), Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.2f, 0.4f), 0, ScholarStaffBolt.EnergyColor with { A = 60 }, Main.rand.NextFloat(1f, 3f));
-                pixelDust.fadeIn = 140;
+
+                PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+                particle.Prepare(staffEndPos, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.2f, 0.4f), 140, 0, Color.White with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 60 }, Main.rand.NextFloat(1f, 3f));
             }
         }
 
