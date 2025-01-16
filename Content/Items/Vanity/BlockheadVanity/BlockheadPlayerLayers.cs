@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.BlockheadVanity;
 
-public class BlockarozHeadLayer : PlayerDrawLayer
+public class BlockheadHeadLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 

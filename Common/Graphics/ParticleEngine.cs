@@ -5,9 +5,6 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Graphics;
 
-// The only reason this class exists is because particles are drawn in immediate mode
-// That is a huge performance drop for high quantities of draws like for PARTICLES SERIOUSLY RELOGIC ITS NOT THAT HARD
-
 public class ParticleEngine : ILoadable
 {
     /// <summary>

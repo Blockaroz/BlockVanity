@@ -1,77 +1,105 @@
 ﻿using System;
-using BlockVanity.Common.Graphics;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent;
+using Terraria.Graphics.Renderers;
 
 namespace BlockVanity.Content.Particles.SpecialParticles;
 
-public struct FrenziedFlameParticle : IParticleData
+public class FrenziedFlameParticle : BaseParticle
 {
-    private int maxTime;
-    private int timeLeft;
-    private int frameStyle;
-    private int styleX;
-    private int styleY;
-    private Player player;
-    private Vector2 oldPos;
-    private float strayPercent;
+    public Vector2 Position;
+    public Vector2 Velocity;
+    public float Rotation;
+    public float Scale;
 
-    private readonly float Progress => timeLeft / (float)maxTime;
+    public int MaxTime;
+    public int TimeLeft;
+    public float StrayPercent;
+    public Player HostPlayer;
 
-    public FrenziedFlameParticle(int timeLeft, float strayPercent, Player player)
+    private int FlameStyle;
+    private int NoiseStyleX;
+    private int NoiseStyleY;
+    private Vector2 OldPos;
+
+    public void Prepare(Vector2 position, Vector2 velocity, float scale, int lifeTime, float strayPercent = 1f, Player player = null)
     {
-        maxTime = timeLeft + 2;
-        frameStyle = Main.rand.Next(5);
-        styleX = Main.rand.Next(100);
-        styleY = Main.rand.Next(100);
-        this.player = player;
-        this.strayPercent = strayPercent;
-        if (this.player != null)
-            oldPos = this.player.position;
-    }
+        Position = position;
+        Velocity = velocity;
+        Rotation = Velocity.ToRotation() - Main.rand.NextFloat(-1f, 1f);
+        Scale = scale;
 
-    public void OnSpawn(Particle particle)
-    {
-        particle.rotation = particle.velocity.ToRotation();
-    }
-
-    public void Update(Particle particle)
-    {
-        particle.velocity *= 0.91f;
-        if (timeLeft++ > maxTime)
-            particle.active = false;
-
-        particle.position += particle.velocity;
-
-        if (player != null)
+        MaxTime = lifeTime + 2;
+        StrayPercent = strayPercent;
+        HostPlayer = player;
+        if (HostPlayer != null)
         {
-            Vector2 difference = (player.position - oldPos) / 3f;
-            if (difference.Length() > 200)
-                particle.position += difference;
-            else
-                particle.position += difference * (1f - Progress * strayPercent);
-
-            oldPos = player.position;
-            float distance = particle.position.Distance(player.MountedCenter / 3f);
-            if (distance > 250)
-                timeLeft++;
-
-            if (distance > 360)
-                particle.active = false;
+            OldPos = HostPlayer.position;
         }
     }
 
-    public void Draw(Particle particle, SpriteBatch spriteBatch, Vector2 anchorPosition)
+    public override void FetchFromPool()
     {
-        Texture2D texture = AllAssets.Textures.Particle[5].Value;
-        Rectangle frame = texture.Frame(1, 5, 0, frameStyle);
+        base.FetchFromPool();
+        TimeLeft = 0;
+        MaxTime = 1;
+        FlameStyle = Main.rand.Next(2);
+        NoiseStyleX = Main.rand.Next(100);
+        NoiseStyleY = Main.rand.Next(100);
+    }
 
-        float fadeIn = MathF.Cbrt(Utils.GetLerpValue(-5, 25, timeLeft, true));
-        SpriteEffects effect = (SpriteEffects)(styleX ^ styleY);
-        Color drawColor = new Color(styleX / 100f, styleY / 100f, Progress * (fadeIn * 0.5f + 0.5f));
-        float scaleMod = (0.2f + Progress * 0.2f + Utils.GetLerpValue(20, 700, particle.position.Distance(player.MountedCenter / 3f), true)) * fadeIn;
-        spriteBatch.Draw(texture, particle.position - anchorPosition, frame, drawColor, particle.rotation, frame.Size() * 0.5f, particle.scale * scaleMod, effect, 0);
+    public override void Update(ref ParticleRendererSettings settings)
+    {
+        float progress = (float)TimeLeft / MaxTime;
+
+        Velocity *= 0.95f;
+        Position += Velocity;
+
+        if (HostPlayer != null)
+        {
+            Vector2 difference = (HostPlayer.position - OldPos) / 3f;
+            if (difference.Length() > 200)
+            {
+                Position += difference;
+            }
+            else
+            {
+                Position += difference * (1f - progress * StrayPercent);
+            }
+
+            OldPos = HostPlayer.position;
+            float distance = Position.Distance(HostPlayer.MountedCenter / 3f);
+            if (distance > 250)
+            {
+                TimeLeft++;
+            }
+
+            if (distance > 360)
+            {
+                ShouldBeRemovedFromRenderer = true;
+            }
+        }
+
+        if (TimeLeft++ > MaxTime)
+        {
+            ShouldBeRemovedFromRenderer = true;
+        }
+    }
+
+    public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
+    {
+        float progress = (float)TimeLeft / MaxTime;
+
+        Texture2D texture = AllAssets.Textures.Particle[5].Value;
+        Rectangle frame = texture.Frame(1, 5, 0, FlameStyle);
+
+        float fadeIn = MathF.Sin(Utils.GetLerpValue(0, 50, TimeLeft, true) * MathHelper.PiOver2);
+        SpriteEffects effect = (NoiseStyleX > 50 ? SpriteEffects.FlipHorizontally : 0) | (NoiseStyleY > 60 ? SpriteEffects.FlipVertically : 0);
+
+        Color drawColor = new Color(NoiseStyleX / 100f, NoiseStyleY / 100f, progress * (fadeIn * 0.5f + 0.5f));
+        float scaleMod = (0.3f + MathF.Pow(progress, 2) * 0.4f + Utils.GetLerpValue(20, 700, Position.Distance(HostPlayer.MountedCenter / 3f), true)) * fadeIn;
+        spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation - MathHelper.PiOver2, frame.Size() * 0.5f, Scale * scaleMod, effect, 0);
     }
 }

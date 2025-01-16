@@ -4,10 +4,9 @@ using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,18 +19,24 @@ public class PhantomRuby : VanityItem
     public override void Load()
     {
         if (Main.netMode == NetmodeID.Server)
+        {
             return;
+        }
 
         string assetPath = $"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/SonicTheHedgehog/Sonic";
         EquipLoader.AddEquipTexture(Mod, $"{assetPath}_{EquipType.Head}", EquipType.Head, this);
         EquipLoader.AddEquipTexture(Mod, $"{assetPath}_{EquipType.Body}", EquipType.Body, this);
         EquipLoader.AddEquipTexture(Mod, $"{assetPath}_{EquipType.Legs}", EquipType.Legs, this);
+
+        glowTexture = ModContent.Request<Texture2D>(Texture + "_Clean");
     }
 
     public override void SetStaticDefaults()
     {
         if (Main.netMode == NetmodeID.Server)
+        {
             return;
+        }
 
         ItemID.Sets.AnimatesAsSoul[Type] = true;
         Main.RegisterItemAnimation(Type, new DrawAnimationVertical(10, 5));
@@ -59,28 +64,27 @@ public class PhantomRuby : VanityItem
 
     public override Color? GetAlpha(Color lightColor) => Color.Lerp(lightColor, Color.White, 0.7f) with { A = 180 };
 
+    public static Asset<Texture2D> glowTexture;
+
     public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
-        Texture2D texture = TextureAssets.Item[Type].Value;
-        Rectangle frame = texture.Frame(1, 5, 0, Main.itemFrame[Item.whoAmI]);
         for (int i = 0; i < 2; i++)
         {
             float progress = (Main.GlobalTimeWrappedHourly * 0.333f + i * 0.5f) % 1f;
-            float glowScale = scale + (progress - 0.5f) * 0.6f;
+            float glowScale = scale + (progress - 0.5f) * 0.7f;
             Color glowColor = (i == 0 ? Color.Red : Color.Cyan) with { A = 0 } * 0.5f * MathF.Sin(progress * MathHelper.Pi);
-            spriteBatch.Draw(texture, Item.Center - Main.screenPosition, frame, glowColor, rotation, frame.Size() * 0.5f, glowScale, 0, 0);
+            spriteBatch.Draw(glowTexture.Value, Item.Center - Main.screenPosition, glowTexture.Frame(), glowColor, rotation, glowTexture.Size() * 0.5f, glowScale, 0, 0);
         }
     }
 
     public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
     {
-        Texture2D texture = TextureAssets.Item[Type].Value;
         for (int i = 0; i < 2; i++)
         {
             float progress = (Main.GlobalTimeWrappedHourly * 0.333f + i * 0.5f) % 1f;
             float glowScale = scale + (progress - 0.5f) * 0.6f;
             Color glowColor = (i == 0 ? Color.Red : Color.Cyan) with { A = 0 } * 0.5f * MathF.Sin(progress * MathHelper.Pi);
-            spriteBatch.Draw(texture, position, frame, glowColor, 0f, origin, glowScale, 0, 0);
+            spriteBatch.Draw(glowTexture.Value, position, glowTexture.Frame(), glowColor, 0f, origin, glowScale, 0, 0);
         }
     }
 }

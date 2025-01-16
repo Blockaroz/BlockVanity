@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlockVanity.Common.Graphics;
+﻿using BlockVanity.Common.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -19,8 +15,10 @@ public class PhantomDye : ModItem
         Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
-            GameShaders.Armor.BindShader(Type, new PhantomDyeShaderData()
-                .UseColor(new Color(79, 255, 211)).UseSecondaryColor(new Color(49, 115, 150)));
+        {
+            GameShaders.Armor.BindShader(Type, new TimeDyeShaderData(AllAssets.Effects.PhantomDye)
+                .UseColor(new Color(79, 255, 211)).UseSecondaryColor(new Color(49, 115, 150)).UseImage(Main.Assets.Request<Texture2D>("Images/Misc/noise")));
+        }
     }
 
     public override void SetDefaults()

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlockVanity.Content.Tiles;
-using Terraria.ModLoader;
+﻿using BlockVanity.Content.Tiles;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.TestItems;
 

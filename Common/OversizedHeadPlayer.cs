@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlockVanity.Core;
+﻿using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -16,6 +11,8 @@ public class OversizedHeadPlayer : ModPlayer
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
         if (EquipLoader.GetEquipTexture(EquipType.Head, Player.head) is OversizedHeadEquipTexture equipTexture)
+        {
             drawInfo.helmetOffset += new Vector2(equipTexture.OffsetX * Player.direction, equipTexture.OffsetY * Player.gravDir);
+        }
     }
 }

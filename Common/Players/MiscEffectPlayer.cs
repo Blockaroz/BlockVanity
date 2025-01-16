@@ -19,12 +19,35 @@ public class MiscEffectPlayer : ModPlayer
     public override void Load()
     {
         On_Player.SpawnFastRunParticles += DisableFastRunParticles;
+        On_PlayerDrawLayers.DrawPlayer_21_Head += HideHeadLayer;
+        On_PlayerDrawLayers.DrawPlayer_13_Leggings += HideLegsLayer;
+    }
+
+    public static List<int> hideHead = new List<int>();
+    public static List<int> hideLegs = new List<int>();
+
+    private void HideHeadLayer(On_PlayerDrawLayers.orig_DrawPlayer_21_Head orig, ref PlayerDrawSet drawinfo)
+    {
+        if (!hideHead.Contains(drawinfo.drawPlayer.head))
+        {
+            orig(ref drawinfo);
+        }
+    }
+
+    private void HideLegsLayer(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
+    {
+        if (!hideLegs.Contains(drawinfo.drawPlayer.legs))
+        {
+            orig(ref drawinfo);
+        }
     }
 
     private void DisableFastRunParticles(On_Player.orig_SpawnFastRunParticles orig, Player self)
     {
         if (!self.GetModPlayer<MiscEffectPlayer>().disableBootsEffect)
+        {
             orig(self);
+        }
     }
 
     public override void UpdateEquips()
@@ -32,14 +55,18 @@ public class MiscEffectPlayer : ModPlayer
         for (int i = 10; i < 13; i++)
         {
             if (Player.armor[i].ModItem is IUpdateArmorInVanity)
+            {
                 ItemLoader.UpdateEquip(Player.armor[i], Player);
+            }
         }
     }
 
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
         if (accBlackLens)
+        {
             drawInfo.colorEyeWhites = new Color(20, 20, 20);
+        }
     }
 
     public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)
@@ -47,10 +74,12 @@ public class MiscEffectPlayer : ModPlayer
         if (!mediumCoreDeath)
         {
             if (Player.name.Equals("Myrtle", System.StringComparison.CurrentCultureIgnoreCase))
+            {
                 return [
                     new Item(ModContent.ItemType<FishFood>()),
                     new Item(ModContent.ItemType<SeasideHairDye>()),
                 ];
+            }
         }
 
         return Enumerable.Empty<Item>();

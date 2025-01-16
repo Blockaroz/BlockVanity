@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Humanizer;
 using ReLogic.Content;
 using ReLogic.Content.Sources;
 
@@ -26,9 +22,14 @@ public class AssetDirectorySource : IContentSource
     private string RewritePath(string path)
     {
         if (path.StartsWith("Content"))
+        {
             return path.Replace("Content", "Assets/Textures");
+        }
+
         if (path.StartsWith("Common"))
+        {
             return path.Replace("Common", "Assets/Textures");
+        }
 
         return path;
     }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BlockVanity.Content.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -49,16 +45,24 @@ public class HauntedCandelabra : ModProjectile
         }
 
         if (!player.dead && player.GetPets().hauntedCandelabra)
+        {
             Projectile.timeLeft = 2;
+        }
 
         Vector2 homePos = player.Center + new Vector2(50 * player.direction, -30 + MathF.Sin(Projectile.ai[0] / 240f * MathHelper.TwoPi) * 10f);
         if (player.controlDown)
+        {
             homePos = player.Center + new Vector2(0, 80);
+        }
         else if (player.controlUp)
+        {
             homePos = player.Center + new Vector2(0, -80);
+        }
 
         if (Projectile.Distance(homePos) > 3000)
+        {
             Projectile.Center = homePos;
+        }
 
         Projectile.velocity += (homePos - Projectile.Center) * 0.07f;
         Projectile.velocity += new Vector2(player.velocity.X * 0.5f, 0);
@@ -74,10 +78,14 @@ public class HauntedCandelabra : ModProjectile
         {
             Projectile.ai[1]++;
             if (Projectile.ai[1] > 240)
+            {
                 Projectile.ai[1] = 0;
+            }
 
             if (Projectile.ai[1] == 30 || Projectile.ai[1] == 70)
+            {
                 Projectile.frame++;
+            }
 
             Projectile.direction = player.direction;
         }
@@ -89,9 +97,13 @@ public class HauntedCandelabra : ModProjectile
         DoDust();
 
         if (Collision.SolidTiles(Projectile.position, Projectile.width, Projectile.height))
+        {
             Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 0.5f);
+        }
         else
+        {
             Lighting.AddLight(Projectile.Center, Color.DodgerBlue.ToVector3() * 1.2f);
+        }
 
         Projectile.ai[0]++;
     }
@@ -99,7 +111,9 @@ public class HauntedCandelabra : ModProjectile
     public void UpdateFrame()
     {
         if (Math.Abs(Projectile.velocity.X) > 6f || !(Projectile.frame == 0 || Projectile.frame == 6))
+        {
             Projectile.frameCounter += (int)(Math.Abs(Projectile.velocity.X) * 0.2f) + 2;
+        }
 
         if (Projectile.frameCounter > 8)
         {
@@ -108,7 +122,9 @@ public class HauntedCandelabra : ModProjectile
         }
 
         if (Projectile.frame >= 12)
+        {
             Projectile.frame = 0;
+        }
     }
 
     public void DoDust()
@@ -165,7 +181,10 @@ public class HauntedCandelabra : ModProjectile
             {
                 float p = 1f - (i + j / 2f - 1) / (max - 1f);
                 if (i > 0 || j > 0)
+                {
                     p *= 0.5f;
+                }
+
                 Vector2 oldCenter = Vector2.Lerp(Projectile.oldPos[i], Projectile.oldPos[i + 1], j / 2f) + Projectile.Size / 2;
                 Main.EntitySpriteDraw(highlightTexture.Value, oldCenter - Main.screenPosition, frame, glowColor * p, Projectile.rotation, origin, Projectile.scale, spriteEffects, 0);
             }

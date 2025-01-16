@@ -3,7 +3,7 @@ using Terraria.Graphics.Renderers;
 
 namespace BlockVanity.Core;
 
-public abstract class BaseParticle : IPooledParticle, IParticle
+public abstract class BaseParticle : IPooledParticle
 {
     protected static T GetNewParticle<T>() where T : BaseParticle, new() => new T();
 

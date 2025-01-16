@@ -55,7 +55,9 @@ public class PlumeriaPlant : ModTile
     public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
     {
         if (drawData.tileFrameX % 36 == 0 && drawData.tileFrameY % 36 == 0)
+        {
             Main.instance.TilesRenderer.AddSpecialLegacyPoint(i, j);
+        }
     }
 
     public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
@@ -63,7 +65,7 @@ public class PlumeriaPlant : ModTile
         float scale = 1.2f + MathF.Sin(Main.GlobalTimeWrappedHourly * 2f % MathHelper.TwoPi) * 0.2f;
         float rotation = MathF.Sin(Main.GlobalTimeWrappedHourly % MathHelper.TwoPi);
         Color glowColor = Color.SlateGray * (1f + MathF.Sin(Main.GlobalTimeWrappedHourly * 2 % MathHelper.TwoPi + 2f) * 0.9f) * 0.2f;
-        glowColor.A = 0;        
+        glowColor.A = 0;
         spriteBatch.Draw(glowTexture.Value, new Vector2(i * 16, j * 16) + glowTexture.Value.Size() * 0.5f - Main.screenPosition + new Vector2(!Main.drawToScreen ? Main.offScreenRange : 0), glowTexture.Value.Frame(), (Color.SlateGray * 0.1f) with { A = 0 }, 0f, glowTexture.Value.Size() * new Vector2(0.5f, 0.4f), scale * 0.2f + 0.7f, 0, 0);
         spriteBatch.Draw(glowTexture.Value, new Vector2(i * 16, j * 16) + glowTexture.Value.Size() * 0.5f - Main.screenPosition + new Vector2(!Main.drawToScreen ? Main.offScreenRange : 0), glowTexture.Value.Frame(), glowColor, -rotation * 0.2f, glowTexture.Value.Size() * new Vector2(0.5f, 0.4f), scale * 0.5f + 0.3f, 0, 0);
         spriteBatch.Draw(glowTexture.Value, new Vector2(i * 16, j * 16) + glowTexture.Value.Size() * 0.5f - Main.screenPosition + new Vector2(!Main.drawToScreen ? Main.offScreenRange : 0), glowTexture.Value.Frame(), glowColor * 0.66f, rotation * 0.2f, glowTexture.Value.Size() * new Vector2(0.5f, 0.4f), scale, 0, 0);

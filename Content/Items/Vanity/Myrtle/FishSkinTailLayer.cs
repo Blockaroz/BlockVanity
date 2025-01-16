@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlockVanity.Common.Players;
+﻿using BlockVanity.Common.Players;
 using BlockVanity.Common.Players.Skins;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,9 +30,9 @@ public class FishSkinTailLayer : PlayerDrawLayer
             Vector2 lowerTailPos = midTailPos + new Vector2(-8 * drawInfo.drawPlayer.direction, -4 * drawInfo.drawPlayer.gravDir).RotatedBy(fishPlayer.tailRotations[1]);
 
             DrawData tailData = new DrawData(tailTexture, upperTailPos, upperTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[0], new Vector2(originX * upperTailFrame.Width, 14), 1f, drawInfo.playerEffect, 0);
-            drawInfo.DrawDataCache.Add(tailData);            
+            drawInfo.DrawDataCache.Add(tailData);
             tailData = new DrawData(tailTexture, midTailPos, midTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[1], new Vector2(originX * midTailFrame.Width, 14 + 4 * drawInfo.drawPlayer.gravDir), 1f, drawInfo.playerEffect, 0);
-            drawInfo.DrawDataCache.Add(tailData);           
+            drawInfo.DrawDataCache.Add(tailData);
             tailData = new DrawData(tailTexture, lowerTailPos, lowerTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[2], new Vector2(originX * lowerTailFrame.Width, 14), 1f, drawInfo.playerEffect, 0);
             drawInfo.DrawDataCache.Add(tailData);
 

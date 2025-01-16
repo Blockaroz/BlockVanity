@@ -41,7 +41,9 @@ public class ScholarStaffProj : ModProjectile
         float totalAngleRadians = MathHelper.ToRadians(TOTAL_ANGLE);
 
         if (!Player.active || Player.dead || Player.CCed)
+        {
             Projectile.Kill();
+        }
 
         Player.heldProj = Projectile.whoAmI;
         Projectile.timeLeft = 2;
@@ -57,7 +59,9 @@ public class ScholarStaffProj : ModProjectile
             Time = 0;
 
             if (Charge < 70)
+            {
                 Charge++;
+            }
 
             if (Charge == 69)
             {
@@ -94,7 +98,7 @@ public class ScholarStaffProj : ModProjectile
         {
             float rotationForHand = MathHelper.Lerp(MathHelper.Pi / 9f, new Vector2(Math.Abs(Projectile.velocity.X), Projectile.velocity.Y * Player.gravDir).ToRotation() + MathHelper.Pi / 2f, MathF.Sqrt(Utils.GetLerpValue(MaxTime * 0.4f, MaxTime, Time, true)));
             float rotation = MathHelper.Lerp(-MathHelper.Pi / 9f, new Vector2(Math.Abs(Projectile.velocity.X), Projectile.velocity.Y * Player.gravDir).ToRotation() + MathHelper.Pi / 2f, MathF.Sqrt(Utils.GetLerpValue(MaxTime * 0.4f, MaxTime * 0.5f, Time, true)));
-            Projectile.rotation = rotation * Player.direction * Player.gravDir + MathHelper.PiOver2  - MathHelper.PiOver2 * Player.gravDir;
+            Projectile.rotation = rotation * Player.direction * Player.gravDir + MathHelper.PiOver2 - MathHelper.PiOver2 * Player.gravDir;
             Player.bodyFrame.Y = VanityUtils.BodyFrameArmFromRotation(Player, rotationForHand) * Player.bodyFrame.Height;
         }
 
@@ -133,7 +137,9 @@ public class ScholarStaffProj : ModProjectile
 
                 Vector2 shootPoint = staffEndPos;
                 if (!Collision.CanHitLine(Player.Center, 0, 0, shootPoint, 0, 0))
+                {
                     shootPoint = Player.Center;
+                }
 
                 Vector2 boltDirection = shootPoint.DirectionTo(Main.MouseWorld);
 
@@ -144,8 +150,7 @@ public class ScholarStaffProj : ModProjectile
                     float spread = realCharge / 6f;
                     int damage = (int)(Projectile.damage * (1f + realCharge));
                     Vector2 boltVelocity = boltDirection.RotatedBy(spread * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
-                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI);
-                    bolt.ai[0] = Main.rand.NextFloat(7.8f, 8.2f);
+                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI, ai0: Main.rand.NextFloat(7.8f, 8.2f));
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
                 }
 
@@ -191,8 +196,8 @@ public class ScholarStaffProj : ModProjectile
 
         Vector2 scale = new Vector2(1f + swingProgress * (1f - swingProgress)) * Projectile.scale;
 
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.Lerp(lightColor, Color.White, 0.2f), Projectile.rotation, new Vector2(0.5f, 0.8f) * frame.Size(), scale, effects, 0);
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, glowFrame, Color.Gray with { A = 0 }, Projectile.rotation, new Vector2(0.5f, 0.8f) * glowFrame.Size(), scale, effects, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.Lerp(lightColor, Color.White, 0.4f), Projectile.rotation, new Vector2(0.5f, 0.8f) * frame.Size(), scale, effects, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, glowFrame, Color.White with { A = 150 } * swingProgress, Projectile.rotation, new Vector2(0.5f, 0.8f) * glowFrame.Size(), scale, effects, 0);
 
         return false;
     }

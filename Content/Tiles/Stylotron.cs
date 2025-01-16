@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -24,7 +20,7 @@ public class Stylotron : ModTile
     public static Asset<Texture2D> flywheelTexture;
 
     public override void SetStaticDefaults()
-    {   
+    {
         Main.tileLighted[Type] = true;
         Main.tileFrameImportant[Type] = true;
         Main.tileLavaDeath[Type] = true;
@@ -60,7 +56,9 @@ public class Stylotron : ModTile
     public override bool CreateDust(int i, int j, ref int type)
     {
         if (Main.rand.NextBool())
+        {
             type = DustID.Lead;
+        }
 
         return true;
     }

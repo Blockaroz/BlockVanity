@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using Terraria.DataStructures;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Dusts;
@@ -24,7 +18,9 @@ public class HauntedFlameDust : ModDust
         dust.velocity *= 0.95f;
         dust.velocity += (Main.rand.NextVector2Circular(1, 1) - Vector2.UnitY * 0.1f) / (dust.scale * 2f + 1f);
         if (!dust.noLightEmittence)
+        {
             Lighting.AddLight(dust.position, new Vector3(0.1f, 0.2f, 0.4f) * dust.scale);
+        }
 
         return true;
     }

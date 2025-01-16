@@ -1,5 +1,4 @@
-﻿using BlockVanity.Common;
-using BlockVanity.Common.Players;
+﻿using BlockVanity.Common.Players;
 using BlockVanity.Core;
 using Terraria;
 using Terraria.Audio;
@@ -21,7 +20,9 @@ public class SkullInSunglasses : VanityItem, IUpdateArmorInVanity
         createSound.MaxInstances = 0;
         createSound.Type = SoundType.Ambient;
         if (!Main.dedServ && !Main.gameMenu)
+        {
             SoundEngine.PlaySound(createSound, Main.LocalPlayer.position);
+        }
     }
 
     public override void AddRecipes()

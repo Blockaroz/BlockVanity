@@ -15,25 +15,37 @@ public class OldPosPlayer : ModPlayer
     public override void OnEnterWorld()
     {
         if (oldPos == null)
+        {
             oldPos = Enumerable.Repeat(Player.MountedCenter, 32).ToArray();
+        }
 
         if (oldVel == null)
+        {
             oldVel = Enumerable.Repeat(Player.velocity, 32).ToArray();
+        }
 
         if (oldRot == null)
+        {
             oldRot = new float[32];
+        }
     }
 
     public override void PostUpdateRunSpeeds()
     {
         if (oldPos == null)
+        {
             oldPos = Enumerable.Repeat(Player.MountedCenter, 32).ToArray();
+        }
 
         if (oldVel == null)
+        {
             oldVel = Enumerable.Repeat(Player.velocity, 32).ToArray();
+        }
 
         if (oldRot == null)
+        {
             oldRot = new float[32];
+        }
 
         for (int i = 31; i > 0; i--)
         {

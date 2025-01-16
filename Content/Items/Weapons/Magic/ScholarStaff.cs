@@ -1,11 +1,6 @@
-﻿using BlockVanity.Core;
-using BlockVanity.Content.Projectiles.Weapons.Magic;
+﻿using BlockVanity.Content.Projectiles.Weapons.Magic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent;
-using Terraria.GameContent.Creative;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -51,7 +46,9 @@ public class ScholarStaff : ModItem
     private bool DoNotPayMana(On_Player.orig_ItemCheck_PayMana orig, Player self, Item sItem, bool canUse)
     {
         if (sItem.type == ModContent.ItemType<ScholarStaff>())
+        {
             return self.CheckMana(sItem.mana, false);
+        }
 
         return orig(self, sItem, canUse);
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
+﻿using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +12,9 @@ public class RadiationDye : ModItem
         Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
+        {
             GameShaders.Armor.BindShader(Type, new ArmorShaderData(AllAssets.Effects.RadiationDye, "ShaderPass")).UseColor(1.6f, 3f, 0.3f).UseSecondaryColor(1.3f, 3f, 1.3f);
+        }
     }
 
     public override void SetDefaults()

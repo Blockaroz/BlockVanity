@@ -32,19 +32,25 @@ public class SonicTheHedgehogPlayer : ModPlayer
         orig(self, drawPlayer);
 
         if (self.GetModPlayer<SonicTheHedgehogPlayer>().enabled)
+        {
             self.armorEffectDrawShadow = true;
+        }
     }
 
     private void HideHead(On_PlayerDrawLayers.orig_DrawPlayer_21_Head orig, ref PlayerDrawSet drawinfo)
     {
         if (drawinfo.drawPlayer.head != EquipLoader.GetEquipSlot(Mod, nameof(PhantomRuby), EquipType.Head))
+        {
             orig(ref drawinfo);
+        }
     }
 
     private void HideLegs(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
     {
         if (drawinfo.drawPlayer.legs != EquipLoader.GetEquipSlot(Mod, nameof(PhantomRuby), EquipType.Legs))
+        {
             orig(ref drawinfo);
+        }
     }
 
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
@@ -105,7 +111,9 @@ public class SonicTheHedgehogPlayer : ModPlayer
                     if (sonicPlayer.IsRunning)
                     {
                         if (!self.ItemAnimationActive)
+                        {
                             self.bodyFrame.Y = self.bodyFrame.Height * 13;
+                        }
 
                         sonicPlayer.runCounter += Math.Abs(self.velocity.X * 0.5f);
 
@@ -126,9 +134,13 @@ public class SonicTheHedgehogPlayer : ModPlayer
                 }
 
                 if (sonicPlayer.walkFrame < self.legFrame.Height * 7)
+                {
                     sonicPlayer.walkFrame = self.legFrame.Height * 19;
+                }
                 else if (sonicPlayer.walkFrame > self.legFrame.Height * 19)
+                {
                     sonicPlayer.walkFrame = self.legFrame.Height * 7;
+                }
 
                 if (self.velocity.X != 0)
                 {

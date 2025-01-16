@@ -90,7 +90,9 @@ public class FishSkinPlayer : ModPlayer
     private void ResetSkin(ref PlayerDrawSet drawInfo)
     {
         if (drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().enabled)
+        {
             drawInfo.drawPlayer.Male = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().Male;
+        }
     }
 
     private void DrawFishSkin_Ears(ILContext il)
@@ -140,7 +142,9 @@ public class FishSkinPlayer : ModPlayer
                 drawinfo.DrawDataCache.Add(earData);
 
                 if (upperEars && drawinfo.drawPlayer.head > 0 || drawinfo.hatHair)
+                {
                     return;
+                }
 
                 Texture2D earsHighTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc1].Value;
                 earData = new DrawData(earsHighTexture, headPos, earsHighTexture.Frame(), drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation + upperEarWobble, drawinfo.headVect, 1f, drawinfo.playerEffect, 0);
@@ -157,8 +161,9 @@ public class FishSkinPlayer : ModPlayer
             bool flag = drawinfo.drawPlayer.head > 0 && !ArmorIDs.Head.Sets.DrawHead[drawinfo.drawPlayer.head];
 
             if (!flag && drawinfo.drawPlayer.faceHead > 0)
+            {
                 orig(ref drawinfo);
-
+            }
             else if (!drawinfo.drawPlayer.invis && !flag)
             {
                 Color headColor = drawinfo.colorArmorHead;
@@ -204,7 +209,9 @@ public class FishSkinPlayer : ModPlayer
             }
         }
         else
+        {
             orig(ref drawinfo);
+        }
     }
 
     private void EnableSkinUpdateAttachments(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
@@ -222,7 +229,9 @@ public class FishSkinPlayer : ModPlayer
             fishPlayer.headFinVector.Y -= Utils.GetLerpValue(0.3f, 0.96f, MathF.Sin(self.miscCounterNormalized * 10), true);
             float bounce = Main.OffsetsPlayerHeadgear[self.bodyFrame.Y / self.bodyFrame.Height].Y;
             if (bounce < 2)
+            {
                 fishPlayer.headFinVector.X += self.direction * 0.5f;
+            }
 
             fishPlayer.tailCounter += Math.Abs(self.velocity.X) / (Main.OffsetsPlayerHeadgear.Length - 1f);
             fishPlayer.tailCounter %= MathHelper.TwoPi;
@@ -259,13 +268,17 @@ public class FishSkinPlayer : ModPlayer
         orig(self);
 
         if (self.GetModPlayer<FishSkinPlayer>().enabled)
+        {
             self.Male = self.GetModPlayer<FishSkinPlayer>().Male;
+        }
     }
 
     public override void ResetEffects()
     {
         if (headFinVector.HasNaNs())
+        {
             headFinVector = Vector2.Zero;
+        }
 
         enabled = false;
         skinStyle = 0;

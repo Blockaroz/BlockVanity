@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BlockVanity.Core;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.Audio;
@@ -40,7 +39,7 @@ public static class AllAssets
         Textures.Pixel = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/Pixel");
         Textures.Glow = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Glow_");
 
-        Textures.FireDissolveNoise = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/FireDissolveNoise_");
+        Textures.MiscNoise = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Noise_");
         Textures.OrionNoise = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/OrionNoise");
         Textures.SeasideColorMap = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/SeasideColorMap");
 
@@ -65,17 +64,17 @@ public static class AllAssets
 
         Textures.VanityStar = ModContent.Request<Texture2D>(assetsPath + "Textures/UI/VanityStar");
 
-        Textures.FrenziedFlameLordEye = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FrenziedFlameLordEye");
-
         Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
-        Effects.DistortDissolve = ModContent.Request<Effect>(assetsPath + "Effects/DistortDissolveEffect", AssetRequestMode.ImmediateLoad);
+        Effects.FrenziedFlameParticle = ModContent.Request<Effect>(assetsPath + "Effects/FrenziedFlameParticle", AssetRequestMode.ImmediateLoad);
+        Effects.FrenziedFlameEye = ModContent.Request<Effect>(assetsPath + "Effects/FrenziedFlameEye", AssetRequestMode.ImmediateLoad);
         Effects.TransparencyMask = ModContent.Request<Effect>(assetsPath + "Effects/TransparencyMask", AssetRequestMode.ImmediateLoad);
 
-        Effects.PhantomDye = ModContent.Request<Effect>(assetsPath + "Effects/PhantomDye");
-        Effects.RadiationDye = ModContent.Request<Effect>(assetsPath + "Effects/RadiationDye");
-        Effects.OrionDye = ModContent.Request<Effect>(assetsPath + "Effects/OrionDye");
+        Effects.RadiationDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/RadiationDye");
+        Effects.PhantomDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/PhantomDye");
+        Effects.ChaosMatterDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/ChaosMatterDye");
+        Effects.OrionDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/OrionDye");
 
-        Effects.SeasideHairDye = ModContent.Request<Effect>(assetsPath + "Effects/SeasideHairDye");
+        Effects.SeasideHairDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/SeasideHairDye");
 
         //Sounds.FishyHit = new SoundStyle(assetpath + "Sounds/HitSounds/FishySkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
         Sounds.DemonHit = new SoundStyle(assetsPath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
@@ -88,7 +87,7 @@ public static class AllAssets
         public static Asset<Texture2D>[] Glow;
         public static Asset<Texture2D> Pixel;
 
-        public static Asset<Texture2D>[] FireDissolveNoise;
+        public static Asset<Texture2D>[] MiscNoise;
         public static Asset<Texture2D> OrionNoise;
         public static Asset<Texture2D> SeasideColorMap;
 
@@ -100,8 +99,6 @@ public static class AllAssets
         public static Asset<Texture2D> FishEyes;
 
         public static Asset<Texture2D> VanityStar;
-
-        public static Asset<Texture2D> FrenziedFlameLordEye;
     }
 
     public static class Sounds
@@ -114,11 +111,13 @@ public static class AllAssets
     public static class Effects
     {
         public static Asset<Effect> BasicTrail;
-        public static Asset<Effect> DistortDissolve;
+        public static Asset<Effect> FrenziedFlameParticle;
+        public static Asset<Effect> FrenziedFlameEye;
         public static Asset<Effect> TransparencyMask;
 
-        public static Asset<Effect> PhantomDye;
         public static Asset<Effect> RadiationDye;
+        public static Asset<Effect> PhantomDye;
+        public static Asset<Effect> ChaosMatterDye;
         public static Asset<Effect> OrionDye;
 
         public static Asset<Effect> SeasideHairDye;

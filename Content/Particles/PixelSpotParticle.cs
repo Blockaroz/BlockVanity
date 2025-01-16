@@ -3,16 +3,14 @@ using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.Graphics.Renderers;
-using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Particles;
 
 public class PixelSpotParticle : BaseParticle
 {
     public static ParticlePool<PixelSpotParticle> pool = new ParticlePool<PixelSpotParticle>(500, GetNewParticle<PixelSpotParticle>);
-    
+
     public Vector2 Position;
     public Vector2 Velocity;
     public float Rotation;
@@ -55,7 +53,9 @@ public class PixelSpotParticle : BaseParticle
         Lighting.AddLight(Position, DarkColor.ToVector3() * 0.2f * (1f - progress));
 
         if (TimeLeft++ > MaxTime || Scale < 0.01f)
+        {
             ShouldBeRemovedFromRenderer = true;
+        }
 
         Scale = MathHelper.Lerp(Scale, 1f, 0.002f);
         Position += Velocity;

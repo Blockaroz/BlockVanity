@@ -1,12 +1,9 @@
 ﻿using System;
 using BlockVanity.Common.Players;
-using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 
 namespace BlockVanity;
@@ -70,15 +67,26 @@ public static class VanityUtils
         rotation = Math.Clamp(rotation, 0, MathHelper.Pi);
 
         if (rotation <= MathHelper.PiOver4 * 0.3f)
-            return 1;        
+        {
+            return 1;
+        }
+
         if (rotation <= MathHelper.PiOver4)
+        {
             return 2;
+        }
         else if (rotation <= MathHelper.PiOver4 * 2.2f)
-            return 3;            
+        {
+            return 3;
+        }
         else if (rotation <= MathHelper.PiOver4 * 3.5f)
+        {
             return 4;
+        }
         else
+        {
             return 0;
+        }
     }
 
     public static void DrawSittingLongCoats(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false)
@@ -98,15 +106,29 @@ public static class VanityUtils
     {
         Player newPlayer = new Player();
         if (head > -1)
+        {
             newPlayer.armor[10] = ContentSamples.ItemsByType[head];
+        }
+
         if (body > -1)
+        {
             newPlayer.armor[11] = ContentSamples.ItemsByType[body];
+        }
+
         if (legs > -1)
+        {
             newPlayer.armor[12] = ContentSamples.ItemsByType[legs];
+        }
+
         if (acc1 > -1)
+        {
             newPlayer.armor[13] = ContentSamples.ItemsByType[acc1];
+        }
+
         if (acc2 > -1)
+        {
             newPlayer.armor[14] = ContentSamples.ItemsByType[acc2];
+        }
 
         return newPlayer;
     }

@@ -1,5 +1,4 @@
-﻿using BlockVanity.Common.Players;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Pets.HauntedCandelabraPet;

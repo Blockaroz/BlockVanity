@@ -1,10 +1,7 @@
 ﻿using System;
-using BlockVanity.Common.Players;
-using BlockVanity.Content.Items.Vanity.CountChaos;
 using BlockVanity.Content.Items.Vanity.Excellence;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Systems.Players;
@@ -18,20 +15,6 @@ public class ExcellencePlayer : ModPlayer
         On_Player.UpdateVisibleAccessory += EnableExcellence;
         On_Player.SetArmorEffectVisuals += ExcellenceShadows;
         On_Player.PlayerFrame += SlowLegs;
-        On_PlayerDrawLayers.DrawPlayer_21_Head += HideHead;
-        On_PlayerDrawLayers.DrawPlayer_13_Leggings += HideLegs;
-    }
-
-    private void HideHead(On_PlayerDrawLayers.orig_DrawPlayer_21_Head orig, ref PlayerDrawSet drawinfo)
-    {
-        if (drawinfo.drawPlayer.head != EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Head))
-            orig(ref drawinfo);
-    }
-
-    private void HideLegs(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
-    {
-        if (drawinfo.drawPlayer.legs != EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs))
-            orig(ref drawinfo);
     }
 
     private void EnableExcellence(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
@@ -50,9 +33,13 @@ public class ExcellencePlayer : ModPlayer
     private void ExcellenceShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)
     {
         if (self.GetModPlayer<ExcellencePlayer>().enabled)
+        {
             self.armorEffectDrawOutlinesForbidden = true;
+        }
         else
+        {
             orig(self, drawPlayer);
+        }
     }
 
     public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
@@ -80,7 +67,9 @@ public class ExcellencePlayer : ModPlayer
             if (self.velocity.Y == 0)
             {
                 if (!Main.gameInactive)
+                {
                     excellencePlayer.walkCounter += Math.Abs(self.velocity.X * 0.6f);
+                }
 
                 while (excellencePlayer.walkCounter > 8)
                 {
@@ -89,9 +78,13 @@ public class ExcellencePlayer : ModPlayer
                 }
 
                 if (excellencePlayer.walkFrame < self.legFrame.Height * 7)
+                {
                     excellencePlayer.walkFrame = self.legFrame.Height * 19;
+                }
                 else if (excellencePlayer.walkFrame > self.legFrame.Height * 19)
+                {
                     excellencePlayer.walkFrame = self.legFrame.Height * 7;
+                }
 
                 if (self.velocity.X != 0)
                 {

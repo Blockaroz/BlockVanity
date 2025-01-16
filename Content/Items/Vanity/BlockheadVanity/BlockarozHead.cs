@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common;
+using BlockVanity.Common.Players;
 using BlockVanity.Core;
 using Terraria;
 using Terraria.ID;
@@ -14,6 +15,7 @@ public class BlockarozHead : VanityItem
     public override void SetStaticDefaults()
     {
         NeckPlayerLayer.AddNeck(this);
+        MiscEffectPlayer.hideHead.Add(Item.headSlot);
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
     }
 

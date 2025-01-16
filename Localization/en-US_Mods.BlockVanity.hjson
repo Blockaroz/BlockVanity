@@ -195,6 +195,31 @@ Items: {
 		DisplayName: Eye Of Frenzied Flame
 		Tooltip: Turns the wearer into a Lord of Frenzied Flame
 	}
+
+	ChaosMatterDye: {
+		DisplayName: Chaos Matter Dye
+		Tooltip: ""
+	}
+
+	MidraBody: {
+		DisplayName: Midra's Body
+		Tooltip: ""
+	}
+
+	MidraCloak: {
+		DisplayName: Midra's Flowing Cloak
+		Tooltip: "'The depths of your foolishness!'"
+	}
+
+	MidraLegs: {
+		DisplayName: Midra's Legs
+		Tooltip: ""
+	}
+
+	RedWarlockHood: {
+		DisplayName: Red Warlock Hood
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

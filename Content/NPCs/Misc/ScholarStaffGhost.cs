@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Items.Weapons.Magic;
 using BlockVanity.Content.Particles;
@@ -51,9 +47,13 @@ public class ScholarStaffGhost : ModNPC
         NPC.velocity.X = 0.1f * NPC.direction;
 
         if (!Collision.WetCollision(NPC.position, NPC.width, NPC.height * 2))
+        {
             NPC.velocity.Y += 0.01f;
+        }
         else
+        {
             NPC.velocity.Y -= 0.01f;
+        }
 
         int waterLine = -1;
         for (int i = -10; i < 10; i++)
@@ -77,7 +77,7 @@ public class ScholarStaffGhost : ModNPC
         if (Main.rand.NextBool(30))
         {
             PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
-            particle.Prepare(NPC.Center + Main.rand.NextVector2Circular(20, 30), Main.rand.NextVector2Circular(4, 3), Main.rand.Next(400, 750), 150, Color.White with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 0 }, 0.5f + Main.rand.NextFloat());
+            particle.Prepare(NPC.Center + Main.rand.NextVector2Circular(20, 30), Main.rand.NextVector2Circular(4, 3), Main.rand.Next(400, 750), 150, Color.Cyan with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 0 }, 0.5f + Main.rand.NextFloat());
             ParticleEngine.Particles.Add(particle);
         }
 
@@ -85,10 +85,14 @@ public class ScholarStaffGhost : ModNPC
         {
             NPC.ai[0]--;
             if (NPC.ai[0] <= 0)
+            {
                 NPC.active = false;
+            }
         }
         else
+        {
             NPC.ai[0]++;
+        }
 
         NPC.ai[0] = MathHelper.Clamp(NPC.ai[0], 0, 150);
         NPC.ai[1]++;

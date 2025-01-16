@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.GameContent;
-using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Rarities;
 
@@ -22,9 +21,13 @@ public class PerfectRarity : SpecialRarity
         {
             Vector2 off;
             if (i % 2 == 0)
+            {
                 off = Vector2.UnitY * (i / 2 % 2 - 0.5f) * 3.33f;
+            }
             else
+            {
                 off = Vector2.UnitX * (i / 2 % 2 - 0.5f) * 3.33f;
+            }
 
             Main.spriteBatch.DrawString(FontAssets.MouseText.Value, text, position + off, Color.Red, rotation, origin, scale, 0, 0);
         }

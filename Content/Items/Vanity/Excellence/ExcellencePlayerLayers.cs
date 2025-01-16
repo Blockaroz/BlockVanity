@@ -1,7 +1,4 @@
-﻿using BlockVanity.Common.Systems.Players;
-using BlockVanity.Core;
-using BlockVanity.Content.Items.Vanity.MushroomCow;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -74,9 +71,13 @@ public class ExcellencePlayerLegsLayer : PlayerDrawLayer
         int originOffY = 0;
 
         if (legFrame < 2)
+        {
             legFrame = 0;
+        }
         else if (legFrame == 2)
+        {
             legFrame = 1;
+        }
 
         if (drawInfo.isSitting)
         {

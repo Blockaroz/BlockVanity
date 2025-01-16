@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using BlockVanity.Common.Graphics;
 using BlockVanity.Core;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using ReLogic.Content.Sources;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace BlockVanity;
@@ -35,9 +31,13 @@ public class BlockVanity : Mod
             for (int j = 0; j < stylesForMe.Length; j++)
             {
                 if (i != j)
+                {
                     stylesForMe[j - offset] = styleItems[j];
+                }
                 else
+                {
                     offset++;
+                }
             }
 
             StylesByID.TryAdd(styleItems[i], stylesForMe);

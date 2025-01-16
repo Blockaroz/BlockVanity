@@ -23,7 +23,9 @@ public class CountChaosCuirass : VanityItem
         ItemID.Sets.AnimatesAsSoul[Type] = true;
 
         if (Main.dedServ)
+        {
             return;
+        }
 
         glowTexture = ModContent.Request<Texture2D>(Texture + "_Glow");
         glowTextureArmor = ModContent.Request<Texture2D>(Texture + "_Body_Glow");

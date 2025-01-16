@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.GameContent;
 
 namespace BlockVanity.Core;
@@ -73,7 +70,9 @@ public class RenderTargetDrawContent : INeedRenderTargetContent
             }
 
             for (int i = 0; i < _draws.Length; i++)
+            {
                 _draws[i].requested = false;
+            }
 
             device.SetRenderTarget(null);
             device.Clear(Color.Transparent);

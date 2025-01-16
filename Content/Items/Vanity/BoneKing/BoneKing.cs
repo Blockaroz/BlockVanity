@@ -11,7 +11,9 @@ public class BoneKingSkull : VanityItem
     public override void Load()
     {
         if (Main.dedServ)
+        {
             return;
+        }
 
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this, equipTexture: new OversizedHeadEquipTexture(0, -4));
     }

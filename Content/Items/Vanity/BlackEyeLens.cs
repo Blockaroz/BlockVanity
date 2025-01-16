@@ -1,8 +1,6 @@
 ﻿using BlockVanity.Common.Players;
 using BlockVanity.Core;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 
 namespace BlockVanity.Content.Items.Vanity;

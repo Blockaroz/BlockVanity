@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Pets.HauntedCandelabraPet;
@@ -19,7 +18,9 @@ public class HauntedCandle : ModItem
     public override bool? UseItem(Player player)
     {
         if (player.whoAmI == Main.myPlayer)
+        {
             player.AddBuff(Item.buffType, 3600);
+        }
 
         return true;
     }

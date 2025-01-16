@@ -15,7 +15,9 @@ public class FrozenKingSkull : VanityItem
     public override void Load()
     {
         if (Main.dedServ)
+        {
             return;
+        }
 
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this, equipTexture: new OversizedHeadEquipTexture(0, -4));
     }
@@ -28,7 +30,9 @@ public class FrozenKingSkull : VanityItem
     public override void SetStaticDefaults()
     {
         if (Main.dedServ)
+        {
             return;
+        }
 
         Item.headSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
         ArmorIDs.Head.Sets.IsTallHat[Item.headSlot] = true;

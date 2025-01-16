@@ -13,14 +13,11 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic;
 
 public class ScholarStaffBolt : ModProjectile
 {
-    private static SoundStyle HitSound;
-
     public override void SetStaticDefaults()
     {
         Main.projFrames[Type] = 8;
         ProjectileID.Sets.TrailingMode[Type] = 2;
         ProjectileID.Sets.TrailCacheLength[Type] = 10;
-        //HitSound = new SoundStyle();
     }
 
     public override void SetDefaults()
@@ -47,30 +44,32 @@ public class ScholarStaffBolt : ModProjectile
     {
         Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * Speed;
         Projectile.localAI[0]++;
-        if (Projectile.frameCounter++ > 3)
+        if (Projectile.frameCounter++ > 2)
         {
             Projectile.frameCounter = 0;
             if (++Projectile.frame >= 8)
+            {
                 Projectile.frame = 0;
+            }
         }
 
-        if (Projectile.localAI[0] % 7 == 0 || Main.rand.NextBool(5))
+        if (Projectile.localAI[0] % 7 == 0 || Main.rand.NextBool(9))
         {
-            MagicMicroBurstParticle burstParticle = MagicMicroBurstParticle.pool.RequestParticle();
-            Vector2 particleVelocity = Projectile.velocity * Main.rand.NextFloat(2f) + Main.rand.NextVector2Circular(4, 4);
-            burstParticle.Prepare(Projectile.Center, particleVelocity , particleVelocity.ToRotation() + Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.Next(15, 40), EnergyColor with { A = 50 }, new Color(5, 25, 30, 200), 0.5f + Main.rand.NextFloat());
-            //ParticleEngine.Particles.Add(burstParticle);
+            MagicSmokeParticle darkParticle = MagicSmokeParticle.pool.RequestParticle();
+            darkParticle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(8, 8), Projectile.velocity, Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 40), Color.DarkCyan, Color.Black * 0.5f, 0.5f + Main.rand.NextFloat(0.5f));
+            ParticleEngine.Particles.Add(darkParticle);
+
+            MagicSmokeParticle particle = MagicSmokeParticle.pool.RequestParticle();
+            particle.Prepare(Projectile.Center + Projectile.velocity, Projectile.velocity + Main.rand.NextVector2Circular(3, 3), Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.4f + Main.rand.NextFloat(0.4f));
+            ParticleEngine.Particles.Add(particle);
         }
 
-        if (Main.rand.NextBool(20) || Projectile.localAI[0] % 40 == 0)
+        if (Main.rand.NextBool(20) || Projectile.localAI[0] % 20 == 0)
         {
             PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
             particle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(15, 15), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 60, 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, 1.5f + Main.rand.NextFloat());
             ParticleEngine.Particles.Add(particle);
         }
-
-        if (Main.rand.NextBool(5))
-            Dust.NewDustPerfect(Projectile.Center + Main.rand.NextVector2Circular(10, 10), DustID.Smoke, Projectile.velocity.RotatedByRandom(0.5f) * Main.rand.NextFloat(0.5f), 160, Color.DarkCyan, 1f + Main.rand.NextFloat());
 
         Projectile.scale = 1.125f;
 
@@ -87,12 +86,20 @@ public class ScholarStaffBolt : ModProjectile
         hitSound.PitchVariance = 0.3f;
         SoundEngine.PlaySound(hitSound, Projectile.Center);
 
-        for (int i = 0; i < 14; i++)
+        for (int i = 0; i < 10; i++)
         {
-            Vector2 offset = Main.rand.NextVector2Circular(8, 8);
             PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
-            particle.Prepare(Projectile.Center + offset, Projectile.velocity * Main.rand.NextFloat(0.6f) + offset * 0.2f, Main.rand.Next(40, 80), 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
+            Vector2 offset = Main.rand.NextVector2Circular(8, 8);
+            particle.Prepare(Projectile.Center + offset, Projectile.velocity * Main.rand.NextFloat(0.4f) + offset * 0.2f, Main.rand.Next(40, 80), 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
             ParticleEngine.Particles.Add(particle);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            MagicSmokeParticle burstParticle = MagicSmokeParticle.pool.RequestParticle();
+            Vector2 particleVelocity = Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(2, 2);
+            burstParticle.Prepare(Projectile.Center, particleVelocity, particleVelocity.ToRotation(), Main.rand.Next(25, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.5f + Main.rand.NextFloat());
+            ParticleEngine.Particles.Add(burstParticle);
         }
     }
 

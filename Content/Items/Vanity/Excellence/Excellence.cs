@@ -4,10 +4,7 @@ using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,7 +17,9 @@ public class Excellence : VanityItem
     public override void Load()
     {
         if (Main.netMode == NetmodeID.Server)
+        {
             return;
+        }
 
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this);
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Body}", EquipType.Body, this);
@@ -32,11 +31,16 @@ public class Excellence : VanityItem
         ItemID.Sets.ItemNoGravity[Type] = true;
 
         if (Main.netMode == NetmodeID.Server)
+        {
             return;
+        }
 
         Item.headSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
         Item.bodySlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
         Item.legSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+
+        MiscEffectPlayer.hideHead.Add(Item.headSlot);
+        MiscEffectPlayer.hideLegs.Add(Item.legSlot);
 
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
@@ -45,7 +49,9 @@ public class Excellence : VanityItem
         ArmorIDs.Body.Sets.DisableHandOnAndOffAccDraw[Item.bodySlot] = true;
 
         ArmorIDs.Legs.Sets.HidesTopSkin[Item.legSlot] = true;
+        ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
         ArmorIDs.Legs.Sets.OverridesLegs[Item.legSlot] = true;
+        ArmorIDs.Legs.Sets.IncompatibleWithFrogLeg[Item.legSlot] = true;
     }
 
     public override void UpdateVanity(Player player) => player.GetModPlayer<MiscEffectPlayer>().disableBootsEffect = true;
@@ -62,7 +68,7 @@ public class Excellence : VanityItem
     {
         Texture2D glowTexture = AllAssets.Textures.Glow[0].Value;
         Vector2 offset = Vector2.UnitY * 9 * scale;
-        spriteBatch.Draw(glowTexture, position - offset, glowTexture.Frame(), Color.Red with { A = 10 }, 0, glowTexture.Size() * 0.5f, scale * 0.3f, 0, 0);    
+        spriteBatch.Draw(glowTexture, position - offset, glowTexture.Frame(), Color.Red with { A = 10 }, 0, glowTexture.Size() * 0.5f, scale * 0.3f, 0, 0);
     }
 
     public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

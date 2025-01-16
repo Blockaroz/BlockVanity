@@ -100,6 +100,7 @@ public class CountChaosArmOnGlowLayer : PlayerDrawLayer
             shoulderData.shader = drawInfo.drawPlayer.cBody;
             drawInfo.DrawDataCache.Add(shoulderData);
         }
+
         if (drawInfo.compFrontArmFrame.X / drawInfo.compFrontArmFrame.Width >= 7)
             position += new Vector2((!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : (-1), (!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipVertically)) ? 1 : (-1));
 

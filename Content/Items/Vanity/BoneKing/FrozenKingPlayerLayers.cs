@@ -68,7 +68,9 @@ public class FrozenKingArmOnGlowLayer : PlayerDrawLayer
         drawInfo.DrawDataCache.Add(shoulderData);
 
         if (drawInfo.compFrontArmFrame.X / drawInfo.compFrontArmFrame.Width >= 7)
+        {
             position += new Vector2(!drawInfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally) ? 1 : -1, !drawInfo.playerEffect.HasFlag(SpriteEffects.FlipVertically) ? 1 : -1);
+        }
 
         DrawData data = new DrawData(glowTexture, position + compOffset, drawInfo.compFrontArmFrame, drawColor, drawInfo.compositeFrontArmRotation, drawInfo.bodyVect + compOffset, 1f, drawInfo.playerEffect, 0);
         data.shader = drawInfo.drawPlayer.cBody;

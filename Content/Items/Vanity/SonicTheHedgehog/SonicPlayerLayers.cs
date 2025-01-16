@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BlockVanity.Common.Players;
-using BlockVanity.Content.Items.Vanity.Excellence;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -49,13 +44,13 @@ public class SonicLegsLayer : PlayerDrawLayer
     }
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Leggings);
-    
+
     public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(PhantomRuby), EquipType.Legs);
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
         bool running = drawInfo.drawPlayer.velocity.Y == 0 && drawInfo.drawPlayer.GetModPlayer<SonicTheHedgehogPlayer>().IsRunning;
-        
+
         Texture2D legsTexture = TextureAssets.ArmorLeg[EquipLoader.GetEquipSlot(Mod, nameof(PhantomRuby), EquipType.Legs)].Value;
         Vector2 legPos = drawInfo.LegsPosition() + drawInfo.legsOffset + new Vector2(0, drawInfo.drawPlayer.gravDir * 2);
 
@@ -64,9 +59,13 @@ public class SonicLegsLayer : PlayerDrawLayer
         int originOffY = 0;
 
         if (legFrame < 2)
+        {
             legFrame = 0;
+        }
         else if (legFrame == 2)
+        {
             legFrame = 1;
+        }
 
         if (drawInfo.isSitting)
         {

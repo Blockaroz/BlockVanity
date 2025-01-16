@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -40,10 +39,14 @@ public class ChargeBar : ModSystem
     public override void UpdateUI(GameTime gameTime)
     {
         if (Main.gamePaused)
+        {
             return;
+        }
 
         if (displayTime > 0)
+        {
             displayTime--;
+        }
 
         if (displayTime <= 0)
         {
@@ -88,7 +91,9 @@ public class ChargeBar : ModSystem
                         if (shine && fillPercent > 0.95f)
                         {
                             if (shineTime < 12)
+                            {
                                 shineTime++;
+                            }
 
                             Texture2D shine = TextureAssets.Extra[178].Value;
                             float shineProgress = shineTime / 12f;

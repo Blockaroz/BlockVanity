@@ -1,11 +1,7 @@
-﻿using System;
-using BlockVanity.Content.Rarities.GlowingRarities;
+﻿using BlockVanity.Content.Rarities.GlowingRarities;
 using Microsoft.Xna.Framework;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.UI.Chat;
 
 namespace BlockVanity.Content.Rarities.SpecialRarities;
 

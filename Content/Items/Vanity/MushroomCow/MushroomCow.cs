@@ -2,13 +2,7 @@
 using BlockVanity.Common.Players;
 using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
-using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -58,7 +52,7 @@ public class GamingMushroomCowHead : VanityItem
     public GamingMushroomCowHead() : base(ModContent.RarityType<VanityRareCommon>()) { }
 
     public override void SetStaticDefaults()
-    { 
+    {
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
         NeckPlayerLayer.AddNeck(this);
     }

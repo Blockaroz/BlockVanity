@@ -31,8 +31,8 @@ float4 PixelShaderFunction(float4 base : COLOR0, float2 input : TEXCOORD0) : COL
 {
     float2 fixedInput = (input * uImageSize0 - uSourceRect.xy) / uSourceRect.zw;
     
-    float2 pixelInput = floor((float2(fixedInput.x * uSourceRect.z, (pow(fixedInput.y, 1.5) + uTime) * uImageSize0.y / 4) - uSourceRect.xy) / 2) / uImageSize0 * 2;
-    float2 pixelInput2 = floor((float2(fixedInput.x * uSourceRect.z, (pow(fixedInput.y, 1.5) + uTime * 4) * uImageSize0.y / 4) - uSourceRect.xy) / 2) / uImageSize0 * 2;
+    float2 pixelInput = floor((float2(fixedInput.x * uSourceRect.z, (pow(fixedInput.y, 1.3) + uTime * 2) * uSourceRect.w / 2)) / 2) / uSourceRect.zw * 2;
+    float2 pixelInput2 = floor((float2(frac(fixedInput.x + 0.5) * uSourceRect.z, (pow(fixedInput.y, 1.5) + uTime * 4) * uSourceRect.w / 2)) / 2) / uSourceRect.zw * 2;
     
     float4 noise = tex2D(uImage1, pixelInput);
     float4 noise2 = tex2D(uImage1, pixelInput2);

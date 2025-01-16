@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlockVanity.Common.Players;
-using Terraria.DataStructures;
-using Terraria;
-using Terraria.ModLoader;
+﻿using BlockVanity.Common.Players;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.Midra;
 
 public class FrenziedFlameHeadEffectLayer : PlayerDrawLayer
 {
-    public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.FrozenOrWebbedDebuff);
+    public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
     public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(EyeOfFrenziedFlame), EquipType.Head);
 
@@ -26,10 +21,11 @@ public class FrenziedFlameHeadEffectLayer : PlayerDrawLayer
         if (particlePlayer.IsReady && drawInfo.shadow <= 0f)
         {
             DrawData data = particlePlayer.GetFrenzyTargetFront();
-            data.position = drawInfo.Center.Floor() + new Vector2(drawInfo.drawPlayer.direction, -16 * drawInfo.drawPlayer.gravDir + drawInfo.mountOffSet / 2f) - Main.screenPosition;
+            data.position = drawInfo.HeadPosition() + new Vector2(0, (drawInfo.drawPlayer.gravDir < 0 ? 11 : 0) + -8 * drawInfo.drawPlayer.gravDir);
+            data.position.ApplyVerticalOffset(drawInfo);
             data.color = Color.White;
             data.effect = Main.GameViewMatrix.Effects;
-            data.shader = particlePlayer.targetShader;
+            data.shader = drawInfo.cHead;
             drawInfo.DrawDataCache.Add(data);
         }
     }
@@ -37,7 +33,7 @@ public class FrenziedFlameHeadEffectLayer : PlayerDrawLayer
 
 public class FrenziedFlameBackHeadEffectLayer : PlayerDrawLayer
 {
-    public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Wings);
+    public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Backpacks);
 
     public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(EyeOfFrenziedFlame), EquipType.Head);
 
@@ -47,16 +43,18 @@ public class FrenziedFlameBackHeadEffectLayer : PlayerDrawLayer
     {
         drawInfo.colorArmorHead = Color.White;
         if (drawInfo.shadow > 0f)
+        {
             drawInfo.colorArmorHead = Color.Transparent;
+        }
 
         PlayerOfFrenziedFlame particlePlayer = drawInfo.drawPlayer.GetModPlayer<PlayerOfFrenziedFlame>();
         if (particlePlayer.IsReady && drawInfo.shadow <= 0f)
         {
             DrawData data = particlePlayer.GetFrenzyTarget();
-            data.position = drawInfo.Center.Floor() + new Vector2(drawInfo.drawPlayer.direction, -18 * drawInfo.drawPlayer.gravDir + drawInfo.mountOffSet / 2f) - Main.screenPosition;
+            data.position = drawInfo.HeadPosition() + new Vector2(0, (drawInfo.drawPlayer.gravDir < 0 ? 11 : 0) + -8 * drawInfo.drawPlayer.gravDir);
             data.color = Color.White;
             data.effect = Main.GameViewMatrix.Effects;
-            data.shader = particlePlayer.targetShader;
+            data.shader = drawInfo.cHead;
             drawInfo.DrawDataCache.Add(data);
         }
     }

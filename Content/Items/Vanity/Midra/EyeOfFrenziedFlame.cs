@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlockVanity.Common.Players;
 using BlockVanity.Common.UI;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
@@ -21,8 +17,8 @@ public class EyeOfFrenziedFlame : VanityItem
 
     public override void SetStaticDefaults()
     {
+        MiscEffectPlayer.hideHead.Add(Item.headSlot);
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
-        ArmorIDs.Head.Sets.IsTallHat[Item.headSlot] = true;
     }
 
     public override bool IsArmorSet(Item head, Item body, Item legs) => true;
@@ -30,8 +26,12 @@ public class EyeOfFrenziedFlame : VanityItem
 
     public override void UpdateArmorSet(Player player)
     {
+        player.GetModPlayer<PlayerOfFrenziedFlame>().forceFlameBack = true;
+
         if (AreaEffectsToggle.IsActive(player))
+        {
             Lighting.AddLight(player.MountedCenter, Color.DarkOrange.ToVector3() * 0.7f);
+        }
     }
 
     public override void UpdateVanitySet(Player player) => UpdateArmorSet(player);

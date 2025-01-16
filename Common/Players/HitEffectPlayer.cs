@@ -1,7 +1,6 @@
 ﻿using BlockVanity.Common.UI;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Players;
@@ -13,7 +12,7 @@ public class HitEffectPlayer : ModPlayer
         player.GetModPlayer<HitEffectPlayer>().enabled = true;
         player.GetModPlayer<HitEffectPlayer>().hitSound = hitSound;
     }
-        
+
     public static void SetSkinHitSound(Player player, SoundStyle hitSound)
     {
         player.GetModPlayer<HitEffectPlayer>().skin = true;
@@ -31,7 +30,9 @@ public class HitEffectPlayer : ModPlayer
         if (HitSoundToggle.IsActive(Player))
         {
             if (enabled || skin)
+            {
                 modifiers.DisableSound();
+            }
         }
     }
 
@@ -40,9 +41,13 @@ public class HitEffectPlayer : ModPlayer
         if (HitSoundToggle.IsActive(Player))
         {
             if (enabled)
+            {
                 SoundEngine.PlaySound(hitSound, Player.position);
+            }
             else if (skin)
+            {
                 SoundEngine.PlaySound(hitSoundSkin, Player.position);
+            }
         }
     }
 

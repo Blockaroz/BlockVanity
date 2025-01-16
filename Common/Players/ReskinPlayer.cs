@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.Initializers;
 using Terraria.ModLoader;
@@ -26,8 +23,8 @@ public class ReskinPlayer : ModPlayer
     public void SetSkin(Asset<Texture2D>[] textures)
     {
         QueuedSkinTextures = textures;
-    }    
-  
+    }
+
     public enum SkinPieceID
     {
         Head,
@@ -47,17 +44,25 @@ public class ReskinPlayer : ModPlayer
     private static int MaleSkinVar(PlayerDrawSet drawInfo)
     {
         if (drawInfo.drawPlayer.Male)
+        {
             return drawInfo.skinVar;
+        }
         else
+        {
             return PlayerVariantID.Sets.AltGenderReference[drawInfo.skinVar];
+        }
     }
-    
+
     private static int FemaleSkinVar(PlayerDrawSet drawInfo)
     {
         if (drawInfo.drawPlayer.Male)
+        {
             return PlayerVariantID.Sets.AltGenderReference[drawInfo.skinVar];
+        }
         else
+        {
             return drawInfo.skinVar;
+        }
     }
 
     public override void Load()
@@ -88,9 +93,13 @@ public class ReskinPlayer : ModPlayer
             TextureAssets.Players[drawInfo.skinVar, 9] = QueuedSkinTextures[(int)SkinPieceID.Hands];
 
             if (drawInfo.drawPlayer.Male)
+            {
                 TextureAssets.Players[drawInfo.skinVar, 10] = QueuedSkinTextures[(int)SkinPieceID.Legs];
+            }
             else
+            {
                 TextureAssets.Players[drawInfo.skinVar, 10] = QueuedSkinTextures[(int)SkinPieceID.LegsSlim];
+            }
 
             TextureAssets.Players[drawInfo.skinVar, 15] = QueuedSkinTextures[(int)SkinPieceID.Eyes];
         }

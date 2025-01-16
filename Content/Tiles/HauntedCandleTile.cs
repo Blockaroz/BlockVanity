@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using BlockVanity.Content.Dusts;
+using BlockVanity.Content.Pets.HauntedCandelabraPet;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using Terraria.Enums;
-using Terraria.Localization;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.GameContent.Drawing;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Microsoft.Xna.Framework;
-using Terraria.GameContent.Drawing;
-using BlockVanity.Content.Pets.HauntedCandelabraPet;
-using Terraria.DataStructures;
-using Terraria.ID;
-using BlockVanity.Content.Dusts;
 
 namespace BlockVanity.Content.Tiles;
 
@@ -70,7 +66,9 @@ public class HauntedCandleTile : ModTile
         Wiring.SkipWire(i, topY + 2);
 
         if (Main.netMode != NetmodeID.SinglePlayer)
+        {
             NetMessage.SendTileSquare(-1, i, topY + 1, 3, TileChangeType.None);
+        }
     }
 
     public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -86,18 +84,24 @@ public class HauntedCandleTile : ModTile
     public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
     {
         if (Main.gamePaused || !Main.instance.IsActive || Lighting.UpdateEveryFrame && !Main.rand.NextBool(4))
+        {
             return;
+        }
 
         Tile tile = Main.tile[i, j];
 
         if (!TileDrawing.IsVisible(tile))
+        {
             return;
+        }
 
         short frameX = tile.TileFrameX;
         short frameY = tile.TileFrameY;
 
         if (frameX != 0)
+        {
             return;
+        }
 
         if (frameY / 18 % 2 == 0)
         {
@@ -111,7 +115,9 @@ public class HauntedCandleTile : ModTile
         Tile tile = Main.tile[i, j];
 
         if (!TileDrawing.IsVisible(tile))
+        {
             return;
+        }
 
         Vector2 offScreen = new Vector2(Main.drawToScreen ? 0 : Main.offScreenRange);
 

@@ -1,7 +1,6 @@
 ﻿using BlockVanity.Common.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent.Creative;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
