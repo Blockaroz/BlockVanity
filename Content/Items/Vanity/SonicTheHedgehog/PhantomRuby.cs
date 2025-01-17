@@ -1,10 +1,10 @@
-﻿using System;
-using BlockVanity.Common.Players;
+﻿using BlockVanity.Common.Players;
 using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -88,4 +88,3 @@ public class PhantomRuby : VanityItem
         }
     }
 }
-

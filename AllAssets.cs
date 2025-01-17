@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
+using System.Collections.Generic;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
 namespace BlockVanity;
 
+[Autoload]
 public static class AllAssets
 {
     public static Asset<T>[] RequestArray<T>(string name, int count, AssetRequestMode mode = AssetRequestMode.AsyncLoad) where T : class
     {
         Asset<T>[] assets = new Asset<T>[count];
         for (int i = 0; i < count; i++)
-        {
             assets[i] = ModContent.Request<T>(name + i, mode);
-        }
 
         return assets;
     }
@@ -33,7 +33,7 @@ public static class AllAssets
         return assets.ToArray();
     }
 
-    public static void Load()
+    public static void Load(Mod mod)
     {
         string assetsPath = $"{nameof(BlockVanity)}/Assets/";
         Textures.Pixel = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/Pixel");
@@ -54,14 +54,13 @@ public static class AllAssets
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Hands"),
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Hands_Back"),
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Legs"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Legs"),//Slim
+            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Legs"), // Slim
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_High"),
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_Low"),
             ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Tail")
             ];
 
         Textures.FishEyes = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/FishEyes");
-
         Textures.VanityStar = ModContent.Request<Texture2D>(assetsPath + "Textures/UI/VanityStar");
 
         Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);

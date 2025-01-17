@@ -1,7 +1,7 @@
-﻿using System;
-using BlockVanity.Common.Players;
+﻿using BlockVanity.Common.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -91,7 +91,7 @@ public static class VanityUtils
 
     public static void DrawSittingLongCoats(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false)
     {
-        Vector2 position = new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.legFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.legFrame.Height + 4f)) + drawinfo.drawPlayer.legPosition + drawinfo.legVect;
+        Vector2 position = new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.legFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.legFrame.Height + 4f)) + drawinfo.drawPlayer.legPosition + drawinfo.legVect;
         Rectangle legFrame = drawinfo.drawPlayer.legFrame;
         position += drawinfo.legsOffset;
         position.X += 2 * drawinfo.drawPlayer.direction;

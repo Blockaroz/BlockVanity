@@ -1,9 +1,9 @@
-﻿using System;
-using BlockVanity.Content.Items.Vanity.Myrtle;
+﻿using BlockVanity.Content.Items.Vanity.Myrtle;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;
 using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -19,7 +19,6 @@ public class FishSkinPlayer : ModPlayer
     public Vector2 headFinVector;
     public float tailCounter;
     public float[] tailRotations;
-    private bool Male;
 
     public Asset<Texture2D>[] SkinTextures => skinStyle switch
     {
@@ -37,34 +36,8 @@ public class FishSkinPlayer : ModPlayer
         On_PlayerDrawLayers.DrawPlayer_21_Head_TheFace += DrawFishSkin_SpecialFace;
         IL_PlayerDrawLayers.DrawPlayer_21_Head += DrawFishSkin_Ears;
         On_Player.UpdateVisibleAccessory += EnableSkinUpdateAttachments;
-        On_Player.PlayerFrame += SetGenderPreFrame;
 
-        ReskinPlayer.OnPreCopyVariables += SetGenderPreDraw;
         ReskinPlayer.OnSetNewSkin += SetSkin;
-        ReskinPlayer.OnSetNormalSkin += ResetSkin;
-    }
-
-    private static void StoreGender(ref Player player)
-    {
-        FishSkinPlayer fishPlayer = player.GetModPlayer<FishSkinPlayer>();
-
-        fishPlayer.Male = player.Male ? true : false;
-
-        if (fishPlayer.enabled)
-        {
-            switch (fishPlayer.skinStyle)
-            {
-                default:
-                case (int)FishSkinStyle.BlueFish:
-                    player.Male = false;
-                    break;
-            }
-        }
-    }
-
-    private void SetGenderPreDraw(ref PlayerDrawSet drawInfo)
-    {
-        StoreGender(ref drawInfo.drawPlayer);
     }
 
     private void SetSkin(ref PlayerDrawSet drawInfo)
@@ -84,14 +57,6 @@ public class FishSkinPlayer : ModPlayer
             }
 
             drawInfo.drawPlayer.GetModPlayer<ReskinPlayer>().SetSkin(SkinTextures);
-        }
-    }
-
-    private void ResetSkin(ref PlayerDrawSet drawInfo)
-    {
-        if (drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().enabled)
-        {
-            drawInfo.drawPlayer.Male = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().Male;
         }
     }
 
@@ -258,18 +223,6 @@ public class FishSkinPlayer : ModPlayer
 
             fishPlayer.headFinVector.X = MathHelper.Lerp(fishPlayer.headFinVector.X, 0f, 0.4f);
             fishPlayer.headFinVector.Y = MathHelper.Lerp(fishPlayer.headFinVector.Y, self.velocity.Y, 0.3f);
-
-            StoreGender(ref self);
-        }
-    }
-
-    private void SetGenderPreFrame(On_Player.orig_PlayerFrame orig, Player self)
-    {
-        orig(self);
-
-        if (self.GetModPlayer<FishSkinPlayer>().enabled)
-        {
-            self.Male = self.GetModPlayer<FishSkinPlayer>().Male;
         }
     }
 

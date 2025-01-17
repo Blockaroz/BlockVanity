@@ -1,8 +1,8 @@
-﻿using System;
-using BlockVanity.Content.Dusts;
+﻿using BlockVanity.Content.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.Graphics.Shaders;

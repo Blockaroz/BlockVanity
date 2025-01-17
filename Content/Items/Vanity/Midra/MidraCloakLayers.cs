@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BlockVanity.Common.Players;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
@@ -57,6 +60,10 @@ public class MidraCloakCapeLayer : PlayerDrawLayer
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
         Texture2D texture = MidraCloak.cloakCapeTexture.Value;
+        Vector2 position = drawInfo.BodyPosition();
+        position.Y += drawInfo.torsoOffset;
 
+        Vector2 walkOffset = Vector2.Zero;
+        walkOffset.ApplyVerticalOffset(drawInfo);
     }
 }

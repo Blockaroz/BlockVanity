@@ -1,7 +1,7 @@
-﻿using System;
-using BlockVanity.Core;
+﻿using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Graphics.Renderers;
 
@@ -50,19 +50,17 @@ public class MagicSmokeParticle : BaseParticle
 
         TimeLeft++;
         if (TimeLeft > MaxTime)
-        {
             ShouldBeRemovedFromRenderer = true;
-        }
     }
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
-        Texture2D texture = AllAssets.Textures.Particle[6].Value;
+        Texture2D texture = AllAssets.Textures.Particle[1].Value;
         float progress = (float)TimeLeft / MaxTime;
         int frameCount = (int)MathF.Floor(MathF.Sqrt(progress) * 7);
         Rectangle frame = texture.Frame(7, 6, frameCount, Style);
         Rectangle glowFrame = texture.Frame(7, 6, frameCount, Style + 3);
-        Color drawColor = Color.Lerp(ColorTint, ColorGlow, progress) * Utils.GetLerpValue(1f, 0.9f, progress, true);
+        Color drawColor = Color.Lerp(ColorTint, ColorGlow, Utils.GetLerpValue(0.3f, 0.7f, progress, true)) * Utils.GetLerpValue(1f, 0.9f, progress, true);
         Color glowColor = ColorGlow * Utils.GetLerpValue(1f, 0.5f, progress, true);
         spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);
         spritebatch.Draw(texture, Position + settings.AnchorPosition, glowFrame, glowColor, Rotation + MathHelper.PiOver2, glowFrame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);

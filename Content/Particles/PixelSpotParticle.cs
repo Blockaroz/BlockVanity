@@ -1,7 +1,7 @@
-﻿using System;
-using BlockVanity.Core;
+﻿using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Graphics.Renderers;
 
@@ -53,9 +53,7 @@ public class PixelSpotParticle : BaseParticle
         Lighting.AddLight(Position, DarkColor.ToVector3() * 0.2f * (1f - progress));
 
         if (TimeLeft++ > MaxTime || Scale < 0.01f)
-        {
             ShouldBeRemovedFromRenderer = true;
-        }
 
         Scale = MathHelper.Lerp(Scale, 1f, 0.002f);
         Position += Velocity;

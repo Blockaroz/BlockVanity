@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Renderers;
 
@@ -27,9 +27,7 @@ public class MonoParticleSystem<T> where T : IPooledParticle, new()
     public void Update()
     {
         if (Main.dedServ)
-        {
             return;
-        }
 
         for (int i = 0; i < Particles.Count; i++)
         {
@@ -56,9 +54,7 @@ public class MonoParticleSystem<T> where T : IPooledParticle, new()
         for (int i = 0; i < Particles.Count; i++)
         {
             if (!Particles[i].ShouldBeRemovedFromRenderer)
-            {
                 Particles[i].Draw(ref RenderSettings, spriteBatch);
-            }
         }
     }
 }

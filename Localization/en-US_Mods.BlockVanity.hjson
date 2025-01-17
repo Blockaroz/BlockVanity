@@ -191,9 +191,24 @@ Items: {
 		Tooltip: ""
 	}
 
-	EyeOfFrenziedFlame: {
-		DisplayName: Eye Of Frenzied Flame
+	AshenHead: {
+		DisplayName: Ashen Head
 		Tooltip: Turns the wearer into a Lord of Frenzied Flame
+	}
+
+	MidraCloak: {
+		DisplayName: Midra's Flowing Cloak
+		Tooltip: "'The depths of your foolishness...!!'"
+	}
+
+	MidraBody: {
+		DisplayName: Midra's Corpse Body
+		Tooltip: ""
+	}
+
+	MidraLegs: {
+		DisplayName: Midra's Spindly Legs
+		Tooltip: ""
 	}
 
 	ChaosMatterDye: {
@@ -201,23 +216,13 @@ Items: {
 		Tooltip: ""
 	}
 
-	MidraBody: {
-		DisplayName: Midra's Body
-		Tooltip: ""
-	}
-
-	MidraCloak: {
-		DisplayName: Midra's Flowing Cloak
-		Tooltip: "'The depths of your foolishness!'"
-	}
-
-	MidraLegs: {
-		DisplayName: Midra's Legs
-		Tooltip: ""
-	}
-
 	RedWarlockHood: {
 		DisplayName: Red Warlock Hood
+		Tooltip: ""
+	}
+
+	ParticlePearl: {
+		DisplayName: Particle Pearl
 		Tooltip: ""
 	}
 }

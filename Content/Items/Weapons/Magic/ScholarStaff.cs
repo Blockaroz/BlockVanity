@@ -46,9 +46,7 @@ public class ScholarStaff : ModItem
     private bool DoNotPayMana(On_Player.orig_ItemCheck_PayMana orig, Player self, Item sItem, bool canUse)
     {
         if (sItem.type == ModContent.ItemType<ScholarStaff>())
-        {
             return self.CheckMana(sItem.mana, false);
-        }
 
         return orig(self, sItem, canUse);
     }

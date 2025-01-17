@@ -1,9 +1,9 @@
-﻿using System;
-using BlockVanity.Common.Graphics;
+﻿using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Items.Vanity.CountChaos;
-using BlockVanity.Content.Particles.SpecialParticles;
+using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -15,7 +15,6 @@ public class CountChaosPlayer : ModPlayer
     public override void Load()
     {
         On_Main.CheckMonoliths += DrawAllTargets;
-        On_Player.PlayerFrame += SlowLegs;
         On_Player.SetArmorEffectVisuals += ArmorShadows;
     }
 
@@ -119,49 +118,6 @@ public class CountChaosPlayer : ModPlayer
             particle.Prepare(bodyPos, -Player.velocity * Main.rand.NextFloat(0.1f) + bodyVel, bodyGrav, Main.rand.Next(25, 40), Main.rand.Next(-2, 3) * MathHelper.PiOver2, 0.9f + Main.rand.NextFloat(0.3f));
             chaosParticles.Particles.Add(particle);
             targetShader = Player.cBody;
-        }
-    }
-
-    internal float walkCounter;
-    internal int walkFrame;
-
-    private void SlowLegs(On_Player.orig_PlayerFrame orig, Player self)
-    {
-        orig(self);
-
-        if (self.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs) && self.velocity.Y == 0)
-        {
-            CountChaosPlayer chaosPlayer = self.GetModPlayer<CountChaosPlayer>();
-
-            if (!Main.gameInactive)
-            {
-                chaosPlayer.walkCounter += Math.Abs(self.velocity.X * 0.275f);
-            }
-
-            while (chaosPlayer.walkCounter > 8)
-            {
-                chaosPlayer.walkCounter -= 8;
-                chaosPlayer.walkFrame += self.legFrame.Height;
-            }
-
-            if (chaosPlayer.walkFrame < self.legFrame.Height * 7)
-            {
-                chaosPlayer.walkFrame = self.legFrame.Height * 19;
-            }
-            else if (chaosPlayer.walkFrame > self.legFrame.Height * 19)
-            {
-                chaosPlayer.walkFrame = self.legFrame.Height * 7;
-            }
-
-            if (self.velocity.X == 0)
-            {
-                chaosPlayer.walkFrame = 0;
-                chaosPlayer.walkCounter = 0;
-            }
-
-            self.bodyFrameCounter = 0.0;
-            self.legFrameCounter = 0.0;
-            self.legFrame.Y = chaosPlayer.walkFrame;
         }
     }
 

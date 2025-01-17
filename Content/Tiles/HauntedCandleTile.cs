@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using BlockVanity.Content.Dusts;
+﻿using BlockVanity.Content.Dusts;
 using BlockVanity.Content.Pets.HauntedCandelabraPet;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -84,24 +84,18 @@ public class HauntedCandleTile : ModTile
     public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref TileDrawInfo drawData)
     {
         if (Main.gamePaused || !Main.instance.IsActive || Lighting.UpdateEveryFrame && !Main.rand.NextBool(4))
-        {
             return;
-        }
 
         Tile tile = Main.tile[i, j];
 
         if (!TileDrawing.IsVisible(tile))
-        {
             return;
-        }
 
         short frameX = tile.TileFrameX;
         short frameY = tile.TileFrameY;
 
         if (frameX != 0)
-        {
             return;
-        }
 
         if (frameY / 18 % 2 == 0)
         {
@@ -115,9 +109,7 @@ public class HauntedCandleTile : ModTile
         Tile tile = Main.tile[i, j];
 
         if (!TileDrawing.IsVisible(tile))
-        {
             return;
-        }
 
         Vector2 offScreen = new Vector2(Main.drawToScreen ? 0 : Main.offScreenRange);
 
@@ -129,7 +121,7 @@ public class HauntedCandleTile : ModTile
 
         TileLoader.SetDrawPositions(i, j, ref width, ref offsetY, ref height, ref frameX, ref frameY);
 
-        ulong randSeed = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (long)(uint)i);
+        ulong randSeed = Main.TileFrameSeed ^ (ulong)((long)j << 32 | (uint)i);
 
         for (int c = 0; c < 5; c++)
         {

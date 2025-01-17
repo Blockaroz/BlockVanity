@@ -48,9 +48,7 @@ public class ScholarStaffBolt : ModProjectile
         {
             Projectile.frameCounter = 0;
             if (++Projectile.frame >= 8)
-            {
                 Projectile.frame = 0;
-            }
         }
 
         if (Projectile.localAI[0] % 7 == 0 || Main.rand.NextBool(9))

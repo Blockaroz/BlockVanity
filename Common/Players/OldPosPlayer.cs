@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 

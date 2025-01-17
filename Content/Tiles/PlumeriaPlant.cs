@@ -1,8 +1,8 @@
-﻿using System;
-using BlockVanity.Content.Items.Vanity.Myrtle;
+﻿using BlockVanity.Content.Items.Vanity.Myrtle;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Metadata;

@@ -1,10 +1,10 @@
-﻿using System;
-using BlockVanity.Common.Graphics;
+﻿using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Items.Weapons.Magic;
 using BlockVanity.Content.Particles;
 using BlockVanity.Content.Projectiles.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -39,21 +39,21 @@ public class ScholarStaffGhost : ModNPC
 
     public override void AI()
     {
-        if (NPC.ai[0] == 0)
+        if (Main.netMode != NetmodeID.MultiplayerClient)
         {
-            NPC.TargetClosest();
+            if (NPC.ai[0] == 0)
+            {
+                NPC.TargetClosest();
+                NPC.netUpdate = true;
+            }
         }
 
         NPC.velocity.X = 0.1f * NPC.direction;
 
         if (!Collision.WetCollision(NPC.position, NPC.width, NPC.height * 2))
-        {
             NPC.velocity.Y += 0.01f;
-        }
         else
-        {
             NPC.velocity.Y -= 0.01f;
-        }
 
         int waterLine = -1;
         for (int i = -10; i < 10; i++)
@@ -84,15 +84,12 @@ public class ScholarStaffGhost : ModNPC
         if (Main.dayTime)
         {
             NPC.ai[0]--;
+
             if (NPC.ai[0] <= 0)
-            {
                 NPC.active = false;
-            }
         }
         else
-        {
             NPC.ai[0]++;
-        }
 
         NPC.ai[0] = MathHelper.Clamp(NPC.ai[0], 0, 150);
         NPC.ai[1]++;

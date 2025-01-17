@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BlockVanity.Content.Items.Dyes;
+﻿using BlockVanity.Content.Items.Dyes;
 using BlockVanity.Content.Items.Vanity.Myrtle;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -19,6 +20,7 @@ public class MiscEffectPlayer : ModPlayer
     public override void Load()
     {
         On_Player.SpawnFastRunParticles += DisableFastRunParticles;
+        On_Player.PlayerFrame += SlowLegs;
         On_PlayerDrawLayers.DrawPlayer_21_Head += HideHeadLayer;
         On_PlayerDrawLayers.DrawPlayer_13_Leggings += HideLegsLayer;
     }
@@ -47,6 +49,57 @@ public class MiscEffectPlayer : ModPlayer
         if (!self.GetModPlayer<MiscEffectPlayer>().disableBootsEffect)
         {
             orig(self);
+        }
+    }
+
+    public void SetWalkSpeed(float speed = 0.275f)
+    {
+        UseCustomWalkSpeed = true;
+        walkSpeed = speed;
+    }
+
+    internal bool UseCustomWalkSpeed { get; private set; }
+    internal float walkSpeed;
+    internal float walkCounter;
+    internal int walkFrame;
+
+    private void SlowLegs(On_Player.orig_PlayerFrame orig, Player self)
+    {
+        orig(self);
+
+        MiscEffectPlayer miscPlayer = self.GetModPlayer<MiscEffectPlayer>();
+
+        if (miscPlayer.UseCustomWalkSpeed && self.velocity.Y == 0)
+        {
+            if (!Main.gameInactive)
+            {
+                miscPlayer.walkCounter += Math.Abs(self.velocity.X * miscPlayer.walkSpeed);
+            }
+
+            while (miscPlayer.walkCounter > 8)
+            {
+                miscPlayer.walkCounter -= 8;
+                miscPlayer.walkFrame += self.legFrame.Height;
+            }
+
+            if (miscPlayer.walkFrame < self.legFrame.Height * 7)
+            {
+                miscPlayer.walkFrame = self.legFrame.Height * 19;
+            }
+            else if (miscPlayer.walkFrame > self.legFrame.Height * 19)
+            {
+                miscPlayer.walkFrame = self.legFrame.Height * 7;
+            }
+
+            if (self.velocity.X == 0)
+            {
+                miscPlayer.walkFrame = 0;
+                miscPlayer.walkCounter = 0;
+            }
+
+            self.bodyFrameCounter = 0.0;
+            self.legFrameCounter = 0.0;
+            self.legFrame.Y = miscPlayer.walkFrame;
         }
     }
 
@@ -90,15 +143,20 @@ public class MiscEffectPlayer : ModPlayer
         if (Main.hardMode)
         {
             if (NPC.downedPirates)
+            {
                 rewardPool.Add(ModContent.ItemType<PhantomDye>());
+            }
 
             if (NPC.downedGolemBoss)
+            {
                 rewardPool.Add(ModContent.ItemType<RadiationDye>());
+            }
         }
     }
 
     public override void ResetEffects()
     {
+        UseCustomWalkSpeed = false;
         disableBootsEffect = false;
         accBlackLens = false;
     }

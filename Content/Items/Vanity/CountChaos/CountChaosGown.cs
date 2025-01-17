@@ -20,5 +20,9 @@ public class CountChaosGown : VanityItem, IUpdateArmorInVanity
         MiscEffectPlayer.hideLegs.Add(Item.legSlot);
     }
 
-    public override void UpdateEquip(Player player) => player.GetModPlayer<MiscEffectPlayer>().disableBootsEffect = true;
+    public override void UpdateEquip(Player player)
+    {
+        player.GetModPlayer<MiscEffectPlayer>().disableBootsEffect = true;
+        player.GetModPlayer<MiscEffectPlayer>().SetWalkSpeed(0.275f);
+    }
 }

@@ -1,8 +1,8 @@
-﻿using System;
-using BlockVanity.Common.Players;
+﻿using BlockVanity.Common.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -82,7 +82,7 @@ public class SonicLegsLayer : PlayerDrawLayer
             Vector2 fastLegPos = drawInfo.LegsPosition() + drawInfo.legsOffset + new Vector2(0, drawInfo.drawPlayer.gravDir * 2);
             Vector2 fastLegVect = new Vector2(legsSpeedTexture.Width() / 2 + 2 * drawInfo.drawPlayer.direction, drawInfo.legVect.Y + originOffY);
 
-            int fastLegFrame = (int)drawInfo.drawPlayer.GetModPlayer<SonicTheHedgehogPlayer>().runFrame % 7;
+            int fastLegFrame = drawInfo.drawPlayer.GetModPlayer<SonicTheHedgehogPlayer>().runFrame % 7;
 
             DrawData fastLegData = new DrawData(legsSpeedTexture.Value, fastLegPos, legsSpeedTexture.Frame(1, 7, 0, fastLegFrame), drawInfo.colorArmorLegs, drawInfo.drawPlayer.legRotation, fastLegVect, 1f, drawInfo.playerEffect, 0);
             fastLegData.shader = drawInfo.cLegs;

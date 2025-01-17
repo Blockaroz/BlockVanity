@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using ReLogic.Content;
+using ReLogic.Content.Sources;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ReLogic.Content;
-using ReLogic.Content.Sources;
 
 namespace BlockVanity.Core;
 

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using BlockVanity.Content.Tiles;
+﻿using BlockVanity.Content.Tiles;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;

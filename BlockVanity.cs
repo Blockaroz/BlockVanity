@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using BlockVanity.Core;
+﻿using BlockVanity.Core;
 using ReLogic.Content.Sources;
+using System.Collections.Generic;
 using Terraria.ModLoader;
 
 namespace BlockVanity;
@@ -11,7 +11,7 @@ public class BlockVanity : Mod
 
     public override void Load()
     {
-        AllAssets.Load();
+        AllAssets.Load(this);
         StylesByID = new Dictionary<int, int[]>();
     }
 

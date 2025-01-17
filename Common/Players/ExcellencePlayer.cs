@@ -1,5 +1,4 @@
-﻿using System;
-using BlockVanity.Content.Items.Vanity.Excellence;
+﻿using BlockVanity.Content.Items.Vanity.Excellence;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -14,7 +13,6 @@ public class ExcellencePlayer : ModPlayer
     {
         On_Player.UpdateVisibleAccessory += EnableExcellence;
         On_Player.SetArmorEffectVisuals += ExcellenceShadows;
-        On_Player.PlayerFrame += SlowLegs;
     }
 
     private void EnableExcellence(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
@@ -44,60 +42,9 @@ public class ExcellencePlayer : ModPlayer
 
     public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
     {
-        if (enabled)
+        if (enabled && drawInfo.shadow > 0f)
         {
-            if (drawInfo.shadow > 0f)
-            {
-                a = 0.2f;
-            }
-        }
-    }
-
-    internal float walkCounter;
-    internal int walkFrame;
-
-    private void SlowLegs(On_Player.orig_PlayerFrame orig, Player self)
-    {
-        orig(self);
-
-        if (self.legs == EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs))
-        {
-            ExcellencePlayer excellencePlayer = self.GetModPlayer<ExcellencePlayer>();
-
-            if (self.velocity.Y == 0)
-            {
-                if (!Main.gameInactive)
-                {
-                    excellencePlayer.walkCounter += Math.Abs(self.velocity.X * 0.6f);
-                }
-
-                while (excellencePlayer.walkCounter > 8)
-                {
-                    excellencePlayer.walkCounter -= 8;
-                    excellencePlayer.walkFrame += self.legFrame.Height;
-                }
-
-                if (excellencePlayer.walkFrame < self.legFrame.Height * 7)
-                {
-                    excellencePlayer.walkFrame = self.legFrame.Height * 19;
-                }
-                else if (excellencePlayer.walkFrame > self.legFrame.Height * 19)
-                {
-                    excellencePlayer.walkFrame = self.legFrame.Height * 7;
-                }
-
-                if (self.velocity.X != 0)
-                {
-                    self.bodyFrameCounter = 0.0;
-                    self.legFrameCounter = 0.0;
-                    self.legFrame.Y = excellencePlayer.walkFrame;
-                }
-                else
-                {
-                    excellencePlayer.walkCounter = 0;
-                    excellencePlayer.walkFrame = 0;
-                }
-            }
+            a = 0.2f;
         }
     }
 

@@ -1,8 +1,8 @@
-﻿using System;
-using BlockVanity.Common.UI;
+﻿using BlockVanity.Common.UI;
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -41,9 +41,7 @@ public class ScholarStaffProj : ModProjectile
         float totalAngleRadians = MathHelper.ToRadians(TOTAL_ANGLE);
 
         if (!Player.active || Player.dead || Player.CCed)
-        {
             Projectile.Kill();
-        }
 
         Player.heldProj = Projectile.whoAmI;
         Projectile.timeLeft = 2;
@@ -59,9 +57,7 @@ public class ScholarStaffProj : ModProjectile
             Time = 0;
 
             if (Charge < 70)
-            {
                 Charge++;
-            }
 
             if (Charge == 69)
             {
@@ -136,10 +132,9 @@ public class ScholarStaffProj : ModProjectile
                 Projectile.velocity = Player.DirectionTo(Main.MouseWorld) * 5f;
 
                 Vector2 shootPoint = staffEndPos;
+
                 if (!Collision.CanHitLine(Player.Center, 0, 0, shootPoint, 0, 0))
-                {
                     shootPoint = Player.Center;
-                }
 
                 Vector2 boltDirection = shootPoint.DirectionTo(Main.MouseWorld);
 

@@ -1,9 +1,9 @@
-﻿using System;
-using BlockVanity.Common.Players;
+﻿using BlockVanity.Common.Players;
 using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,9 +17,7 @@ public class Excellence : VanityItem
     public override void Load()
     {
         if (Main.netMode == NetmodeID.Server)
-        {
             return;
-        }
 
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this);
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Body}", EquipType.Body, this);
@@ -31,9 +29,7 @@ public class Excellence : VanityItem
         ItemID.Sets.ItemNoGravity[Type] = true;
 
         if (Main.netMode == NetmodeID.Server)
-        {
             return;
-        }
 
         Item.headSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
         Item.bodySlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
@@ -54,7 +50,11 @@ public class Excellence : VanityItem
         ArmorIDs.Legs.Sets.IncompatibleWithFrogLeg[Item.legSlot] = true;
     }
 
-    public override void UpdateVanity(Player player) => player.GetModPlayer<MiscEffectPlayer>().disableBootsEffect = true;
+    public override void UpdateVanity(Player player)
+    {
+        player.GetModPlayer<MiscEffectPlayer>().disableBootsEffect = true;
+        player.GetModPlayer<MiscEffectPlayer>().SetWalkSpeed(0.6f);
+    }
 
     public override void Update(ref float gravity, ref float maxFallSpeed)
     {

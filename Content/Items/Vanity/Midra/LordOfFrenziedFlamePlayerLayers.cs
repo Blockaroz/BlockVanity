@@ -10,7 +10,7 @@ public class FrenziedFlameHeadEffectLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(EyeOfFrenziedFlame), EquipType.Head);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(AshenHead), EquipType.Head);
 
     public override bool IsHeadLayer => false;
 
@@ -35,18 +35,12 @@ public class FrenziedFlameBackHeadEffectLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Backpacks);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(EyeOfFrenziedFlame), EquipType.Head);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(AshenHead), EquipType.Head);
 
     public override bool IsHeadLayer => false;
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
-        drawInfo.colorArmorHead = Color.White;
-        if (drawInfo.shadow > 0f)
-        {
-            drawInfo.colorArmorHead = Color.Transparent;
-        }
-
         PlayerOfFrenziedFlame particlePlayer = drawInfo.drawPlayer.GetModPlayer<PlayerOfFrenziedFlame>();
         if (particlePlayer.IsReady && drawInfo.shadow <= 0f)
         {
