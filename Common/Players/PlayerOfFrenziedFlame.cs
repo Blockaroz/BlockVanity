@@ -51,40 +51,37 @@ public class PlayerOfFrenziedFlame : ModPlayer
         });
     }
 
-    public static readonly BlendState AddAlphaBlend = new BlendState()
-    {
-        AlphaBlendFunction = BlendFunction.Add,
-        ColorBlendFunction = BlendFunction.Add,
-        ColorSourceBlend = Blend.One,
-        ColorDestinationBlend = Blend.One,
-        AlphaSourceBlend = Blend.InverseDestinationAlpha,
-        AlphaDestinationBlend = Blend.One
-    };
-
     public void DrawParticlesToTarget(SpriteBatch spriteBatch)
     {
         if (IsReady && Player != null)
         {
+            frenziedParticles.RenderSettings.AnchorPosition = new Vector2(backSize / 2) - GetOffsetAnchor(Player);
+
             spriteBatch.GraphicsDevice.SetRenderTarget(frenziedTarget);
             spriteBatch.GraphicsDevice.Clear(Color.Transparent);
 
             Effect particleEffect = AllAssets.Effects.FrenziedFlameParticle.Value;
             particleEffect.Parameters["uTexture"].SetValue(AllAssets.Textures.MiscNoise[0].Value);
             particleEffect.Parameters["uFrameCount"].SetValue(new Vector2(16, 12));
-            particleEffect.Parameters["uPower"].SetValue(2f);
-            particleEffect.Parameters["uDarkColor"].SetValue(new Color(60, 1, 0, 90).ToVector4());
-            particleEffect.Parameters["uGlowColor"].SetValue(new Color(255, 215, 40, 255).ToVector4());
-            particleEffect.Parameters["uAltColor"].SetValue(new Color(100, 5, 200, 150).ToVector4());
+            particleEffect.Parameters["uPower"].SetValue(2.5f);
+            particleEffect.Parameters["uDarkColor"].SetValue(new Color(150, 25, 1, 130).ToVector4());
+            particleEffect.Parameters["uGlowColor"].SetValue(new Color(190, 190, 40, 255).ToVector4());
+            particleEffect.Parameters["uAltColor"].SetValue(new Color(125, 0, 255, 150).ToVector4());
 
             Main.pixelShader.CurrentTechnique.Passes[0].Apply();
 
-            frenziedParticles.RenderSettings.AnchorPosition = new Vector2(backSize / 2) - GetOffsetAnchor(Player);
-            frenziedParticles.Draw(spriteBatch, AddAlphaBlend, Main.GameViewMatrix.EffectMatrix, particleEffect);
+            frenziedParticles.Draw(spriteBatch, VanityUtils.MaxBlendState, Main.GameViewMatrix.EffectMatrix, particleEffect);
+
+            particleEffect.Parameters["uDarkColor"].SetValue(new Color(150, 15, 1, 30).ToVector4());
+            particleEffect.Parameters["uGlowColor"].SetValue(new Color(166, 166, 70, 125).ToVector4());
+            particleEffect.Parameters["uAltColor"].SetValue(new Color(65, 0, 255, 150).ToVector4());
+
+            frenziedParticles.Draw(spriteBatch, BlendState.Additive, Main.GameViewMatrix.EffectMatrix, particleEffect);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
 
             Texture2D giantBloom = AllAssets.Textures.Glow[0].Value;
-            spriteBatch.Draw(giantBloom, new Vector2(backSize / 2), giantBloom.Frame(), Color.Goldenrod with { A = 10 }, 0f, giantBloom.Size() * 0.5f, 0.5f, 0, 0);
+            spriteBatch.Draw(giantBloom, new Vector2(backSize / 2), giantBloom.Frame(), Color.Orange with { A = 10 } * 0.33f, 0f, giantBloom.Size() * 0.5f, 1f, 0, 0);
 
             spriteBatch.End();
 
@@ -97,7 +94,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
             eyeEffect.Parameters["uTexture"].SetValue(AllAssets.Textures.MiscNoise[2].Value);
             eyeEffect.Parameters["uColor"].SetValue(new Color(255, 180, 0, 100).ToVector4());
             eyeEffect.Parameters["uSecondaryColor"].SetValue(new Color(255, 190, 0, 10).ToVector4());
-            eyeEffect.Parameters["uTime"].SetValue(miscTimer / 240f);
+            eyeEffect.Parameters["uTime"].SetValue(miscTimer / 400f);
             eyeEffect.Parameters["uVertexDistortion"].SetValue(1);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, eyeEffect, Main.GameViewMatrix.EffectMatrix);
@@ -132,16 +129,16 @@ public class PlayerOfFrenziedFlame : ModPlayer
         if (Player.head == EquipLoader.GetEquipSlot(Mod, nameof(AshenHead), EquipType.Head) || forceFlameBack)
         {
             if (AreaEffectsToggle.IsActive(Player))
-                Lighting.AddLight(Player.MountedCenter, Color.DarkOrange.ToVector3() * 0.7f);
+                Lighting.AddLight(Player.MountedCenter, Color.OrangeRed.ToVector3() * 0.5f);
 
             frenziedParticles.Update();
 
-            if (miscTimer % 4 == 0)
+            if (miscTimer % 2 == 0)
             {
-                Vector2 particleVelocity = Main.rand.NextVector2Circular(1, 1) - Vector2.UnitY * 0.3f;
-                Vector2 particlePosition = GetOffsetAnchor(Player) + Player.velocity * 0.2f + particleVelocity.SafeNormalize(Vector2.Zero) * Main.rand.Next(10);
+                Vector2 particleVelocity = Main.rand.NextVector2Circular(1, 1) - Vector2.UnitY * 0.2f;
+                Vector2 particlePosition = GetOffsetAnchor(Player) + Player.velocity * 0.2f;// + particleVelocity.SafeNormalize(Vector2.Zero) * Main.rand.Next(20);
                 FrenziedFlameParticle particle = frenziedParticles.RequestParticle();
-                particle.Prepare(particlePosition, particleVelocity * 0.15f, 0.5f + Main.rand.NextFloat(0.5f), Main.rand.Next(150, 250), 0.1f + Main.rand.NextFloat(0.3f), Player);
+                particle.Prepare(particlePosition, particleVelocity * 0.15f, 0.4f + Main.rand.NextFloat(0.5f), Main.rand.Next(140, 200), 0.1f + Main.rand.NextFloat(0.2f), Player);
                 frenziedParticles.Particles.Add(particle);
             }
         }

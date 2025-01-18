@@ -22,8 +22,8 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
     public Player HostPlayer;
 
     private int FlameStyle;
-    private int NoiseStyleX;
-    private int NoiseStyleY; 
+    private int StartFrame;
+    private int Pinkness; 
     private Vector2 OldPos;
 
     public void Prepare(Vector2 position, Vector2 velocity, float scale, int lifeTime, float strayPercent = 1f, Player player = null)
@@ -47,15 +47,15 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
         TimeLeft = 0;
         MaxTime = 1;
         FlameStyle = Main.rand.Next(3);
-        NoiseStyleX = Main.rand.Next(100);
-        NoiseStyleY = Main.rand.Next(100);
+        StartFrame = Main.rand.Next(20, 50);
+        Pinkness = Main.rand.Next(100);
     }
 
     public override void Update(ref ParticleRendererSettings settings)
     {
         float progress = (float)TimeLeft / MaxTime;
 
-        Velocity *= 0.933f;
+        Velocity *= 0.9f;
         Position += Velocity;
 
         if (HostPlayer != null)
@@ -69,10 +69,10 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
 
             OldPos = HostPlayer.position;
             float distance = Position.Distance(HostPlayer.MountedCenter / 3f);
-            if (distance > 250)
+            if (distance > 150)
                 TimeLeft++;
 
-            if (distance > 360)
+            if (distance > 300)
                 ShouldBeRemovedFromRenderer = true;
         }
 
@@ -86,21 +86,22 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
     {
         float progress = (float)TimeLeft / MaxTime;
 
-        int frameCounter = (int)Math.Floor(50 + progress * 135);
+        float fadeIn = MathF.Sin(Utils.GetLerpValue(0, 60, TimeLeft, true) * MathHelper.PiOver2);
+
+        int frameCounter = (int)Math.Floor(StartFrame * fadeIn + progress * 140);
         Texture2D texture = FrenziedParticleTexture[FlameStyle].Value;
         Rectangle frame = texture.Frame(16, 12, frameCounter % 16, frameCounter / 16);
 
-        float fadeIn = MathF.Sin(Utils.GetLerpValue(0, 40, TimeLeft, true) * MathHelper.PiOver2);
-        SpriteEffects effect = NoiseStyleX > 50 ? SpriteEffects.FlipHorizontally : 0;
+        SpriteEffects effect = Pinkness > 50 ? SpriteEffects.FlipHorizontally : 0;
 
         float scaleMod = (0.6f + MathF.Pow(progress, 2) * 0.5f) * fadeIn;
-        Color drawColor = new Color(NoiseStyleX / 100f, 1f, progress * (fadeIn * 0.5f + 0.5f));
+        Color drawColor = new Color(Pinkness / 100f, 1f, progress * (fadeIn * 0.5f + 0.5f));
 
         if (HostPlayer != null)
             scaleMod += Utils.GetLerpValue(20, 700, Position.Distance(HostPlayer.MountedCenter / 3f), true) * fadeIn;
 
-        Vector2 stretch = new Vector2(1f - Velocity.Length() * 0.05f, 0.85f + Velocity.Length() * 0.2f);
-        spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * new Vector2(0.5f, 0.55f), Scale * scaleMod * stretch, effect, 0);
+        Vector2 stretch = new Vector2(1f, 0.7f + Velocity.Length() * 0.1f);
+        spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * new Vector2(0.5f, 0.66f), Scale * scaleMod * stretch, effect, 0);
     }
 
     public void Load(Mod mod)

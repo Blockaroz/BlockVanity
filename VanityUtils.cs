@@ -144,4 +144,14 @@ public static class VanityUtils
         AlphaDestinationBlend = Blend.One,
         AlphaSourceBlend = Blend.SourceAlpha
     };
+
+    public static readonly BlendState MaxBlendState = new BlendState()
+    {
+        ColorBlendFunction = BlendFunction.Max,
+        ColorSourceBlend = Blend.One,
+        ColorDestinationBlend = Blend.One,
+        AlphaBlendFunction = BlendFunction.Max,
+        AlphaSourceBlend = Blend.InverseDestinationAlpha,
+        AlphaDestinationBlend = Blend.One
+    };
 }
