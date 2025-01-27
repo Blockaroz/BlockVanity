@@ -12,50 +12,44 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Players.Skins;
 
-public class FishSkinPlayer : ModPlayer
+public class BlueFishSkinPlayer : ModPlayer
 {
     public bool enabled;
-    public int skinStyle;
     public Vector2 headFinVector;
     public float tailCounter;
     public float[] tailRotations;
 
-    public Asset<Texture2D>[] SkinTextures => skinStyle switch
-    {
-        (int)FishSkinStyle.BlueFish => AllAssets.Textures.BlueFishSkin,
-        _ => AllAssets.Textures.BlueFishSkin
-    };
-
-    public enum FishSkinStyle
-    {
-        BlueFish
-    }
+    public static Asset<Texture2D>[] SkinTextures;
+    public static Asset<Texture2D>[] EarTextures;
+    public static Asset<Texture2D> TailTexture;
+    public static Asset<Texture2D> GlowyEyesTexture;
 
     public override void Load()
     {
         On_PlayerDrawLayers.DrawPlayer_21_Head_TheFace += DrawFishSkin_SpecialFace;
         IL_PlayerDrawLayers.DrawPlayer_21_Head += DrawFishSkin_Ears;
-        On_Player.UpdateVisibleAccessory += EnableSkinUpdateAttachments;
 
         ReskinPlayer.OnSetNewSkin += SetSkin;
+
+        const string assetsPath = $"{nameof(BlockVanity)}/Assets/Textures/Skins/BlueFishSkin/BlueFishSkin_";
+        SkinTextures = VanityUtils.GetSkinTextures(assetsPath);
+        EarTextures = [
+            ModContent.Request<Texture2D>(assetsPath + "Ears_High"),
+            ModContent.Request<Texture2D>(assetsPath + "Ears_Low"),
+            ];
+        TailTexture = ModContent.Request<Texture2D>(assetsPath + "Tail");
+        GlowyEyesTexture = ModContent.Request<Texture2D>(assetsPath + "GlowyEyes");
     }
 
     private void SetSkin(ref PlayerDrawSet drawInfo)
     {
-        FishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>();
+        BlueFishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<BlueFishSkinPlayer>();
 
         if (fishPlayer.enabled)
         {
-            switch (fishPlayer.skinStyle)
-            {
-                default:
-                case (int)FishSkinStyle.BlueFish:
-                    drawInfo.colorHead = drawInfo.colorArmorHead;
-                    drawInfo.colorBodySkin = drawInfo.colorArmorBody;
-                    drawInfo.colorLegs = drawInfo.colorArmorLegs;
-                    break;
-            }
-
+            drawInfo.colorHead = drawInfo.colorArmorHead;
+            drawInfo.colorBodySkin = drawInfo.colorArmorBody;
+            drawInfo.colorLegs = drawInfo.colorArmorLegs;
             drawInfo.drawPlayer.GetModPlayer<ReskinPlayer>().SetSkin(SkinTextures);
         }
     }
@@ -88,12 +82,12 @@ public class FishSkinPlayer : ModPlayer
 
     private void DrawEars(ref PlayerDrawSet drawinfo, bool upperEars = true)
     {
-        if (!drawinfo.drawPlayer.invis && drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().enabled)
+        if (!drawinfo.drawPlayer.invis && drawinfo.drawPlayer.GetModPlayer<BlueFishSkinPlayer>().enabled)
         {
             Vector2 headPos = drawinfo.HeadPosition() - Vector2.UnitY * 2;
             headPos.ApplyVerticalOffset(drawinfo);
 
-            Vector2 finVector = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().headFinVector;
+            Vector2 finVector = drawinfo.drawPlayer.GetModPlayer<BlueFishSkinPlayer>().headFinVector;
             float upperEarWobble = drawinfo.drawPlayer.velocity.Y * drawinfo.drawPlayer.direction * 0.02f + MathF.Sin(drawinfo.drawPlayer.miscCounter * 0.25f % MathHelper.Pi) * 0.1f * Math.Clamp(Math.Abs(finVector.Y) * 0.1f, 0, 1f) * drawinfo.drawPlayer.direction + finVector.X * 0.15f;
             float lowerEarWobble = drawinfo.drawPlayer.velocity.Y * drawinfo.drawPlayer.direction * 0.01f + MathF.Sin((drawinfo.drawPlayer.miscCounter * 0.25f - 0.6f) % MathHelper.Pi) * 0.1f * Math.Clamp(Math.Abs(finVector.Y) * 0.1f, 0, 1f) * drawinfo.drawPlayer.direction + finVector.X * 0.1f;
             upperEarWobble = Math.Clamp(upperEarWobble, -0.2f, 0.2f);
@@ -101,17 +95,15 @@ public class FishSkinPlayer : ModPlayer
 
             if (drawinfo.hatHair || drawinfo.fullHair || drawinfo.drawPlayer.head < 0)
             {
-                Texture2D earsLowTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc2].Value;
+                Texture2D earsLowTexture = EarTextures[1].Value;
                 DrawData earData = new DrawData(earsLowTexture, headPos, earsLowTexture.Frame(), drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation + lowerEarWobble, drawinfo.headVect, 1f, drawinfo.playerEffect, 0);
                 earData.shader = drawinfo.skinDyePacked;
                 drawinfo.DrawDataCache.Add(earData);
 
                 if (upperEars && drawinfo.drawPlayer.head > 0 || drawinfo.hatHair)
-                {
                     return;
-                }
 
-                Texture2D earsHighTexture = drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc1].Value;
+                Texture2D earsHighTexture = EarTextures[0].Value;
                 earData = new DrawData(earsHighTexture, headPos, earsHighTexture.Frame(), drawinfo.colorArmorHead, drawinfo.drawPlayer.headRotation + upperEarWobble, drawinfo.headVect, 1f, drawinfo.playerEffect, 0);
                 earData.shader = drawinfo.skinDyePacked;
                 drawinfo.DrawDataCache.Add(earData);
@@ -121,14 +113,13 @@ public class FishSkinPlayer : ModPlayer
 
     private void DrawFishSkin_SpecialFace(On_PlayerDrawLayers.orig_DrawPlayer_21_Head_TheFace orig, ref PlayerDrawSet drawinfo)
     {
-        if (drawinfo.drawPlayer.GetModPlayer<FishSkinPlayer>().enabled)
+        if (drawinfo.drawPlayer.GetModPlayer<BlueFishSkinPlayer>().enabled)
         {
             bool flag = drawinfo.drawPlayer.head > 0 && !ArmorIDs.Head.Sets.DrawHead[drawinfo.drawPlayer.head];
 
             if (!flag && drawinfo.drawPlayer.faceHead > 0)
-            {
                 orig(ref drawinfo);
-            }
+
             else if (!drawinfo.drawPlayer.invis && !flag)
             {
                 Color headColor = drawinfo.colorArmorHead;
@@ -144,7 +135,7 @@ public class FishSkinPlayer : ModPlayer
                     drawinfo.colorArmorHead.A / 255f);
 
                 drawinfo.DrawDataCache.Add(newData);
-                newData = new DrawData(AllAssets.Textures.FishEyes.Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.bodyFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, eyeColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
+                newData = new DrawData(GlowyEyesTexture.Value, new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - drawinfo.drawPlayer.bodyFrame.Width / 2 + drawinfo.drawPlayer.width / 2), (int)(drawinfo.Position.Y - Main.screenPosition.Y + drawinfo.drawPlayer.height - drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect, drawinfo.drawPlayer.bodyFrame, eyeColor, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
                 drawinfo.DrawDataCache.Add(newData);
 
                 Texture2D eyelids = TextureAssets.Players[drawinfo.skinVar, 15].Value;
@@ -174,66 +165,52 @@ public class FishSkinPlayer : ModPlayer
             }
         }
         else
-        {
             orig(ref drawinfo);
-        }
     }
 
-    private void EnableSkinUpdateAttachments(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
+    public override void FrameEffects()
     {
-        orig(self, itemSlot, item, modded);
-
-        if (item.ModItem is FishFood)
+        if (enabled)
         {
-            self.GetModPlayer<ReskinPlayer>().enabled = true;
+            if (headFinVector.HasNaNs())
+                headFinVector = Vector2.Zero;
 
-            FishSkinPlayer fishPlayer = self.GetModPlayer<FishSkinPlayer>();
-            fishPlayer.enabled = true;
-            fishPlayer.skinStyle = (int)FishSkinStyle.BlueFish;
-
-            fishPlayer.headFinVector.Y -= Utils.GetLerpValue(0.3f, 0.96f, MathF.Sin(self.miscCounterNormalized * 10), true);
-            float bounce = Main.OffsetsPlayerHeadgear[self.bodyFrame.Y / self.bodyFrame.Height].Y;
+            headFinVector.Y -= Utils.GetLerpValue(0.3f, 0.96f, MathF.Sin(Player.miscCounterNormalized * 10), true);
+            float bounce = Main.OffsetsPlayerHeadgear[Player.bodyFrame.Y / Player.bodyFrame.Height].Y;
             if (bounce < 2)
-            {
-                fishPlayer.headFinVector.X += self.direction * 0.5f;
-            }
+                headFinVector.X += Player.direction * 0.5f;
 
-            fishPlayer.tailCounter += Math.Abs(self.velocity.X) / (Main.OffsetsPlayerHeadgear.Length - 1f);
-            fishPlayer.tailCounter %= MathHelper.TwoPi;
-            fishPlayer.tailRotations ??= new float[3];
+            tailCounter += Math.Abs(Player.velocity.X) / (Main.OffsetsPlayerHeadgear.Length - 1f);
+            tailCounter %= MathHelper.TwoPi;
+            tailRotations ??= new float[3];
 
-            if (Math.Abs(self.velocity.X) < 0.5f || Math.Abs(self.velocity.Y) > 0f)
+            if (Math.Abs(Player.velocity.X) < 0.5f || Math.Abs(Player.velocity.Y) > 0f)
             {
                 float[] wobble = [
-                    MathF.Sin(self.miscCounter / 150f * MathHelper.TwoPi * 2f),
-                    MathF.Sin(self.miscCounter / 150f * MathHelper.TwoPi * 2f - 2f),
-                    MathF.Sin(self.miscCounter / 150f * MathHelper.TwoPi * 2f - 3f)
+                    MathF.Sin(Player.miscCounter / 150f * MathHelper.TwoPi * 2f),
+                    MathF.Sin(Player.miscCounter / 150f * MathHelper.TwoPi * 2f - 2f),
+                    MathF.Sin(Player.miscCounter / 150f * MathHelper.TwoPi * 2f - 3f)
                     ];
-                fishPlayer.tailRotations[0] = MathHelper.Lerp(fishPlayer.tailRotations[0], (wobble[0] * 0.05f + self.velocity.Y * 0.04f) * self.direction, 0.1f);
-                fishPlayer.tailRotations[1] = MathHelper.Lerp(fishPlayer.tailRotations[1], (wobble[1] * 0.057f + self.velocity.Y * 0.04f) * self.direction, 0.1f);
-                fishPlayer.tailRotations[2] = MathHelper.Lerp(fishPlayer.tailRotations[2], (wobble[2] * 0.1f + self.velocity.Y * 0.04f) * self.direction, 0.1f);
-                fishPlayer.tailCounter = MathHelper.Lerp(fishPlayer.tailCounter, 0f, 0.05f);
+                tailRotations[0] = MathHelper.Lerp(tailRotations[0], (wobble[0] * 0.05f + Player.velocity.Y * 0.04f) * Player.direction, 0.1f);
+                tailRotations[1] = MathHelper.Lerp(tailRotations[1], (wobble[1] * 0.057f + Player.velocity.Y * 0.04f) * Player.direction, 0.1f);
+                tailRotations[2] = MathHelper.Lerp(tailRotations[2], (wobble[2] * 0.1f + Player.velocity.Y * 0.04f) * Player.direction, 0.1f);
+                tailCounter = MathHelper.Lerp(tailCounter, 0f, 0.05f);
             }
             else
             {
-                fishPlayer.tailRotations[0] = MathHelper.Lerp(fishPlayer.tailRotations[0], MathF.Sin(fishPlayer.tailCounter) * 0.1f * self.direction, 0.3f);
-                fishPlayer.tailRotations[1] = MathHelper.Lerp(fishPlayer.tailRotations[1], MathF.Sin(fishPlayer.tailCounter - 1.5f) * 0.2f * self.direction, 0.3f);
-                fishPlayer.tailRotations[2] = MathHelper.Lerp(fishPlayer.tailRotations[2], MathF.Sin(fishPlayer.tailCounter - 2.5f) * 0.3f * self.direction, 0.3f);
+                tailRotations[0] = MathHelper.Lerp(tailRotations[0], MathF.Sin(tailCounter) * 0.1f * Player.direction, 0.3f);
+                tailRotations[1] = MathHelper.Lerp(tailRotations[1], MathF.Sin(tailCounter - 1.5f) * 0.2f * Player.direction, 0.3f);
+                tailRotations[2] = MathHelper.Lerp(tailRotations[2], MathF.Sin(tailCounter - 2.5f) * 0.3f * Player.direction, 0.3f);
             }
 
-            fishPlayer.headFinVector.X = MathHelper.Lerp(fishPlayer.headFinVector.X, 0f, 0.4f);
-            fishPlayer.headFinVector.Y = MathHelper.Lerp(fishPlayer.headFinVector.Y, self.velocity.Y, 0.3f);
+            headFinVector.X = MathHelper.Lerp(headFinVector.X, 0f, 0.4f);
+            headFinVector.Y = MathHelper.Lerp(headFinVector.Y, Player.velocity.Y, 0.3f);
+
         }
     }
 
     public override void ResetEffects()
     {
-        if (headFinVector.HasNaNs())
-        {
-            headFinVector = Vector2.Zero;
-        }
-
         enabled = false;
-        skinStyle = 0;
     }
 }

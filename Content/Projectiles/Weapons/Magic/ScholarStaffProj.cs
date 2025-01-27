@@ -145,7 +145,7 @@ public class ScholarStaffProj : ModProjectile
                     float spread = realCharge / 6f;
                     int damage = (int)(Projectile.damage * (1f + realCharge));
                     Vector2 boltVelocity = boltDirection.RotatedBy(spread * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
-                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI, ai0: Main.rand.NextFloat(7.8f, 8.2f));
+                    Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI, ai0: Main.rand.NextFloat(8, 10));
                     bolt.localAI[0] = Main.rand.Next(-5, 5);
                 }
 

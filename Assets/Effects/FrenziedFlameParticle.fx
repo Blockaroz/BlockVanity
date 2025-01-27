@@ -1,15 +1,4 @@
 ﻿sampler uImage0 : register(s0);
-texture uTexture;
-sampler tex0 = sampler_state
-{
-    texture = <uTexture>;
-    magfilter = LINEAR;
-    minfilter = LINEAR;
-    mipfilter = LINEAR;
-    AddressU = wrap;
-    AddressV = wrap;
-};
-float2 uFrameCount;
 float uPower;
 float4 uDarkColor;
 float4 uGlowColor;

@@ -2,6 +2,8 @@
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -43,6 +45,7 @@ public class ScholarStaffBolt : ModProjectile
     public override void AI()
     {
         Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * Speed;
+
         Projectile.localAI[0]++;
         if (Projectile.frameCounter++ > 2)
         {
@@ -50,15 +53,24 @@ public class ScholarStaffBolt : ModProjectile
             if (++Projectile.frame >= 8)
                 Projectile.frame = 0;
         }
+        if (Projectile.localAI[0] % 3 == 0)
+        {
+            Projectile.localAI[1]++;
+            if (Projectile.localAI[1] >= 12)
+            {
+                Projectile.localAI[1] = 0;
+                sparkRotation = Main.rand.Next(-4, 4);
+            }
+        }
 
-        if (Projectile.localAI[0] % 7 == 0 || Main.rand.NextBool(9))
+        if (Projectile.localAI[0] % 10 == 0 || Main.rand.NextBool(9))
         {
             MagicSmokeParticle darkParticle = MagicSmokeParticle.pool.RequestParticle();
-            darkParticle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(8, 8), Projectile.velocity, Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 40), Color.DarkCyan, Color.Black * 0.5f, 0.5f + Main.rand.NextFloat(0.5f));
+            darkParticle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(8, 8), Projectile.velocity, Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 40), Color.DarkCyan * 0.5f, Color.Black * 0.33f, 0.4f + Main.rand.NextFloat(0.4f));
             ParticleEngine.Particles.Add(darkParticle);
 
             MagicSmokeParticle particle = MagicSmokeParticle.pool.RequestParticle();
-            particle.Prepare(Projectile.Center + Projectile.velocity, Projectile.velocity + Main.rand.NextVector2Circular(3, 3), Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.4f + Main.rand.NextFloat(0.4f));
+            particle.Prepare(Projectile.Center + Projectile.velocity, Projectile.velocity + Main.rand.NextVector2Circular(3, 3), Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.4f + Main.rand.NextFloat(0.3f));
             ParticleEngine.Particles.Add(particle);
         }
 
@@ -96,12 +108,21 @@ public class ScholarStaffBolt : ModProjectile
         {
             MagicSmokeParticle burstParticle = MagicSmokeParticle.pool.RequestParticle();
             Vector2 particleVelocity = Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(2, 2);
-            burstParticle.Prepare(Projectile.Center, particleVelocity, particleVelocity.ToRotation(), Main.rand.Next(25, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.5f + Main.rand.NextFloat());
+            burstParticle.Prepare(Projectile.Center, particleVelocity, particleVelocity.ToRotation(), Main.rand.Next(25, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.6f + i / 3f);
             ParticleEngine.Particles.Add(burstParticle);
         }
     }
 
     public static readonly Color EnergyColor = new Color(22, 224, 214);
+
+    public static Asset<Texture2D> sparksTexture;
+
+    public override void Load()
+    {
+        sparksTexture = ModContent.Request<Texture2D>(Texture + "Sparks");
+    }
+
+    private int sparkRotation;
 
     public override bool PreDraw(ref Color lightColor)
     {
@@ -115,6 +136,11 @@ public class ScholarStaffBolt : ModProjectile
         Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), lightColor with { A = 50 }, -Projectile.localAI[0] * 0.07f, glow.Size() * 0.5f, 0.4f * Projectile.scale, effects, 0);
 
         Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, frame, Color.White, Projectile.rotation, frame.Size() * 0.5f, Projectile.scale, effects, 0);
+
+        Rectangle sparksFrame = sparksTexture.Frame(1, 12, 0, (int)Math.Floor(Projectile.localAI[1]));
+        SpriteEffects sparksEffect = sparkRotation < 0 ? SpriteEffects.FlipHorizontally : 0;
+        
+        Main.EntitySpriteDraw(sparksTexture.Value, Projectile.Center - Main.screenPosition, sparksFrame, Color.LightCyan with { A = 0 }, Projectile.rotation * 0.5f + sparkRotation * MathHelper.PiOver2, sparksFrame.Size() * 0.5f, Projectile.scale * 0.9f, sparksEffect, 0);
         Main.EntitySpriteDraw(glow, Projectile.Center - Main.screenPosition, glow.Frame(), lightColor with { A = 0 } * 0.3f, Projectile.localAI[0] * 0.03f, glow.Size() * 0.5f, 0.7f * Projectile.scale, effects, 0);
 
         return false;

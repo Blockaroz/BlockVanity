@@ -1,5 +1,4 @@
-﻿using BlockVanity.Common.Players;
-using BlockVanity.Common.Players.Skins;
+﻿using BlockVanity.Common.Players.Skins;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,14 +11,14 @@ public class FishSkinTailLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Tails);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>().enabled;
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.GetModPlayer<BlueFishSkinPlayer>().enabled;
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
-        FishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<FishSkinPlayer>();
+        BlueFishSkinPlayer fishPlayer = drawInfo.drawPlayer.GetModPlayer<BlueFishSkinPlayer>();
         if (fishPlayer.tailRotations != null)
         {
-            Texture2D tailTexture = fishPlayer.SkinTextures[(int)ReskinPlayer.SkinPieceID.Misc3].Value;
+            Texture2D tailTexture = BlueFishSkinPlayer.TailTexture.Value;
             int originX = drawInfo.drawPlayer.direction > 0 ? 1 : 0;
             Rectangle upperTailFrame = tailTexture.Frame(3, 1, 2, 0);
             Rectangle midTailFrame = tailTexture.Frame(3, 1, 1, 0);
@@ -31,8 +30,10 @@ public class FishSkinTailLayer : PlayerDrawLayer
 
             DrawData tailData = new DrawData(tailTexture, upperTailPos, upperTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[0], new Vector2(originX * upperTailFrame.Width, 14), 1f, drawInfo.playerEffect, 0);
             drawInfo.DrawDataCache.Add(tailData);
+
             tailData = new DrawData(tailTexture, midTailPos, midTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[1], new Vector2(originX * midTailFrame.Width, 14 + 4 * drawInfo.drawPlayer.gravDir), 1f, drawInfo.playerEffect, 0);
             drawInfo.DrawDataCache.Add(tailData);
+
             tailData = new DrawData(tailTexture, lowerTailPos, lowerTailFrame, drawInfo.colorLegs, fishPlayer.tailRotations[2], new Vector2(originX * lowerTailFrame.Width, 14), 1f, drawInfo.playerEffect, 0);
             drawInfo.DrawDataCache.Add(tailData);
 

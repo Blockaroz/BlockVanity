@@ -85,23 +85,22 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
         float progress = (float)TimeLeft / MaxTime;
-
         float fadeIn = MathF.Sin(Utils.GetLerpValue(0, 60, TimeLeft, true) * MathHelper.PiOver2);
 
-        int frameCounter = (int)Math.Floor(StartFrame * fadeIn + progress * 140);
+        int frameCounter = (int)Math.Floor(StartFrame * fadeIn + progress * 142);
         Texture2D texture = FrenziedParticleTexture[FlameStyle].Value;
         Rectangle frame = texture.Frame(16, 12, frameCounter % 16, frameCounter / 16);
 
         SpriteEffects effect = Pinkness > 50 ? SpriteEffects.FlipHorizontally : 0;
 
-        float scaleMod = (0.6f + MathF.Pow(progress, 2) * 0.5f) * fadeIn;
-        Color drawColor = new Color(Pinkness / 100f, 1f, progress * (fadeIn * 0.5f + 0.5f));
+        float scaleMod = (0.6f + MathF.Pow(progress, 2) * 0.5f) * (fadeIn * 0.7f + 0.3f);
+        Color drawColor = new Color(Pinkness / 100f, 1f, progress * fadeIn);
 
         if (HostPlayer != null)
             scaleMod += Utils.GetLerpValue(20, 700, Position.Distance(HostPlayer.MountedCenter / 3f), true) * fadeIn;
 
-        Vector2 stretch = new Vector2(1f, 0.7f + Velocity.Length() * 0.1f);
-        spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * new Vector2(0.5f, 0.66f), Scale * scaleMod * stretch, effect, 0);
+        Vector2 stretch = new Vector2(1f, 0.8f + Velocity.Length() * 0.1f);
+        spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * new Vector2(0.5f, 0.6f), Scale * scaleMod * stretch, effect, 0);
     }
 
     public void Load(Mod mod)

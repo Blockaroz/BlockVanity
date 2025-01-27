@@ -44,11 +44,7 @@ public class ParticlePearl : ModItem
         {
             int x = (int)(Main.MouseWorld.X / 16);
             int y = (int)(Main.MouseWorld.Y / 16);
-            Vector2 velocity = (Main.MouseWorld - lastMouse) * 0.3f + Main.rand.NextVector2Circular(4, 4);
-
-            //MagicSmokeParticle particle = MagicSmokeParticle.pool.RequestParticle();
-            //particle.Prepare(Main.MouseWorld, velocity, velocity.ToRotation(), 20, Color.White with { A = 200 }, Color.Orange with { A = 10 }, 0.5f + Main.rand.NextFloat());
-            //ParticleEngine.Particles.Add(particle);
+            Vector2 velocity = (Main.MouseWorld - lastMouse) * 0.5f + Main.rand.NextVector2Circular(2, 2);
 
             lastMouse = Main.MouseWorld;
         }

@@ -126,7 +126,7 @@ public class MiscEffectPlayer : ModPlayer
     {
         if (!mediumCoreDeath)
         {
-            if (Player.name.Equals("Myrtle", System.StringComparison.CurrentCultureIgnoreCase))
+            if (Player.name.Equals("Myrtle", StringComparison.CurrentCultureIgnoreCase))
             {
                 return [
                     new Item(ModContent.ItemType<FishFood>()),
@@ -143,14 +143,10 @@ public class MiscEffectPlayer : ModPlayer
         if (Main.hardMode)
         {
             if (NPC.downedPirates)
-            {
                 rewardPool.Add(ModContent.ItemType<PhantomDye>());
-            }
 
             if (NPC.downedGolemBoss)
-            {
                 rewardPool.Add(ModContent.ItemType<RadiationDye>());
-            }
         }
     }
 

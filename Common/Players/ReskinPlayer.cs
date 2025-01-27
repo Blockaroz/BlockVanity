@@ -35,9 +35,6 @@ public class ReskinPlayer : ModPlayer
         HandsBack,
         Legs,
         LegsSlim,
-        Misc1,
-        Misc2,
-        Misc3,
         Length
     }
 

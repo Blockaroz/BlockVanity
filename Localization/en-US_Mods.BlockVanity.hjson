@@ -225,6 +225,11 @@ Items: {
 		DisplayName: Particle Pearl
 		Tooltip: ""
 	}
+
+	RedWarlockRobe: {
+		DisplayName: Red Warlock Robe
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

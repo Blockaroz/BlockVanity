@@ -18,9 +18,9 @@ public abstract class BaseOrionDye : ModItem
 
         if (!Main.dedServ)
         {
-            GameShaders.Armor.BindShader(Type, new OrionShaderData())
-                .UseColor(MainColor)
-                .UseSecondaryColor(SecondaryColor);
+            //GameShaders.Armor.BindShader(Type, new OrionShaderData())
+            //    .UseColor(MainColor)
+            //    .UseSecondaryColor(SecondaryColor);
         }
     }
 

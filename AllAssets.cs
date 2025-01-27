@@ -40,27 +40,11 @@ public static class AllAssets
         Textures.Glow = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Glow_");
 
         Textures.MiscNoise = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Noise_");
-        Textures.OrionNoise = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/OrionNoise");
         Textures.SeasideColorMap = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/SeasideColorMap");
 
         Textures.Particle = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Particles/Particle_");
+
         Textures.Bar = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Bar_");
-
-        Textures.BlueFishSkin = [
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Head"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Eyes"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Body"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Arms"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Hands"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Hands_Back"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Legs"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Legs"), // Slim
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_High"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Ears_Low"),
-            ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/BlueFishSkin_Tail")
-            ];
-
-        Textures.FishEyes = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/FishSkin/FishEyes");
         Textures.VanityStar = ModContent.Request<Texture2D>(assetsPath + "Textures/UI/VanityStar");
 
         Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
@@ -75,7 +59,7 @@ public static class AllAssets
 
         Effects.SeasideHairDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/SeasideHairDye");
 
-        //Sounds.FishyHit = new SoundStyle(assetpath + "Sounds/HitSounds/FishySkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
+        Sounds.FishyHit = new SoundStyle(assetsPath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
         Sounds.DemonHit = new SoundStyle(assetsPath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
     }
 
@@ -87,15 +71,11 @@ public static class AllAssets
         public static Asset<Texture2D> Pixel;
 
         public static Asset<Texture2D>[] MiscNoise;
-        public static Asset<Texture2D> OrionNoise;
         public static Asset<Texture2D> SeasideColorMap;
 
         public static Asset<Texture2D>[] Particle;
 
         public static Asset<Texture2D>[] Bar;
-
-        public static Asset<Texture2D>[] BlueFishSkin;
-        public static Asset<Texture2D> FishEyes;
 
         public static Asset<Texture2D> VanityStar;
     }

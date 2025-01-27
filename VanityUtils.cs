@@ -1,10 +1,12 @@
 ﻿using BlockVanity.Common.Players;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace BlockVanity;
 
@@ -87,6 +89,20 @@ public static class VanityUtils
         {
             return 0;
         }
+    }
+
+    public static Asset<Texture2D>[] GetSkinTextures(string assetsPath)
+    {
+        return [
+            ModContent.Request<Texture2D>(assetsPath + "Head"),
+            ModContent.Request<Texture2D>(assetsPath + "Eyes"),
+            ModContent.Request<Texture2D>(assetsPath + "Body"),
+            ModContent.Request<Texture2D>(assetsPath + "Arms"),
+            ModContent.Request<Texture2D>(assetsPath + "Hands"),
+            ModContent.Request<Texture2D>(assetsPath + "Hands_Back"),
+            ModContent.Request<Texture2D>(assetsPath + "Legs"),
+            ModContent.Request<Texture2D>(assetsPath + "Legs_Slim")
+            ];
     }
 
     public static void DrawSittingLongCoats(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false)

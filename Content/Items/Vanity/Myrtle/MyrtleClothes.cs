@@ -45,18 +45,14 @@ public class MyrtleSandals : VanityItem
     public override void Load()
     {
         if (Main.netMode == NetmodeID.Server)
-        {
             return;
-        }
 
-        EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Legs}Female", EquipType.Legs, name: this.Name + "Female");
+        EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Legs}_Slim", EquipType.Legs, name: this.Name + "_Slim");
     }
 
     public override void SetMatch(bool male, ref int equipSlot, ref bool robes)
     {
         if (!male)
-        {
-            equipSlot = EquipLoader.GetEquipSlot(Mod, Name + "Female", EquipType.Legs);
-        }
+            equipSlot = EquipLoader.GetEquipSlot(Mod, Name + "_Slim", EquipType.Legs);
     }
 }
