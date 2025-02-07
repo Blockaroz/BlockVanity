@@ -44,8 +44,11 @@ public class ParticlePearl : ModItem
         {
             int x = (int)(Main.MouseWorld.X / 16);
             int y = (int)(Main.MouseWorld.Y / 16);
-            Vector2 velocity = (Main.MouseWorld - lastMouse) * 0.5f + Main.rand.NextVector2Circular(2, 2);
+            Vector2 velocity = (Main.MouseWorld - lastMouse) * 0.4f;
 
+            PhysicalSparkParticle particle = PhysicalSparkParticle.pool.RequestParticle();
+            particle.Prepare(Main.MouseWorld, velocity, Vector2.UnitY, Color.White with { A = 10 }, (Color.Green * 0.5f) with { A = 50 }, 1f, true);
+            ParticleEngine.Particles.Add(particle);
             lastMouse = Main.MouseWorld;
         }
     }

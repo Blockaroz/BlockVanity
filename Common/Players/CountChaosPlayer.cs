@@ -30,7 +30,7 @@ public class CountChaosPlayer : ModPlayer
 
     public MonoParticleSystem<ChaosMatterParticle> chaosParticles;
 
-    private RenderTarget2D chaosFireTarget;
+    private RenderTarget2D chaosParticleTarget;
 
     private static event Action<SpriteBatch> drawToTarget;
 
@@ -40,7 +40,7 @@ public class CountChaosPlayer : ModPlayer
 
         Main.QueueMainThreadAction(() =>
         {
-            chaosFireTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 400, 400);
+            chaosParticleTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 400, 400);
             drawToTarget += DrawParticlesToTarget;
         });
     }
@@ -57,7 +57,7 @@ public class CountChaosPlayer : ModPlayer
 
     public void DrawParticlesToTarget(SpriteBatch spriteBatch)
     {
-        spriteBatch.GraphicsDevice.SetRenderTarget(chaosFireTarget);
+        spriteBatch.GraphicsDevice.SetRenderTarget(chaosParticleTarget);
         spriteBatch.GraphicsDevice.Clear(Color.Transparent);
 
         if (IsReady && Player != null)
@@ -82,8 +82,8 @@ public class CountChaosPlayer : ModPlayer
     }
 
     public int targetShader;
-    public bool IsReady => chaosFireTarget != null && chaosParticles != null;
-    public DrawData GetChaosFireTarget() => new DrawData(chaosFireTarget, Player.MountedCenter - Main.screenPosition, chaosFireTarget.Frame(), Color.White, -Player.fullRotation, chaosFireTarget.Size() * 0.5f, 2f, 0);
+    public bool IsReady => chaosParticleTarget != null && chaosParticles != null;
+    public DrawData GetChaosParticleTarget() => new DrawData(chaosParticleTarget, Player.MountedCenter - Main.screenPosition, chaosParticleTarget.Frame(), Color.White, -Player.fullRotation, chaosParticleTarget.Size() * 0.5f, 2f, 0);
 
     private static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter / 16f ?? Vector2.Zero;
 

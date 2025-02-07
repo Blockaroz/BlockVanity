@@ -72,9 +72,7 @@ public class MiscEffectPlayer : ModPlayer
         if (miscPlayer.UseCustomWalkSpeed && self.velocity.Y == 0)
         {
             if (!Main.gameInactive)
-            {
                 miscPlayer.walkCounter += Math.Abs(self.velocity.X * miscPlayer.walkSpeed);
-            }
 
             while (miscPlayer.walkCounter > 8)
             {
@@ -83,13 +81,9 @@ public class MiscEffectPlayer : ModPlayer
             }
 
             if (miscPlayer.walkFrame < self.legFrame.Height * 7)
-            {
                 miscPlayer.walkFrame = self.legFrame.Height * 19;
-            }
             else if (miscPlayer.walkFrame > self.legFrame.Height * 19)
-            {
                 miscPlayer.walkFrame = self.legFrame.Height * 7;
-            }
 
             if (self.velocity.X == 0)
             {
@@ -99,6 +93,7 @@ public class MiscEffectPlayer : ModPlayer
 
             self.bodyFrameCounter = 0.0;
             self.legFrameCounter = 0.0;
+            self.bodyFrame.Y = miscPlayer.walkFrame;
             self.legFrame.Y = miscPlayer.walkFrame;
         }
     }

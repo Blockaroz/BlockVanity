@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Vanity.CountChaos;
 
-public class ChaosFireLayer : PlayerDrawLayer
+public class ChaosParticleLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => PlayerDrawLayers.BeforeFirstVanillaLayer;
 
@@ -20,7 +20,7 @@ public class ChaosFireLayer : PlayerDrawLayer
         CountChaosPlayer particlePlayer = drawInfo.drawPlayer.GetModPlayer<CountChaosPlayer>();
         if (particlePlayer.IsReady && drawInfo.shadow <= 0f && !drawInfo.hideEntirePlayer)
         {
-            DrawData data = particlePlayer.GetChaosFireTarget();
+            DrawData data = particlePlayer.GetChaosParticleTarget();
             data.position = drawInfo.Center.Floor() + new Vector2(0, drawInfo.mountOffSet / 2f) - Main.screenPosition;
             data.color = Color.Lerp(Color.White, drawInfo.colorArmorBody, 0.5f);
             data.effect = Main.GameViewMatrix.Effects;

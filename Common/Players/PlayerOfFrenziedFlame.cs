@@ -41,10 +41,9 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
     public override void Initialize()
     {
-        frenziedParticles = new MonoParticleSystem<FrenziedFlameParticle>(200);
-
         Main.QueueMainThreadAction(() =>
         {
+            frenziedParticles = new MonoParticleSystem<FrenziedFlameParticle>(200);
             frenziedTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, backSize, backSize);
             frenziedTargetFront = new RenderTarget2D(Main.graphics.GraphicsDevice, frontSize, frontSize);
             drawToTarget += DrawParticlesToTarget;
@@ -53,8 +52,11 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
     public void DrawParticlesToTarget(SpriteBatch spriteBatch)
     {
-        if (IsReady && Player != null)
+        if (Player != null)
         {
+            if (!IsReady())
+                return;
+
             frenziedParticles.RenderSettings.AnchorPosition = new Vector2(backSize / 2) - GetOffsetAnchor(Player);
 
             spriteBatch.GraphicsDevice.SetRenderTarget(frenziedTarget);
@@ -62,7 +64,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
             Effect particleEffect = AllAssets.Effects.FrenziedFlameParticle.Value;
             particleEffect.Parameters["uPower"].SetValue(2.2f);
-            particleEffect.Parameters["uDarkColor"].SetValue(new Color(180, 25, 1, 150).ToVector4());
+            particleEffect.Parameters["uDarkColor"].SetValue(new Color(200, 25, 1, 190).ToVector4());
             particleEffect.Parameters["uGlowColor"].SetValue(new Color(190, 190, 50, 255).ToVector4());
             particleEffect.Parameters["uAltColor"].SetValue(new Color(115, 0, 255, 170).ToVector4());
 
@@ -105,11 +107,11 @@ public class PlayerOfFrenziedFlame : ModPlayer
         }
     }
 
-    public bool IsReady => frenziedTarget != null && frenziedParticles != null;
+    public bool IsReady() => frenziedTarget != null && frenziedParticles != null;
     public DrawData GetFrenzyTarget() => new DrawData(frenziedTarget, Vector2.Zero, frenziedTarget.Frame(), Color.White, -Player.fullRotation, frenziedTarget.Size() * 0.5f, 1f, 0);
     public DrawData GetFrenzyTargetFront() => new DrawData(frenziedTargetFront, Vector2.Zero, frenziedTargetFront.Frame(), Color.White, -Player.fullRotation, frenziedTargetFront.Size() * 0.5f, 1f, 0);
 
-    private static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter / 3f ?? Vector2.Zero;
+    public static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter / 3f ?? Vector2.Zero;
 
     public bool forceFlameBack;
 
@@ -117,7 +119,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
     public override void FrameEffects()
     {
-        if (Main.gameInactive || !IsReady)
+        if (Main.gameInactive || !IsReady())
             return;
 
         UpdateCape();
@@ -131,7 +133,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
                 if (Player.timeSinceLastDashStarted < 5 && Player.timeSinceLastDashStarted > 0 && Player.velocity.Length() > 0.1f)
                 {
                     FrenziedFlameParticle particle = frenziedParticles.RequestParticle();
-                    particle.Prepare(GetOffsetAnchor(Player) - Player.velocity, Player.velocity.RotatedByRandom(0.2f) * 0.1f, 0.66f + Main.rand.NextFloat(0.3f), Main.rand.Next(100, 120), 0.4f, Player);
+                    particle.Prepare(GetOffsetAnchor(Player) - Player.velocity, Player.velocity.RotatedByRandom(0.2f) * 0.15f, 0.66f + Main.rand.NextFloat(0.3f), Main.rand.Next(100, 120), 0.3f, Player);
                     frenziedParticles.Particles.Add(particle);
                 }
             }

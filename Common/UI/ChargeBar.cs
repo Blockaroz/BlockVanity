@@ -64,7 +64,7 @@ public class ChargeBar : ModSystem
         if (layerIndex != -1)
         {
             layers.Insert(layerIndex, new LegacyGameInterfaceLayer(
-                "BlockVanity: Player Overhead Bars",
+                "BlockVanity: Player Bars",
                 delegate
                 {
                     if (displayTime > 0)
@@ -74,7 +74,7 @@ public class ChargeBar : ModSystem
 
                         int fillAmount = (fillPercent > 0.99f) ? bar.Width : (int)(bar.Width * fillPercent);
                         Rectangle fillFrame = new Rectangle(0, 14, fillAmount, 12);
-                        Vector2 position = (Main.LocalPlayer.Center - Main.screenPosition) / Main.UIScale - new Vector2(bar.Width / 2f, -36f / Main.UIScale);
+                        Vector2 position = (Main.LocalPlayer.Center - Main.screenPosition) - new Vector2(bar.Width / 2f, -36f);
 
                         Color postFillColor = fillColor;
                         switch (barStyle)
@@ -105,7 +105,7 @@ public class ChargeBar : ModSystem
 
                     return true;
                 },
-                InterfaceScaleType.UI));
+                InterfaceScaleType.Game));
         }
     }
 }

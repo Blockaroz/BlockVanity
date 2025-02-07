@@ -230,6 +230,11 @@ Items: {
 		DisplayName: Red Warlock Robe
 		Tooltip: ""
 	}
+
+	JadeChainSwords: {
+		Tooltip: ""
+		DisplayName: Jade Chain Swords
+	}
 }
 
 Projectiles: {
@@ -237,6 +242,7 @@ Projectiles: {
 	ScholarStaffProj.DisplayName: Scholar Staff
 	FloatingSkyLanternProjectile.DisplayName: Floating Sky Lantern
 	HauntedCandelabra.DisplayName: Haunted Candelabra
+	JadeChainSwordProj.DisplayName: Jade Chain Sword Proj
 }
 
 AreaEffectsToggle: {
