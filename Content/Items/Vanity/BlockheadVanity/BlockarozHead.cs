@@ -21,5 +21,10 @@ public class BlockarozHead : VanityItem
 
     public override void AddRecipes()
     {
+        CreateRecipe()
+            .AddIngredient<CardboardBox>()
+            .AddIngredient(ItemID.DarkShard)
+            .AddIngredient(ItemID.LightShard)
+            .Register();
     }
 }

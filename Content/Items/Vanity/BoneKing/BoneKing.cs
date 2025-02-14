@@ -26,7 +26,7 @@ public class BoneKingSkull : VanityItem
         ArmorIDs.Head.Sets.IsTallHat[Item.headSlot] = true;
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
-        BlockVanity.AddStyles(Type, ModContent.ItemType<PlatinumBoneKingSkull>(), ModContent.ItemType<FrozenKingSkull>());
+        BlockVanity.AddStyles(Type, ModContent.ItemType<PlatinumBoneKingSkull>());
     }
 
     public override void SetDefaults()
@@ -44,7 +44,7 @@ public class BoneKingGarb : VanityItem
     public override void SetStaticDefaults()
     {
         ArmorIDs.Body.Sets.showsShouldersWhileJumping[Item.bodySlot] = true;
-        BlockVanity.AddStyles(Type, ModContent.ItemType<PlatinumBoneKingGarb>(), ModContent.ItemType<FrozenKingGarb>());
+        BlockVanity.AddStyles(Type, ModContent.ItemType<PlatinumBoneKingGarb>());
     }
 }
 
@@ -57,6 +57,6 @@ public class BoneKingPants : VanityItem
     {
         ArmorIDs.Legs.Sets.OverridesLegs[Item.legSlot] = true;
         ArmorIDs.Legs.Sets.IncompatibleWithFrogLeg[Item.legSlot] = true;
-        BlockVanity.AddStyles(Type, ModContent.ItemType<PlatinumBoneKingPants>(), ModContent.ItemType<FrozenKingPants>());
+        BlockVanity.AddStyles(Type, ModContent.ItemType<PlatinumBoneKingPants>());
     }
 }

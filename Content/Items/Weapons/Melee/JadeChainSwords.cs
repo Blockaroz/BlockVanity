@@ -21,8 +21,8 @@ public class JadeChainSwords : ModItem
 
     public override void SetDefaults()
     {
-        Item.width = 38;
-        Item.height = 42;
+        Item.width = 42;
+        Item.height = 52;
         Item.useStyle = ItemUseStyleID.Swing;
         Item.channel = true;
         Item.noUseGraphic = true;
@@ -34,10 +34,21 @@ public class JadeChainSwords : ModItem
         Item.rare = ItemRarityID.Yellow;
         Item.value = Item.buyPrice(0, 5);
         Item.useTime = 12;
-        Item.useAnimation = 12;
+        Item.useAnimation = 20;
         Item.shoot = ModContent.ProjectileType<JadeChainSwordProj>();
         Item.shootSpeed = 8f;
-        Item.autoReuse = true;;
+        Item.autoReuse = true;
+    }
+
+    public override void AddRecipes()
+    {
+        CreateRecipe()
+            .AddIngredient(ItemID.ChainGuillotines)
+            .AddIngredient(ItemID.SoulofSight, 8)
+            .AddIngredient(ItemID.DarkShard, 2)
+            .AddIngredient(ItemID.Ectoplasm, 20)
+            .AddTile(TileID.MythrilAnvil)
+            .Register();
     }
 
     public override Color? GetAlpha(Color lightColor) => lightColor * 1.5f;
@@ -67,6 +78,7 @@ public class JadeChainSwords : ModItem
                     newProj.ai[1] = 0;
                     newProj.ai[2] = Math.Abs(rotation);
                     newProj.spriteDirection = direction;
+                    newProj.scale *= 1.5f;
 
                     break;
 
@@ -77,9 +89,11 @@ public class JadeChainSwords : ModItem
                     newProj.ai[1] = 1;
                     newProj.ai[2] = Main.rand.NextFloat(1f, 1.5f);
                     newProj.direction = direction;
+                    newProj.scale *= 1.5f;
 
                     break;
             }
+
             direction = Main.rand.NextBool() ? 1 : -1;
 
             combo++;

@@ -28,4 +28,13 @@ public class RedWarlockRobe : VanityItem
         robes = true;
         equipSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
     }
+
+    public override void AddRecipes()
+    {
+        CreateRecipe()
+            .AddIngredient(ItemID.Silk, 25)
+            .AddIngredient(ItemID.Ectoplasm, 4)
+            .AddTile(TileID.Loom)
+            .Register();
+    }
 }

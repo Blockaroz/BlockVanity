@@ -25,13 +25,13 @@ public class HauntedCandle : ModItem
         return true;
     }
 
-    public override void AddRecipes()
-    {
-        CreateRecipe()
-            .AddIngredient<HauntedCandleTileItem>()
-            .AddCondition(Condition.InGraveyard)
-            .Register();
-    }
+    //public override void AddRecipes()
+    //{
+    //    CreateRecipe()
+    //        .AddIngredient<HauntedCandleTileItem>()
+    //        .AddCondition(Condition.InGraveyard)
+    //        .Register();
+    //}
 
     public static Asset<Texture2D> flameTexture;
 

@@ -15,10 +15,6 @@ namespace BlockVanity.Content.Tiles;
 
 public class Stylotron : ModTile
 {
-    public static Asset<Texture2D> ringTexture;
-    public static Asset<Texture2D> ringGlowTexture;
-    public static Asset<Texture2D> flywheelTexture;
-
     public override void SetStaticDefaults()
     {
         Main.tileLighted[Type] = true;
@@ -42,10 +38,6 @@ public class Stylotron : ModTile
 
         DustType = DustID.WoodFurniture;
         AddMapEntry(new Color(54, 55, 63), Language.GetOrRegister(Mod.GetLocalizationKey("Tiles.Stylotron.MapEntry")));
-
-        ringTexture = ModContent.Request<Texture2D>(Texture + "Ring");
-        ringGlowTexture = ModContent.Request<Texture2D>(Texture + "Ring_Glow");
-        flywheelTexture = ModContent.Request<Texture2D>(Texture + "Flywheel");
     }
 
     public override void NumDust(int i, int j, bool fail, ref int num)

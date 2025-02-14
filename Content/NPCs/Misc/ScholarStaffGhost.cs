@@ -37,6 +37,14 @@ public class ScholarStaffGhost : ModNPC
         NPC.timeLeft = 60;
     }
 
+    public override float SpawnChance(NPCSpawnInfo spawnInfo)
+    {
+        if (spawnInfo.Player.ZoneBeach && spawnInfo.Water && !Main.dayTime)
+            return 0.001f;
+
+        return 0f;
+    }
+
     public override void AI()
     {
         if (Main.netMode != NetmodeID.MultiplayerClient)

@@ -38,7 +38,7 @@ public class ContinuousShakeModifier : ICameraModifier
             _offset = _offset * 0.1f + _bias + Main.rand.NextVector2Circular(1, 1) * _strength;
 
         cameraPosition.CameraPosition = cameraPosition.OriginalCameraPosition + _offset;
-        _offset *= 0.66f;
+        _offset *= 1f / (_frequency / 2);
         _time--;
     }
 }

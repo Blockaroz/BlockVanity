@@ -29,8 +29,8 @@ public class JadeChainSwordProj : ModProjectile
 
     public override void SetDefaults()
     {
-        Projectile.width = 20;
-        Projectile.height = 20;
+        Projectile.width = 24;
+        Projectile.height = 24;
         Projectile.friendly = true;
         Projectile.hostile = false;
         Projectile.tileCollide = true;
@@ -39,10 +39,9 @@ public class JadeChainSwordProj : ModProjectile
         Projectile.DamageType = DamageClass.Melee;
         Projectile.penetrate = -1;
         Projectile.manualDirectionChange = true;
-        Projectile.scale *= 1.2f;
-        Projectile.extraUpdates = 1;
         Projectile.usesLocalNPCImmunity = true;
-        Projectile.localNPCHitCooldown = 30;
+        Projectile.localNPCHitCooldown = 20;
+        Projectile.extraUpdates = 1;
     }
 
     public ref float Time => ref Projectile.ai[0];
@@ -68,12 +67,13 @@ public class JadeChainSwordProj : ModProjectile
         AngularVelocity *= 0.96f;
         Vector2 chainGravity = Vector2.Zero;
 
+        float swingSpeed = Player.GetAttackSpeed(DamageClass.Melee);
         switch (Mode)
         {
             default:
             case 0:
 
-                const int WaitTime = 20;
+                const int WaitTime = 24;
 
                 if (Main.myPlayer == Projectile.owner)
                 {
@@ -83,7 +83,7 @@ public class JadeChainSwordProj : ModProjectile
                         Player.LimitPointToPlayerReachableArea(ref mousePos);
                         targetDistance = Player.Distance(mousePos);
                         targetPosition = mousePos - Player.MountedCenter;
-                        Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * 24f;
+                        Projectile.velocity = Projectile.velocity.SafeNormalize(Vector2.Zero) * 20f * (swingSpeed * 0.1f + 0.9f);
                         Projectile.rotation = Projectile.velocity.ToRotation();
                         Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
                         Projectile.netUpdate = true;
@@ -91,12 +91,12 @@ public class JadeChainSwordProj : ModProjectile
                 }
 
                 if (Time == 0)
-                    SoundEngine.PlaySound(SoundID.DD2_JavelinThrowersAttack with { Pitch = 0.5f }, Projectile.Center);
+                    SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash, Projectile.Center);
 
-                if (Time < WaitTime)
+                if (Time < WaitTime && Projectile.tileCollide)
                 {
                     Projectile.rotation = Projectile.velocity.ToRotation();
-                    float retargetCurve = Curvature * 0.6f / (targetDistance / maxDist * 3f + 1f);
+                    float retargetCurve = Curvature * 0.5f / (targetDistance / maxDist * 3f + 1f);
                     Projectile.velocity = Projectile.velocity.RotatedBy(-retargetCurve * Utils.GetLerpValue(0, WaitTime / 2, Time, true) * Projectile.spriteDirection);
                 }
                 else
@@ -106,12 +106,13 @@ public class JadeChainSwordProj : ModProjectile
                     Projectile.velocity *= 0.6f;
                     return;
                 }
+
                 break;
 
             case 1:
 
                 Projectile.extraUpdates = 2;
-                const int SlashTime = 60;
+
                 if (Main.myPlayer == Projectile.owner)
                 {
                     if (Time == 0)
@@ -125,23 +126,26 @@ public class JadeChainSwordProj : ModProjectile
                     }
                 }
 
-                Vector2 slashDirection = targetDirection.RotatedBy(MathHelper.Lerp(-Curvature * 0.9f, Curvature, Time / SlashTime) * Projectile.direction);
-                Vector2 targetPos = Player.MountedCenter - targetDirection * targetDistance * 0.3f + slashDirection * (Utils.PingPongFrom01To010(Time / SlashTime * 0.95f) * 0.8f + 0.2f) * targetDistance * 1.2f;
-                Projectile.velocity = (targetPos - Projectile.Center) * Utils.GetLerpValue(0, SlashTime / 10f, Time, true) * 0.4f;
-                 
-                AngularVelocity = Projectile.direction * 0.5f;
-                Projectile.rotation = (-targetDirection).ToRotation() + Time / SlashTime * MathHelper.TwoPi * Projectile.direction;
-                
-                chainGravity = -targetDirection + Projectile.velocity * 0.1f;
+                int SlashTime = (int)(80 / (swingSpeed * 0.3f + 0.7f) / (Utils.GetLerpValue(maxDist / 2f, 50, targetDistance, true) + 1f));
 
-                if (Time == 0)
-                    SoundEngine.PlaySound(SoundID.DD2_JavelinThrowersAttack with { Pitch = 0.5f }, Projectile.Center);
+                if (Time == 10)
+                    SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash, Projectile.Center);
+
+                float EasingCurve(float x) => Math.Clamp(MathF.Sin(x * MathHelper.Pi), 0f, 1f);
+                Vector2 slashDirection = targetDirection.RotatedBy(MathHelper.Lerp(-Curvature, Curvature, MathF.Pow(Time / SlashTime, 2)) * Projectile.direction);
+                Vector2 targetPos = Player.MountedCenter - targetDirection * targetDistance * 0.45f + slashDirection * EasingCurve(MathF.Pow(Time / SlashTime, 2)) * targetDistance * 1.33f;
+                Projectile.velocity = (targetPos - Projectile.Center) * Utils.GetLerpValue(0, SlashTime / 3f, Time, true) * 0.5f;
+                 
+                AngularVelocity = Projectile.direction * 0.1f;
+                Projectile.rotation = (-targetDirection).ToRotation() + MathF.Pow(Time / SlashTime, 2.5f) * MathHelper.TwoPi * Projectile.direction;
+                
+                chainGravity = slashDirection.RotatedBy(MathHelper.PiOver4 * Projectile.direction) * 4f;
 
                 if (Time > SlashTime)
                 {
                     Time = 0;
                     Mode = -1;
-                    Projectile.velocity *= 0.7f;
+                    Projectile.velocity *= 0.2f;
                     return;
                 }
 
@@ -149,28 +153,46 @@ public class JadeChainSwordProj : ModProjectile
 
             case -1:
 
-                const int PullBackTime = 20;
+                Projectile.extraUpdates = 1;
+
+                const int PullBackTime = 15;
 
                 Projectile.Center += Player.velocity * 0.2f;
 
                 if (Time > PullBackTime)
                 {
-                    if (distanceToPlayer < 10)
+                    if (distanceToPlayer < 20)
+                    {
                         Projectile.Kill();
+                        return;
+                    }
 
+                    Projectile.tileCollide = false;
                     Projectile.velocity += new Vector2(0, 0.4f * Projectile.direction).RotatedBy(Projectile.AngleFrom(Player.Center));
-                    Projectile.rotation = Utils.AngleLerp(Projectile.rotation, Projectile.AngleFrom(Player.MountedCenter), 0.05f);
+                    Projectile.rotation = Utils.AngleLerp(Projectile.rotation, Projectile.AngleFrom(Player.MountedCenter), 0.2f);
                 }
                 else
                     Projectile.velocity *= 0.96f;
 
-                chainGravity = Player.DirectionFrom(Projectile.Center).RotatedBy(-0.5f * Projectile.direction) * 0.4f;
+                bool secondOut = Player.ownedProjectileCounts[Type] > 1;
 
-                float pullSpeed = Player.ownedProjectileCounts[Type] > 1 ? 1f : 0.3f;
-                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Player.MountedCenter) * 30f * pullSpeed, Utils.GetLerpValue(PullBackTime, PullBackTime + 100, Time, true) * 0.8f * pullSpeed);
+                if (distanceToPlayer < maxDist / 2)
+                {
+                    for (int i = 0; i < chainRope.segments.Length - 1; i++)
+                    {
+                        float ropeProgress = Utils.GetLerpValue(maxDist / 2f, 0, distanceToPlayer, true);
+                        Vector2 finalPos = Vector2.Lerp(chainRope.segments[i + 1].position, Player.MountedCenter, ropeProgress);
+                        chainRope.segments[i].position = Vector2.Lerp(chainRope.segments[i].position, finalPos, 0.05f + swingSpeed * 0.05f);
+                    }
+                }
+
+                chainGravity = Player.DirectionFrom(Projectile.Center).RotatedBy(-0.5f * Projectile.direction);
+
+                float pullSpeed = (secondOut ? 1f : 0.5f) * Math.Clamp(1f / (distanceToPlayer * 0.2f + 0.1f), 30f, 70f);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(Player.MountedCenter) * pullSpeed, Utils.GetLerpValue(PullBackTime, PullBackTime + 50, Time, true) * 0.4f);
 
                 break;
-        }
+        } 
 
         if (distanceToPlayer > maxDist)
             Projectile.Center = Vector2.Lerp(Projectile.Center, Player.MountedCenter + Projectile.DirectionFrom(Player.MountedCenter) * maxDist, 0.2f);
@@ -181,17 +203,21 @@ public class JadeChainSwordProj : ModProjectile
             _ => 48
         };
         Vector2 chainStart = Projectile.Center + Projectile.velocity * 0.5f + new Vector2(-30, 0).RotatedBy(Projectile.rotation) * Projectile.scale;
-        chainRope ??= new Rope(chainStart, Player.MountedCenter, chainLength, 12, -Projectile.velocity, 20);
+        chainRope ??= new Rope(chainStart, Player.MountedCenter, chainLength, 11, chainGravity, 20);
         chainRope.damping = 0.1f;
         chainRope.segments[0].position = chainStart;
         chainRope.segments[^1].position = Player.MountedCenter;
         chainRope.gravity = (Projectile.rotation - MathHelper.PiOver2 * Projectile.direction).ToRotationVector2() * 0.1f + chainGravity;
         chainRope.Update();
 
+        float lightPower = 0.2f;
         if (!Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
-            Lighting.AddLight(Projectile.Center, Color.Teal.ToVector3());
+            lightPower = 0.5f;
+
+        Lighting.AddLight(Projectile.Center, Color.Teal.ToVector3() * lightPower);
 
         Time++;
+        hitGlowTime *= 0.9f;
     }
 
     public override bool OnTileCollide(Vector2 oldVelocity)
@@ -218,6 +244,9 @@ public class JadeChainSwordProj : ModProjectile
                 OnHitEffects(true);
 
                 break;
+
+            case -1:
+                break;
         }
 
         return false;
@@ -228,7 +257,7 @@ public class JadeChainSwordProj : ModProjectile
         OnHitEffects(false);
         if (Projectile.tileCollide)
         {
-            Projectile.velocity *= -0.1f;
+            Projectile.velocity *= -0.2f;
             Projectile.tileCollide = false;
         }
     }
@@ -238,28 +267,38 @@ public class JadeChainSwordProj : ModProjectile
         OnHitEffects(false);
         if (Projectile.tileCollide)
         {
-            Projectile.velocity *= -0.1f;
+            Projectile.velocity *= -0.2f;
             Projectile.tileCollide = false;
         }
     }
 
+    private float hitGlowTime;
+
     private void OnHitEffects(bool tile = false)
     {
-        AngularVelocity = Projectile.direction * Main.rand.NextFloat(-0.1f, 0.2f);
-        Main.instance.CameraModifiers.Add(new ContinuousShakeModifier(Vector2.Zero, 5f, 16));
-
-        if (tile)
-            SoundEngine.PlaySound(SoundID.DD2_MonkStaffGroundImpact with { Pitch = 1f, Volume = 0.5f }, Projectile.Center);
-        else
+        if (Main.myPlayer == Projectile.owner)
         {
-            SoundEngine.PlaySound(SoundID.Item71 with { Pitch = 1f, PitchVariance = 0.3f, Volume = 0.7f }, Projectile.Center);
-            SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact with { Pitch = 0.5f }, Projectile.Center);
+            Main.instance.CameraModifiers.Add(new ContinuousShakeModifier(Player.DirectionTo(Projectile.Center) * 3f, 5f, 10));
+            AngularVelocity = Projectile.direction * Main.rand.NextFloat(-0.2f, 0.2f);
+            Projectile.netUpdate = true;
         }
 
-        for (int i = 0; i < Main.rand.Next(3, 12); i++)
+        if (tile)
+        {
+            hitGlowTime = 1f;
+            SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash with { Pitch = 1f }, Projectile.Center);
+        }
+        else
+        {
+            hitGlowTime = 3f;
+            SoundEngine.PlaySound(SoundID.Item71 with { Pitch = 1f }, Projectile.Center);
+        }
+
+
+        for (int i = 0; i < Main.rand.Next(5, 12); i++)
         {
             PhysicalSparkParticle particle = PhysicalSparkParticle.pool.RequestParticle();
-            particle.Prepare(Projectile.Center, (Projectile.velocity + Main.rand.NextVector2Circular(12, 12)) * 0.5f, Vector2.UnitY * 0.33f, Color.White with { A = 10 }, (Color.Green * 0.5f) with { A = 50 }, Main.rand.NextFloat(0.5f, 1.2f), true);
+            particle.Prepare(Projectile.Center + Projectile.velocity * 0.4f, (Projectile.velocity + Main.rand.NextVector2Circular(12, 12)) * 0.4f, Vector2.UnitY * 0.5f, Color.White with { A = 10 }, (Color.Green * 0.5f) with { A = 50 }, Main.rand.NextFloat(0.5f, 1.2f), true);
             ParticleEngine.Particles.Add(particle);
         }
     }
@@ -284,34 +323,35 @@ public class JadeChainSwordProj : ModProjectile
 
         SpriteEffects flipEffect = Projectile.direction < 0 ? SpriteEffects.FlipHorizontally : 0;
 
-        Color jadeColor = new Color(20, 255, 50, 20);
-
+        Color jadeColor = new Color(20, 255, 60, 20);
+        lightColor = Color.Lerp(lightColor * 1.2f, Color.White, 0.2f);
         Vector2 origin = texture.Size() * 0.5f;
 
         float trailLength = ProjectileID.Sets.TrailCacheLength[Type];
         for (int i = 0; i < trailLength; i++)
-            Main.EntitySpriteDraw(glowTexture.Value, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, glowTexture.Frame(), jadeColor * 0.1f * (1f - i / trailLength), Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale + (1f - i / trailLength) * 0.3f, flipEffect, 0);
+            Main.EntitySpriteDraw(glowTexture.Value, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, glowTexture.Frame(), jadeColor * 0.15f * (1f - i / trailLength), Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale + (1f - i / trailLength) * 0.3f, flipEffect, 0);
 
         if (chainRope != null)
         {
             Vector2[] chainPoints = chainRope.GetPoints();
             for (int i = 0; i < chainPoints.Length - 1; i++)
             {
-                Color chainColor = Lighting.GetColor(chainPoints[i].ToTileCoordinates()) * 1.2f;
+                float chainColorLerp = MathF.Pow(i / (float)chainPoints.Length, 3f);
+                Color chainColor = Color.Lerp(Lighting.GetColor(chainPoints[i].ToTileCoordinates()) * 1.2f, Color.White, 0.1f);
                 Rectangle chainFrame = chainTexture.Frame(1, 3, 0, i % 2);
                 float chainRotation = chainPoints[i].AngleTo(chainPoints[i + 1]) - MathHelper.PiOver2;
-
-                Main.EntitySpriteDraw(chainTexture.Value, chainPoints[i] - Main.screenPosition, chainFrame, chainColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), 1f, flipEffect, 0);
-                if (i < chainPoints.Length / 2)
+                float chainScale = MathHelper.Lerp(Projectile.scale, 1f, MathF.Sqrt((float)i / chainPoints.Length));
+                Main.EntitySpriteDraw(chainTexture.Value, chainPoints[i] - Main.screenPosition, chainFrame, chainColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), chainScale, flipEffect, 0);
+                if (i > chainPoints.Length / 2)
                 {
-                    Color glowColor = Color.MediumSeaGreen with { A = 0 } * MathF.Pow(1f - i / (float)chainPoints.Length, 4f) * 1.5f;
-                    Main.EntitySpriteDraw(chainTexture.Value, chainPoints[i] - Main.screenPosition, chainFrame, glowColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), 1.1f, flipEffect, 0);
+                   Color glowColor = Color.MediumSeaGreen with { A = 0 } * chainColorLerp;
+                    Main .EntitySpriteDraw(chainTexture.Value, chainPoints[i] - Main.screenPosition, chainFrame, glowColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), chainScale, flipEffect, 0);
                 }
             }
         }
 
-        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), lightColor * 1.2f, Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, flipEffect, 0);
-        Main.EntitySpriteDraw(glowTexture.Value, Projectile.Center - Main.screenPosition, glowTexture.Frame(), jadeColor * 0.4f, Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, flipEffect, 0);
+        Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), lightColor, Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, flipEffect, 0);
+        Main.EntitySpriteDraw(glowTexture.Value, Projectile.Center - Main.screenPosition, glowTexture.Frame(), jadeColor * (0.2f + hitGlowTime / 3f), Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, flipEffect, 0);
 
         return false;
     }

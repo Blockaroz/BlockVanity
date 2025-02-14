@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.Graphics.Renderers;
-using Terraria.Map;
 
 namespace BlockVanity.Content.Particles;
 

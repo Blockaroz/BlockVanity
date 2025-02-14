@@ -13,4 +13,14 @@ public class RedWarlockHood : VanityItem
     {
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
     }
+
+    public override void AddRecipes()
+    {
+        CreateRecipe()
+            .AddIngredient(ItemID.Silk, 10)
+            .AddIngredient(ItemID.Bone, 2)
+            .AddIngredient(ItemID.Ectoplasm, 2)
+            .AddTile(TileID.Loom)
+            .Register();
+    }
 }

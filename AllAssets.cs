@@ -40,6 +40,7 @@ public static class AllAssets
         Textures.Glow = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Glow_");
 
         Textures.MiscNoise = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Noise_");
+        Textures.MagmaPattern = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/MagmaPattern");
         Textures.SeasideColorMap = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/SeasideColorMap");
 
         Textures.Particle = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Particles/Particle_");
@@ -55,7 +56,7 @@ public static class AllAssets
         Effects.RadiationDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/RadiationDye");
         Effects.PhantomDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/PhantomDye");
         Effects.ChaosMatterDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/ChaosMatterDye");
-        Effects.OrionDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/OrionDye");
+        Effects.HotMantleDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/HotMantleDye");
 
         Effects.SeasideHairDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/SeasideHairDye");
 
@@ -71,6 +72,7 @@ public static class AllAssets
         public static Asset<Texture2D> Pixel;
 
         public static Asset<Texture2D>[] MiscNoise;
+        public static Asset<Texture2D> MagmaPattern;
         public static Asset<Texture2D> SeasideColorMap;
 
         public static Asset<Texture2D>[] Particle;
@@ -97,7 +99,7 @@ public static class AllAssets
         public static Asset<Effect> RadiationDye;
         public static Asset<Effect> PhantomDye;
         public static Asset<Effect> ChaosMatterDye;
-        public static Asset<Effect> OrionDye;
+        public static Asset<Effect> HotMantleDye;
 
         public static Asset<Effect> SeasideHairDye;
         public static Asset<Effect> SparklingAshHairDye;

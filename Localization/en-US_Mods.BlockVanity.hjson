@@ -235,14 +235,19 @@ Items: {
 		Tooltip: ""
 		DisplayName: Jade Chain Swords
 	}
+
+	HotMantleDye: {
+		DisplayName: Hot Mantle Dye
+		Tooltip: ""
+	}
 }
 
 Projectiles: {
-	ScholarStaffBolt.DisplayName: Scholar Staff
+	ScholarStaffBolt.DisplayName: Ancient Energy
 	ScholarStaffProj.DisplayName: Scholar Staff
 	FloatingSkyLanternProjectile.DisplayName: Floating Sky Lantern
 	HauntedCandelabra.DisplayName: Haunted Candelabra
-	JadeChainSwordProj.DisplayName: Jade Chain Sword Proj
+	JadeChainSwordProj.DisplayName: Jade Chain Sword
 }
 
 AreaEffectsToggle: {
@@ -260,5 +265,5 @@ Tiles: {
 	Stylotron.MapEntry: Stylotron
 }
 
-NPCs.ScholarStaffGhost.DisplayName: ???
+NPCs.ScholarStaffGhost.DisplayName: Ghostly Staff
 Configs.Config.DisplayName: Config
