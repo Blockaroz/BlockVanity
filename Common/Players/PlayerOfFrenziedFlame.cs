@@ -43,10 +43,10 @@ public class PlayerOfFrenziedFlame : ModPlayer
     {
         Main.QueueMainThreadAction(() =>
         {
+            drawToTarget += DrawParticlesToTarget;
             frenziedParticles = new MonoParticleSystem<FrenziedFlameParticle>(200);
             frenziedTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, backSize, backSize);
             frenziedTargetFront = new RenderTarget2D(Main.graphics.GraphicsDevice, frontSize, frontSize);
-            drawToTarget += DrawParticlesToTarget;
         });
     }
 
@@ -65,7 +65,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
             Effect particleEffect = AllAssets.Effects.FrenziedFlameParticle.Value;
             particleEffect.Parameters["uPower"].SetValue(2.2f);
             particleEffect.Parameters["uDarkColor"].SetValue(new Color(200, 25, 1, 190).ToVector4());
-            particleEffect.Parameters["uGlowColor"].SetValue(new Color(190, 190, 50, 255).ToVector4());
+            particleEffect.Parameters["uGlowColor"].SetValue(new Color(215, 200, 40, 255).ToVector4());
             particleEffect.Parameters["uAltColor"].SetValue(new Color(115, 0, 255, 170).ToVector4());
 
             Main.pixelShader.CurrentTechnique.Passes[0].Apply();

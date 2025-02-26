@@ -76,7 +76,7 @@ public class ScholarStaffBolt : ModProjectile
 
         if (Main.rand.NextBool(20) || Projectile.localAI[0] % 20 == 0)
         {
-            PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+            PixelEmber particle = PixelEmber.pool.RequestParticle();
             particle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(15, 15), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 60, 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, 1.5f + Main.rand.NextFloat());
             ParticleEngine.Particles.Add(particle);
         }
@@ -98,7 +98,7 @@ public class ScholarStaffBolt : ModProjectile
 
         for (int i = 0; i < 10; i++)
         {
-            PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+            PixelEmber particle = PixelEmber.pool.RequestParticle();
             Vector2 offset = Main.rand.NextVector2Circular(8, 8);
             particle.Prepare(Projectile.Center + offset, Projectile.velocity * Main.rand.NextFloat(0.4f) + offset * 0.2f, Main.rand.Next(40, 80), 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
             ParticleEngine.Particles.Add(particle);

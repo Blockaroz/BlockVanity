@@ -48,6 +48,7 @@ public class PlatinumBoneKingGarb : VanityItem
 
     public override void SetStaticDefaults()
     {
+        ArmorIDs.Body.Sets.shouldersAreAlwaysInTheBack[Item.bodySlot] = true;
         ArmorIDs.Body.Sets.showsShouldersWhileJumping[Item.bodySlot] = true;
         BlockVanity.AddStyles(Type);
     }

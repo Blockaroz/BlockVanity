@@ -7,9 +7,9 @@ using Terraria.Graphics.Renderers;
 
 namespace BlockVanity.Content.Particles;
 
-public class PixelSpotParticle : BaseParticle
+public class PixelEmber : BaseParticle
 {
-    public static ParticlePool<PixelSpotParticle> pool = new ParticlePool<PixelSpotParticle>(500, GetNewParticle<PixelSpotParticle>);
+    public static ParticlePool<PixelEmber> pool = new ParticlePool<PixelEmber>(500, GetNewParticle<PixelEmber>);
 
     public Vector2 Position;
     public Vector2 Velocity;
@@ -62,7 +62,7 @@ public class PixelSpotParticle : BaseParticle
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
         Texture2D texture = AllAssets.Textures.Particle[0].Value;
-        Texture2D glow = AllAssets.Textures.Glow[2].Value;
+        Texture2D glow = AllAssets.Textures.Glow[0].Value;
 
         float progress = (float)TimeLeft / MaxTime;
         float fadeIn = FadeIn > 0f ? Utils.GetLerpValue(0f, FadeIn, TimeLeft, true) : 1f;
@@ -77,6 +77,6 @@ public class PixelSpotParticle : BaseParticle
         Vector2 stretch = new Vector2(Math.Max(xS - yS * 0.45f, 2f), Math.Max(yS - xS * 0.1f, 2f)) * 0.5f;
 
         spritebatch.Draw(texture, particlePos, texture.Frame(), drawColor, Rotation, texture.Size() * 0.5f, stretch, 0, 0);
-        spritebatch.Draw(glow, particlePos, glow.Frame(), glowColor with { A = 0 }, Rotation, glow.Size() * 0.5f, stretch, 0, 0);
+        spritebatch.Draw(glow, particlePos, glow.Frame(), glowColor with { A = 0 }, Rotation, glow.Size() * 0.5f, 0.07f * stretch, 0, 0);
     }
 }

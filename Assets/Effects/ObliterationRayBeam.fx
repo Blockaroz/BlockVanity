@@ -20,9 +20,9 @@ sampler2D a2 = sampler_state
     AddressU = wrap;
     AddressV = wrap;
 };
-float4 uColor;
-float uBlackAlpha;
+
 float uTime;
+float4 uGlowColor;
 matrix transformMatrix;
 
 struct VertexShaderInput
@@ -51,7 +51,8 @@ VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 float4 PixelShaderFunction(in VertexShaderOutput input) : COLOR0
 {
     float4 n1 = tex2D(a1, input.Coord + float2(-uTime, 0)) + tex2D(a2, input.Coord + float2(-uTime * 2, 0));
-    return n1 * input.Color * lerp(1, length(n1.rgb) / 3, uBlackAlpha);
+    
+    return saturate(pow(length(n1.rgb) / 2, 4)) * input.Color + (pow(length(n1.rgb) / 2, 1.6) + length(n1.rgb) * 0.1) * uGlowColor;;
 }
 
 technique Technique1

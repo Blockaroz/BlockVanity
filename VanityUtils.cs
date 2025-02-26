@@ -5,6 +5,8 @@ using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -50,6 +52,10 @@ public static class VanityUtils
     public static Vector3 ToVector3(this Vector2 vector, float depth = 0f) => new Vector3(vector, depth);
 
     public static Matrix NormalizedEffectMatrix => Matrix.Invert(Main.GameViewMatrix.EffectMatrix) * Matrix.CreateOrthographicOffCenter(0f, Main.instance.GraphicsDevice.Viewport.Width, Main.instance.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
+    
+    public static Matrix NormalizedTranslationMatrix => Matrix.Invert(Matrix.Identity) * Matrix.CreateOrthographicOffCenter(0f, Main.instance.GraphicsDevice.Viewport.Width, Main.instance.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
+   
+    public static Matrix NormalizedMatrixForPixelization(float scale) => Matrix.Invert(Matrix.Identity) * Matrix.CreateScale(scale) * Matrix.CreateOrthographicOffCenter(0f, Main.instance.GraphicsDevice.Viewport.Width, Main.instance.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
 
     public static Color ToGrayscale(this Color color)
     {
@@ -170,4 +176,16 @@ public static class VanityUtils
         AlphaSourceBlend = Blend.InverseDestinationAlpha,
         AlphaDestinationBlend = Blend.One
     };
+
+    public static void ForceSmartCursor(Player player, bool state)
+    {
+        bool oldSmart = Main.SmartCursorWanted;
+        if (PlayerInput.UsingGamepad)
+            Main.SmartCursorWanted_GamePad = state;
+        else
+            Main.SmartCursorWanted_Mouse = state;
+        SmartCursorHelper.SmartCursorLookup(player);
+        Main.SmartCursorWanted_Mouse = oldSmart;
+        Main.SmartCursorShowing = oldSmart;
+    }
 }

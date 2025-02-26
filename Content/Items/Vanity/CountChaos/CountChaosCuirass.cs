@@ -17,6 +17,7 @@ public class CountChaosCuirass : VanityItem
 
     public override void SetStaticDefaults()
     {
+        ArmorIDs.Body.Sets.shouldersAreAlwaysInTheBack[Item.bodySlot] = true;
         ArmorIDs.Body.Sets.HidesArms[Item.bodySlot] = true;
         ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
         Main.RegisterItemAnimation(Type, new DrawAnimationVertical(7, 9));

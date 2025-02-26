@@ -48,7 +48,8 @@ public static class AllAssets
         Textures.Bar = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Bar_");
         Textures.VanityStar = ModContent.Request<Texture2D>(assetsPath + "Textures/UI/VanityStar");
 
-        Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail", AssetRequestMode.ImmediateLoad);
+        Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail");
+        Effects.ObliterationRayBeam = ModContent.Request<Effect>(assetsPath + "Effects/ObliterationRayBeam");
         Effects.FrenziedFlameParticle = ModContent.Request<Effect>(assetsPath + "Effects/FrenziedFlameParticle", AssetRequestMode.ImmediateLoad);
         Effects.FrenziedFlameEye = ModContent.Request<Effect>(assetsPath + "Effects/FrenziedFlameEye", AssetRequestMode.ImmediateLoad);
         Effects.TransparencyMask = ModContent.Request<Effect>(assetsPath + "Effects/TransparencyMask", AssetRequestMode.ImmediateLoad);
@@ -92,6 +93,7 @@ public static class AllAssets
     public static class Effects
     {
         public static Asset<Effect> BasicTrail;
+        public static Asset<Effect> ObliterationRayBeam;
         public static Asset<Effect> FrenziedFlameParticle;
         public static Asset<Effect> FrenziedFlameEye;
         public static Asset<Effect> TransparencyMask;

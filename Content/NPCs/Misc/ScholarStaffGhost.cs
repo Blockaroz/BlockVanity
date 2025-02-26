@@ -84,7 +84,7 @@ public class ScholarStaffGhost : ModNPC
 
         if (Main.rand.NextBool(30))
         {
-            PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+            PixelEmber particle = PixelEmber.pool.RequestParticle();
             particle.Prepare(NPC.Center + Main.rand.NextVector2Circular(20, 30), Main.rand.NextVector2Circular(4, 3), Main.rand.Next(400, 750), 150, Color.Cyan with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 0 }, 0.5f + Main.rand.NextFloat());
             ParticleEngine.Particles.Add(particle);
         }

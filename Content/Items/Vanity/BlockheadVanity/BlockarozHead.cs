@@ -14,6 +14,7 @@ public class BlockarozHead : VanityItem
 
     public override void SetStaticDefaults()
     {
+        BlockheadHeadLayer.AddHead(this);
         NeckPlayerLayer.AddNeck(this);
         MiscEffectPlayer.hideHead.Add(Item.headSlot);
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;

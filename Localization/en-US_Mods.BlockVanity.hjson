@@ -240,6 +240,25 @@ Items: {
 		DisplayName: Hot Mantle Dye
 		Tooltip: ""
 	}
+
+	LotusHairpin: {
+		DisplayName: Lotus Hairpin
+		Tooltip: ""
+	}
+
+	SkinOfMidra: {
+		DisplayName: Skin Of Midra
+		Tooltip: ""
+	}
+
+	ObliterationRay: {
+		DisplayName: Obliteration Ray
+		Tooltip:
+			'''
+			Unable to dig accurately
+			'The laser is barely contained' 
+			'''
+	}
 }
 
 Projectiles: {
@@ -248,6 +267,7 @@ Projectiles: {
 	FloatingSkyLanternProjectile.DisplayName: Floating Sky Lantern
 	HauntedCandelabra.DisplayName: Haunted Candelabra
 	JadeChainSwordProj.DisplayName: Jade Chain Sword
+	ObliterationRayHeld.DisplayName: Obliteration Ray
 }
 
 AreaEffectsToggle: {

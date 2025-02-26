@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -9,9 +11,17 @@ namespace BlockVanity.Content.Items.Vanity.BlockheadVanity;
 
 public class BlockheadHeadLayer : PlayerDrawLayer
 {
+    private static List<int> heads = new List<int>();
+
+    public static void AddHead(ModItem item)
+    {
+        heads ??= new List<int>();
+        heads.Add(item.Item.headSlot);
+    }
+
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(BlockarozHead), EquipType.Head);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => heads.Contains(drawInfo.drawPlayer.head);// == EquipLoader.GetEquipSlot(Mod, nameof(BlockarozHead), EquipType.Head);
 
     public override bool IsHeadLayer => true;
 

@@ -22,7 +22,6 @@ public class JadeChainSwordProj : ModProjectile
 {
     public override void SetStaticDefaults()
     {
-        Main.projFrames[Type] = 1;
         ProjectileID.Sets.TrailingMode[Type] = 4;
         ProjectileID.Sets.TrailCacheLength[Type] = 5;
     }
@@ -39,6 +38,7 @@ public class JadeChainSwordProj : ModProjectile
         Projectile.DamageType = DamageClass.Melee;
         Projectile.penetrate = -1;
         Projectile.manualDirectionChange = true;
+        Projectile.ownerHitCheck = true;
         Projectile.usesLocalNPCImmunity = true;
         Projectile.localNPCHitCooldown = 20;
         Projectile.extraUpdates = 1;
@@ -278,24 +278,24 @@ public class JadeChainSwordProj : ModProjectile
     {
         if (Main.myPlayer == Projectile.owner)
         {
-            Main.instance.CameraModifiers.Add(new ContinuousShakeModifier(Player.DirectionTo(Projectile.Center) * 3f, 5f, 10));
+            Main.instance.CameraModifiers.Add(new ContinuousShakeModifier(Projectile.Center, Player.DirectionTo(Projectile.Center), 3f, 10, 1));
             AngularVelocity = Projectile.direction * Main.rand.NextFloat(-0.2f, 0.2f);
             Projectile.netUpdate = true;
         }
 
         if (tile)
         {
-            hitGlowTime = 1f;
+            hitGlowTime = 2f;
             SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash with { Pitch = 1f }, Projectile.Center);
         }
         else
         {
-            hitGlowTime = 3f;
+            hitGlowTime = 4f;
             SoundEngine.PlaySound(SoundID.Item71 with { Pitch = 1f }, Projectile.Center);
         }
 
 
-        for (int i = 0; i < Main.rand.Next(5, 12); i++)
+        for (int i = 0; i < (tile ? 10 : Main.rand.Next(1, 4)); i++)
         {
             PhysicalSparkParticle particle = PhysicalSparkParticle.pool.RequestParticle();
             particle.Prepare(Projectile.Center + Projectile.velocity * 0.4f, (Projectile.velocity + Main.rand.NextVector2Circular(12, 12)) * 0.4f, Vector2.UnitY * 0.5f, Color.White with { A = 10 }, (Color.Green * 0.5f) with { A = 50 }, Main.rand.NextFloat(0.5f, 1.2f), true);
@@ -323,13 +323,13 @@ public class JadeChainSwordProj : ModProjectile
 
         SpriteEffects flipEffect = Projectile.direction < 0 ? SpriteEffects.FlipHorizontally : 0;
 
+        lightColor = Color.Lerp(lightColor, Color.White, 0.3f);
         Color jadeColor = new Color(20, 255, 60, 20);
-        lightColor = Color.Lerp(lightColor * 1.2f, Color.White, 0.2f);
         Vector2 origin = texture.Size() * 0.5f;
 
         float trailLength = ProjectileID.Sets.TrailCacheLength[Type];
         for (int i = 0; i < trailLength; i++)
-            Main.EntitySpriteDraw(glowTexture.Value, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, glowTexture.Frame(), jadeColor * 0.15f * (1f - i / trailLength), Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale + (1f - i / trailLength) * 0.3f, flipEffect, 0);
+            Main.EntitySpriteDraw(glowTexture.Value, Projectile.oldPos[i] + Projectile.Size / 2 - Main.screenPosition, glowTexture.Frame(), jadeColor * 0.1f * (1f - i / trailLength), Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale + (1f - i / trailLength) * 0.3f, flipEffect, 0);
 
         if (chainRope != null)
         {
@@ -351,7 +351,7 @@ public class JadeChainSwordProj : ModProjectile
         }
 
         Main.EntitySpriteDraw(texture, Projectile.Center - Main.screenPosition, texture.Frame(), lightColor, Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, flipEffect, 0);
-        Main.EntitySpriteDraw(glowTexture.Value, Projectile.Center - Main.screenPosition, glowTexture.Frame(), jadeColor * (0.2f + hitGlowTime / 3f), Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, flipEffect, 0);
+        Main.EntitySpriteDraw(glowTexture.Value, Projectile.Center - Main.screenPosition, glowTexture.Frame(), jadeColor * (0.15f + hitGlowTime / 3f), Projectile.rotation + MathHelper.PiOver2, origin, Projectile.scale, flipEffect, 0);
 
         return false;
     }

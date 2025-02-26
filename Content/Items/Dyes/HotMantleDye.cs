@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Graphics;
+using BlockVanity.Common.Graphics.ShaderData;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
@@ -14,10 +15,7 @@ public class HotMantleDye : ModItem
         Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
-        {
-            GameShaders.Armor.BindShader(Type, new TimeDyeShaderData(AllAssets.Effects.HotMantleDye)
-                .UseColor(new Color(101, 0, 255)).UseSecondaryColor(new Color(20, 0, 120)).UseImage(AllAssets.Textures.MiscNoise[0]));
-        }
+            GameShaders.Armor.BindShader(Type, new MantleDyeShaderData());
     }
 
     public override void SetDefaults()

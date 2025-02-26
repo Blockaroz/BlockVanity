@@ -13,6 +13,11 @@ namespace BlockVanity.Content.Projectiles.Weapons.Magic;
 
 public class ScholarStaffProj : ModProjectile
 {
+    public override void SetStaticDefaults()
+    {
+        ProjectileID.Sets.HeldProjDoesNotUsePlayerGfxOffY[Type] = true;
+    }
+
     public override void SetDefaults()
     {
         Projectile.width = 34;
@@ -159,7 +164,7 @@ public class ScholarStaffProj : ModProjectile
             {
                 Dust.NewDustPerfect(staffEndPos, DustID.Smoke, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.5f), 100, Color.LightGray, Main.rand.NextFloat(1f, 2f));
 
-                PixelSpotParticle particle = PixelSpotParticle.pool.RequestParticle();
+                PixelEmber particle = PixelEmber.pool.RequestParticle();
                 particle.Prepare(staffEndPos, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.2f, 0.4f), 140, 0, Color.White with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 60 }, Main.rand.NextFloat(1f, 3f));
             }
         }
