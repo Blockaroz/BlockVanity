@@ -111,7 +111,7 @@ public class PlayerOfFrenziedFlame : ModPlayer
     public DrawData GetFrenzyTarget() => new DrawData(frenziedTarget, Vector2.Zero, frenziedTarget.Frame(), Color.White, -Player.fullRotation, frenziedTarget.Size() * 0.5f, 1f, 0);
     public DrawData GetFrenzyTargetFront() => new DrawData(frenziedTargetFront, Vector2.Zero, frenziedTargetFront.Frame(), Color.White, -Player.fullRotation, frenziedTargetFront.Size() * 0.5f, 1f, 0);
 
-    public static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter / 3f ?? Vector2.Zero;
+    public static Vector2 GetOffsetAnchor(Player player) => player.Center / 3f;
 
     public bool forceFlameBack;
 
@@ -121,8 +121,6 @@ public class PlayerOfFrenziedFlame : ModPlayer
     {
         if (Main.gameInactive || !IsReady())
             return;
-
-        UpdateCape();
 
         if (Player.head == EquipLoader.GetEquipSlot(Mod, nameof(AshenHead), EquipType.Head) || forceFlameBack)
         {
@@ -152,11 +150,6 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
         if (++miscTimer > 1200)
             miscTimer = 0;
-    }
-
-    public void UpdateCape()
-    {
-
     }
 
     public override void ResetEffects()

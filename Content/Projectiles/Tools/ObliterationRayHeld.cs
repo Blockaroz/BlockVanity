@@ -229,8 +229,7 @@ public class ObliterationRayHeld : ModProjectile, IDrawPixelated
         basicTrail.Parameters["uTexture1"].SetValue(TextureAssets.Extra[197].Value);
         basicTrail.Parameters["uGlowColor"].SetValue(Digging ? new Vector4(0.5f, 0.15f, 0f, 0.01f) : Vector4.Zero);
         basicTrail.Parameters["uTime"].SetValue(Time * 0.1f);
-
-        basicTrail.Parameters["transformMatrix"].SetValue(VanityUtils.NormalizedMatrixForPixelization(0.333333333333f));
+        basicTrail.Parameters["transformMatrix"].SetValue(VanityUtils.NormalizedMatrixForPixelization);
         basicTrail.CurrentTechnique.Passes[0].Apply();
 
         Vector2[] points = _lightningThin.GetPoints();

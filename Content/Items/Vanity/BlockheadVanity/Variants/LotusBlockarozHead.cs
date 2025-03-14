@@ -3,14 +3,17 @@ using BlockVanity.Common.Players;
 using BlockVanity.Core;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Content.Items.Vanity.BlockheadVanity;
+namespace BlockVanity.Content.Items.Vanity.BlockheadVanity.Variants;
 
 [AutoloadEquip(EquipType.Head)]
-public class BlockarozHead : VanityItem
+public class LotusBlockarozHead : VanityItem
 {
-    public BlockarozHead() : base(ItemRarityID.LightPurple) { }
+    public override LocalizedText DisplayName => ModContent.GetInstance<BlockarozHead>().DisplayName;
+
+    public LotusBlockarozHead() : base(ItemRarityID.Cyan) { }
 
     public override void SetStaticDefaults()
     {
@@ -23,11 +26,8 @@ public class BlockarozHead : VanityItem
     public override void AddRecipes()
     {
         CreateRecipe()
-            .AddIngredient<CardboardBox>()
-            .AddIngredient(ItemID.Silk, 15)
-            .AddIngredient(ItemID.Ectoplasm, 8)
-            .AddIngredient(ItemID.DarkShard)
-            .AddIngredient(ItemID.LightShard)
+            .AddIngredient<BlockarozHead>()
+            .AddIngredient<LotusHairpin>()
             .Register();
     }
 }

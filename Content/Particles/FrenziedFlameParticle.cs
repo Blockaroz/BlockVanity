@@ -99,7 +99,7 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
         if (HostPlayer != null)
             scaleMod += Utils.GetLerpValue(20, 700, Position.Distance(HostPlayer.MountedCenter / 3f), true) * fadeIn;
 
-        Vector2 stretch = new Vector2(1f, 0.8f + Velocity.Length() * 0.1f);
+        Vector2 stretch = new Vector2(1f, 1f + Velocity.Length() * 0.15f);
         spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * new Vector2(0.5f, 0.6f), Scale * scaleMod * stretch, effect, 0);
     }
 

@@ -38,7 +38,6 @@ public class ObliterationRay : ModItem
         Item.channel = true;
 
         Item.rare = ItemRarityID.LightRed;
-        Item.axe = 195 / 5;
         Item.pick = 110;
         Item.tileBoost = 6;
 

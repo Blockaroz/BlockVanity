@@ -105,6 +105,6 @@ public class PixelationLayer
     public void Draw()
     {
         if (target != null)
-            Main.spriteBatch.Draw(target, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 3f, 0, 0);
+            Main.spriteBatch.Draw(target, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 2f, 0, 0);
     }
 }

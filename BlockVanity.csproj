@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Sounds\HitSounds\" />
     <Folder Include="Content\Pets\BulbLantern\" />
   </ItemGroup>
 </Project>

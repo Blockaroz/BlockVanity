@@ -31,25 +31,19 @@ public class MiscEffectPlayer : ModPlayer
     private void HideHeadLayer(On_PlayerDrawLayers.orig_DrawPlayer_21_Head orig, ref PlayerDrawSet drawinfo)
     {
         if (!hideHead.Contains(drawinfo.drawPlayer.head))
-        {
             orig(ref drawinfo);
-        }
     }
 
     private void HideLegsLayer(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
     {
         if (!hideLegs.Contains(drawinfo.drawPlayer.legs))
-        {
             orig(ref drawinfo);
-        }
     }
 
     private void DisableFastRunParticles(On_Player.orig_SpawnFastRunParticles orig, Player self)
     {
         if (!self.GetModPlayer<MiscEffectPlayer>().disableBootsEffect)
-        {
             orig(self);
-        }
     }
 
     public void SetWalkSpeed(float speed = 0.275f)
@@ -63,39 +57,18 @@ public class MiscEffectPlayer : ModPlayer
     internal float walkCounter;
     internal int walkFrame;
 
+    // This is really jank
     private void SlowLegs(On_Player.orig_PlayerFrame orig, Player self)
     {
-        orig(self);
-
         MiscEffectPlayer miscPlayer = self.GetModPlayer<MiscEffectPlayer>();
 
-        if (miscPlayer.UseCustomWalkSpeed && self.velocity.Y == 0)
+        if (!Main.gameInactive && miscPlayer.UseCustomWalkSpeed && self.velocity.X != 0 && self.velocity.Y == 0)
         {
-            if (!Main.gameInactive)
-                miscPlayer.walkCounter += Math.Abs(self.velocity.X * miscPlayer.walkSpeed);
-
-            while (miscPlayer.walkCounter > 8)
-            {
-                miscPlayer.walkCounter -= 8;
-                miscPlayer.walkFrame += self.legFrame.Height;
-            }
-
-            if (miscPlayer.walkFrame < self.legFrame.Height * 7)
-                miscPlayer.walkFrame = self.legFrame.Height * 19;
-            else if (miscPlayer.walkFrame > self.legFrame.Height * 19)
-                miscPlayer.walkFrame = self.legFrame.Height * 7;
-
-            if (self.velocity.X == 0)
-            {
-                miscPlayer.walkFrame = 0;
-                miscPlayer.walkCounter = 0;
-            }
-
-            self.bodyFrameCounter = 0.0;
-            self.legFrameCounter = 0.0;
-            self.bodyFrame.Y = miscPlayer.walkFrame;
-            self.legFrame.Y = miscPlayer.walkFrame;
+            self.legFrameCounter -= (double)Math.Abs(self.velocity.X) * 1.3;
+            self.legFrameCounter += Math.Abs(self.velocity.X * miscPlayer.walkSpeed) * 0.9;
         }
+
+        orig(self);
     }
 
     public override void UpdateEquips()
@@ -103,18 +76,14 @@ public class MiscEffectPlayer : ModPlayer
         for (int i = 10; i < 13; i++)
         {
             if (Player.armor[i].ModItem is IUpdateArmorInVanity)
-            {
                 ItemLoader.UpdateEquip(Player.armor[i], Player);
-            }
         }
     }
 
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
         if (accBlackLens)
-        {
             drawInfo.colorEyeWhites = new Color(20, 20, 20);
-        }
     }
 
     public override IEnumerable<Item> AddStartingItems(bool mediumCoreDeath)

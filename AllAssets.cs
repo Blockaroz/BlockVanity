@@ -61,8 +61,7 @@ public static class AllAssets
 
         Effects.SeasideHairDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/SeasideHairDye");
 
-        Sounds.FishyHit = new SoundStyle(assetsPath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
-        Sounds.DemonHit = new SoundStyle(assetsPath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
+        //Sounds.FishyHit = new SoundStyle(assetsPath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
     }
 
     public static class Textures
@@ -85,9 +84,7 @@ public static class AllAssets
 
     public static class Sounds
     {
-        public static SoundStyle FishyHit;
-
-        public static SoundStyle DemonHit;
+        //public static SoundStyle FishyHit;
     }
 
     public static class Effects

@@ -12,7 +12,7 @@ public class FishFood : VanityItem
 
     public override void UpdateVanity(Player player)
     {
-        HitEffectPlayer.SetSkinHitSound(player, AllAssets.Sounds.FishyHit);
+        //HitEffectPlayer.SetSkinHitSound(player, AllAssets.Sounds.FishyHit);
         player.GetModPlayer<BlueFishSkinPlayer>().enabled = true;
         player.GetModPlayer<ReskinPlayer>().enabled = true;
     }

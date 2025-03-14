@@ -259,6 +259,11 @@ Items: {
 			'The laser is barely contained' 
 			'''
 	}
+
+	LotusBlockarozHead: {
+		DisplayName: Lotus Blockaroz Head
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

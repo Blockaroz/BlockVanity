@@ -31,20 +31,19 @@ public class ExcellencePlayer : ModPlayer
     private void ExcellenceShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)
     {
         if (self.GetModPlayer<ExcellencePlayer>().enabled)
-        {
             self.armorEffectDrawOutlinesForbidden = true;
-        }
         else
-        {
             orig(self, drawPlayer);
-        }
     }
 
     public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
     {
         if (enabled && drawInfo.shadow > 0f)
         {
-            a = 0.2f;
+            a = 0.33f;
+            r = 1.1f;
+            b = 0.3f;
+            g = 0.3f;
         }
     }
 

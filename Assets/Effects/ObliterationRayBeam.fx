@@ -52,7 +52,7 @@ float4 PixelShaderFunction(in VertexShaderOutput input) : COLOR0
 {
     float4 n1 = tex2D(a1, input.Coord + float2(-uTime, 0)) + tex2D(a2, input.Coord + float2(-uTime * 2, 0));
     
-    return saturate(pow(length(n1.rgb) / 2, 4)) * input.Color + (pow(length(n1.rgb) / 2, 1.6) + length(n1.rgb) * 0.1) * uGlowColor;;
+    return saturate(pow(length(n1.rgb) / 2.5, 4)) * input.Color + (pow(length(n1.rgb) / 2, 2) + length(n1.rgb) * 0.1) * uGlowColor;;
 }
 
 technique Technique1

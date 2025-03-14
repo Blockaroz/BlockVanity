@@ -85,7 +85,7 @@ public class CountChaosPlayer : ModPlayer
     public bool IsReady => chaosParticleTarget != null && chaosParticles != null;
     public DrawData GetChaosParticleTarget() => new DrawData(chaosParticleTarget, Player.MountedCenter - Main.screenPosition, chaosParticleTarget.Frame(), Color.White, -Player.fullRotation, chaosParticleTarget.Size() * 0.5f, 2f, 0);
 
-    private static Vector2 GetOffsetAnchor(Player player) => player?.MountedCenter / 16f ?? Vector2.Zero;
+    public static Vector2 GetOffsetAnchor(Player player) => player.Center / 16f;
 
     public override void FrameEffects()
     {

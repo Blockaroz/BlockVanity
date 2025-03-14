@@ -55,7 +55,7 @@ public static class VanityUtils
     
     public static Matrix NormalizedTranslationMatrix => Matrix.Invert(Matrix.Identity) * Matrix.CreateOrthographicOffCenter(0f, Main.instance.GraphicsDevice.Viewport.Width, Main.instance.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
    
-    public static Matrix NormalizedMatrixForPixelization(float scale) => Matrix.Invert(Matrix.Identity) * Matrix.CreateScale(scale) * Matrix.CreateOrthographicOffCenter(0f, Main.instance.GraphicsDevice.Viewport.Width, Main.instance.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
+    public static Matrix NormalizedMatrixForPixelization => Matrix.Invert(Matrix.Identity) * Matrix.CreateScale(0.5f) * Matrix.CreateOrthographicOffCenter(0f, Main.instance.GraphicsDevice.Viewport.Width, Main.instance.GraphicsDevice.Viewport.Height, 0f, 0f, 1f);
 
     public static Color ToGrayscale(this Color color)
     {

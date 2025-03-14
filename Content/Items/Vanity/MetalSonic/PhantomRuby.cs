@@ -10,7 +10,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Content.Items.Vanity.SonicTheHedgehog;
+namespace BlockVanity.Content.Items.Vanity.MetalSonic;
 
 public class PhantomRuby : VanityItem
 {
@@ -19,11 +19,9 @@ public class PhantomRuby : VanityItem
     public override void Load()
     {
         if (Main.netMode == NetmodeID.Server)
-        {
             return;
-        }
 
-        string assetPath = $"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/SonicTheHedgehog/Sonic";
+        string assetPath = $"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/MetalSonic/MetalSonic";
         EquipLoader.AddEquipTexture(Mod, $"{assetPath}_{EquipType.Head}", EquipType.Head, this);
         EquipLoader.AddEquipTexture(Mod, $"{assetPath}_{EquipType.Body}", EquipType.Body, this);
         EquipLoader.AddEquipTexture(Mod, $"{assetPath}_{EquipType.Legs}", EquipType.Legs, this);
@@ -33,12 +31,11 @@ public class PhantomRuby : VanityItem
 
     public override void SetStaticDefaults()
     {
-        if (Main.netMode == NetmodeID.Server)
-        {
-            return;
-        }
-
         ItemID.Sets.AnimatesAsSoul[Type] = true;
+
+        if (Main.netMode == NetmodeID.Server)
+            return;
+
         Main.RegisterItemAnimation(Type, new DrawAnimationVertical(10, 5));
 
         Item.headSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
@@ -57,8 +54,9 @@ public class PhantomRuby : VanityItem
 
     public override void UpdateVanity(Player player)
     {
-        player.GetModPlayer<SonicTheHedgehogPlayer>().enabled = true;
+        player.GetModPlayer<MetalSonicPlayer>().enabled = true;
         player.GetModPlayer<MiscEffectPlayer>().disableBootsEffect = true;
+        player.GetModPlayer<MiscEffectPlayer>().SetWalkSpeed(1.1f);
         HitEffectPlayer.SetEquipHitSound(player, SoundID.NPCHit1);
     }
 

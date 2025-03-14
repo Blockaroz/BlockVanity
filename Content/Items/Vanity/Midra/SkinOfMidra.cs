@@ -13,6 +13,7 @@ public class SkinOfMidra : VanityItem
     public override void SetStaticDefaults()
     {
         ArmorIDs.Body.Sets.HidesTopSkin[Item.bodySlot] = true;
+        ArmorIDs.Body.Sets.HidesBottomSkin[Item.bodySlot] = true;
     }
 
     public override void Load()

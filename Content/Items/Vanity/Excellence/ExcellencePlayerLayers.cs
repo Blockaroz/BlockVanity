@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
@@ -26,12 +27,13 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
         Texture2D headTexture = TextureAssets.ArmorHead[EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Head)].Value;
-        Vector2 headPos = drawInfo.HeadPosition() - Vector2.UnitY * 2 * drawInfo.drawPlayer.gravDir;
-        headPos.ApplyVerticalOffset(drawInfo);
+        Vector2 headPos = drawInfo.HeadPosition() - Vector2.UnitY * 4 * drawInfo.drawPlayer.gravDir;
+        //headPos.ApplyVerticalOffset(drawInfo);
 
-        float headOffY = Main.OffsetsPlayerHeadgear[drawInfo.drawPlayer.bodyFrame.Y / drawInfo.drawPlayer.bodyFrame.Height].Y;
+        int walkFrame = drawInfo.drawPlayer.bodyFrame.Y / drawInfo.drawPlayer.bodyFrame.Height;
         bool useFallFrame = drawInfo.drawPlayer.velocity.Y * drawInfo.drawPlayer.gravDir > 0;
-        Rectangle headFrame = headTexture.Frame(1, 2, 0, useFallFrame ? 1 : 0);
+
+        Rectangle headFrame = headTexture.Frame(1, 16, 0, useFallFrame ? 1 : Math.Max(walkFrame - 4, 0));
 
         DrawData headData = new DrawData(headTexture, headPos, headFrame, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
         headData.shader = drawInfo.cHead;
