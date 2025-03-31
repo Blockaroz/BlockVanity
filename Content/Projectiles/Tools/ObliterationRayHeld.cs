@@ -101,7 +101,7 @@ public class ObliterationRayHeld : ModProjectile, IDrawPixelated
         Projectile.direction = Projectile.velocity.X > 0 ? 1 : -1;
         Player.ChangeDir(Projectile.direction);
         Player.heldProj = Projectile.whoAmI;
-        Player.SetDummyItemTime(10);
+        Player.SetDummyItemTime(5);
         Projectile.Center = Player.RotatedRelativePoint(Player.HandPosition.Value - new Vector2(0, Player.gfxOffY)) + Main.rand.NextVector2Circular(1, 1);
         Projectile.rotation = Projectile.rotation.AngleLerp(Projectile.AngleTo(tileTargetInWorld), 0.1f);
         Player.itemRotation = (Projectile.velocity * Projectile.direction).ToRotation();
@@ -215,12 +215,8 @@ public class ObliterationRayHeld : ModProjectile, IDrawPixelated
         return false;
     } 
 
-    private VertexStrip _lightningStrip; 
-
     public void DrawLightning()
     {
-        _lightningStrip ??= new VertexStrip();
-
         Color GetLightningColor(float p) => Digging ? Color.Lerp(Color.Gold, Color.Orange, p) with { A = 30 } : Color.Lerp(Color.Orange, Color.OrangeRed, p * 0.5f + 0.3f) with { A = 20 } * (1f - p) * 0.66f;
         float GetThinWidth(float p) => (12f + MathF.Sin(p * 10f + Time) * 5f);
 
@@ -235,16 +231,14 @@ public class ObliterationRayHeld : ModProjectile, IDrawPixelated
         Vector2[] points = _lightningThin.GetPoints();
         float[] rotations = Enumerable.Repeat(Projectile.rotation, points.Length).ToArray();
 
-        _lightningStrip.PrepareStrip(points, rotations, GetLightningColor, GetThinWidth, -Main.screenPosition, points.Length, true);
-        _lightningStrip.DrawTrail();
+        PrimitiveRenderer.DrawStrip(points, rotations, GetLightningColor, GetThinWidth, -Main.screenPosition);
 
         if (Digging)
         {
             points = _lightning.GetPoints();
             float GetThickWidth(float p) => 18f + MathF.Sin(p * 9f + Time) * 5f;
 
-            _lightningStrip.PrepareStrip(points, rotations, GetLightningColor, GetThickWidth, -Main.screenPosition, points.Length, true);
-            _lightningStrip.DrawTrail();
+            PrimitiveRenderer.DrawStrip(points, rotations, GetLightningColor, GetThickWidth, -Main.screenPosition);
         }
 
         Main.pixelShader.CurrentTechnique.Passes[0].Apply();
