@@ -1,4 +1,4 @@
-﻿sampler uImage0 : register(s0);
+sampler uImage0 : register(s0);
 float uPower;
 float4 uDarkColor;
 float4 uGlowColor;
