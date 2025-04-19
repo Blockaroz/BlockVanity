@@ -12,7 +12,7 @@ namespace BlockVanity.Content.World;
 
 public class MicroBiomeGen : ModSystem
 {
-    public override void ModifyWorldGenTasks(List<GenPass> tasks, ref double totalWeight)
+    public override void Load()
     {
         WorldGen.DetourPass((PassLegacy)WorldGen.VanillaGenPasses["Micro Biomes"], GenerateMicroBiomes);
     }
