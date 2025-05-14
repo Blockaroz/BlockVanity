@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using static BlockVanity.Core.Rope;
 
 namespace BlockVanity.Core;
 
 public class Rope
 {
-    public class RopeSegment
+    public struct RopeSegment
     {
         public RopeSegment(Vector2 position)
         {
@@ -16,7 +17,6 @@ public class Rope
 
         public Vector2 position;
         public Vector2 oldPosition;
-        public Vector2 velocity;
         public bool pinned;
     }
 
@@ -36,16 +36,6 @@ public class Rope
         this.accuracy = accuracy;
     }
 
-    public void Settle()
-    {
-        float oldDamp = damping;
-        damping = 0.67f;
-        for (int a = 0; a < segments.Length; a++)
-            Update();
-
-        damping = oldDamp;
-    }
-
     public RopeSegment[] segments;
     public float segmentLength;
     public Vector2 gravity;
@@ -58,50 +48,57 @@ public class Rope
 
     private int accuracy;
 
-    public void Update()
+    public static void Settle(Rope rope)
     {
-        for (int i = 0; i < segments.Length; i++)
-        {
-            segments[i].velocity = (segments[i].position - segments[i].oldPosition) * (1f - damping);
-            if (segments[i].velocity.Length() < 0.015f)
-                segments[i].velocity = Vector2.Zero;
-
-            segments[i].oldPosition = segments[i].position;
-
-            if (!segments[i].pinned)
-                segments[i].position += TileCollision(segments[i].position, segments[i].velocity + gravity);
-        }
-
-        for (int a = 0; a < accuracy; a++)
-            Constrain();
+        float oldDamp = rope.damping;
+        rope.damping = 0.66667f;
+        for (int a = 0; a < rope.segments.Length; a++)
+            Update(rope);
+        rope.damping = oldDamp;
     }
 
-    public void Constrain()
+    public static void Update(Rope rope)
     {
-        for (int i = 0; i < segments.Length - 1; i++)
+        for (int i = 0; i < rope.segments.Length; i++)
         {
-            float dist = segments[i].position.Distance(segments[i + 1].position);
-            float error = dist - segmentLength;
-            Vector2 correction = segments[i].position.DirectionFrom(segments[i + 1].position) * error;
+            Vector2 velocity = (rope.segments[i].position - rope.segments[i].oldPosition) * (1f - rope.damping);
+            if (velocity.Length() < 0.015f)
+                velocity = Vector2.Zero;
 
-            bool pinned = segments[i].pinned;
-            bool nextPinned = segments[i + 1].pinned;
-            float multiplier = pinned || nextPinned ? 1f : 0.5f;
+            rope.segments[i].oldPosition = rope.segments[i].position;
 
-            if (!pinned)
-                segments[i].position -= TileCollision(segments[i].position, correction * multiplier);
-            if (!nextPinned)
-                segments[i + 1].position += TileCollision(segments[i + 1].position, correction * multiplier);
+            if (!rope.segments[i].pinned)
+                rope.segments[i].position += TileCollision(rope, rope.segments[i].position, velocity + rope.gravity);
+        }
+
+        // Constrain
+        for (int a = 0; a < rope.accuracy; a++)
+        {
+            for (int i = 0; i < rope.segments.Length - 1; i++)
+            {
+                float dist = rope.segments[i].position.Distance(rope.segments[i + 1].position);
+                float error = dist - rope.segmentLength;
+                Vector2 correction = rope.segments[i].position.DirectionFrom(rope.segments[i + 1].position) * error;
+
+                bool pinned = rope.segments[i].pinned;
+                bool nextPinned = rope.segments[i + 1].pinned;
+                float multiplier = pinned || nextPinned ? 1f : 0.5f;
+
+                if (!pinned)
+                    rope.segments[i].position -= TileCollision(rope, rope.segments[i].position, correction * multiplier);
+                if (!nextPinned)
+                    rope.segments[i + 1].position += TileCollision(rope, rope.segments[i + 1].position, correction * multiplier);
+            }
         }
     }
 
-    private Vector2 TileCollision(Vector2 position, Vector2 velocity)
+    private static Vector2 TileCollision(Rope rope, Vector2 position, Vector2 velocity)
     {
-        if (!tileCollide)
+        if (!rope.tileCollide)
             return velocity;
 
-        Vector2 newVelocity = Collision.noSlopeCollision(position + colliderOrigin, velocity, colliderWidth, colliderHeight + 2, true, true);
-        newVelocity = Collision.noSlopeCollision(position + colliderOrigin, newVelocity, colliderWidth, colliderHeight, true, true);
+        Vector2 newVelocity = Collision.noSlopeCollision(position + rope.colliderOrigin, velocity, rope.colliderWidth, rope.colliderHeight + 2, true, true);
+        newVelocity = Collision.noSlopeCollision(position + rope.colliderOrigin, newVelocity, rope.colliderWidth, rope.colliderHeight, true, true);
         Vector2 result = velocity;
         if (Math.Abs(velocity.X) > Math.Abs(newVelocity.X))
             result.X = 0;
@@ -109,15 +106,6 @@ public class Rope
             result.Y = 0;
 
         return result;
-    }
-
-    public Vector2[] GetPoints()
-    {
-        Vector2[] points = new Vector2[segments.Length];
-        for (int i = 0; i < segments.Length; i++)
-            points[i] = segments[i].position;
-
-        return points;
     }
 
     public Rectangle GetCollisionRect(int i) => new Rectangle((int)(segments[i].position.Floor().X + colliderOrigin.X), (int) (segments[i].position.Floor().Y + colliderOrigin.Y), colliderWidth, colliderHeight);

@@ -203,12 +203,13 @@ public class JadeChainSwordProj : ModProjectile
             _ => 48
         };
         Vector2 chainStart = Projectile.Center + Projectile.velocity * 0.5f + new Vector2(-30, 0).RotatedBy(Projectile.rotation) * Projectile.scale;
+        
         chainRope ??= new Rope(chainStart, Player.MountedCenter, chainLength, 11, chainGravity, 20);
         chainRope.damping = 0.1f;
         chainRope.segments[0].position = chainStart;
         chainRope.segments[^1].position = Player.MountedCenter;
         chainRope.gravity = (Projectile.rotation - MathHelper.PiOver2 * Projectile.direction).ToRotationVector2() * 0.1f + chainGravity;
-        chainRope.Update();
+        Rope.Update(chainRope);
 
         float lightPower = 0.2f;
         if (!Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
@@ -333,19 +334,19 @@ public class JadeChainSwordProj : ModProjectile
 
         if (chainRope != null)
         {
-            Vector2[] chainPoints = chainRope.GetPoints();
-            for (int i = 0; i < chainPoints.Length - 1; i++)
+            Rope.RopeSegment[] chain = chainRope.segments;
+            for (int i = 0; i < chain.Length - 1; i++)
             {
-                float chainColorLerp = MathF.Pow(i / (float)chainPoints.Length, 3f);
-                Color chainColor = Color.Lerp(Lighting.GetColor(chainPoints[i].ToTileCoordinates()) * 1.2f, Color.White, 0.1f);
+                float chainColorLerp = MathF.Pow(i / (float)chain.Length, 3f);
+                Color chainColor = Color.Lerp(Lighting.GetColor(chain[i].position.ToTileCoordinates()) * 1.2f, Color.White, 0.1f);
                 Rectangle chainFrame = chainTexture.Frame(1, 3, 0, i % 2);
-                float chainRotation = chainPoints[i].AngleTo(chainPoints[i + 1]) - MathHelper.PiOver2;
-                float chainScale = MathHelper.Lerp(Projectile.scale, 1f, MathF.Sqrt((float)i / chainPoints.Length));
-                Main.EntitySpriteDraw(chainTexture.Value, chainPoints[i] - Main.screenPosition, chainFrame, chainColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), chainScale, flipEffect, 0);
-                if (i > chainPoints.Length / 2)
+                float chainRotation = chain[i].position.AngleTo(chain[i + 1].position) - MathHelper.PiOver2;
+                float chainScale = MathHelper.Lerp(Projectile.scale, 1f, MathF.Sqrt((float)i / chain.Length));
+                Main.EntitySpriteDraw(chainTexture.Value, chain[i].position - Main.screenPosition, chainFrame, chainColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), chainScale, flipEffect, 0);
+                if (i > chain.Length / 2)
                 {
                    Color glowColor = Color.MediumSeaGreen with { A = 0 } * chainColorLerp;
-                    Main .EntitySpriteDraw(chainTexture.Value, chainPoints[i] - Main.screenPosition, chainFrame, glowColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), chainScale, flipEffect, 0);
+                    Main .EntitySpriteDraw(chainTexture.Value, chain[i].position - Main.screenPosition, chainFrame, glowColor, chainRotation, new Vector2(chainFrame.Width / 2, 6), chainScale, flipEffect, 0);
                 }
             }
         }
