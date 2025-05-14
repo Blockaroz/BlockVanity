@@ -8,14 +8,14 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Items.Dyes;
 
-public class HotMantleDye : ModItem
+public class WitheringDye : ModItem
 {
     public override void SetStaticDefaults()
     {
         Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
-            GameShaders.Armor.BindShader(Type, new MantleDyeShaderData());
+            GameShaders.Armor.BindShader(Type, new WitheringDyeShaderData());
     }
 
     public override void SetDefaults()

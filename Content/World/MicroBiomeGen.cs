@@ -14,7 +14,7 @@ public class MicroBiomeGen : ModSystem
 {
     public override void Load()
     {
-        WorldGen.DetourPass((PassLegacy)WorldGen.VanillaGenPasses["Micro Biomes"], GenerateMicroBiomes);
+        //WorldGen.DetourPass((PassLegacy)WorldGen.VanillaGenPasses["Micro Biomes"], GenerateMicroBiomes);
     }
 
     public static void GenerateMicroBiomes(WorldGen.orig_GenPassDetour orig, object self, GenerationProgress progress, GameConfiguration configuration)

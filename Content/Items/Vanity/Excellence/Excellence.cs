@@ -16,7 +16,7 @@ public class Excellence : VanityItem
 
     public override void Load()
     {
-        if (Main.netMode == NetmodeID.Server)
+        if (Main.dedServ)
             return;
 
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this);
@@ -28,7 +28,7 @@ public class Excellence : VanityItem
     {
         ItemID.Sets.ItemNoGravity[Type] = true;
 
-        if (Main.netMode == NetmodeID.Server)
+        if (Main.dedServ)
             return;
 
         Item.headSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);

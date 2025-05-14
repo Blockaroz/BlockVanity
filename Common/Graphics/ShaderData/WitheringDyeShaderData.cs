@@ -10,9 +10,9 @@ using Terraria.Graphics.Shaders;
 
 namespace BlockVanity.Common.Graphics.ShaderData;
 
-public class MantleDyeShaderData : ArmorShaderData
+public class WitheringDyeShaderData : ArmorShaderData
 {
-    public MantleDyeShaderData() : base(AllAssets.Effects.HotMantleDye, "ShaderPass")
+    public WitheringDyeShaderData() : base(AllAssets.Effects.HotMantleDye, "ShaderPass")
     {
     }
 }

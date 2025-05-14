@@ -264,6 +264,11 @@ Items: {
 		DisplayName: Lotus Blockaroz Head
 		Tooltip: ""
 	}
+
+	WitheringDye: {
+		DisplayName: Withering Dye
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

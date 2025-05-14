@@ -73,13 +73,9 @@ public class ExcellencePlayerLegsLayer : PlayerDrawLayer
         int originOffY = 0;
 
         if (legFrame < 2)
-        {
             legFrame = 0;
-        }
         else if (legFrame == 2)
-        {
             legFrame = 1;
-        }
 
         if (drawInfo.isSitting)
         {

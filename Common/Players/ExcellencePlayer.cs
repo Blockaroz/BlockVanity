@@ -15,6 +15,12 @@ public class ExcellencePlayer : ModPlayer
         On_Player.SetArmorEffectVisuals += ExcellenceShadows;
     }
 
+    public override void Unload()
+    {
+        On_Player.UpdateVisibleAccessory -= EnableExcellence;
+        On_Player.SetArmorEffectVisuals -= ExcellenceShadows;
+    }
+
     private void EnableExcellence(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
     {
         orig(self, itemSlot, item, modded);
