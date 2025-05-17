@@ -269,6 +269,11 @@ Items: {
 		DisplayName: Withering Dye
 		Tooltip: ""
 	}
+
+	ChlorophyteHeaddress: {
+		DisplayName: Chlorophyte Headdress
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

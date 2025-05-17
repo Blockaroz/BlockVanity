@@ -11,11 +11,11 @@ namespace BlockVanity.Content.Items.Vanity.Excellence;
 
 public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 {
-    public static Asset<Texture2D> headGlowTexture;
+    public static Asset<Texture2D> HeadGlowTexture { get; set; }
 
     public override void Load()
     {
-        headGlowTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Excellence/Excellence_{EquipType.Head}_Glow");
+        HeadGlowTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Excellence/Excellence_{EquipType.Head}_Glow");
     }
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
@@ -41,7 +41,7 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 
         if (drawInfo.shadow <= 0f)
         {
-            DrawData headGlowData = new DrawData(headGlowTexture.Value, headPos, headFrame, Color.White, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+            DrawData headGlowData = new DrawData(HeadGlowTexture.Value, headPos, headFrame, Color.White, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
             headGlowData.shader = drawInfo.cHead;
             drawInfo.DrawDataCache.Add(headGlowData);
 
@@ -49,7 +49,7 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
             for (int i = 0; i < 2; i++)
             {
                 Vector2 offset = Main.rand.NextVector2Circular(2, 2) * 0.67f;
-                DrawData headGlowShakeData = new DrawData(headGlowTexture.Value, headPos + offset, headFrame, shakeColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+                DrawData headGlowShakeData = new DrawData(HeadGlowTexture.Value, headPos + offset, headFrame, shakeColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
                 headGlowShakeData.shader = drawInfo.cHead;
                 drawInfo.DrawDataCache.Add(headGlowShakeData);
             }

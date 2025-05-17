@@ -57,7 +57,7 @@ public static class AllAssets
         Effects.RadiationDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/RadiationDye");
         Effects.PhantomDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/PhantomDye");
         Effects.ChaosMatterDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/ChaosMatterDye");
-        Effects.HotMantleDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/HotMantleDye");
+        Effects.WitheringDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/WitheringDye");
 
         Effects.SeasideHairDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/SeasideHairDye");
 
@@ -98,7 +98,7 @@ public static class AllAssets
         public static Asset<Effect> RadiationDye;
         public static Asset<Effect> PhantomDye;
         public static Asset<Effect> ChaosMatterDye;
-        public static Asset<Effect> HotMantleDye;
+        public static Asset<Effect> WitheringDye;
 
         public static Asset<Effect> SeasideHairDye;
         public static Asset<Effect> SparklingAshHairDye;
