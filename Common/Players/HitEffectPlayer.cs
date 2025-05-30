@@ -13,47 +13,22 @@ public class HitEffectPlayer : ModPlayer
         player.GetModPlayer<HitEffectPlayer>().hitSound = hitSound;
     }
 
-    public static void SetSkinHitSound(Player player, SoundStyle hitSound)
-    {
-        player.GetModPlayer<HitEffectPlayer>().skin = true;
-        player.GetModPlayer<HitEffectPlayer>().hitSoundSkin = hitSound;
-    }
-
     private bool enabled;
     private SoundStyle hitSound;
 
-    private bool skin;
-    private SoundStyle hitSoundSkin;
-
     public override void ModifyHurt(ref Player.HurtModifiers modifiers)
     {
-        if (HitSoundToggle.IsActive(Player))
+        if (enabled)
         {
-            if (enabled || skin)
-            {
-                modifiers.DisableSound();
-            }
-        }
-    }
+            modifiers.DisableSound();
 
-    public override void OnHurt(Player.HurtInfo info)
-    {
-        if (HitSoundToggle.IsActive(Player))
-        {
-            if (enabled)
-            {
+            if (!Main.dedServ)
                 SoundEngine.PlaySound(hitSound, Player.position);
-            }
-            else if (skin)
-            {
-                SoundEngine.PlaySound(hitSoundSkin, Player.position);
-            }
         }
     }
 
     public override void ResetEffects()
     {
         enabled = false;
-        skin = false;
     }
 }

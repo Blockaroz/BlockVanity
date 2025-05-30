@@ -13,12 +13,15 @@ public class ChaosParticleLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => PlayerDrawLayers.BeforeFirstVanillaLayer;
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => true;
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) =>
+        drawInfo.drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body) ||
+        drawInfo.drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
         CountChaosPlayer particlePlayer = drawInfo.drawPlayer.GetModPlayer<CountChaosPlayer>();
-        if (particlePlayer.IsReady && drawInfo.shadow <= 0f && !drawInfo.hideEntirePlayer)
+
+        if (particlePlayer.IsReady() && drawInfo.shadow <= 0f && !drawInfo.hideEntirePlayer)
         {
             DrawData data = particlePlayer.GetChaosParticleTarget();
             data.position = drawInfo.Center.Floor() + new Vector2(0, drawInfo.mountOffSet / 2f) - Main.screenPosition;

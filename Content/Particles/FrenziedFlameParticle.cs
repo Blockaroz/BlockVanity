@@ -69,10 +69,13 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
 
             OldPos = HostPlayer.position;
             float distance = Position.Distance(HostPlayer.MountedCenter / 3f);
-            if (distance > 150)
+            if (distance > 50)
+            {
                 TimeLeft++;
+                StrayPercent *= 0.9f;
+            }
 
-            if (distance > 300)
+            if (distance > 100)
                 ShouldBeRemovedFromRenderer = true;
         }
 
@@ -85,7 +88,7 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
         float progress = (float)TimeLeft / MaxTime;
-        float fadeIn = MathF.Sin(Utils.GetLerpValue(0, 60, TimeLeft, true) * MathHelper.PiOver2);
+        float fadeIn = MathF.Sin(Utils.GetLerpValue(-10, 80, TimeLeft, true) * MathHelper.PiOver2);
 
         int frameCounter = (int)Math.Floor(StartFrame * fadeIn + progress * 142);
         Texture2D texture = FrenziedParticleTexture[FlameStyle].Value;
@@ -93,7 +96,7 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
 
         SpriteEffects effect = Pinkness > 50 ? SpriteEffects.FlipHorizontally : 0;
 
-        float scaleMod = (0.6f + MathF.Pow(progress, 2) * 0.5f) * (fadeIn * 0.7f + 0.3f);
+        float scaleMod = (0.8f + MathF.Pow(progress, 2) * 0.2f) * (fadeIn * 0.5f + 0.5f);
         Color drawColor = new Color(Pinkness / 100f, 1f, progress * fadeIn);
 
         if (HostPlayer != null)
