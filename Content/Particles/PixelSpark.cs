@@ -89,13 +89,13 @@ public class PixelSpark : BaseParticle
         Texture2D glow = AllAssets.Textures.Glow[0].Value;
 
         float rotation = MathF.Round(Position.AngleFrom(EndPosition) / MathHelper.TwoPi * 8f) / 8f * MathHelper.TwoPi;
-        float fadeOut = Utils.GetLerpValue(0f, 0.04f, Scale, true);
+        float fadeOut = Utils.GetLerpValue(0f, 0.05f, Scale, true);
 
         Vector2 particlePos = new Vector2((int)Math.Round(Position.X / 2) * 2, (int)Math.Round(Position.Y / 2) * 2) + settings.AnchorPosition;
         Vector2 unRotatedVel = Velocity.RotatedBy(-rotation);
         Vector2 stretch = new Vector2(1.1f + Position.Distance(EndPosition) * 0.15f, 1f) * (1f + Mass * 0.01f);
 
         spritebatch.Draw(texture, particlePos, texture.Frame(), ColorTint * fadeOut, rotation, texture.Size() * 0.5f, stretch, 0, 0);
-        spritebatch.Draw(glow, particlePos, glow.Frame(), ColorGlow with { A = 0 } * fadeOut, rotation, glow.Size() * 0.5f, 0.1f * stretch, 0, 0);    
+        spritebatch.Draw(glow, particlePos, glow.Frame(), ColorGlow with { A = 0 } * fadeOut, rotation, glow.Size() * 0.5f, new Vector2(0.1f, 0.15f) * stretch, 0, 0);    
     }
 }

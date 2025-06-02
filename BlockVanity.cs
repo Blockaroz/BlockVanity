@@ -7,7 +7,7 @@ namespace BlockVanity;
 
 public class BlockVanity : Mod
 {
-    public static BlockVanity GetInstance() => ModContent.GetInstance<BlockVanity>();
+    public static BlockVanity Instance => ModContent.GetInstance<BlockVanity>();
 
     public override void Load()
     {

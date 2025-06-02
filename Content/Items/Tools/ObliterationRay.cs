@@ -53,6 +53,12 @@ public class ObliterationRay : ModItem
         glowTexture = ModContent.Request<Texture2D>(Texture + "_Glow");
     }
 
+    public override bool? UseItem(Player player)
+    {
+        player.toolTime = 4;
+        return null;
+    }
+
     public override void HoldItem(Player player)
     {
         if (player.whoAmI == Main.myPlayer && !Main.SmartCursorWanted)

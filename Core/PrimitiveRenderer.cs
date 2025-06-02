@@ -10,45 +10,25 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Core;
 
-public class PrimitiveRenderer : ILoadable
+public static class PrimitiveRenderer
 {
-    private static DynamicVertexBuffer _vertexBuffer;
-    private static DynamicIndexBuffer _indexBuffer;
+    public struct VertexRenderData : IVertexType
+    {
+        public Vector2 Position;
+        public Color Color;
+        public Vector3 TextureCoordinate;
 
-    private static VertexPositionColorTexture[] _vertices;
+        public VertexDeclaration VertexDeclaration => Declaration;
+
+        private static readonly VertexDeclaration Declaration = new VertexDeclaration(
+            new VertexElement(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0),
+            new VertexElement(8, VertexElementFormat.Color, VertexElementUsage.Color, 0),
+            new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.TextureCoordinate, 0)
+            );
+    }
+
+    private static VertexRenderData[] _vertices;
     private static short[] _indices;
-
-    public void Load(Mod mod)
-    {
-        if (!Main.dedServ)
-        {
-            const short vertexCount = 16384; // short.MaxValue / 5;
-            const short indexCount = 6144; // short.MaxValue / 2;
-            Main.QueueMainThreadAction(() =>
-            {
-                _vertexBuffer = new DynamicVertexBuffer(Main.instance.GraphicsDevice, typeof(VertexPositionColorTexture), vertexCount, BufferUsage.WriteOnly);
-                _indexBuffer = new DynamicIndexBuffer(Main.instance.GraphicsDevice, IndexElementSize.SixteenBits, indexCount, BufferUsage.WriteOnly);
-            });
-        }
-    }
-
-    public void Unload()
-    {
-        if (!Main.dedServ)
-        {
-            Main.QueueMainThreadAction(() =>
-            {
-                _vertexBuffer.Dispose();
-                _indexBuffer.Dispose();
-
-                _vertexBuffer = null;
-                _indexBuffer = null;
-
-                _vertices = null;
-                _indices = null;
-            });
-        }
-    }
 
     public delegate Color StripColorFunction(float progressAlongStrip);
 
@@ -60,47 +40,46 @@ public class PrimitiveRenderer : ILoadable
             return;
 
         int length = positions.Length;
-        _vertices = new VertexPositionColorTexture[length * 2];
+        _vertices = new VertexRenderData[length * 2];
         _indices = new short[length * 6];
 
         for (int i = 0; i < length; i++)
             SetVertexPair(positions[i] + offset, rotations[i], color, width, i * 2);
 
         SetIndices();
-        _vertexBuffer.SetData(_vertices, 0, _vertices.Length, SetDataOptions.Discard);
-        _indexBuffer.SetData(_indices, 0, _indices.Length, SetDataOptions.Discard);
 
-        Main.instance.GraphicsDevice.SetVertexBuffer(_vertexBuffer);
-        Main.instance.GraphicsDevice.Indices = _indexBuffer;
-        Main.instance.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length - 1, 0, _indices.Length / 3);
+        Main.instance.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+        Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, _vertices, 0, _vertices.Length, _indices, 0, _indices.Length / 3);
     }
 
     private static void SetVertexPair(Vector2 position, float rotation, StripColorFunction colorFunction, StripWidthFunction widthFunction, int i)
     {
         float progress = (float)i / (_vertices.Length - 1);
-        Vector2 offset = MathHelper.WrapAngle(rotation - MathHelper.PiOver2).ToRotationVector2() * widthFunction(progress);
+        float width = widthFunction(progress);
         Color color = colorFunction(progress);
+        Vector2 unitRotation = MathHelper.WrapAngle(rotation + MathHelper.PiOver2).ToRotationVector2();
+        Vector2 offset = unitRotation * width;
 
-        _vertices[i].Position = new Vector3(position + offset, 0);
-        _vertices[i].TextureCoordinate = new Vector2(progress, 1f);
+        _vertices[i].Position = position - offset;
+        _vertices[i].TextureCoordinate = new Vector3(progress, 0.5f - 0.5f * width, width);
         _vertices[i].Color = color;
-        _vertices[i + 1].Position = new Vector3(position - offset, 0);
-        _vertices[i + 1].TextureCoordinate = new Vector2(progress, 0f);
+        _vertices[i + 1].Position = position + offset;
+        _vertices[i + 1].TextureCoordinate = new Vector3(progress, 0.5f + 0.5f * width, width);
         _vertices[i + 1].Color = color;
     }
 
     private static void SetIndices()
     {
+        short iI = 0;
         for (short i = 0; i < _vertices.Length / 2 - 1; i++)
         {
-            short j = (short)(i * 6);
             int nextIndex = i * 2;
-            _indices[j] = (short)nextIndex;
-            _indices[j + 1] = (short)(nextIndex + 1);
-            _indices[j + 2] = (short)(nextIndex + 2);
-            _indices[j + 3] = (short)(nextIndex + 2);
-            _indices[j + 4] = (short)(nextIndex + 1);
-            _indices[j + 5] = (short)(nextIndex + 3);
+            _indices[iI++] = (short)(nextIndex);
+            _indices[iI++] = (short)(nextIndex + 1);
+            _indices[iI++] = (short)(nextIndex + 2);
+            _indices[iI++] = (short)(nextIndex + 2);
+            _indices[iI++] = (short)(nextIndex + 3);
+            _indices[iI++] = (short)(nextIndex + 1);
         }
     }
 }

@@ -27,31 +27,33 @@ matrix transformMatrix;
 
 struct VertexShaderInput
 {
-    float2 Coord : TEXCOORD0;
     float4 Position : POSITION0;
     float4 Color : COLOR0;
+    float3 Coord : TEXCOORD0;
 };
 
 struct VertexShaderOutput
 {
-    float2 Coord : TEXCOORD0;
     float4 Position : POSITION0;
     float4 Color : COLOR0;
+    float3 Coord : TEXCOORD0;
 };
 
 VertexShaderOutput VertexShaderFunction(in VertexShaderInput input)
 {
     VertexShaderOutput output = (VertexShaderOutput)0;
+    output.Position = mul(input.Position, transformMatrix);
     output.Color = input.Color;
     output.Coord = input.Coord;
-    output.Position = mul(input.Position, transformMatrix);
     return output;
 }
 
 float4 PixelShaderFunction(in VertexShaderOutput input) : COLOR0
 {
-    float4 n1 = tex2D(a1, input.Coord + float2(-uTime, 0)) + tex2D(a2, input.Coord + float2(-uTime * 2, 0));
-    
+    float2 coords = input.Coord;
+    coords.y = (input.Coord.y - 0.5) / input.Coord.z + 0.5;
+        
+    float4 n1 = tex2D(a1, coords + float2(-uTime, 0)) + tex2D(a2, coords + float2(-uTime * 2, 0));
     return saturate(pow(length(n1.rgb) / 2.5, 4)) * input.Color + (pow(length(n1.rgb) / 2, 2) + length(n1.rgb) * 0.1) * uGlowColor;;
 }
 

@@ -5,17 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Utilities;
 
 namespace BlockVanity.Core;
 
 public struct ObliterationLightningData
 {
-    public ObliterationLightningData(int pointCount)
+    public ObliterationLightningData(int pointCount, int seed)
     {
         Length = pointCount;
+
+        this.seed = seed;
         points = new Vector2[Length];
-        offsets = new Vector2[Length];
-        offsetTargets = new Vector2[Length];
         controls = new Vector2[3];
     }
 
@@ -31,17 +32,6 @@ public struct ObliterationLightningData
         Width = width;
         End = end;
         points = new Vector2[Length];
-
-        Vector2[] oldOffsets = offsets;
-        offsets = new Vector2[Length];
-        for (int i = 0; i < Math.Min(oldOffsets.Length, Length); i++)
-            offsets[i] = oldOffsets[i];
-
-
-        Vector2[] oldTargets = offsetTargets;
-        offsetTargets = new Vector2[Length];
-        for (int i = 0; i < Math.Min(oldTargets.Length, Length); i++)
-            offsetTargets[i] = oldTargets[i];
     }
 
     public void SetEnds(Vector2 start, Vector2 middle, Vector2 end)
@@ -51,41 +41,26 @@ public struct ObliterationLightningData
 
     public void Update()
     {
-        if (--time <= 0)
-        {
-            time = Main.rand.Next(3, 6);
-            for (int i = 0; i < Length; i++)
-                offsetTargets[i] = Main.rand.NextVector2Circular(1, 4);
-        }
-
-        float rotation = controls[0].AngleTo(controls[2]);
-        for (int i = Length - 1; i > 1; i--)
-        {
-            offsets[i] += offsetTargets[i];
-            offsets[i] *= 0.6f;
-            offsetTargets[i] *= 0.7f;
-            offsets[i] = Vector2.Lerp(offsets[i], offsets[i - 1], Main.rand.NextFloat(0.4f, 0.7f));
-        }
-
-        offsets[0] = Vector2.Lerp(offsets[0], offsetTargets[0], 0.2f);
-        offsets[^1] = Vector2.Lerp(offsets[^1], offsetTargets[^1], 0.2f);
-
+        time++;
+        FastRandom random = new FastRandom(seed);
         for (int i = 0; i < Length; i++)
         {
-            if (i < Length - 1)
-                offsets[i] = Vector2.Lerp(offsets[i], offsets[i + 1], Main.rand.NextFloat(0.8f));
-
             float progress = (float)i / (Length - 1);
-            float offsetScalar = progress * Width * (End ? Utils.GetLerpValue(1, 5, Length - i, true) : 1f);
+            float offsetScalar = MathF.Sqrt(progress) * Width * (End ? Utils.GetLerpValue(1, 5, Length - i, true) : 1f);
             Vector2 mainLine = Vector2.Lerp(Vector2.Lerp(controls[0], controls[1], progress), Vector2.Lerp(controls[1], controls[2], progress), progress);
-            points[i] = mainLine + offsets[i].RotatedBy(rotation) * offsetScalar;
+            float mainAngle = Utils.AngleLerp(controls[0].AngleTo(controls[1]), controls[1].AngleTo(controls[2]), progress);
+            
+            float curve = MathF.Sin(time * 0.1f - (float)i / Length * 9f);
+            for (float j = 0; j < 3; j++)
+                curve += MathF.Sin(time * (random.NextFloat() * 0.5f * j + 0.1f) - (float)i / Length * (random.NextFloat() - 0.5f) * 15f) / (j + 1f);
+
+            points[i] = mainLine + new Vector2(0, curve * offsetScalar).RotatedBy(mainAngle);
         }
     }
 
-    public Vector2[] GetPoints() => points;
+    public Vector2[] Points => points;
 
+    private int seed;
     private Vector2[] controls;
     private Vector2[] points;
-    private Vector2[] offsets;
-    private Vector2[] offsetTargets;
 }

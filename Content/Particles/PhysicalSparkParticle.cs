@@ -99,6 +99,6 @@ public class PhysicalSparkParticle : BaseParticle
         spritebatch.Draw(texture, Position + settings.AnchorPosition, texture.Frame(), ColorGlow, rotation, texture.Size() * 0.5f, 0.07f * thickness * fadeOut, 0, 0);
         
         spritebatch.Draw(tailTexture, Position + settings.AnchorPosition, tailTexture.Frame(), ColorTint, rotation, tailTexture.Size() * new Vector2(0.5f, 0.25f / tailTexture.Height), midStretch, 0, 0);
-        spritebatch.Draw(texture, Position + settings.AnchorPosition, texture.Frame(), ColorTint, rotation, texture.Size() * 0.5f, 0.02f * thickness * fadeOut, 0, 0);
+        spritebatch.Draw(texture, Position + settings.AnchorPosition, texture.Frame(), ColorTint, rotation, texture.Size() * 0.5f, 0.015f * thickness * fadeOut, 0, 0);
     }
 }
