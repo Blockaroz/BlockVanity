@@ -83,7 +83,7 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
             ShouldBeRemovedFromRenderer = true;
     }
 
-    public static Asset<Texture2D>[] FrenziedParticleTexture;
+    public static LazyAsset<Texture2D>[] FrenziedParticleTexture;
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
@@ -108,7 +108,7 @@ public class FrenziedFlameParticle : BaseParticle, ILoadable
 
     public void Load(Mod mod)
     {
-        FrenziedParticleTexture = AllAssets.RequestArray<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Particles/FrenziedParticle_", 3);
+        FrenziedParticleTexture = AllAssets.LazyArray<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Particles/FrenziedParticle_", 3);
     }
 
     public void Unload()

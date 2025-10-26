@@ -56,6 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Sounds\HitSounds\" />
+    <Folder Include="Assets\Textures\Items\Weapons\Melee\" />
+    <Folder Include="Assets\Textures\Projectiles\Weapons\Melee\" />
+    <Folder Include="Content\Items\Weapons\Melee\" />
+    <Folder Include="Content\Projectiles\Weapons\Melee\" />
+    <Folder Include="Content\WardrobeQuests\" />
     <Folder Include="Content\Pets\BulbLantern\" />
   </ItemGroup>
 </Project>

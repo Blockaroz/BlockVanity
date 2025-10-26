@@ -11,7 +11,6 @@ public class BlockVanity : Mod
 
     public override void Load()
     {
-        AllAssets.Load(this);
         StylesByID = new Dictionary<int, int[]>();
     }
 

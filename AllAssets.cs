@@ -7,101 +7,81 @@ using Terraria.ModLoader;
 
 namespace BlockVanity;
 
-[Autoload]
-public static class AllAssets
+public readonly record struct LazyAsset<T>(string Path) where T : class
 {
-    public static Asset<T>[] RequestArray<T>(string name, int count, AssetRequestMode mode = AssetRequestMode.AsyncLoad) where T : class
+    public Asset<T> Asset => lazy.Value;
+
+    public T Value => Asset.Value;
+
+    private readonly Lazy<Asset<T>> lazy = new Lazy<Asset<T>>(() => ModContent.Request<T>(Path, AssetRequestMode.ImmediateLoad));
+
+    public static implicit operator Asset<T>(LazyAsset<T> asset) => asset.Asset;
+}
+
+public static partial class AllAssets
+{
+    public static LazyAsset<T>[] LazyArray<T>(string name, int count) where T : class
     {
-        Asset<T>[] assets = new Asset<T>[count];
+        LazyAsset<T>[] assets = new LazyAsset<T>[count];
         for (int i = 0; i < count; i++)
-            assets[i] = ModContent.Request<T>(name + i, mode);
+            assets[i] = new LazyAsset<T>(name + i);
 
         return assets;
     }
 
-    public static Asset<T>[] RequestArrayAuto<T>(string name, AssetRequestMode mode = AssetRequestMode.AsyncLoad) where T : class
+    public static LazyAsset<T>[] LazyArrayAuto<T>(string name) where T : class
     {
-        List<Asset<T>> assets = new List<Asset<T>>();
+        List<LazyAsset<T>> assets = new List<LazyAsset<T>>();
 
         int i = 0;
-        while (ModContent.RequestIfExists(name + i, out Asset<T> asset, mode))
+        while (ModContent.HasAsset(name + i))
         {
-            assets.Add(asset);
+            assets.Add(new LazyAsset<T>(name + i));
             i++;
         }
 
         return assets.ToArray();
     }
 
-    public static void Load(Mod mod)
-    {
-        string assetsPath = $"{nameof(BlockVanity)}/Assets/";
-        Textures.Pixel = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/Pixel");
-        Textures.Glow = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Glow_");
-
-        Textures.MiscNoise = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Noise_");
-        Textures.MagmaPattern = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/MagmaPattern");
-        Textures.SeasideColorMap = ModContent.Request<Texture2D>(assetsPath + "Textures/Extras/SeasideColorMap");
-
-        Textures.Particle = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Particles/Particle_");
-
-        Textures.Bar = RequestArrayAuto<Texture2D>(assetsPath + "Textures/Extras/Bar_");
-        Textures.VanityStar = ModContent.Request<Texture2D>(assetsPath + "Textures/UI/VanityStar");
-
-        Effects.BasicTrail = ModContent.Request<Effect>(assetsPath + "Effects/BasicTrail");
-        Effects.ObliterationRayBeam = ModContent.Request<Effect>(assetsPath + "Effects/ObliterationRayBeam");
-        Effects.FrenziedFlameParticle = ModContent.Request<Effect>(assetsPath + "Effects/FrenziedFlameParticle", AssetRequestMode.ImmediateLoad);
-        Effects.FrenziedFlameEye = ModContent.Request<Effect>(assetsPath + "Effects/FrenziedFlameEye", AssetRequestMode.ImmediateLoad);
-        Effects.TransparencyMask = ModContent.Request<Effect>(assetsPath + "Effects/TransparencyMask", AssetRequestMode.ImmediateLoad);
-
-        Effects.RadiationDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/RadiationDye");
-        Effects.PhantomDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/PhantomDye");
-        Effects.ChaosMatterDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/ChaosMatterDye");
-        Effects.WitheringDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/WitheringDye");
-
-        Effects.SeasideHairDye = ModContent.Request<Effect>(assetsPath + "Effects/Dyes/SeasideHairDye");
-
-        //Sounds.FishyHit = new SoundStyle(assetsPath + "Sounds/HitSounds/DemonSkin_Hurt", 1, 3) { PitchVariance = 0.4f, Volume = 0.7f };
-    }
+    public static readonly string AssetPath = $"{nameof(BlockVanity)}/Assets/";
 
     public static class Textures
     {
         public static readonly string Placeholder = $"{nameof(BlockVanity)}/Assets/Textures/Placeholder_Pearl";
 
-        public static Asset<Texture2D>[] Glow;
-        public static Asset<Texture2D> Pixel;
+        public static LazyAsset<Texture2D>[] Glow = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Glow_");
+        public static LazyAsset<Texture2D> Pixel = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/Pixel");
 
-        public static Asset<Texture2D>[] MiscNoise;
-        public static Asset<Texture2D> MagmaPattern;
-        public static Asset<Texture2D> SeasideColorMap;
+        public static LazyAsset<Texture2D>[] MiscNoise = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Noise_");
+        public static LazyAsset<Texture2D> MagmaPattern = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/MagmaPattern");
+        public static LazyAsset<Texture2D> SeasideColorMap = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/SeasideColorMap");
 
-        public static Asset<Texture2D>[] Particle;
+        public static LazyAsset<Texture2D>[] Particle = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Particles/Particle_");
 
-        public static Asset<Texture2D>[] Bar;
+        public static LazyAsset<Texture2D>[] Bar = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Bar_");
 
-        public static Asset<Texture2D> VanityStar;
+        public static LazyAsset<Texture2D> VanityStar = new LazyAsset<Texture2D>(AssetPath + "Textures/UI/VanityStar");
     }
 
     public static class Sounds
     {
-        //public static SoundStyle FishyHit;
     }
 
     public static class Effects
     {
-        public static Asset<Effect> BasicTrail;
-        public static Asset<Effect> ObliterationRayBeam;
-        public static Asset<Effect> FrenziedFlameParticle;
-        public static Asset<Effect> FrenziedFlameEye;
-        public static Asset<Effect> TransparencyMask;
+        public static LazyAsset<Effect> BasicTrail = new LazyAsset<Effect>(AssetPath + "Effects/BasicTrail");
+        public static LazyAsset<Effect> ObliterationRayBeam = new LazyAsset<Effect>(AssetPath + "Effects/ObliterationRayBeam");
+        public static LazyAsset<Effect> FrenziedFlameParticle = new LazyAsset<Effect>(AssetPath + "Effects/FrenziedFlameParticle");
+        public static LazyAsset<Effect> FrenziedFlameEye = new LazyAsset<Effect>(AssetPath + "Effects/FrenziedFlameEye");
+        public static LazyAsset<Effect> TransparencyMask = new LazyAsset<Effect>(AssetPath + "Effects/TransparencyMask");
 
-        public static Asset<Effect> RadiationDye;
-        public static Asset<Effect> PhantomDye;
-        public static Asset<Effect> ChaosMatterDye;
-        public static Asset<Effect> WitheringDye;
+        public static LazyAsset<Effect> RadiationDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/RadiationDye");
+        public static LazyAsset<Effect> PhantomDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/PhantomDye");
+        public static LazyAsset<Effect> ChaosMatterDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/ChaosMatterDye");
+        public static LazyAsset<Effect> WitheringDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/WitheringDye");
 
-        public static Asset<Effect> SeasideHairDye;
-        public static Asset<Effect> SparklingAshHairDye;
+        public static LazyAsset<Effect> SeasideHairDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/SeasideHairDye");
+        public static LazyAsset<Effect> SparklingAshHairDye;
 
     }
 }
