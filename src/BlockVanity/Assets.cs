@@ -18,7 +18,7 @@ public readonly record struct LazyAsset<T>(string Path) where T : class
     public static implicit operator Asset<T>(LazyAsset<T> asset) => asset.Asset;
 }
 
-public static partial class AllAssets
+public static partial class Assets
 {
     public static LazyAsset<T>[] LazyArray<T>(string name, int count) where T : class
     {

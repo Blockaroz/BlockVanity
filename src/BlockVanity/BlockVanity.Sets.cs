@@ -13,19 +13,29 @@ public partial class BlockVanity
 {
     public static class Sets
     {
-        public static bool[] ItemDoesNotPayMana = ItemID.Sets.Factory.CreateNamedSet(nameof(BlockVanity), "DoNotPayMana").RegisterBoolSet();
+        public static bool[] ItemDoesNotPayMana;
+
+        public static bool[] HideHead;
+        public static bool[] HideLegs;
     }
 
-    private void LoadSetBehavior()
+    private sealed class SetInitializer : ModSystem
     {
-        On_Player.ItemCheck_PayMana += CancelManaPayment;
-    }
+        public override void ResizeArrays()
+        {
+            Sets.ItemDoesNotPayMana = ItemID.Sets.Factory.CreateNamedSet(nameof(BlockVanity), "DoNotPayMana").RegisterBoolSet();
+            On_Player.ItemCheck_PayMana += CancelManaPayment;
 
-    private bool CancelManaPayment(On_Player.orig_ItemCheck_PayMana orig, Player self, Item sItem, bool canUse)
-    {
-        if (Sets.ItemDoesNotPayMana[sItem.type])
-            return self.CheckMana(sItem.mana, false);
+            Sets.HideHead = ArmorIDs.Head.Sets.Factory.CreateNamedSet(nameof(BlockVanity), "HideHead").RegisterBoolSet();
+            Sets.HideLegs = ArmorIDs.Legs.Sets.Factory.CreateNamedSet(nameof(BlockVanity), "HideLegs").RegisterBoolSet();
+        }
 
-        return orig(self, sItem, canUse);
+        private bool CancelManaPayment(On_Player.orig_ItemCheck_PayMana orig, Player self, Item sItem, bool canUse)
+        {
+            if (Sets.ItemDoesNotPayMana[sItem.type])
+                return self.CheckMana(sItem.mana, false);
+
+            return orig(self, sItem, canUse);
+        }
     }
 }

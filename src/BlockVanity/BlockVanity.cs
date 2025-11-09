@@ -1,4 +1,5 @@
-﻿using BlockVanity.Core;
+﻿using BlockVanity.Content.Quests;
+using BlockVanity.Core;
 using ReLogic.Content.Sources;
 using System.Collections.Generic;
 using Terraria.ModLoader;
@@ -12,7 +13,11 @@ public partial class BlockVanity : Mod
     public override void Load()
     {
         StylesByID = new Dictionary<int, int[]>();
-        LoadSetBehavior();
+    }
+
+    public override void PostSetupContent()
+    {
+        MagicalWardrobe.Create();
     }
 
     public override IContentSource CreateDefaultContentSource() => new AssetDirectorySource(base.CreateDefaultContentSource());

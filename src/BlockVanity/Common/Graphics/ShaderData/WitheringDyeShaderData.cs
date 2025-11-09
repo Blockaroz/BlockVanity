@@ -12,7 +12,7 @@ namespace BlockVanity.Common.Graphics.ShaderData;
 
 public class WitheringDyeShaderData : ArmorShaderData
 {
-    public WitheringDyeShaderData() : base(AllAssets.Effects.WitheringDye, "ShaderPass")
+    public WitheringDyeShaderData() : base(Assets.Effects.WitheringDye, "ShaderPass")
     {
     }
 }

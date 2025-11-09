@@ -69,7 +69,7 @@ public class ChargeBar : ModSystem
                 {
                     if (displayTime > 0)
                     {
-                        Texture2D bar = AllAssets.Textures.Bar[barStyle].Value;
+                        Texture2D bar = Assets.Textures.Bar[barStyle].Value;
                         Rectangle baseFrame = new Rectangle(0, 0, bar.Width, 12);
 
                         int fillAmount = (fillPercent > 0.99f) ? bar.Width : (int)(bar.Width * fillPercent);

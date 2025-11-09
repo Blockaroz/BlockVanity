@@ -6,29 +6,28 @@ namespace BlockVanity.Core;
 
 public abstract class VanityItem : ModItem
 {
-    private int _rarity;
-    private int _width;
-    private int _height;
-    private int _value;
-    private bool _isAccessory;
+    public virtual int Rarity { get; }
+    private int width;
+    private int height;
+    private int value;
+    private bool isAccessory;
 
-    public VanityItem(int rarity = ItemRarityID.White, int width = 24, int height = 24, int value = 0, bool accessory = false)
+    public VanityItem(int width = 24, int height = 24, int value = 0, bool accessory = false)
     {
-        _rarity = rarity;
-        _width = width;
-        _height = height;
-        _value = height;
-        _isAccessory = accessory;
+        this.width = width;
+        this.height = height;
+        this.value = height;
+        this.isAccessory = accessory;
     }
 
     public override void SetDefaults()
     {
-        Item.width = _width;
-        Item.height = _height;
-        Item.accessory = _isAccessory;
-        Item.value = _value;
+        Item.width = width;
+        Item.height = height;
+        Item.accessory = isAccessory;
+        Item.value = value;
         Item.vanity = true;
         Item.hasVanityEffects = true;
-        Item.rare = _rarity;
+        Item.rare = Rarity;
     }
 }

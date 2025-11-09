@@ -1,3 +1,3 @@
-displayName = Blockaroz' Costumes and More
+displayName = Blockaroz' Costumes
 author = Blockaroz
-version = 0.3
+version = 0.4

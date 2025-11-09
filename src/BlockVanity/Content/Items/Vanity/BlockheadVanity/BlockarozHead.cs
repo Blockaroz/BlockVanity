@@ -16,8 +16,8 @@ public class BlockarozHead : VanityItem
     {
         BlockheadHeadLayer.AddHead(this);
         NeckPlayerLayer.AddNeck(this);
-        MiscEffectPlayer.hideHead.Add(Item.headSlot);
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+        BlockVanity.Sets.HideHead[Item.headSlot] = true;
     }
 
     public override void AddRecipes()

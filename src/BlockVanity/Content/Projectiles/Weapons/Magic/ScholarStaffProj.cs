@@ -1,4 +1,6 @@
-﻿using BlockVanity.Common.UI;
+﻿using BlockVanity.Common.Graphics;
+using BlockVanity.Common.UI;
+using BlockVanity.Common.Utilities;
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -75,6 +77,11 @@ public class ScholarStaffProj : ModProjectile
                 ChargeBar.UseColors(Color.BlueViolet, Color.White);
                 ChargeBar.Display((Charge - 20) / 50f, 1);
             }
+
+            if (Charge > 10)
+            {
+
+            }
         }
 
         if (Time == 0 || Time == (int)(MaxTime * 0.4f))
@@ -147,25 +154,29 @@ public class ScholarStaffProj : ModProjectile
 
                 for (int i = 0; i < count; i++)
                 {
+                    float viscosity = MathF.Sin(i * MathHelper.Pi / (count - 1f));
+                    if (count < 2)
+                        viscosity = 0f;
                     float spread = realCharge / 6f;
                     int damage = (int)(Projectile.damage * (1f + realCharge));
-                    Vector2 boltVelocity = boltDirection.RotatedBy(spread * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0));
+                    Vector2 boltVelocity = boltDirection.RotatedBy(spread * (count > 1 ? (Utils.GetLerpValue(0, count - 1, i, true) - 0.5f) : 0)) * (1 + 0.5f * viscosity);
                     Projectile bolt = Projectile.NewProjectileDirect(Projectile.GetSource_FromAI(), shootPoint, boltVelocity, ModContent.ProjectileType<ScholarStaffBolt>(), Projectile.damage, Projectile.knockBack, Player.whoAmI, ai0: Main.rand.NextFloat(8, 10));
-                    bolt.localAI[0] = Main.rand.Next(-5, 5);
+                    bolt.localAI[0] = Main.rand.Next(-2, 2);
+                    bolt.scale *= 1f + 0.5f * viscosity;
                 }
 
                 Projectile.netUpdate = true;
             }
         }
 
-        if (Time >= (int)(MaxTime * 0.5f) && Time < (int)(MaxTime * 0.8f))
+        if (Time >= (int)(MaxTime * 0.6f) && Time < (int)(MaxTime * 0.8f))
         {
+            PixelEmber particle = PixelEmber.RequestNew(staffEndPos, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.2f, 0.4f), 50, 0, Color.White with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 60 }, Main.rand.NextFloat(1f, 3f));
+            ParticleEngine.Particles.Add(particle);
+
             for (int i = 0; i < 2; i++)
             {
                 Dust.NewDustPerfect(staffEndPos, DustID.Smoke, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.5f), 100, Color.LightGray, Main.rand.NextFloat(1f, 2f));
-
-                PixelEmber particle = PixelEmber.pool.RequestParticle();
-                particle.Prepare(staffEndPos, Projectile.velocity.RotatedByRandom(0.7f) * Main.rand.NextFloat(0.2f, 0.4f), 140, 0, Color.White with { A = 0 }, ScholarStaffBolt.EnergyColor with { A = 60 }, Main.rand.NextFloat(1f, 3f));
             }
         }
 

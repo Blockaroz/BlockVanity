@@ -1,4 +1,5 @@
-﻿using BlockVanity.Content.Items.Vanity.Myrtle;
+﻿using BlockVanity.Common.Utilities;
+using BlockVanity.Content.Items.Vanity.Myrtle;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoMod.Cil;

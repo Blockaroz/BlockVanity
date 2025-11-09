@@ -12,7 +12,9 @@ namespace BlockVanity.Content.Items.Vanity.Excellence;
 
 public class Excellence : VanityItem
 {
-    public Excellence() : base(ModContent.RarityType<PerfectRarity>(), 34, 30, Item.buyPrice(gold: 15), true) { }
+    public Excellence() : base(34, 30, Item.buyPrice(gold: 15), true) { }
+
+    public override int Rarity => ModContent.RarityType<PerfectRarity>();
 
     public override void Load()
     {
@@ -35,8 +37,8 @@ public class Excellence : VanityItem
         Item.bodySlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
         Item.legSlot = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
 
-        MiscEffectPlayer.hideHead.Add(Item.headSlot);
-        MiscEffectPlayer.hideLegs.Add(Item.legSlot);
+        BlockVanity.Sets.HideHead[Item.headSlot] = true;
+        BlockVanity.Sets.HideLegs[Item.legSlot] = true;
 
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
 
@@ -66,14 +68,14 @@ public class Excellence : VanityItem
 
     public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
     {
-        Texture2D glowTexture = AllAssets.Textures.Glow[0].Value;
+        Texture2D glowTexture = Assets.Textures.Glow[0].Value;
         Vector2 offset = Vector2.UnitY * 9 * scale;
         spriteBatch.Draw(glowTexture, position - offset, glowTexture.Frame(), Color.Red with { A = 10 }, 0, glowTexture.Size() * 0.5f, scale * 0.3f, 0, 0);
     }
 
     public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
-        Texture2D glowTexture = AllAssets.Textures.Glow[0].Value;
+        Texture2D glowTexture = Assets.Textures.Glow[0].Value;
         Vector2 offset = Vector2.UnitY.RotatedBy(rotation) * 9 * scale;
         spriteBatch.Draw(glowTexture, Item.Center - Main.screenPosition - offset, glowTexture.Frame(), Color.Red with { A = 10 }, rotation, glowTexture.Size() * 0.5f, scale * 0.3f, 0, 0);
     }

@@ -7,7 +7,7 @@ namespace BlockVanity.Common.Graphics;
 
 public class SeasideHairShaderData : HairShaderData
 {
-    public SeasideHairShaderData() : base(AllAssets.Effects.SeasideHairDye, "ShaderPass") { }
+    public SeasideHairShaderData() : base(Assets.Effects.SeasideHairDye, "ShaderPass") { }
 
     public override Color GetColor(Player player, Color lightColor) => lightColor;
 

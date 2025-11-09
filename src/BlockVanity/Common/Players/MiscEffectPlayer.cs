@@ -25,18 +25,15 @@ public class MiscEffectPlayer : ModPlayer
         On_PlayerDrawLayers.DrawPlayer_13_Leggings += HideLegsLayer;
     }
 
-    public static List<int> hideHead = new List<int>();
-    public static List<int> hideLegs = new List<int>();
-
     private void HideHeadLayer(On_PlayerDrawLayers.orig_DrawPlayer_21_Head orig, ref PlayerDrawSet drawinfo)
     {
-        if (!hideHead.Contains(drawinfo.drawPlayer.head))
+        if (drawinfo.drawPlayer.head < 0 || !BlockVanity.Sets.HideHead[drawinfo.drawPlayer.head])
             orig(ref drawinfo);
     }
 
     private void HideLegsLayer(On_PlayerDrawLayers.orig_DrawPlayer_13_Leggings orig, ref PlayerDrawSet drawinfo)
     {
-        if (!hideLegs.Contains(drawinfo.drawPlayer.legs))
+        if (drawinfo.drawPlayer.legs < 0 || !BlockVanity.Sets.HideLegs[drawinfo.drawPlayer.legs])
             orig(ref drawinfo);
     }
 

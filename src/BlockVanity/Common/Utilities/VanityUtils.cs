@@ -10,7 +10,7 @@ using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity;
+namespace BlockVanity.Common.Utilities;
 
 public static class VanityUtils
 {
@@ -65,22 +65,18 @@ public static class VanityUtils
     public delegate void DrawSittingLegsDelegate(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false);
     public delegate void DrawSittingCoatsDelegate(ref PlayerDrawSet drawinfo, Texture2D textureToDraw, Color matchingColor, int shaderIndex = 0, bool glowmask = false);
 
-    public static Vector2 GetCompositeOffset_BackArm(ref PlayerDrawSet drawinfo) => new Vector2(6 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : (-1)), 2 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipVertically)) ? 1 : (-1)));
-    public static Vector2 GetCompositeOffset_FrontArm(ref PlayerDrawSet drawinfo) => new Vector2(-5 * ((!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally)) ? 1 : (-1)), 0f);
+    public static Vector2 GetCompositeOffset_BackArm(ref PlayerDrawSet drawinfo) => new Vector2(6 * (!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally) ? 1 : -1), 2 * (!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipVertically) ? 1 : -1));
+    public static Vector2 GetCompositeOffset_FrontArm(ref PlayerDrawSet drawinfo) => new Vector2(-5 * (!drawinfo.playerEffect.HasFlag(SpriteEffects.FlipHorizontally) ? 1 : -1), 0f);
 
     public static int BodyFrameArmFromRotation(Player player, float rotation)
     {
         rotation = Math.Clamp(rotation, 0, MathHelper.Pi);
 
         if (rotation <= MathHelper.PiOver4 * 0.3f)
-        {
             return 1;
-        }
 
         if (rotation <= MathHelper.PiOver4)
-        {
             return 2;
-        }
         else if (rotation <= MathHelper.PiOver4 * 2.2f)
         {
             return 3;
@@ -97,7 +93,7 @@ public static class VanityUtils
 
     public static void SetBodyFrameFromRotation(this Player player, float rotation)
     {
-        player.bodyFrame.Y = VanityUtils.BodyFrameArmFromRotation(player, rotation) * player.bodyFrame.Height;
+        player.bodyFrame.Y = BodyFrameArmFromRotation(player, rotation) * player.bodyFrame.Height;
     }
 
     public static Asset<Texture2D>[] GetSkinTextures(string assetsPath)
@@ -131,29 +127,19 @@ public static class VanityUtils
     {
         Player newPlayer = new Player();
         if (head > -1)
-        {
             newPlayer.armor[10] = ContentSamples.ItemsByType[head];
-        }
 
         if (body > -1)
-        {
             newPlayer.armor[11] = ContentSamples.ItemsByType[body];
-        }
 
         if (legs > -1)
-        {
             newPlayer.armor[12] = ContentSamples.ItemsByType[legs];
-        }
 
         if (acc1 > -1)
-        {
             newPlayer.armor[13] = ContentSamples.ItemsByType[acc1];
-        }
 
         if (acc2 > -1)
-        {
             newPlayer.armor[14] = ContentSamples.ItemsByType[acc2];
-        }
 
         return newPlayer;
     }

@@ -1,4 +1,6 @@
 ﻿using BlockVanity.Common.Players;
+using BlockVanity.Content.Rarities;
+using BlockVanity.Content.Rarities.GlowingRarities;
 using BlockVanity.Core;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +11,7 @@ namespace BlockVanity.Content.Items.Vanity.CountChaos;
 [AutoloadEquip(EquipType.Legs)]
 public class CountChaosGown : VanityItem, IUpdateArmorInVanity
 {
-    public CountChaosGown() : base(ItemRarityID.Cyan) { }
+    public override int Rarity => ModContent.RarityType<RarityCommonVanity>();
 
     public override void SetStaticDefaults()
     {
@@ -17,7 +19,7 @@ public class CountChaosGown : VanityItem, IUpdateArmorInVanity
         ArmorIDs.Legs.Sets.OverridesLegs[Item.legSlot] = true;
         ArmorIDs.Legs.Sets.IncompatibleWithFrogLeg[Item.legSlot] = true;
 
-        MiscEffectPlayer.hideLegs.Add(Item.legSlot);
+        BlockVanity.Sets.HideLegs[Item.legSlot] = true;
     }
 
     public override void UpdateEquip(Player player)

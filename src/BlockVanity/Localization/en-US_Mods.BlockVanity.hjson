@@ -11,24 +11,9 @@ Buffs: {
 }
 
 Items: {
-	GreenOrionDye: {
-		DisplayName: Green Orion Dye
-		Tooltip: ""
-	}
-
-	OrionDye: {
-		DisplayName: Orion Dye
-		Tooltip: ""
-	}
-
 	BlackEyeLens: {
 		DisplayName: Black Eye Lens
 		Tooltip: ""
-	}
-
-	Blockhead: {
-		DisplayName: Block Head
-		Tooltip: Transforms the holder into a block head
 	}
 
 	Excellence: {
@@ -131,11 +116,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	StylotronItem: {
-		DisplayName: Stylotron
-		Tooltip: ""
-	}
-
 	CountChaosGown: {
 		DisplayName: Count Chaos' Gown
 		Tooltip: ""
@@ -151,16 +131,6 @@ Items: {
 		Tooltip: ""
 	}
 
-	PhantomRuby: {
-		DisplayName: Phantom Ruby
-		Tooltip: ""
-	}
-
-	DemonHead: {
-		DisplayName: Demon Head
-		Tooltip: ""
-	}
-
 	BoneKingGarb: {
 		DisplayName: Bone King's Garb
 		Tooltip: ""
@@ -173,16 +143,6 @@ Items: {
 
 	BoneKingSkull: {
 		DisplayName: Bone King's Skull
-		Tooltip: ""
-	}
-
-	HauntedCandle: {
-		DisplayName: Haunted Candle
-		Tooltip: ""
-	}
-
-	HauntedCandleTileItem: {
-		DisplayName: Haunted Candle
 		Tooltip: ""
 	}
 
@@ -279,20 +239,6 @@ Items: {
 Projectiles: {
 	ScholarStaffBolt.DisplayName: Ancient Energy
 	ScholarStaffProj.DisplayName: Scholar Staff
-	FloatingSkyLanternProjectile.DisplayName: Floating Sky Lantern
-	HauntedCandelabra.DisplayName: Haunted Candelabra
-	JadeChainSwordProj.DisplayName: Jade Chain Sword
-	ObliterationRayHeld.DisplayName: Obliteration Ray
-}
-
-AreaEffectsToggle: {
-	OnText: Area effects on
-	OffText: Area effects off
-}
-
-HitSoundToggle: {
-	OnText: Hit sounds replaced
-	OffText: Hit sounds normal
 }
 
 Tiles: {
@@ -302,3 +248,9 @@ Tiles: {
 
 NPCs.ScholarStaffGhost.DisplayName: Ghostly Staff
 Configs.Config.DisplayName: Config
+"Keybinds.wardrobe test.DisplayName": Magical Wardrobe UI
+
+AreaEffectsToggle: {
+	OnText: Mods.BlockVanity.AreaEffectsToggle.OnText
+	OffText: Mods.BlockVanity.AreaEffectsToggle.OffText
+}

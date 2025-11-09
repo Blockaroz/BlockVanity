@@ -9,7 +9,7 @@ namespace BlockVanity.Content.Particles;
 
 public class MagicSmokeParticle : BaseParticle
 {
-    public static ParticlePool<MagicSmokeParticle> pool = new ParticlePool<MagicSmokeParticle>(500, GetNewParticle<MagicSmokeParticle>);
+    public static ParticlePool<MagicSmokeParticle> Pool { get; } = new ParticlePool<MagicSmokeParticle>(500, GetNewParticle<MagicSmokeParticle>);
 
     public Vector2 Position;
     public Vector2 Velocity;
@@ -22,17 +22,19 @@ public class MagicSmokeParticle : BaseParticle
     private int Style;
     private int SpriteEffect;
 
-    public void Prepare(Vector2 position, Vector2 velocity, float rotation, int lifeTime, Color color, Color glowColor, float scale)
+    public static MagicSmokeParticle RequestNew(Vector2 position, Vector2 velocity, float rotation, int lifeTime, Color color, Color glowColor, float scale)
     {
-        Position = position;
-        Velocity = velocity;
-        Rotation = rotation;
-        MaxTime = lifeTime;
-        ColorTint = color;
-        ColorGlow = glowColor;
-        Scale = scale;
-        Style = Main.rand.Next(3);
-        SpriteEffect = Main.rand.Next(2);
+        var smoke = Pool.RequestParticle();
+        smoke.Position = position;
+        smoke.Velocity = velocity;
+        smoke.Rotation = rotation;
+        smoke.MaxTime = lifeTime;
+        smoke.ColorTint = color;
+        smoke.ColorGlow = glowColor;
+        smoke.Scale = scale;
+        smoke.Style = Main.rand.Next(3);
+        smoke.SpriteEffect = Main.rand.Next(2);
+        return smoke;
     }
 
     public override void FetchFromPool()
@@ -55,7 +57,7 @@ public class MagicSmokeParticle : BaseParticle
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
-        Texture2D texture = AllAssets.Textures.Particle[1].Value;
+        Texture2D texture = Assets.Textures.Particle[1].Value;
         float progress = (float)TimeLeft / MaxTime;
         int frameCount = (int)MathF.Floor(MathF.Sqrt(progress) * 7);
         Rectangle frame = texture.Frame(7, 6, frameCount, Style);

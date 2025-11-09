@@ -32,6 +32,7 @@ public class ScholarStaffBolt : ModProjectile
         Projectile.ignoreWater = true;
         Projectile.DamageType = DamageClass.Magic;
         Projectile.timeLeft = 300;
+        Projectile.scale = 1.125f;
     }
 
     public ref float Speed => ref Projectile.ai[0];
@@ -63,25 +64,37 @@ public class ScholarStaffBolt : ModProjectile
             }
         }
 
-        if (Projectile.localAI[0] % 10 == 0 || Main.rand.NextBool(9))
+        if (Projectile.localAI[0] % 8 == 0 || Main.rand.NextBool(8))
         {
-            MagicSmokeParticle darkParticle = MagicSmokeParticle.pool.RequestParticle();
-            darkParticle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(8, 8), Projectile.velocity, Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 40), Color.DarkCyan * 0.5f, Color.Black * 0.33f, 0.4f + Main.rand.NextFloat(0.4f));
+            MagicSmokeParticle darkParticle = MagicSmokeParticle.RequestNew(
+                Projectile.Center + Main.rand.NextVector2Circular(8, 8), 
+                Projectile.velocity + Main.rand.NextVector2Circular(3, 3), 
+                Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), 
+                Main.rand.Next(30, 40), 
+                Color.Beige * 0.5f, 
+                Color.Black * 0.33f, 
+                0.4f + Main.rand.NextFloat(0.4f));
             ParticleEngine.Particles.Add(darkParticle);
+        }
 
-            MagicSmokeParticle particle = MagicSmokeParticle.pool.RequestParticle();
-            particle.Prepare(Projectile.Center + Projectile.velocity, Projectile.velocity + Main.rand.NextVector2Circular(3, 3), Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), Main.rand.Next(20, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.4f + Main.rand.NextFloat(0.3f));
+        if (Projectile.localAI[0] % 10 == 0 || Main.rand.NextBool(8))
+        {
+            MagicSmokeParticle particle = MagicSmokeParticle.RequestNew(
+                Projectile.Center + Projectile.velocity,
+                Projectile.velocity + Main.rand.NextVector2Circular(3, 3),
+                Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f),
+                Main.rand.Next(20, 30),
+                Color.White with { A = 50 },
+                EnergyColor with { A = 0 },
+                0.4f + Main.rand.NextFloat(0.3f));
             ParticleEngine.Particles.Add(particle);
         }
 
         if (Main.rand.NextBool(20) || Projectile.localAI[0] % 20 == 0)
         {
-            PixelEmber particle = PixelEmber.pool.RequestParticle();
-            particle.Prepare(Projectile.Center + Main.rand.NextVector2Circular(15, 15), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 60, 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, 1.5f + Main.rand.NextFloat());
+            PixelEmber particle = PixelEmber.RequestNew(Projectile.Center + Main.rand.NextVector2Circular(15, 15), Projectile.velocity.RotatedByRandom(0.2f) * Main.rand.NextFloat(0.5f), 60, 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, 1.5f + Main.rand.NextFloat());
             ParticleEngine.Particles.Add(particle);
         }
-
-        Projectile.scale = 1.125f;
 
         Projectile.rotation = Projectile.velocity.X * 0.005f;
         Lighting.AddLight(Projectile.Center, EnergyColor.ToVector3() * 0.33f);
@@ -98,17 +111,15 @@ public class ScholarStaffBolt : ModProjectile
 
         for (int i = 0; i < 10; i++)
         {
-            PixelEmber particle = PixelEmber.pool.RequestParticle();
             Vector2 offset = Main.rand.NextVector2Circular(8, 8);
-            particle.Prepare(Projectile.Center + offset, Projectile.velocity * Main.rand.NextFloat(0.4f) + offset * 0.2f, Main.rand.Next(40, 80), 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
+            PixelEmber particle = PixelEmber.RequestNew(Projectile.Center + offset, Projectile.velocity * Main.rand.NextFloat(0.4f) + offset * 0.2f, Main.rand.Next(40, 80), 0, Color.White with { A = 0 }, EnergyColor with { A = 60 }, Main.rand.NextFloat(1.5f, 3f));
             ParticleEngine.Particles.Add(particle);
         }
 
         for (int i = 0; i < 3; i++)
         {
-            MagicSmokeParticle burstParticle = MagicSmokeParticle.pool.RequestParticle();
             Vector2 particleVelocity = Projectile.velocity * 0.5f + Main.rand.NextVector2Circular(2, 2);
-            burstParticle.Prepare(Projectile.Center, particleVelocity, particleVelocity.ToRotation(), Main.rand.Next(25, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.6f + i / 3f);
+            MagicSmokeParticle burstParticle = MagicSmokeParticle.RequestNew(Projectile.Center, particleVelocity, particleVelocity.ToRotation(), Main.rand.Next(25, 30), Color.White with { A = 50 }, EnergyColor with { A = 0 }, 0.6f + i / 3f);
             ParticleEngine.Particles.Add(burstParticle);
         }
     }
@@ -127,7 +138,7 @@ public class ScholarStaffBolt : ModProjectile
     public override bool PreDraw(ref Color lightColor)
     {
         Texture2D texture = TextureAssets.Projectile[Type].Value;
-        Texture2D glow = AllAssets.Textures.Glow[0].Value;
+        Texture2D glow = Assets.Textures.Glow[0].Value;
         Rectangle frame = texture.Frame(1, 8, 0, Projectile.frame);
 
         lightColor = EnergyColor * 0.5f;

@@ -9,7 +9,7 @@ namespace BlockVanity.Content.Particles;
 
 public class PixelEmber : BaseParticle
 {
-    public static ParticlePool<PixelEmber> pool = new ParticlePool<PixelEmber>(500, GetNewParticle<PixelEmber>);
+    public static ParticlePool<PixelEmber> Pool { get; } = new ParticlePool<PixelEmber>(500, GetNewParticle<PixelEmber>);
 
     public Vector2 Position;
     public Vector2 Velocity;
@@ -21,16 +21,18 @@ public class PixelEmber : BaseParticle
     public Color DarkColor;
     public float Scale;
 
-    public void Prepare(Vector2 position, Vector2 velocity, int lifeTime, int fadeIn, Color color, Color darkColor, float scale)
+    public static PixelEmber RequestNew(Vector2 position, Vector2 velocity, int lifeTime, int fadeIn, Color color, Color darkColor, float scale)
     {
-        Position = position;
-        Velocity = velocity;
-        Rotation = MathF.Round(Velocity.ToRotation() / MathHelper.TwoPi * 8f) / 8f * MathHelper.TwoPi;
-        MaxTime = lifeTime;
-        FadeIn = fadeIn;
-        ColorTint = color;
-        DarkColor = darkColor;
-        Scale = scale;
+        var ember = Pool.RequestParticle();
+        ember.Position = position;
+        ember.Velocity = velocity;
+        ember.Rotation = MathF.Round(ember.Velocity.ToRotation() / MathHelper.TwoPi * 8f) / 8f * MathHelper.TwoPi;
+        ember.MaxTime = lifeTime;
+        ember.FadeIn = fadeIn;
+        ember.ColorTint = color;
+        ember.DarkColor = darkColor;
+        ember.Scale = scale;
+        return ember;
     }
 
     public override void FetchFromPool()
@@ -61,8 +63,8 @@ public class PixelEmber : BaseParticle
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
-        Texture2D texture = AllAssets.Textures.Particle[0].Value;
-        Texture2D glow = AllAssets.Textures.Glow[0].Value;
+        Texture2D texture = Assets.Textures.Particle[0].Value;
+        Texture2D glow = Assets.Textures.Glow[0].Value;
 
         float progress = (float)TimeLeft / MaxTime;
         float fadeIn = FadeIn > 0f ? Utils.GetLerpValue(0f, FadeIn, TimeLeft, true) : 1f;

@@ -9,8 +9,10 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Particles;
 
-public class ChaosMatterParticle : BaseParticle, ILoadable
+public class ChaosMatterParticle : BaseParticle
 {
+    public static ParticlePool<ChaosMatterParticle> Pool { get; } = new ParticlePool<ChaosMatterParticle>(200, GetNewParticle<ChaosMatterParticle>);
+
     public Vector2 Position;
     public Vector2 Velocity;
     public Vector2 Gravity;
@@ -23,15 +25,17 @@ public class ChaosMatterParticle : BaseParticle, ILoadable
     private int Style;
     private bool FlipSprite;
 
-    public void Prepare(Vector2 position, Vector2 velocity, Vector2 gravity, int lifeTime, float rotation, float scale)
+    public static ChaosMatterParticle RequestNew(Vector2 position, Vector2 velocity, Vector2 gravity, int lifeTime, float rotation, float scale)
     {
-        Position = position;
-        Velocity = velocity;
-        Gravity = gravity;
-        Rotation = rotation;
-        Scale = scale;
-        MaxTime = lifeTime + 2;
-        Gravity = gravity;
+        var chaos = Pool.RequestParticle();
+        chaos.Position = position;
+        chaos.Velocity = velocity;
+        chaos.Gravity = gravity;
+        chaos.Rotation = rotation;
+        chaos.Scale = scale;
+        chaos.MaxTime = lifeTime + 2;
+        chaos.Gravity = gravity;
+        return chaos;
     }
 
     public override void FetchFromPool()
@@ -57,7 +61,7 @@ public class ChaosMatterParticle : BaseParticle, ILoadable
         Position += Velocity;
     }
 
-    public static Asset<Texture2D> ChaosMatterParticleTexture;
+    public static LazyAsset<Texture2D> ChaosMatterParticleTexture = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Particles/ChaosMatterParticle");
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
@@ -68,14 +72,5 @@ public class ChaosMatterParticle : BaseParticle, ILoadable
 
         Vector2 roundedPosition = (Position + settings.AnchorPosition).Floor();
         spritebatch.Draw(texture, roundedPosition, frame, Color.White, Rotation, frame.Size() * 0.5f, Scale, (SpriteEffects)FlipSprite.ToInt(), 0);
-    }
-
-    public void Load(Mod mod)
-    {
-        ChaosMatterParticleTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Particles/ChaosMatterParticle");
-    }
-
-    public void Unload()
-    {
     }
 }

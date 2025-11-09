@@ -13,7 +13,7 @@ namespace BlockVanity.Content.Items.Vanity.CountChaos;
 [AutoloadEquip(EquipType.Body)]
 public class CountChaosCuirass : VanityItem
 {
-    public CountChaosCuirass() : base(ModContent.RarityType<VanityRareCommon>(), 36, 34) { }
+    public CountChaosCuirass() : base(ModContent.RarityType<RarityCommonVanity>(), 36, 34) { }
 
     public override void SetStaticDefaults()
     {

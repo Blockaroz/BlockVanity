@@ -1,4 +1,5 @@
-﻿using BlockVanity.Core;
+﻿using BlockVanity.Common.Utilities;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -12,7 +13,9 @@ namespace BlockVanity.Content.Items.Vanity;
 [AutoloadEquip(EquipType.Head)]
 public class ChlorophyteHeaddress : VanityItem
 {
-    public ChlorophyteHeaddress() : base(ItemRarityID.White, 30, 28, Item.buyPrice(0, 0, 0, 5)) { }
+    public ChlorophyteHeaddress() : base(30, 28, Item.buyPrice(0, 0, 0, 5)) { }
+
+    public override int Rarity => ItemRarityID.White;
 
     public override void SetStaticDefaults()
     {
@@ -31,12 +34,7 @@ public class ChlorophyteHeaddress : VanityItem
 
 public class ChlorophyteHeaddressFeathers : PlayerDrawLayer
 {
-    public static Asset<Texture2D> FeathersTexture { get; set; }
-
-    public override void Load()
-    {
-        FeathersTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/ChlorophyteHeaddress_HeadFeathers");
-    }
+    public static LazyAsset<Texture2D> FeathersTexture = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/ChlorophyteHeaddress_HeadFeathers");
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.HeadBack);
 
@@ -44,15 +42,16 @@ public class ChlorophyteHeaddressFeathers : PlayerDrawLayer
     
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
+        Texture2D texture = FeathersTexture.Value;
         Vector2 headPosition = drawInfo.HeadPosition() + new Vector2(-8 * drawInfo.drawPlayer.direction, -8 * drawInfo.drawPlayer.gravDir);
         headPosition.ApplyVerticalOffset(drawInfo);
-        Vector2 origin = new Vector2(FeathersTexture.Width() / 2, drawInfo.headVect.Y);
+        Vector2 origin = new Vector2(texture.Width / 2, drawInfo.headVect.Y);
 
         float rotation = drawInfo.drawPlayer.headRotation 
             - MathHelper.Clamp(drawInfo.drawPlayer.velocity.X * 0.02f, -0.2f, 0.2f) * drawInfo.drawPlayer.gravDir
             + MathHelper.Clamp(drawInfo.drawPlayer.velocity.Y * 0.01f * drawInfo.drawPlayer.gravDir, -0.2f, 0f) * drawInfo.drawPlayer.direction * drawInfo.drawPlayer.gravDir;
 
-        DrawData data = new DrawData(FeathersTexture.Value, headPosition, FeathersTexture.Frame(), drawInfo.colorArmorHead * 1.5f, rotation, origin, 1f, drawInfo.playerEffect);
+        DrawData data = new DrawData(FeathersTexture.Value, headPosition, texture.Frame(), drawInfo.colorArmorHead * 1.5f, rotation, origin, 1f, drawInfo.playerEffect);
         data.shader = drawInfo.cHead;
         drawInfo.DrawDataCache.Add(data);
     }

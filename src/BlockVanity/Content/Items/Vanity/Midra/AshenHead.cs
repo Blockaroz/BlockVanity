@@ -18,8 +18,8 @@ public class AshenHead : VanityItem, IUpdateArmorInVanity
 
     public override void SetStaticDefaults()
     {
-        MiscEffectPlayer.hideHead.Add(Item.headSlot);
         ArmorIDs.Head.Sets.DrawHead[Item.headSlot] = false;
+        BlockVanity.Sets.HideHead[Item.headSlot] = true;
     }
 
     public override void UpdateEquip(Player player)

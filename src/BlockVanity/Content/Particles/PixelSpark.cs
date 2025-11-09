@@ -9,7 +9,7 @@ namespace BlockVanity.Content.Particles;
 
 public class PixelSpark : BaseParticle
 {
-    public static ParticlePool<PixelSpark> pool = new ParticlePool<PixelSpark>(1000, GetNewParticle<PixelSpark>);
+    public static ParticlePool<PixelSpark> Pool { get; } = new ParticlePool<PixelSpark>(1000, GetNewParticle<PixelSpark>);
 
     public Vector2 Position;
     public Vector2 Velocity;
@@ -21,17 +21,19 @@ public class PixelSpark : BaseParticle
     public bool Collide;
     private Vector2 EndPosition;
 
-    public void Prepare(Vector2 position, Vector2 velocity, Vector2 gravity, Color color, Color glowColor, float mass, bool collide = true)
+    public static PixelSpark RequestNew(Vector2 position, Vector2 velocity, Vector2 gravity, Color color, Color glowColor, float mass, bool collide = true)
     {
-        Position = position;
-        EndPosition = position;
-        Velocity = velocity;
-        Gravity = gravity;
-        ColorTint = color;
-        ColorGlow = glowColor;
-        Mass = mass;
-        Collide = collide;
-        Scale = Main.rand.NextFloat(0.9f, 1.1f);
+        var spark = Pool.RequestParticle();
+        spark.Position = position;
+        spark.EndPosition = position;
+        spark.Velocity = velocity;
+        spark.Gravity = gravity;
+        spark.ColorTint = color;
+        spark.ColorGlow = glowColor;
+        spark.Mass = mass;
+        spark.Collide = collide;
+        spark.Scale = Main.rand.NextFloat(0.9f, 1.1f);
+        return spark;
     }
 
     public override void FetchFromPool()
@@ -85,8 +87,8 @@ public class PixelSpark : BaseParticle
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
-        Texture2D texture = AllAssets.Textures.Particle[0].Value;
-        Texture2D glow = AllAssets.Textures.Glow[0].Value;
+        Texture2D texture = Assets.Textures.Particle[0].Value;
+        Texture2D glow = Assets.Textures.Glow[0].Value;
 
         float rotation = MathF.Round(Position.AngleFrom(EndPosition) / MathHelper.TwoPi * 8f) / 8f * MathHelper.TwoPi;
         float fadeOut = Utils.GetLerpValue(0f, 0.05f, Scale, true);

@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Content.Items.TestItems;
+namespace BlockVanity.Common.Utilities;
 
 public class PlumeriaPlantPlacer : ModItem
 {
