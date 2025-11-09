@@ -12,6 +12,7 @@ public class ScholarStaff : ModItem
     {
         ItemID.Sets.gunProj[Type] = true;
         ItemID.Sets.CanBePlacedOnWeaponRacks[Type] = true;
+        BlockVanity.Sets.ItemDoesNotPayMana[Type] = true;
     }
 
     public override void SetDefaults()
@@ -37,17 +38,4 @@ public class ScholarStaff : ModItem
     }
 
     public override Color? GetAlpha(Color lightColor) => Color.Lerp(Color.White, lightColor * 1.5f, 0.9f) with { A = 180 };
-
-    public override void Load()
-    {
-        On_Player.ItemCheck_PayMana += DoNotPayMana;
-    }
-
-    private bool DoNotPayMana(On_Player.orig_ItemCheck_PayMana orig, Player self, Item sItem, bool canUse)
-    {
-        if (sItem.type == ModContent.ItemType<ScholarStaff>())
-            return self.CheckMana(sItem.mana, false);
-
-        return orig(self, sItem, canUse);
-    }
 }

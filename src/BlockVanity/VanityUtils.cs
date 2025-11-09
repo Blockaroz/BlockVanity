@@ -95,6 +95,11 @@ public static class VanityUtils
         }
     }
 
+    public static void SetBodyFrameFromRotation(this Player player, float rotation)
+    {
+        player.bodyFrame.Y = VanityUtils.BodyFrameArmFromRotation(player, rotation) * player.bodyFrame.Height;
+    }
+
     public static Asset<Texture2D>[] GetSkinTextures(string assetsPath)
     {
         return [

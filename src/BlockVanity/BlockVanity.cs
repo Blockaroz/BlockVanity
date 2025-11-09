@@ -5,13 +5,14 @@ using Terraria.ModLoader;
 
 namespace BlockVanity;
 
-public class BlockVanity : Mod
+public partial class BlockVanity : Mod
 {
     public static BlockVanity Instance => ModContent.GetInstance<BlockVanity>();
 
     public override void Load()
     {
         StylesByID = new Dictionary<int, int[]>();
+        LoadSetBehavior();
     }
 
     public override IContentSource CreateDefaultContentSource() => new AssetDirectorySource(base.CreateDefaultContentSource());

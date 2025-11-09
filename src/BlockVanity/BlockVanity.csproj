@@ -1,0 +1,7 @@
+<Project Sdk="Tomat.Terraria.Modloader.Sdk/1.0.8">
+	<PropertyGroup>
+		<TmlBuildIncludeSourceGenerators>false</TmlBuildIncludeSourceGenerators>
+		<TmlBuildUseDefaultModImpl>false</TmlBuildUseDefaultModImpl>
+	</PropertyGroup>
+
+</Project>
