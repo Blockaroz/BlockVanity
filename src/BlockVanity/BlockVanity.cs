@@ -10,19 +10,14 @@ public partial class BlockVanity : Mod
 {
     public static BlockVanity Instance => ModContent.GetInstance<BlockVanity>();
 
-    public override void Load()
-    {
-        StylesByID = new Dictionary<int, int[]>();
-    }
-
     public override void PostSetupContent()
     {
-        MagicalWardrobe.Create();
+        MagicalWardrobe.Populate();
     }
 
     public override IContentSource CreateDefaultContentSource() => new AssetDirectorySource(base.CreateDefaultContentSource());
 
-    public static Dictionary<int, int[]> StylesByID { get; private set; }
+    public static Dictionary<int, int[]> StylesByID { get; } = [];
 
     public static void AddStyles(int originalItem, params int[] styleItems)
     {

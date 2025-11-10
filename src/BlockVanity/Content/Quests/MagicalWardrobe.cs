@@ -1,13 +1,16 @@
-﻿using BlockVanity.Common.Wardrobe;
+﻿using BlockVanity.Common.Utilities;
+using BlockVanity.Common.Wardrobe;
 using BlockVanity.Content.Items.Vanity;
 using BlockVanity.Content.Items.Vanity.Excellence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
+using static tModPorter.ProgressUpdate;
 
 namespace BlockVanity.Content.Quests;
 
@@ -15,19 +18,14 @@ public static class MagicalWardrobe
 {
     public static List<QuestEntry> Entries { get; } = [];
 
-    public static void Create()
+    public static int TotalStarCount { get; private set; }
+
+    public static void Populate()
     {    
-        static bool AlwaysAvailable(Player player) => true;
+        Entries.Add(QuestDefinitions.TheBox());
+        Entries.Add(QuestDefinitions.Excellence());
 
-        Entries.Add(new QuestEntry(BlockVanity.Instance, "The Box", Stars: 1,
-            new WardrobeItemPortrait(ModContent.ItemType<CardboardBox>()),
-            AlwaysAvailable,
-            player => player.HasItem(ModContent.ItemType<CardboardBox>())));
-
-        Entries.Add(new QuestEntry(BlockVanity.Instance, "Excellence", Stars: 10,
-            new WardrobeItemPortrait(ModContent.ItemType<Excellence>()),
-            AlwaysAvailable,
-            player => player.HasItem(ModContent.ItemType<CardboardBox>())));
+        UpdateStatus();
     }
 
     public static void UpdateStatus()
@@ -35,8 +33,6 @@ public static class MagicalWardrobe
         for (int i = 0; i < Entries.Count; i++)
         {
             var entry = Entries[i];
-
-            entry.CheckAvailability(Main.LocalPlayer);
         }
     }
 }

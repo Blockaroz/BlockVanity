@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Players;
+using BlockVanity.Common.Wardrobe;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -123,28 +124,9 @@ public static class VanityUtils
         drawinfo.DrawDataCache.Add(item);
     }
 
-    public static Player CreatePlayer(int head = -1, int body = -1, int legs = -1, int acc1 = -1, int acc2 = -1)
-    {
-        Player newPlayer = new Player();
-        if (head > -1)
-            newPlayer.armor[10] = ContentSamples.ItemsByType[head];
-
-        if (body > -1)
-            newPlayer.armor[11] = ContentSamples.ItemsByType[body];
-
-        if (legs > -1)
-            newPlayer.armor[12] = ContentSamples.ItemsByType[legs];
-
-        if (acc1 > -1)
-            newPlayer.armor[13] = ContentSamples.ItemsByType[acc1];
-
-        if (acc2 > -1)
-            newPlayer.armor[14] = ContentSamples.ItemsByType[acc2];
-
-        return newPlayer;
-    }
-
     public static PetPlayer GetPets(this Player player) => player.GetModPlayer<PetPlayer>();
+
+    public static MagicalWardrobePlayer GetMagicalWardrobe(this Player player) => player.GetModPlayer<MagicalWardrobePlayer>();
 
     public static readonly BlendState MultiplyBlend = new BlendState
     {
