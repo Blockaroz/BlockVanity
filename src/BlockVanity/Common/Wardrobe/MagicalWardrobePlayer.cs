@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlockVanity.Content.Quests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,10 @@ namespace BlockVanity.Common.Wardrobe;
 
 public sealed class MagicalWardrobePlayer : ModPlayer
 {
+    public int QuestsAvailable { get; private set; }
     public int QuestsComplete { get; private set; }
 
+    public int StarsAvailable { get; private set; }
     public int StarCount { get; private set; }
 
     public override void SaveData(TagCompound tag)
@@ -22,9 +25,28 @@ public sealed class MagicalWardrobePlayer : ModPlayer
     {  
     }
 
-    public void CalculateCompletion()
+    public void UpdateStatus()
     {
-        StarCount = 0;
+        QuestsAvailable = 0;
         QuestsComplete = 0;
+        StarsAvailable = 0;
+        StarCount = 0;
+
+        for (int i = 0; i < MagicalWardrobe.Entries.Count; i++)
+        {
+            var entry = MagicalWardrobe.Entries[i];
+            MagicalWardrobe.MarkEntryCompletion(Player, entry);
+
+            if (!entry.IsLocked)
+            {
+                QuestsAvailable++;
+                StarsAvailable += entry.Stars;
+                if (entry.IsCompleted)
+                {
+                    QuestsComplete++;
+                    StarCount += entry.Stars;
+                }
+            }
+        }
     }
 }

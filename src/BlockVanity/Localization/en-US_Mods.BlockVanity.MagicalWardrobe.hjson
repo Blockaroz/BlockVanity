@@ -1,9 +1,14 @@
-"The Box": {
-	Name: Mods.BlockVanity.MagicalWardrobe.The Box.Name
-	Description: Mods.BlockVanity.MagicalWardrobe.The Box.Description
+TheBox: {
+	DisplayName: The Box
+	Description: ""
 }
 
 Excellence: {
-	Name: Mods.BlockVanity.MagicalWardrobe.Excellence.Name
-	Description: Mods.BlockVanity.MagicalWardrobe.Excellence.Description
+	DisplayName: Excellence
+	Description: ""
+}
+
+ScholarOfOld: {
+	DisplayName: Scholar of Old
+	Description: ""
 }

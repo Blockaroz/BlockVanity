@@ -22,6 +22,8 @@ public class MagicSmokeParticle : BaseParticle
     private int Style;
     private int SpriteEffect;
 
+    public bool LightAffected;
+
     public static MagicSmokeParticle RequestNew(Vector2 position, Vector2 velocity, float rotation, int lifeTime, Color color, Color glowColor, float scale)
     {
         var smoke = Pool.RequestParticle();
@@ -43,6 +45,7 @@ public class MagicSmokeParticle : BaseParticle
         Velocity = Vector2.Zero;
         MaxTime = 1;
         TimeLeft = 0;
+        LightAffected = false;
     }
 
     public override void Update(ref ParticleRendererSettings settings)
@@ -64,6 +67,14 @@ public class MagicSmokeParticle : BaseParticle
         Rectangle glowFrame = texture.Frame(7, 6, frameCount, Style + 3);
         Color drawColor = Color.Lerp(ColorTint, ColorGlow, Utils.GetLerpValue(0.3f, 0.7f, progress, true)) * Utils.GetLerpValue(1f, 0.9f, progress, true);
         Color glowColor = ColorGlow * Utils.GetLerpValue(1f, 0.5f, progress, true);
+        
+        if (LightAffected)
+        {
+            Color lightColor = Lighting.GetColor(Position.ToTileCoordinates());
+            drawColor = drawColor.MultiplyRGBA(lightColor);
+            glowColor = glowColor.MultiplyRGBA(lightColor);
+        }
+
         spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);
         spritebatch.Draw(texture, Position + settings.AnchorPosition, glowFrame, glowColor, Rotation + MathHelper.PiOver2, glowFrame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);
     }

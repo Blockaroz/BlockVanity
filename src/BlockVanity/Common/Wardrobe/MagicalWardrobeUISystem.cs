@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BlockVanity.Common.Utilities;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,18 +27,23 @@ public sealed class MagicalWardrobeUISystem : ModSystem
             return;
         }
 
-        WardrobeUI = new();
-        WardrobeInterface.SetState(WardrobeUI);
-
         IsOpen = !IsOpen;
         if (IsOpen)
         {
+            Main.LocalPlayer.talkNPC = -1;
             Main.playerInventory = true;
             Main.mapFullscreen = false;
+            Main.InGuideCraftMenu = false;
             Main.CreativeMenu.CloseMenu();
             Main.ClosePlayerChat();
+
+            Main.LocalPlayer.GetMagicalWardrobe().UpdateStatus();
         }
+
         UISliderBase.EscapeElements();
+
+        WardrobeUI = new();
+        WardrobeInterface.SetState(WardrobeUI);
 
         SoundEngine.PlaySound(SoundID.MenuTick);
     }
@@ -68,7 +74,11 @@ public sealed class MagicalWardrobeUISystem : ModSystem
             if (!Main.gameInactive)
                 WardrobeInterface?.Update(gameTime);
 
-            if (!Main.playerInventory || Main.CreativeMenu.Enabled)
+            if (!Main.playerInventory || 
+                Main.CreativeMenu.Enabled || 
+                Main.inFancyUI ||
+                Main.LocalPlayer.TalkNPC != null || 
+                Main.LocalPlayer.chest != -1)
                 ToggleWardrobe();
         }
     }

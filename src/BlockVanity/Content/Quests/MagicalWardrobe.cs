@@ -1,16 +1,6 @@
-﻿using BlockVanity.Common.Utilities;
-using BlockVanity.Common.Wardrobe;
-using BlockVanity.Content.Items.Vanity;
-using BlockVanity.Content.Items.Vanity.Excellence;
-using System;
+﻿using BlockVanity.Common.Wardrobe;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
-using static tModPorter.ProgressUpdate;
 
 namespace BlockVanity.Content.Quests;
 
@@ -21,18 +11,26 @@ public static class MagicalWardrobe
     public static int TotalStarCount { get; private set; }
 
     public static void Populate()
-    {    
-        Entries.Add(QuestDefinitions.TheBox());
-        Entries.Add(QuestDefinitions.Excellence());
-
-        UpdateStatus();
+    {
+        AddEntry(QuestDefinitions.Common.TheBox());
+        AddEntry(QuestDefinitions.Tough.ScholarOfOld());
+        AddEntry(QuestDefinitions.Special.Excellence());
     }
 
-    public static void UpdateStatus()
+    private static int nextID;
+
+    private static void AddEntry(QuestEntry entry)
     {
-        for (int i = 0; i < Entries.Count; i++)
-        {
-            var entry = Entries[i];
-        }
+        entry.ID = nextID++;
+        Entries.Add(entry);
+    }
+
+    public static void MarkEntryCompletion(Player player, QuestEntry entry)
+    {
+        if (entry.IsLocked && entry.Unlock(player))
+            entry.CompletionState = QuestUnlockState.Available;
+
+        if (!entry.IsLocked && !entry.IsCompleted && entry.Complete(player))
+            entry.CompletionState = QuestUnlockState.Complete;
     }
 }

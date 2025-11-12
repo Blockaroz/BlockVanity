@@ -71,9 +71,10 @@ public class ScholarStaffBolt : ModProjectile
                 Projectile.velocity + Main.rand.NextVector2Circular(3, 3), 
                 Projectile.velocity.ToRotation() + Main.rand.NextFloat(-1f, 1f), 
                 Main.rand.Next(30, 40), 
-                Color.Beige * 0.5f, 
-                Color.Black * 0.33f, 
+                (Color.Beige * 0.3f) with { A = 120 },
+                Color.Beige with { A = 20 } * 0.1f, 
                 0.4f + Main.rand.NextFloat(0.4f));
+            darkParticle.LightAffected = true;
             ParticleEngine.Particles.Add(darkParticle);
         }
 

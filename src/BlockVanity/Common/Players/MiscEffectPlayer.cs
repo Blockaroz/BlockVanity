@@ -96,7 +96,7 @@ public class MiscEffectPlayer : ModPlayer
             }
         }
 
-        return Enumerable.Empty<Item>();
+        return [];
     }
 
     public override void GetDyeTraderReward(List<int> rewardPool)

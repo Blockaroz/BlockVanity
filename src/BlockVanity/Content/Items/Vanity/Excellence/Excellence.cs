@@ -3,6 +3,7 @@ using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -50,6 +51,8 @@ public class Excellence : VanityItem
         ArmorIDs.Legs.Sets.HidesBottomSkin[Item.legSlot] = true;
         ArmorIDs.Legs.Sets.OverridesLegs[Item.legSlot] = true;
         ArmorIDs.Legs.Sets.IncompatibleWithFrogLeg[Item.legSlot] = true;
+
+        GlowTexture = ModContent.Request<Texture2D>(Texture + "_Glow");
     }
 
     public override void UpdateVanity(Player player)
@@ -64,19 +67,19 @@ public class Excellence : VanityItem
         Lighting.AddLight(Item.Center, Color.DarkRed.ToVector3());
     }
 
-    public override Color? GetAlpha(Color lightColor) => Color.White;
+    public override Color? GetAlpha(Color lightColor) => lightColor;
+
+    public static Asset<Texture2D> GlowTexture { get; private set; }
 
     public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
     {
-        Texture2D glowTexture = Assets.Textures.Glow[0].Value;
-        Vector2 offset = Vector2.UnitY * 9 * scale;
-        spriteBatch.Draw(glowTexture, position - offset, glowTexture.Frame(), Color.Red with { A = 10 }, 0, glowTexture.Size() * 0.5f, scale * 0.3f, 0, 0);
+        Texture2D glowTexture = GlowTexture.Value;
+        spriteBatch.Draw(glowTexture, position, glowTexture.Frame(), Color.White with { A = 10 }, 0, glowTexture.Size() * 0.5f, scale, 0, 0);
     }
 
     public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
-        Texture2D glowTexture = Assets.Textures.Glow[0].Value;
-        Vector2 offset = Vector2.UnitY.RotatedBy(rotation) * 9 * scale;
-        spriteBatch.Draw(glowTexture, Item.Center - Main.screenPosition - offset, glowTexture.Frame(), Color.Red with { A = 10 }, rotation, glowTexture.Size() * 0.5f, scale * 0.3f, 0, 0);
+        Texture2D glowTexture = GlowTexture.Value;
+        spriteBatch.Draw(glowTexture, Item.Center - Main.screenPosition, glowTexture.Frame(), Color.White with { A = 10 }, rotation, glowTexture.Size() * 0.5f, scale, 0, 0);
     }
 }
