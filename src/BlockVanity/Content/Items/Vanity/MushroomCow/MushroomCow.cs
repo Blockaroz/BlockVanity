@@ -24,8 +24,6 @@ public class MushroomCowHead : VanityItem
         body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body) &&
         legs == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowTrotters), EquipType.Legs);
 
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
-
     public override void AddRecipes()
     {
         CreateRecipe()
@@ -60,8 +58,6 @@ public class GamingMushroomCowHead : VanityItem
     public override bool IsVanitySet(int head, int body, int legs) =>
         body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body) &&
         legs == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowTrotters), EquipType.Legs);
-
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 }
 
 [AutoloadEquip(EquipType.Body)]
@@ -72,8 +68,6 @@ public class MushroomCowHide : VanityItem
     public override bool IsVanitySet(int head, int body, int legs) =>
         (head == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHead), EquipType.Head) || head == EquipLoader.GetEquipSlot(Mod, nameof(GamingMushroomCowHead), EquipType.Head)) &&
         legs == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowTrotters), EquipType.Legs);
-
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 
     public override void AddRecipes()
     {
@@ -94,8 +88,6 @@ public class MushroomCowTrotters : VanityItem
     public override bool IsVanitySet(int head, int body, int legs) =>
         (head == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHead), EquipType.Head) || head == EquipLoader.GetEquipSlot(Mod, nameof(GamingMushroomCowHead), EquipType.Head)) &&
         body == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHide), EquipType.Body);
-
-    public override void PreUpdateVanitySet(Player player) => player.GetModPlayer<MushroomCowVisualPlayer>().red = true;
 
     public override void AddRecipes()
     {

@@ -1,6 +1,7 @@
 ﻿using BlockVanity.Common.Utilities;
 using BlockVanity.Common.Wardrobe;
 using BlockVanity.Content.Items.Vanity;
+using BlockVanity.Content.Items.Vanity.CountChaos;
 using BlockVanity.Content.Items.Vanity.Excellence;
 using BlockVanity.Content.Items.Weapons.Magic;
 using BlockVanity.Content.NPCs.Misc;
@@ -12,21 +13,16 @@ namespace BlockVanity.Content.Quests;
 
 public static class QuestDefinitions
 {
-    static bool AlwaysAvailable(Player player) => true;
-    static bool Hardmode(Player player) => true;
-
     public static class Common
     {
         public static QuestEntry TheBox()
         {
-            var portrait = new WardrobeItemPortrait(ModContent.ItemType<CardboardBox>());
+            var portrait = new WardrobeItemIcon(ModContent.ItemType<CardboardBox>());
             return new QuestEntry(BlockVanity.Instance,
                 Name: "TheBox",
                 Stars: 1,
-                SmallPortrait: portrait,
-                LargePortrait: portrait,
-                Unlock: AlwaysAvailable,
-                Complete: player => player.HasItem(ModContent.ItemType<CardboardBox>()),
+                Icon: portrait,
+                Portrait: portrait,
                 Reward: QuestReward.None);
         }
     }
@@ -38,25 +34,36 @@ public static class QuestDefinitions
             return new QuestEntry(BlockVanity.Instance,
                 Name: "ScholarOfOld",
                 Stars: 3,
-                SmallPortrait: new WardrobeNPCPortrait(ModContent.NPCType<ScholarStaffGhost>()),
-                LargePortrait: new WardrobePlayerPortrait(new Player()),
-                Unlock: Hardmode,
-                Complete: player => player.HasItem(ModContent.ItemType<ScholarStaff>()),
+                Icon: new WardrobeItemIcon(ModContent.ItemType<ScholarStaff>()),
+                Portrait: new WardrobePlayerPortrait(new Player()),
                 Reward: QuestReward.None);
         }
     }
 
     public static class Special
     {
+        public static QuestEntry ChaosGarden()
+        {
+            Player player = new Player();
+            player.armor[0] = new Item(ModContent.ItemType<CountChaosHornedHead>());
+            player.armor[0] = new Item(ModContent.ItemType<CountChaosHornedHead>());
+
+            var portrait = new WardrobePlayerPortrait(player);
+            return new QuestEntry(BlockVanity.Instance,
+                Name: "ChaosGarden",
+                Stars: 7,
+                Icon: portrait,
+                Portrait: portrait,
+                Reward: QuestReward.None);
+        }
+
         public static QuestEntry Excellence()
         {
             return new QuestEntry(BlockVanity.Instance,
                 Name: "Excellence",
                 Stars: 10,
-                SmallPortrait: new WardrobeItemPortrait(ModContent.ItemType<Excellence>()),
-                LargePortrait: new ExcellenceWardrobePortrait(),
-                Unlock: AlwaysAvailable,
-                Complete: player => player.GetMagicalWardrobe().StarCount >= MagicalWardrobe.TotalStarCount - 10,
+                Icon: new ExcellenceWardrobeIcon(),
+                Portrait: new ExcellenceWardrobePortrait(),
                 Reward: QuestReward.None);
         }
     }

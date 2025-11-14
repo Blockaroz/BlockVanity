@@ -17,22 +17,17 @@ public enum QuestUnlockState
     Claimed
 }
 
-
 public readonly record struct QuestReward(int Value, params int[] Items)
 {
     public static QuestReward None { get; } = new QuestReward(0);
 }
 
-public delegate bool QuestCondition(Player player);
-
 public record class QuestEntry(
     Mod Mod,
     string Name,
     int Stars,
-    IWardrobePortrait SmallPortrait,
-    IWardrobePortrait LargePortrait,
-    QuestCondition Unlock,
-    QuestCondition Complete,
+    IWardrobeIcon Icon,
+    IWardrobeIcon Portrait,
     QuestReward Reward)
 {
     public int ID { get; set; }
@@ -41,7 +36,9 @@ public record class QuestEntry(
 
     public LocalizedText DisplayName { get; } = Mod.GetLocalization($"MagicalWardrobe.{Name}.DisplayName", () => Name);
 
-    public LocalizedText Description { get; } = Mod.GetLocalization($"MagicalWardrobe.{Name}.Description", () => string.Empty);
+    public LocalizedText Description { get; } = Mod.GetLocalization($"MagicalWardrobe.{Name}.Description", () => "...");
+
+    public LocalizedText CompleteCondition { get; } = Mod.GetLocalization($"MagicalWardrobe.{Name}.CompleteCondition", () => "...");
 
     public bool IsLocked => CompletionState == QuestUnlockState.Locked;
 

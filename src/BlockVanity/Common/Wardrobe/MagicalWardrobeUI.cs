@@ -24,47 +24,80 @@ public sealed class MagicalWardrobeUI : UIState
 
     public UIGrid EntryGrid { get; }
 
-    public MagicalWardrobeUI()
+    public MagicalWardrobeUI() : base()
     {
         const float statusBarHeight = 32;
+        const int entryWidth = 74;
+        const int entryHeight = 82;
 
         Left.Set(20f, 0f);
         Top.Set(320f, 0f);
 
-        int entryWidth = 74;
-        int entryHeight = 82;
-        float availableHeight = Main.screenHeight - Top.Pixels - statusBarHeight - 200;
+        float availableHeight = (Main.screenHeight - Top.Pixels - statusBarHeight - 200);
 
         int maxCountX = 5;
-        int maxCountY = 5;
-        SetPadding(4f);
+        int maxCountY = Math.Max(1, (int)MathF.Floor(availableHeight / entryHeight));
 
-        MinHeight.Set(100, 0);
-        MaxHeight.Set(500, 0);
+        SetPadding(4);
 
         SearchBar = new UISearchBar(LocalizedText.Empty, 0.67f);
         SearchBar.Width.Set(100f, 0f);
         SearchBar.Left.Set(-SearchBar.Width.Pixels, 0f);
 
         EntryGrid = [];
+        EntryGrid.ManualSortMethod = SortEntries;
+
         EntryGrid.ListPadding = 4f;
-        EntryGrid.Left.Set(4, 0f);
-        EntryGrid.Top.Set(statusBarHeight + 4, 0f);
+        EntryGrid.Left.Set(8f, 0f);
+        EntryGrid.Top.Set(statusBarHeight + 4f, 0f);
         EntryGrid.Width.Set(entryWidth * maxCountX, 0f);
         EntryGrid.Height.Set(entryHeight * maxCountY, 0f);
         Append(EntryGrid);
 
         Width.Set(EntryGrid.Width.Pixels + 170, 0);
-        Height.Set(statusBarHeight + EntryGrid.Height.Pixels + 8, 0f);
+        Height.Set(statusBarHeight + EntryGrid.Height.Pixels, 0f);
+
+        CreateAllEntries();
+    }
+
+    public override void Recalculate()
+    {
+        if (EntryGrid is null)
+            return;
+
+        const float statusBarHeight = 32;
+        const int entryHeight = 82;
+
+        float availableHeight = (Main.screenHeight - Top.Pixels - statusBarHeight - 200);
+        int maxCountY = Math.Clamp((int)MathF.Floor(availableHeight / entryHeight), 1, 6);
+
+        EntryGrid.Height.Set(entryHeight * maxCountY, 0f);
+        Height.Set(statusBarHeight + EntryGrid.Height.Pixels + 16, 0f);
+
+        base.Recalculate();
+    }
+
+    private List<WardrobeEntryButton> Entries = [];
+
+    private void CreateAllEntries()
+    {
+        Entries = new List<WardrobeEntryButton>();
+        for (int i = 0; i < MagicalWardrobe.Entries.Count; i++)
+        {
+            var entry = new WardrobeEntryButton(MagicalWardrobe.Entries[i]);
+            Entries.Add(entry);
+        }
     }
 
     public void Populate()
     {
-        for (int i = 0; i < MagicalWardrobe.Entries.Count; i++)
-        {
-            var entry = new WardrobeEntryButton(MagicalWardrobe.Entries[i]);
-            EntryGrid.Add(entry);
-        }
+        EntryGrid.AddRange(Entries);
+    }
+
+    private void SortEntries(List<UIElement> entries)
+    {
+        // TODO: expand on this?
+        entries.Sort((entry1, entry2) => Math.Sign(((WardrobeEntryButton)entry1).Entry.ID - ((WardrobeEntryButton)entry2).Entry.ID));
     }
 
     private bool hasPopulated;
@@ -92,6 +125,6 @@ public sealed class MagicalWardrobeUI : UIState
         Utils.DrawSplicedPanel(spriteBatch, TextureAssets.InventoryBack13.Value, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height, 10, 10, 10, 10, new Color(50, 65, 119, 200));
 
         Rectangle grid = EntryGrid.GetDimensions().ToRectangle();
-        Utils.DrawSplicedPanel(spriteBatch, UICommon.InnerPanelTexture.Value, grid.X - 4, grid.Y - 4, grid.Width, grid.Height, 10, 10, 10, 10, Color.White);
+        Utils.DrawSplicedPanel(spriteBatch, UICommon.InnerPanelTexture.Value, grid.X - 4, grid.Y - 4, grid.Width + 4, grid.Height + 4, 10, 10, 10, 10, Color.White);
     }
 }

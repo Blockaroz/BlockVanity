@@ -81,7 +81,7 @@ public class BlueFishSkinPlayer : ModPlayer
         }
     }
 
-    private void DrawEars(ref PlayerDrawSet drawinfo, bool upperEars = true)
+    private void DrawEars(ref PlayerDrawSet drawinfo, bool upperEars)
     {
         if (!drawinfo.drawPlayer.invis && drawinfo.drawPlayer.GetModPlayer<BlueFishSkinPlayer>().enabled)
         {

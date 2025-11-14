@@ -1,14 +1,23 @@
 TheBox: {
 	DisplayName: The Box
 	Description: ""
+	CompleteCondition: ...
 }
 
 Excellence: {
 	DisplayName: Excellence
 	Description: ""
+	CompleteCondition: ...
 }
 
 ScholarOfOld: {
 	DisplayName: Scholar of Old
 	Description: ""
+	CompleteCondition: ...
+}
+
+Null: {
+	DisplayName: Null
+	Description: ...
+	CompleteCondition: ...
 }

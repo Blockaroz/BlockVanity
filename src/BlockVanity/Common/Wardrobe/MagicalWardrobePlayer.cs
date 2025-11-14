@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -35,7 +36,7 @@ public sealed class MagicalWardrobePlayer : ModPlayer
         for (int i = 0; i < MagicalWardrobe.Entries.Count; i++)
         {
             var entry = MagicalWardrobe.Entries[i];
-            MagicalWardrobe.MarkEntryCompletion(Player, entry);
+
 
             if (!entry.IsLocked)
             {

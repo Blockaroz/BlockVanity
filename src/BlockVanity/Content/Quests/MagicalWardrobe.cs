@@ -15,6 +15,9 @@ public static class MagicalWardrobe
         AddEntry(QuestDefinitions.Common.TheBox());
         AddEntry(QuestDefinitions.Tough.ScholarOfOld());
         AddEntry(QuestDefinitions.Special.Excellence());
+
+        for (int i = 0; i < 24; i++)
+            AddEntry(new QuestEntry(BlockVanity.Instance, "Null", i, null, null, QuestReward.None));
     }
 
     private static int nextID;
@@ -23,14 +26,5 @@ public static class MagicalWardrobe
     {
         entry.ID = nextID++;
         Entries.Add(entry);
-    }
-
-    public static void MarkEntryCompletion(Player player, QuestEntry entry)
-    {
-        if (entry.IsLocked && entry.Unlock(player))
-            entry.CompletionState = QuestUnlockState.Available;
-
-        if (!entry.IsLocked && !entry.IsCompleted && entry.Complete(player))
-            entry.CompletionState = QuestUnlockState.Complete;
     }
 }
