@@ -16,8 +16,6 @@ namespace BlockVanity.Common.Players;
 
 public class PlayerOfFrenziedFlame : ModPlayer
 {
-    public bool IsReady() => false;
-
     public DrawData GetFrenzyTarget() => new DrawData(
         TextureAssets.Extra[ExtrasID.SharpTears].Value, 
         Vector2.Zero,

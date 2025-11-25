@@ -6,10 +6,8 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Items.Vanity;
 
 [AutoloadEquip(EquipType.Head)]
-public class CardboardBox : VanityItem
+public class CardboardBox() : VanityItem(30, 28, Item.buyPrice(0, 0, 0, 5))
 {
-    public CardboardBox() : base(30, 28, Item.buyPrice(0, 0, 0, 5)) { }
-
     public override int Rarity => ItemRarityID.White;
 
     public override void SetStaticDefaults()

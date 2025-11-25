@@ -5,9 +5,9 @@ using Terraria.ID;
 
 namespace BlockVanity.Content.Items.Vanity;
 
-public class BlackEyeLens : VanityItem
+public class BlackEyeLens() : VanityItem(accessory: true)
 {
-    public BlackEyeLens() : base(ItemRarityID.Blue, accessory: true) { }
+    public override int Rarity => ItemRarityID.Blue;
 
     public override void UpdateAccessory(Player player, bool hideVisual) => player.GetModPlayer<MiscEffectPlayer>().accBlackLens = !hideVisual;
 

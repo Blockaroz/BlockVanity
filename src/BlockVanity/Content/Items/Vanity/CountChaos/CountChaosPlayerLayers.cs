@@ -118,7 +118,7 @@ public class CountChaosArmOnGlowLayer : PlayerDrawLayer
 
 public class CountChaosArmOffGlowLayer : PlayerDrawLayer
 {
-    public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.Leggings);
+    public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Skin);
 
     public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
 

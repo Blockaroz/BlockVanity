@@ -7,7 +7,7 @@ namespace BlockVanity.Content.Items.Vanity;
 [AutoloadEquip(EquipType.Head)]
 public class LotusHairpin : VanityItem
 {
-    public LotusHairpin() : base(ItemRarityID.Green) { }
+    public override int Rarity => ItemRarityID.Green;
 
     public override void SetStaticDefaults()
     {

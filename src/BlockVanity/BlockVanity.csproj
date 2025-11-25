@@ -12,6 +12,7 @@
 	<ItemGroup>
 	  <Folder Include="Content\Items\Placeable\" />
 	  <Folder Include="Content\Pets\" />
+	  <Folder Include="Content\Projectiles\" />
 	</ItemGroup>
 	
 </Project>

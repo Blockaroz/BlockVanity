@@ -11,27 +11,7 @@ public class ExcellencePlayer : ModPlayer
 
     public override void Load()
     {
-        On_Player.UpdateVisibleAccessory += EnableExcellence;
         On_Player.SetArmorEffectVisuals += ExcellenceShadows;
-    }
-
-    public override void Unload()
-    {
-        On_Player.UpdateVisibleAccessory -= EnableExcellence;
-        On_Player.SetArmorEffectVisuals -= ExcellenceShadows;
-    }
-
-    private void EnableExcellence(On_Player.orig_UpdateVisibleAccessory orig, Player self, int itemSlot, Item item, bool modded)
-    {
-        orig(self, itemSlot, item, modded);
-
-        if (item.ModItem is Excellence excellence)
-        {
-            self.GetModPlayer<ExcellencePlayer>().enabled = true;
-            self.head = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Head);
-            self.body = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Body);
-            self.legs = EquipLoader.GetEquipSlot(Mod, excellence.Name, EquipType.Legs);
-        }
     }
 
     private void ExcellenceShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)

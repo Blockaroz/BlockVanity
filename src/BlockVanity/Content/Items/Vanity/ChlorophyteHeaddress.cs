@@ -11,11 +11,9 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Items.Vanity;
 
 [AutoloadEquip(EquipType.Head)]
-public class ChlorophyteHeaddress : VanityItem
+public class ChlorophyteHeaddress() : VanityItem(30, 28, Item.buyPrice(0, 0, 0, 5))
 {
-    public ChlorophyteHeaddress() : base(30, 28, Item.buyPrice(0, 0, 0, 5)) { }
-
-    public override int Rarity => ItemRarityID.White;
+    public override int Rarity => ItemRarityID.Green;
 
     public override void SetStaticDefaults()
     {

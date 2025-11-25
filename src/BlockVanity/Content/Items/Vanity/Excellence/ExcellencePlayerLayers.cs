@@ -12,12 +12,7 @@ namespace BlockVanity.Content.Items.Vanity.Excellence;
 
 public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 {
-    public static Asset<Texture2D> HeadGlowTexture { get; set; }
-
-    public override void Load()
-    {
-        HeadGlowTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Excellence/Excellence_{EquipType.Head}_Glow");
-    }
+    public static LazyAsset<Texture2D> HeadGlowTexture { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Excellence/Excellence_{EquipType.Head}_Glow");
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 

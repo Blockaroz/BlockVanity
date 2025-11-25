@@ -237,8 +237,8 @@ Items: {
 }
 
 Projectiles: {
+	ScholarStaffHeld.DisplayName: Scholar Staff
 	ScholarStaffBolt.DisplayName: Ancient Energy
-	ScholarStaffProj.DisplayName: Scholar Staff
 }
 
 Tiles: {

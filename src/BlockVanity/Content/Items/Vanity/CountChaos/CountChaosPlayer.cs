@@ -1,5 +1,4 @@
 ﻿using BlockVanity.Common.Graphics;
-using BlockVanity.Content.Items.Vanity.CountChaos;
 using BlockVanity.Content.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +7,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Renderers;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Common.Players;
+namespace BlockVanity.Content.Items.Vanity.CountChaos;
 
 public class CountChaosPlayer : ModPlayer
 {

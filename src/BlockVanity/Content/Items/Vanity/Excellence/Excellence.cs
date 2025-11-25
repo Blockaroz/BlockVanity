@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Players;
+using BlockVanity.Common.Systems.Players;
 using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
@@ -65,6 +66,17 @@ public class Excellence : VanityItem
     {
         Item.position.Y += MathF.Sin(Item.timeSinceItemSpawned * 0.05f) * 0.3f;
         Lighting.AddLight(Item.Center, Color.DarkRed.ToVector3());
+    }
+
+    public override void UpdateVisibleAccessory(Player player, bool hideVisual)
+    {
+        if (!hideVisual)
+        {
+            player.GetModPlayer<ExcellencePlayer>().enabled = true;
+            player.head = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
+            player.body = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
+            player.legs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);
+        }
     }
 
     public override Color? GetAlpha(Color lightColor) => lightColor;

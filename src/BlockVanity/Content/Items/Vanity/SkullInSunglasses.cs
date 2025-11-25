@@ -11,7 +11,7 @@ namespace BlockVanity.Content.Items.Vanity;
 [AutoloadEquip(EquipType.Head)]
 public class SkullInSunglasses : VanityItem, IUpdateArmorInVanity
 {
-    public SkullInSunglasses() : base(ItemRarityID.Blue) { }
+    public override int Rarity => ItemRarityID.Blue;
 
     public override void OnCreated(ItemCreationContext context)
     {
