@@ -58,8 +58,6 @@ public static partial class Assets
 
         public static readonly LazyAsset<Texture2D>[] Particle = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Particles/Particle_");
 
-        public static readonly LazyAsset<Texture2D>[] ChargeBar = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Bar_");
-
         public static readonly LazyAsset<Texture2D> VanityStar = new LazyAsset<Texture2D>(AssetPath + "Textures/UI/VanityStar");
     }
 

@@ -1,11 +1,8 @@
-﻿using BlockVanity.Common.Utilities;
-using BlockVanity.Common.Wardrobe;
-using BlockVanity.Content.Items.Vanity;
-using BlockVanity.Content.Items.Vanity.CountChaos;
-using BlockVanity.Content.Items.Vanity.Excellence;
-using BlockVanity.Content.Items.Weapons.Magic;
-using BlockVanity.Content.NPCs.Misc;
+﻿using BlockVanity.Common.Wardrobe;
 using BlockVanity.Content.Quests.Portraits;
+using BlockVanity.Content.Vanity;
+using BlockVanity.Content.Vanity.CountChaos;
+using BlockVanity.Content.Weapons.Magic;
 using Terraria;
 using Terraria.ModLoader;
 

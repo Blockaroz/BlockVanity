@@ -1,5 +1,5 @@
-﻿using BlockVanity.Content.Items.Dyes;
-using BlockVanity.Content.Items.Vanity.Myrtle;
+﻿using BlockVanity.Content.Dyes;
+using BlockVanity.Content.Vanity.Myrtle;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using System;

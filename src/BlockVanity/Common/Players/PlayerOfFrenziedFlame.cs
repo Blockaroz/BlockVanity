@@ -1,8 +1,8 @@
 ﻿using BlockVanity.Common.Graphics;
 using BlockVanity.Common.UI;
 using BlockVanity.Common.Utilities;
-using BlockVanity.Content.Items.Vanity.Midra;
 using BlockVanity.Content.Particles;
+using BlockVanity.Content.Vanity.Midra;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

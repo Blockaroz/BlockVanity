@@ -1,4 +1,4 @@
-﻿using BlockVanity.Content.Items.Vanity.Myrtle;
+﻿using BlockVanity.Content.Vanity.Myrtle;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;

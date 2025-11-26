@@ -1,7 +1,4 @@
-﻿using BlockVanity.Content.Items.Vanity;
-using Terraria;
-using Terraria.GameContent.ItemDropRules;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Common.Globals;

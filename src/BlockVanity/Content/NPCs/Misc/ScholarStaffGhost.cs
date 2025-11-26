@@ -1,6 +1,6 @@
 ﻿using BlockVanity.Common.Graphics;
-using BlockVanity.Content.Items.Weapons.Magic;
 using BlockVanity.Content.Particles;
+using BlockVanity.Content.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;

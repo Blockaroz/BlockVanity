@@ -1,4 +1,4 @@
-﻿using BlockVanity.Content.Items.Vanity.Myrtle;
+﻿using BlockVanity.Content.Vanity.Myrtle;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
