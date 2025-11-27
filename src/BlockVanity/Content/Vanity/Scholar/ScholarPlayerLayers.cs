@@ -10,12 +10,7 @@ namespace BlockVanity.Content.Vanity.Scholar;
 
 public class ScholarHoodEyesLayer : PlayerDrawLayer
 {
-    public static Asset<Texture2D> eyesTexture;
-
-    public override void Load()
-    {
-        eyesTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Scholar/ScholarHood_Eyes");
-    }
+    public static LazyAsset<Texture2D> EyesTexture { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Vanity/Scholar/ScholarHood_Eyes");
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
@@ -28,11 +23,11 @@ public class ScholarHoodEyesLayer : PlayerDrawLayer
         float colorStrength = MathHelper.Clamp(drawInfo.drawPlayer.eyeColor.R + drawInfo.drawPlayer.eyeColor.G + drawInfo.drawPlayer.eyeColor.B, 0, 255) / 255f;
         Color eyeColor = drawInfo.drawPlayer.eyeColor * Utils.GetLerpValue(0.4f, 0.6f, colorStrength, true);
 
-        Rectangle eyeRect = eyesTexture.Value.Frame(1, 3, 0, (int)drawInfo.drawPlayer.eyeHelper.CurrentEyeFrame);
+        Rectangle eyeRect = EyesTexture.Value.Frame(1, 3, 0, (int)drawInfo.drawPlayer.eyeHelper.CurrentEyeFrame);
         Vector2 pos = drawInfo.HeadPosition();
         pos.ApplyVerticalOffset(drawInfo);
 
-        DrawData eyeData = new DrawData(eyesTexture.Value, pos, eyeRect, eyeColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+        DrawData eyeData = new DrawData(EyesTexture.Value, pos, eyeRect, eyeColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
         eyeData.shader = drawInfo.cHead;
         drawInfo.DrawDataCache.Add(eyeData);
     }
@@ -40,12 +35,7 @@ public class ScholarHoodEyesLayer : PlayerDrawLayer
 
 public class ScholarCloakCoatLayer : PlayerDrawLayer
 {
-    public static Asset<Texture2D> coatTexture;
-
-    public override void Load()
-    {
-        coatTexture = ModContent.Request<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Scholar/ScholarCloak_Coat");
-    }
+    public static LazyAsset<Texture2D> CoatTexture { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Scholar/ScholarCloak_Coat");
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.ArmorLongCoat);
 
@@ -55,11 +45,11 @@ public class ScholarCloakCoatLayer : PlayerDrawLayer
     {
         if (drawInfo.isSitting)
         {
-            VanityUtils.DrawSittingLongCoats(ref drawInfo, coatTexture.Value, drawInfo.colorArmorBody, drawInfo.cBody);
+            VanityUtils.DrawSittingLongCoats(ref drawInfo, CoatTexture.Value, drawInfo.colorArmorBody, drawInfo.cBody);
             return;
         }
 
-        DrawData item = new DrawData(coatTexture.Value, new Vector2((int)(drawInfo.Position.X - Main.screenPosition.X - drawInfo.drawPlayer.legFrame.Width / 2 + drawInfo.drawPlayer.width / 2), (int)(drawInfo.Position.Y - Main.screenPosition.Y + drawInfo.drawPlayer.height - drawInfo.drawPlayer.legFrame.Height + 4f)) + drawInfo.drawPlayer.legPosition + drawInfo.legVect, drawInfo.drawPlayer.legFrame, drawInfo.colorArmorBody, drawInfo.drawPlayer.legRotation, drawInfo.legVect, 1f, drawInfo.playerEffect);
+        DrawData item = new DrawData(CoatTexture.Value, new Vector2((int)(drawInfo.Position.X - Main.screenPosition.X - drawInfo.drawPlayer.legFrame.Width / 2 + drawInfo.drawPlayer.width / 2), (int)(drawInfo.Position.Y - Main.screenPosition.Y + drawInfo.drawPlayer.height - drawInfo.drawPlayer.legFrame.Height + 4f)) + drawInfo.drawPlayer.legPosition + drawInfo.legVect, drawInfo.drawPlayer.legFrame, drawInfo.colorArmorBody, drawInfo.drawPlayer.legRotation, drawInfo.legVect, 1f, drawInfo.playerEffect);
         item.shader = drawInfo.cBody;
         drawInfo.DrawDataCache.Add(item);
     }

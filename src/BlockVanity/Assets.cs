@@ -49,16 +49,16 @@ public static partial class Assets
     {
         public static readonly string Placeholder = $"{nameof(BlockVanity)}/Assets/Textures/Placeholder_Pearl";
 
-        public static readonly LazyAsset<Texture2D>[] Glow = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Glow_");
-        public static readonly LazyAsset<Texture2D> Pixel = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/Pixel");
+        public static LazyAsset<Texture2D>[] Glow { get; } = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Glow_");
+        public static LazyAsset<Texture2D> Pixel { get; } = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/Pixel");
 
-        public static readonly LazyAsset<Texture2D>[] MiscNoise = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Noise_");
-        public static readonly LazyAsset<Texture2D> MagmaPattern = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/MagmaPattern");
-        public static readonly LazyAsset<Texture2D> SeasideColorMap = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/SeasideColorMap");
+        public static LazyAsset<Texture2D>[] MiscNoise { get; } = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Noise_");
+        public static LazyAsset<Texture2D> MagmaPattern { get; } = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/MagmaPattern");
+        public static LazyAsset<Texture2D> SeasideColorMap { get; } = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/SeasideColorMap");
 
-        public static readonly LazyAsset<Texture2D>[] Particle = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Particles/Particle_");
+        public static LazyAsset<Texture2D>[] Particle { get; } = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Particles/Particle_");
 
-        public static readonly LazyAsset<Texture2D> VanityStar = new LazyAsset<Texture2D>(AssetPath + "Textures/UI/VanityStar");
+        public static LazyAsset<Texture2D> VanityStar { get; } = new LazyAsset<Texture2D>(AssetPath + "Textures/UI/VanityStar");
     }
 
     public static class Sounds
@@ -67,19 +67,18 @@ public static partial class Assets
 
     public static class Effects
     {
-        public static readonly LazyAsset<Effect> BasicTrail = new LazyAsset<Effect>(AssetPath + "Effects/BasicTrail");
-        public static readonly LazyAsset<Effect> ObliterationRayBeam = new LazyAsset<Effect>(AssetPath + "Effects/ObliterationRayBeam");
-        public static readonly LazyAsset<Effect> FrenziedFlameParticle = new LazyAsset<Effect>(AssetPath + "Effects/FrenziedFlameParticle");
-        public static readonly LazyAsset<Effect> FrenziedFlameEye = new LazyAsset<Effect>(AssetPath + "Effects/FrenziedFlameEye");
-        public static readonly LazyAsset<Effect> TransparencyMask = new LazyAsset<Effect>(AssetPath + "Effects/TransparencyMask");
+        public static LazyAsset<Effect> BasicTrail { get; } = new LazyAsset<Effect>(AssetPath + "Effects/BasicTrail");
+        public static LazyAsset<Effect> ObliterationRayBeam { get; } = new LazyAsset<Effect>(AssetPath + "Effects/ObliterationRayBeam");
+        public static LazyAsset<Effect> FrenziedFlameParticle { get; } = new LazyAsset<Effect>(AssetPath + "Effects/FrenziedFlameParticle");
+        public static LazyAsset<Effect> FrenziedFlameEye { get; } = new LazyAsset<Effect>(AssetPath + "Effects/FrenziedFlameEye");
+        public static LazyAsset<Effect> TransparencyMask { get; } = new LazyAsset<Effect>(AssetPath + "Effects/TransparencyMask");
 
-        public static readonly LazyAsset<Effect> RadiationDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/RadiationDye");
-        public static readonly LazyAsset<Effect> PhantomDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/PhantomDye");
-        public static readonly LazyAsset<Effect> ChaosMatterDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/ChaosMatterDye");
-        public static readonly LazyAsset<Effect> WitheringDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/WitheringDye");
+        public static LazyAsset<Effect> RadiationDye { get; } = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/RadiationDye");
+        public static LazyAsset<Effect> PhantomDye { get; } = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/PhantomDye");
+        public static LazyAsset<Effect> ChaosMatterDye { get; } = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/ChaosMatterDye");
+        public static LazyAsset<Effect> WitheringDye { get; } = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/WitheringDye");
 
-        public static readonly LazyAsset<Effect> SeasideHairDye = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/SeasideHairDye");
-        public static readonly LazyAsset<Effect> SparklingAshHairDye;
+        public static LazyAsset<Effect> SeasideHairDye { get; } = new LazyAsset<Effect>(AssetPath + "Effects/Dyes/SeasideHairDye");
 
     }
 }

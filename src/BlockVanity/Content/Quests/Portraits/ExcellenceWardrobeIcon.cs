@@ -11,7 +11,7 @@ namespace BlockVanity.Content.Quests.Portraits;
 
 public sealed class ExcellenceWardrobeIcon : IWardrobeIcon
 {
-    public static readonly LazyAsset<Texture2D> Jexture = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/TheJester");
+    public static LazyAsset<Texture2D> Jexture { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/TheJester");
 
     public void UpdatePortrait(WardrobePortraitInfo info)
     {
