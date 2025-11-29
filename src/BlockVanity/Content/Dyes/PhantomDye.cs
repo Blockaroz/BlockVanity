@@ -16,8 +16,10 @@ public class PhantomDye : ModItem
 
         if (!Main.dedServ)
         {
-            GameShaders.Armor.BindShader(Type, new TimeDyeShaderData(Assets.Effects.PhantomDye)
-                .UseColor(new Color(79, 255, 211)).UseSecondaryColor(new Color(49, 115, 150)).UseImage(Main.Assets.Request<Texture2D>("Images/Misc/noise")));
+            GameShaders.Armor.BindShader(Type, new GlobalTimeDyeShaderData(Assets.Effects.PhantomDye)
+                .UseColor(new Color(79, 255, 211))
+                .UseSecondaryColor(new Color(49, 115, 150))
+                .UseImage(Main.Assets.Request<Texture2D>("Images/Misc/noise")));
         }
     }
 

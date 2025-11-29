@@ -15,7 +15,7 @@ public class ChaosMatterDye : ModItem
 
         if (!Main.dedServ)
         {
-            GameShaders.Armor.BindShader(Type, new TimeDyeShaderData(Assets.Effects.ChaosMatterDye)
+            GameShaders.Armor.BindShader(Type, new GlobalTimeDyeShaderData(Assets.Effects.ChaosMatterDye)
                 .UseColor(new Color(101, 0, 255)).UseSecondaryColor(new Color(20, 0, 120)).UseImage(Assets.Textures.MiscNoise[0]));
         }
     }

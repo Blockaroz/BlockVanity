@@ -6,11 +6,11 @@ using Terraria.Graphics.Shaders;
 
 namespace BlockVanity.Common.Graphics;
 
-public class TimeDyeShaderData : ArmorShaderData
+public class GlobalTimeDyeShaderData : ArmorShaderData
 {
     private float _timeScale;
 
-    public TimeDyeShaderData(Asset<Effect> shader, float timeScale = 10) : base(shader, "ShaderPass")
+    public GlobalTimeDyeShaderData(Asset<Effect> shader, float timeScale = 10) : base(shader, "ShaderPass")
     {
         _timeScale = timeScale;
     }
