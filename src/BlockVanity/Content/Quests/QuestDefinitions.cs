@@ -58,7 +58,7 @@ public static class QuestDefinitions
         {
             return new QuestEntry(BlockVanity.Instance,
                 Name: "Excellence",
-                Stars: 10,
+                Stars: 11,
                 Icon: new ExcellenceWardrobeIcon(),
                 Portrait: new ExcellenceWardrobePortrait(),
                 Reward: QuestReward.None);

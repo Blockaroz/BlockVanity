@@ -1,5 +1,4 @@
-﻿using BlockVanity.Common.Players;
-using BlockVanity.Common.Utilities;
+﻿using BlockVanity.Common.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -17,6 +16,11 @@ public class FrenziedFlameHeadEffectLayer : PlayerDrawLayer
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
+        if (drawInfo.headOnlyRender)
+        {
+
+        }
+
         // Draw the animated thing here
     }
 }
@@ -39,6 +43,6 @@ public class FrenziedFlameBackHeadEffectLayer : PlayerDrawLayer
         data.color = Color.White;
         data.effect = Main.GameViewMatrix.Effects;
         data.shader = drawInfo.cHead;
-        drawInfo.DrawDataCache.Add(data);
+        // drawInfo.DrawDataCache.Add(data);
     }
 }

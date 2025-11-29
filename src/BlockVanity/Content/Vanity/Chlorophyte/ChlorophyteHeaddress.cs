@@ -8,10 +8,10 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Content.Vanity;
+namespace BlockVanity.Content.Vanity.Chlorophyte;
 
 [AutoloadEquip(EquipType.Head)]
-public class ChlorophyteHeaddress() : VanityItem(30, 28, Item.buyPrice(0, 0, 0, 5))
+public sealed class ChlorophyteHeaddress() : VanityItem(30, 28, Item.buyPrice(0, 0, 0, 5))
 {
     public override int Rarity => ItemRarityID.Green;
 
@@ -30,7 +30,7 @@ public class ChlorophyteHeaddress() : VanityItem(30, 28, Item.buyPrice(0, 0, 0, 
     }
 }
 
-public class ChlorophyteHeaddressFeathers : PlayerDrawLayer
+public sealed class ChlorophyteHeaddressFeathers : PlayerDrawLayer
 {
     public static LazyAsset<Texture2D> FeathersTexture = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/ChlorophyteHeaddress_HeadFeathers");
 

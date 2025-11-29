@@ -7,13 +7,9 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Vanity.Midra;
 
 [AutoloadEquip(EquipType.Back)]
-public class MidraCloak : VanityItem
+public class MidraCloak() : VanityItem(accessory: true)
 {
-    public MidraCloak() : base(ItemRarityID.Cyan, accessory: true) { }
-
-    public override void SetStaticDefaults()
-    {
-    }
+    public override int Rarity => ItemRarityID.Cyan;
 
     public static Asset<Texture2D> cloakBodyTexture;
     public static Asset<Texture2D> cloakCapeTexture;

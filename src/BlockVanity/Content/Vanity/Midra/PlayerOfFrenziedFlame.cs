@@ -2,7 +2,6 @@
 using BlockVanity.Common.UI;
 using BlockVanity.Common.Utilities;
 using BlockVanity.Content.Particles;
-using BlockVanity.Content.Vanity.Midra;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,7 +11,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Common.Players;
+namespace BlockVanity.Content.Vanity.Midra;
 
 public class PlayerOfFrenziedFlame : ModPlayer
 {

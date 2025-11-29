@@ -362,7 +362,7 @@ public class ScholarStaffBolt : ModProjectile
 
     public override void Load()
     {
-        sparksTexture = ModContent.Request<Texture2D>(Texture + "Sparks");
+        sparksTexture = ModContent.Request<Texture2D>(Texture + "_Sparks");
     }
 
     private int sparkRotation;

@@ -17,11 +17,6 @@ public enum QuestUnlockState
     Claimed
 }
 
-public readonly record struct QuestReward(int Value, params int[] Items)
-{
-    public static QuestReward None { get; } = new QuestReward(0);
-}
-
 public record class QuestEntry(
     Mod Mod,
     string Name,
