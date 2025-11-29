@@ -1,6 +1,4 @@
-﻿using BlockVanity.Common.Graphics;
-using BlockVanity.Common.Graphics.ShaderData;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -8,8 +6,10 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Dyes;
 
-public class WitheringDye : ModItem
+public sealed class WitheringDye : ModItem
 {
+    public static LazyAsset<Effect> WitheringDyeEffect { get; } = new LazyAsset<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dyes/WitheringDye");
+
     public override void SetStaticDefaults()
     {
         Item.ResearchUnlockCount = 3;
@@ -23,7 +23,14 @@ public class WitheringDye : ModItem
         Item.width = 20;
         Item.height = 20;
         Item.maxStack = Item.CommonMaxStack;
-        Item.value = Item.sellPrice(0, 1, 50);
+        Item.value = Item.sellPrice(gold: 1, silver: 50);
         Item.rare = ItemRarityID.Orange;
+    }
+}
+
+public sealed class WitheringDyeShaderData : ArmorShaderData
+{
+    public WitheringDyeShaderData() : base(WitheringDye.WitheringDyeEffect, "ShaderPass")
+    {
     }
 }

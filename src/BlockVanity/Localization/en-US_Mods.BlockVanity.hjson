@@ -234,6 +234,11 @@ Items: {
 		DisplayName: Chlorophyte Headdress
 		Tooltip: ""
 	}
+
+	ReflectiveColorChromeDye: {
+		DisplayName: Reflective Color Chrome Dye
+		Tooltip: ""
+	}
 }
 
 Projectiles: {

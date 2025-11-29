@@ -34,16 +34,7 @@ float4 PixelShaderFunction(float4 base : COLOR0, float2 input : TEXCOORD0) : COL
     float2 pixelInput = floor((float2(fixedInput.x * uSourceRect.z, (pow(fixedInput.y, 1.3) + uTime * 2) * uSourceRect.w)) / 2) / uSourceRect.zw * 2;
     float2 pixelInput2 = floor((float2(frac(fixedInput.x + 0.5) * uSourceRect.z, (pow(fixedInput.y, 1.5) + uTime * 3) * uSourceRect.w)) / 2) / uSourceRect.zw * 2;
     
-    float4 noise = tex2D(uImage1, pixelInput);
-    float4 noise2 = tex2D(uImage1, pixelInput2);
-    float noiseStrength = length(noise.rgb * noise2.rgb);
-    
-    float4 color = tex2D(uImage0, input);
-    
-    float lightness = (color.r + color.g + color.b) / 3;
-    float edgeGlow = lerp(base.rgb, 1, 0.33) * smoothstep(0.8, 0, 1 - pow(1 - lightness, 1.5) + sin((fixedInput.y + uTime + noiseStrength * 0.2) * 6.28) * 0.05);
-    
-    return float4(uSecondaryColor * noiseStrength * lightness + uColor * edgeGlow, 1) * color.a * base.a;
+    return pixelInput;
 }
 
 technique Technique1
