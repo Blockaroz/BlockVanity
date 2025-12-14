@@ -7,10 +7,8 @@ using Terraria.Graphics.Renderers;
 
 namespace BlockVanity.Content.Particles;
 
-public class MagicSmokeParticle : BaseParticle
+public class MagicSmokeParticle : BaseParticle<MagicSmokeParticle>
 {
-    public static ParticlePool<MagicSmokeParticle> Pool { get; } = new ParticlePool<MagicSmokeParticle>(500, GetNewParticle<MagicSmokeParticle>);
-
     public Vector2 Position;
     public Vector2 Velocity;
     public float Rotation;

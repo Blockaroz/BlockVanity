@@ -33,13 +33,15 @@ public class PlayerOfFrenziedFlame : ModPlayer
 
     public float miscTimer;
 
-    public override void FrameEffects()
+    public override void UpdateVisibleVanityAccessories()
     {
         if (Main.gameInactive)
             return;
 
         if (Player.head == EquipLoader.GetEquipSlot(Mod, nameof(AshenHead), EquipType.Head) || forceFlameBack)
         {
+
+
             if (AreaEffectsToggle.IsActive(Player))
                 Lighting.AddLight(Player.MountedCenter, Color.Orange.ToVector3() * 0.5f);
         }

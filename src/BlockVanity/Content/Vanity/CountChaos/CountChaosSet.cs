@@ -25,7 +25,7 @@ public class CountChaosHornedHead : VanityItem
 [AutoloadEquip(EquipType.Body)]
 public class CountChaosCuirass : VanityItem
 {
-    public CountChaosCuirass() : base(ModContent.RarityType<RarityCommonVanity>(), 36, 34) { }
+    public CountChaosCuirass() : base(ModContent.RarityType<CommonVanityRarity>(), 36, 34) { }
 
     public override void SetStaticDefaults()
     {
@@ -64,7 +64,7 @@ public class CountChaosCuirass : VanityItem
 [AutoloadEquip(EquipType.Legs)]
 public class CountChaosGown : VanityItem, IUpdateArmorInVanity
 {
-    public override int Rarity => ModContent.RarityType<RarityCommonVanity>();
+    public override int Rarity => ModContent.RarityType<CommonVanityRarity>();
 
     public override void SetStaticDefaults()
     {

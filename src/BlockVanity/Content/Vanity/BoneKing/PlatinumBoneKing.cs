@@ -22,7 +22,7 @@ public class PlatinumBoneKingSkull : VanityItem
     public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingSkull>().DisplayName;
     public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingSkull>().Tooltip;
 
-    public PlatinumBoneKingSkull() : base(ModContent.RarityType<RarityCommonVanity>(), 30, 34) { }
+    public PlatinumBoneKingSkull() : base(ModContent.RarityType<CommonVanityRarity>(), 30, 34) { }
 
     public override void SetStaticDefaults()
     {
@@ -44,7 +44,7 @@ public class PlatinumBoneKingGarb : VanityItem
     public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingGarb>().DisplayName;
     public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingGarb>().Tooltip;
 
-    public PlatinumBoneKingGarb() : base(ModContent.RarityType<RarityCommonVanity>(), 34, 32) { }
+    public PlatinumBoneKingGarb() : base(ModContent.RarityType<CommonVanityRarity>(), 34, 32) { }
 
     public override void SetStaticDefaults()
     {
@@ -60,7 +60,7 @@ public class PlatinumBoneKingPants : VanityItem
     public override LocalizedText DisplayName => ModContent.GetInstance<BoneKingPants>().DisplayName;
     public override LocalizedText Tooltip => ModContent.GetInstance<BoneKingPants>().Tooltip;
 
-    public PlatinumBoneKingPants() : base(ModContent.RarityType<RarityCommonVanity>(), 30, 18) { }
+    public PlatinumBoneKingPants() : base(ModContent.RarityType<CommonVanityRarity>(), 30, 18) { }
 
     public override void SetStaticDefaults()
     {

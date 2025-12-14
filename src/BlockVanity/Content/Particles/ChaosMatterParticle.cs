@@ -9,10 +9,8 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Particles;
 
-public class ChaosMatterParticle : BaseParticle
+public class ChaosMatterParticle : BaseParticle<ChaosMatterParticle>
 {
-    public static ParticlePool<ChaosMatterParticle> Pool { get; } = new ParticlePool<ChaosMatterParticle>(200, GetNewParticle<ChaosMatterParticle>);
-
     public Vector2 Position;
     public Vector2 Velocity;
     public Vector2 Gravity;

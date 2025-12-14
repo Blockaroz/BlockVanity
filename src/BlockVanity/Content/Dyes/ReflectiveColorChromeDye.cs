@@ -16,13 +16,18 @@ namespace BlockVanity.Content.Dyes;
 
 public class ReflectiveColorChromeDye : ModItem
 {
+    public static LazyAsset<Effect> ColorChromeDyeEffect { get; } = new LazyAsset<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dyes/ColorChromeDye");
+
     public override void SetStaticDefaults()
     {
         Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
         {
-            //GameShaders.Armor.BindShader(Type, new ReflectiveArmorShaderData());
+            Ref<Effect> effect = new Ref<Effect>(ColorChromeDyeEffect.Value);
+            GameShaders.Armor.BindShader(Type, new ReflectiveArmorShaderData(effect, "ShaderPass")
+                .UseColor(Color.Coral)
+                .UseSecondaryColor(Color.CornflowerBlue));
         }
     }
 

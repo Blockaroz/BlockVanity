@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics;
 using Terraria.Graphics.Renderers;
 using Terraria.ModLoader;
 
@@ -42,18 +43,6 @@ public class CountChaosPlayer : ModPlayer
     public override void Initialize()
     {
         particles = new ParticleRenderer();
-    }
-
-    private void ArmorShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)
-    {
-        bool head = drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head);
-        bool body = drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
-        bool legs = drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
-
-        if (head && body && legs)
-            drawPlayer.armorEffectDrawShadowSubtle = true;
-        else
-            orig(self, drawPlayer);
     }
 
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
@@ -97,6 +86,18 @@ public class CountChaosPlayer : ModPlayer
         Main.spriteBatch.Begin(snapshot);
         Main.instance.GraphicsDevice.ScissorRectangle = prevScissor;
         Main.instance.GraphicsDevice.RasterizerState = prevRasterizer;
+    }
+
+    private void ArmorShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)
+    {
+        bool head = drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head);
+        bool body = drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
+        bool legs = drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
+
+        if (head && body && legs)
+            drawPlayer.armorEffectDrawShadowSubtle = true;
+        else
+            orig(self, drawPlayer);
     }
 
     public int targetShader;

@@ -1,11 +1,24 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using BlockVanity.Content.Particles;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Reflection;
 using Terraria.Graphics.Renderers;
 
 namespace BlockVanity.Core;
 
-public abstract class BaseParticle : IPooledParticle
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+public sealed class PoolCapacityAttribute(int capacity) : Attribute
 {
-    protected static T GetNewParticle<T>() where T : BaseParticle, new() => new T();
+    public int Capacity { get; } = capacity;
+}
+
+public abstract class BaseParticle<T> : IPooledParticle where T : IPooledParticle, new()
+{
+    public const int DEFAULT_POOL_CAPACITY = 100;
+
+    public static ParticlePool<T> Pool { get; } = new ParticlePool<T>(typeof(T).GetCustomAttribute<PoolCapacityAttribute>()?.Capacity ?? DEFAULT_POOL_CAPACITY, GetNewParticle);
+
+    protected static T GetNewParticle() => new T();
 
     public bool IsRestingInPool { get; private set; }
 

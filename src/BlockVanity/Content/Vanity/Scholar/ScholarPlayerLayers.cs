@@ -35,7 +35,7 @@ public class ScholarHoodEyesLayer : PlayerDrawLayer
 
 public class ScholarCloakCoatLayer : PlayerDrawLayer
 {
-    public static LazyAsset<Texture2D> CoatTexture { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/Scholar/ScholarCloak_Coat");
+    public static LazyAsset<Texture2D> CoatTexture { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Vanity/Scholar/ScholarCloak_Coat");
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.ArmorLongCoat);
 

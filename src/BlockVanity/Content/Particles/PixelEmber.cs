@@ -7,10 +7,8 @@ using Terraria.Graphics.Renderers;
 
 namespace BlockVanity.Content.Particles;
 
-public class PixelEmber : BaseParticle
+public class PixelEmber : BaseParticle<PixelEmber>
 {
-    public static ParticlePool<PixelEmber> Pool { get; } = new ParticlePool<PixelEmber>(500, GetNewParticle<PixelEmber>);
-
     public Vector2 Position;
     public Vector2 Velocity;
     public float Rotation;

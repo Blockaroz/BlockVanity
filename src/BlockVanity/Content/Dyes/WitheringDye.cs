@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +31,16 @@ public sealed class WitheringDye : ModItem
 
 public sealed class WitheringDyeShaderData : ArmorShaderData
 {
-    public WitheringDyeShaderData() : base(WitheringDye.WitheringDyeEffect, "ShaderPass")
+    public WitheringDyeShaderData() : base(WitheringDye.WitheringDyeEffect, "ShaderPass") { }
+
+    public override void Apply(Entity entity, DrawData? drawData = null)
     {
+        base.Apply(entity, drawData);
+
+        Shader.Parameters["uTime"]?.SetValue(Main.GlobalTimeWrappedHourly * 0.2f);
+        Shader.Parameters["uNoise0"]?.SetValue(Assets.Textures.MiscNoise[1].Value);
+        Shader.Parameters["uNoise1"]?.SetValue(Assets.Textures.MiscNoise[3].Value);
+
+        Shader.CurrentTechnique.Passes[0].Apply();
     }
 }

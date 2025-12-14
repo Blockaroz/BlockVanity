@@ -18,7 +18,7 @@ public class BoneKingSkull : VanityItem
         EquipLoader.AddEquipTexture(Mod, $"{Texture}_{EquipType.Head}", EquipType.Head, this, equipTexture: new OversizedHeadEquipTexture(0, -4));
     }
 
-    public BoneKingSkull() : base(ModContent.RarityType<RarityCommonVanity>(), 30, 34) { }
+    public BoneKingSkull() : base(ModContent.RarityType<CommonVanityRarity>(), 30, 34) { }
 
     public override void SetStaticDefaults()
     {
@@ -39,7 +39,7 @@ public class BoneKingSkull : VanityItem
 [AutoloadEquip(EquipType.Body)]
 public class BoneKingGarb : VanityItem
 {
-    public BoneKingGarb() : base(ModContent.RarityType<RarityCommonVanity>(), 34, 32) { }
+    public BoneKingGarb() : base(ModContent.RarityType<CommonVanityRarity>(), 34, 32) { }
 
     public override void SetStaticDefaults()
     {
@@ -52,7 +52,7 @@ public class BoneKingGarb : VanityItem
 [AutoloadEquip(EquipType.Legs)]
 public class BoneKingPants : VanityItem
 {
-    public BoneKingPants() : base(ModContent.RarityType<RarityCommonVanity>(), 30, 18) { }
+    public BoneKingPants() : base(ModContent.RarityType<CommonVanityRarity>(), 30, 18) { }
 
     public override void SetStaticDefaults()
     {

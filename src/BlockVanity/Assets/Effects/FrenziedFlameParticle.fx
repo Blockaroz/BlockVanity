@@ -4,6 +4,17 @@ float4 uDarkColor;
 float4 uGlowColor;
 float4 uAltColor;
 
+texture uNoise;
+sampler2D noise = sampler_state
+{
+    texture = <uNoise>;
+    magfilter = LINEAR;
+    minfilter = LINEAR;
+    mipfilter = LINEAR;
+    AddressU = wrap;
+    AddressV = wrap;
+};
+
 float4 PixelShaderFunction(float4 baseColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float progress = clamp(baseColor.b, 0, 1);

@@ -47,7 +47,7 @@ public class MushroomCowHead : VanityItem
 [AutoloadEquip(EquipType.Head)]
 public class GamingMushroomCowHead : VanityItem
 {
-    public GamingMushroomCowHead() : base(ModContent.RarityType<RarityCommonVanity>()) { }
+    public GamingMushroomCowHead() : base(ModContent.RarityType<CommonVanityRarity>()) { }
 
     public override void SetStaticDefaults()
     {

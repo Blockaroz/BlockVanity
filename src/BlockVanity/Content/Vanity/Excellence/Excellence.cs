@@ -61,6 +61,10 @@ public class Excellence : VanityItem
         player.GetModPlayer<MiscEffectPlayer>().SetWalkSpeed(0.6f);
     }
 
+    public override void ArmorSetShadows(Player player)
+    {
+    }
+
     public override void Update(ref float gravity, ref float maxFallSpeed)
     {
         Item.position.Y += MathF.Sin(Item.timeSinceItemSpawned * 0.05f) * 0.3f;
@@ -71,7 +75,7 @@ public class Excellence : VanityItem
     {
         if (!hideVisual)
         {
-            player.GetModPlayer<ExcellencePlayer>().enabled = true;
+            player.GetModPlayer<ExcellencePlayer>().Enabled = true;
             player.head = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Head);
             player.body = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Body);
             player.legs = EquipLoader.GetEquipSlot(Mod, Name, EquipType.Legs);

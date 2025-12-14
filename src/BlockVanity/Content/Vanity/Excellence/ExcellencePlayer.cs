@@ -1,29 +1,22 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics;
 using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Vanity.Excellence;
 
 public class ExcellencePlayer : ModPlayer
 {
-    public bool enabled;
+    public bool Enabled { get; set; }
 
-    public override void Load()
+    public override void ResetEffects()
     {
-        On_Player.SetArmorEffectVisuals += ExcellenceShadows;
-    }
-
-    private void ExcellenceShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)
-    {
-        if (self.GetModPlayer<ExcellencePlayer>().enabled)
-            self.armorEffectDrawOutlinesForbidden = true;
-        else
-            orig(self, drawPlayer);
+        Enabled = false;
     }
 
     public override void DrawEffects(PlayerDrawSet drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
     {
-        if (enabled && drawInfo.shadow > 0f)
+        if (Enabled && drawInfo.shadow > 0f)
         {
             a = 0.33f;
             r = 1.1f;
@@ -32,8 +25,8 @@ public class ExcellencePlayer : ModPlayer
         }
     }
 
-    public override void ResetEffects()
+    public override void DrawPlayer(Camera camera)
     {
-        enabled = false;
+        
     }
 }
