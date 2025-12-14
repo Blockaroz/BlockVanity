@@ -63,10 +63,12 @@ float4 PixelShaderFunction(float4 base : COLOR0, float2 input : TEXCOORD0) : COL
     grain -= grain2 * 0.8;
         
     float4 image = tex2D(uImage0, input);
+    float alpha = base.a * image.a;
+
     float3 gray = pow(length(image.rgb).xxx, 2.25);
     float frontEdge = FrontEdgeFunction(input);
     
-    float silica = smoothstep(0.6, 0.9, grain.x) * (1 - fixedInput.y);
+    float silica = smoothstep(0.6, 0.9, grain.x) * (1 - fixedInput.y * alpha);
     
     float backEdge = 0;
     for (int i = 0; i < 4; i++)
@@ -79,7 +81,7 @@ float4 PixelShaderFunction(float4 base : COLOR0, float2 input : TEXCOORD0) : COL
     
     float3 wither = saturate(gray * 0.12 - pow(abs(grain.x), 3) * 0.5 + 0.1) * pow(1 - backEdge, 2);
 
-    return float4(wither * base.rgb + silica.xxx, 1 - backEdge * 0.05) * base.a * image.a;
+    return float4(wither * base.rgb + silica.xxx, 1 - backEdge * 0.05) * alpha;
 }
 
 technique Technique1

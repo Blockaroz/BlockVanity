@@ -17,7 +17,7 @@ ScholarOfOld: {
 }
 
 Null: {
-	DisplayName: Null
+	DisplayName: ???
 	Description: ...
 	CompleteCondition: ...
 }

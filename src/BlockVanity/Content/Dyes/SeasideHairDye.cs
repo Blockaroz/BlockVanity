@@ -12,10 +12,11 @@ namespace BlockVanity.Content.Dyes;
 public sealed class SeasideHairDye : ModItem
 {
     public static LazyAsset<Effect> SeasideHairDyeEffect { get; } = new LazyAsset<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dyes/SeasideHairDye");
+    public static LazyAsset<Texture2D> SeasideColorMap { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/SeasideColorMap");
 
     public override void SetStaticDefaults()
     {
-        GameShaders.Hair.BindShader(Type, new SeasideHairShaderData().UseImage(Assets.Textures.SeasideColorMap));
+        GameShaders.Hair.BindShader(Type, new SeasideHairShaderData().UseImage(SeasideColorMap));
     }
 
     public override void SetDefaults()

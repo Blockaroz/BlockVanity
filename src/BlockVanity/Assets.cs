@@ -54,7 +54,6 @@ public static partial class Assets
 
         public static LazyAsset<Texture2D>[] MiscNoise { get; } = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Extras/Noise_");
         public static LazyAsset<Texture2D> MagmaPattern { get; } = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/MagmaPattern");
-        public static LazyAsset<Texture2D> SeasideColorMap { get; } = new LazyAsset<Texture2D>(AssetPath + "Textures/Extras/SeasideColorMap");
 
         public static LazyAsset<Texture2D>[] Particle { get; } = LazyArrayAuto<Texture2D>(AssetPath + "Textures/Particles/Particle_");
 
