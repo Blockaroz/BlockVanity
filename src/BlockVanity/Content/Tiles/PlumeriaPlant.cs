@@ -12,7 +12,7 @@ using Terraria.ObjectData;
 
 namespace BlockVanity.Content.Tiles;
 
-public class PlumeriaPlant : ModTile
+public sealed class PlumeriaPlant : ModTile
 {
     public static Asset<Texture2D> glowTexture;
 

@@ -8,6 +8,7 @@ using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.Graphics.Renderers;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,11 +26,24 @@ public class PlayerOfFrenziedFlame : ModPlayer
         1f,
         0);
 
-    public static Vector2 GetOffsetAnchor(Player player) => player.Center / 3f;
 
-    public bool needsTarget;
+    public ParticleRenderer particles;
 
-    public bool forceFlameBack;
+    private static RenderTarget2D FrenzyPreTarget;
+    private static RenderTarget2D FrenzyTarget;
+
+    private const int targetSize = 800;
+
+    public override void Load()
+    {
+        Main.QueueMainThreadAction(() =>
+        {
+            FrenzyPreTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, targetSize / 2, targetSize / 2);
+            FrenzyTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, targetSize, targetSize);
+        });
+    }
+
+    public static Vector2 GetOffsetAnchor(Player player) => player.Center / 2f;
 
     public float miscTimer;
 
@@ -38,21 +52,13 @@ public class PlayerOfFrenziedFlame : ModPlayer
         if (Main.gameInactive)
             return;
 
-        if (Player.head == EquipLoader.GetEquipSlot(Mod, nameof(AshenHead), EquipType.Head) || forceFlameBack)
+        if (Player.head == EquipLoader.GetEquipSlot(Mod, nameof(AshenHead), EquipType.Head))
         {
-
-
             if (AreaEffectsToggle.IsActive(Player))
                 Lighting.AddLight(Player.MountedCenter, Color.Orange.ToVector3() * 0.5f);
         }
 
         if (++miscTimer > 1200)
             miscTimer = 0;
-    }
-
-    public override void ResetEffects()
-    {
-        needsTarget = false;
-        forceFlameBack = false;
     }
 }
