@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common;
+using BlockVanity.Common.Graphics;
 using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Terraria;
