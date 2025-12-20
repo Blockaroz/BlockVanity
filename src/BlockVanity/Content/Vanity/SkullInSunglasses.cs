@@ -1,5 +1,5 @@
-﻿using BlockVanity.Common.Players;
-using BlockVanity.Core;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.Players;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;

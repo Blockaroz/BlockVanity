@@ -15,7 +15,7 @@ public class LotusBlockarozHead : VanityItem
 {
     public override LocalizedText DisplayName => ModContent.GetInstance<BlockarozHead>().DisplayName;
 
-    public LotusBlockarozHead() : base(ItemRarityID.Cyan) { }
+    public override int Rarity => ItemRarityID.Cyan;
 
     public override void SetStaticDefaults()
     {

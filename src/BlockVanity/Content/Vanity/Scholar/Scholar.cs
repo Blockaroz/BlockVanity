@@ -1,4 +1,6 @@
-﻿using BlockVanity.Core;
+﻿using BlockVanity.Common;
+using BlockVanity.Content.Rarities;
+using BlockVanity.Core;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -7,7 +9,7 @@ namespace BlockVanity.Content.Vanity.Scholar;
 [AutoloadEquip(EquipType.Head)]
 public class ScholarHood : VanityItem
 {
-    public ScholarHood() : base(ItemRarityID.Blue) { }
+    public override int Rarity => ModContent.RarityType<ToughVanityRarity>();
 
     public override void AddRecipes()
     {
@@ -22,7 +24,7 @@ public class ScholarHood : VanityItem
 [AutoloadEquip(EquipType.Body)]
 public class ScholarCloak : VanityItem
 {
-    public ScholarCloak() : base(ItemRarityID.Blue) { }
+    public override int Rarity => ModContent.RarityType<ToughVanityRarity>();
 
     public override void SetStaticDefaults()
     {

@@ -1,4 +1,4 @@
-﻿using BlockVanity.Core;
+﻿using BlockVanity.Common.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

@@ -1,4 +1,5 @@
-﻿using BlockVanity.Common.UI;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.UI;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,9 +9,9 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Vanity.Myrtle;
 
 [AutoloadEquip(EquipType.Head)]
-public class PlumeriaHairpin : VanityItem
+public class PlumeriaHairpin() : VanityItem(value: Item.buyPrice(0, 10, 0, 0))
 {
-    public PlumeriaHairpin() : base(ItemRarityID.Green, value: Item.buyPrice(0, 10, 0, 0)) { }
+    public override int Rarity => ItemRarityID.Green;
 
     public override void SetStaticDefaults()
     {
@@ -32,13 +33,13 @@ public class PlumeriaHairpin : VanityItem
 [AutoloadEquip(EquipType.Body)]
 public class MyrtleDress : VanityItem
 {
-    public MyrtleDress() : base(ItemRarityID.Green) { }
+    public override int Rarity => ItemRarityID.Green;
 }
 
 [AutoloadEquip(EquipType.Legs)]
 public class MyrtleSandals : VanityItem
 {
-    public MyrtleSandals() : base(ItemRarityID.Green) { }
+    public override int Rarity => ItemRarityID.Green;
 
     public override void Load()
     {

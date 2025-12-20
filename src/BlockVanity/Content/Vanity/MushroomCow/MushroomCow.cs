@@ -11,7 +11,7 @@ namespace BlockVanity.Content.Vanity.MushroomCow;
 [AutoloadEquip(EquipType.Head)]
 public class MushroomCowHead : VanityItem
 {
-    public MushroomCowHead() : base(ItemRarityID.Blue) { }
+    public override int Rarity => ItemRarityID.Blue;
 
     public override void SetStaticDefaults()
     {
@@ -63,7 +63,7 @@ public class GamingMushroomCowHead : VanityItem
 [AutoloadEquip(EquipType.Body)]
 public class MushroomCowHide : VanityItem
 {
-    public MushroomCowHide() : base(ItemRarityID.Blue) { }
+    public override int Rarity => ItemRarityID.Blue;
 
     public override bool IsVanitySet(int head, int body, int legs) =>
         (head == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHead), EquipType.Head) || head == EquipLoader.GetEquipSlot(Mod, nameof(GamingMushroomCowHead), EquipType.Head)) &&
@@ -83,7 +83,7 @@ public class MushroomCowHide : VanityItem
 [AutoloadEquip(EquipType.Legs)]
 public class MushroomCowTrotters : VanityItem
 {
-    public MushroomCowTrotters() : base(ItemRarityID.Blue) { }
+    public override int Rarity => ItemRarityID.Blue;
 
     public override bool IsVanitySet(int head, int body, int legs) =>
         (head == EquipLoader.GetEquipSlot(Mod, nameof(MushroomCowHead), EquipType.Head) || head == EquipLoader.GetEquipSlot(Mod, nameof(GamingMushroomCowHead), EquipType.Head)) &&

@@ -1,6 +1,6 @@
-﻿using BlockVanity.Common.Players;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.Players;
 using BlockVanity.Common.UI;
-using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -12,9 +12,9 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Vanity.Midra;
 
 [AutoloadEquip(EquipType.Head)]
-public class AshenHead : VanityItem, IUpdateArmorInVanity
+public class AshenHead() : VanityItem(width: 28, height: 30), IUpdateArmorInVanity
 {
-    public AshenHead() : base(ItemRarityID.Cyan, 28, 30) { }
+    public override int Rarity => ItemRarityID.Cyan;
 
     public override void SetStaticDefaults()
     {

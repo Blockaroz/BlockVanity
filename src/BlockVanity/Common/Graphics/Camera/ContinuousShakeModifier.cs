@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.Graphics.CameraModifiers;
 
-namespace BlockVanity.Core.Camera;
+namespace BlockVanity.Common.Graphics.Camera;
 
 public class ContinuousShakeModifier : ICameraModifier
 {

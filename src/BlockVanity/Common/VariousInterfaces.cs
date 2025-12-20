@@ -1,3 +1,3 @@
-﻿namespace BlockVanity.Core;
+﻿namespace BlockVanity.Common;
 
 public interface IUpdateArmorInVanity { }

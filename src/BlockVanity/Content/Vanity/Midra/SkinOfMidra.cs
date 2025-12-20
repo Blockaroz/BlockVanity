@@ -1,4 +1,5 @@
-﻿using BlockVanity.Core;
+﻿using BlockVanity.Common;
+using BlockVanity.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +9,7 @@ namespace BlockVanity.Content.Vanity.Midra;
 [AutoloadEquip(EquipType.Body)]
 public class SkinOfMidra : VanityItem
 {
-    public SkinOfMidra() : base(ItemRarityID.Cyan) { }
+    public override int Rarity => ItemRarityID.Cyan;
 
     public override void SetStaticDefaults()
     {

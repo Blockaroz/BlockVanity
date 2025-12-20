@@ -11,7 +11,7 @@ namespace BlockVanity.Content.Vanity.BlockheadVanity;
 [AutoloadEquip(EquipType.Head)]
 public class BlockarozHead : VanityItem
 {
-    public BlockarozHead() : base(ItemRarityID.LightPurple) { }
+    public override int Rarity => ItemRarityID.LightPurple;
 
     public override void SetStaticDefaults()
     {

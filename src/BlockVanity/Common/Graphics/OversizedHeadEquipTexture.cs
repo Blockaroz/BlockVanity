@@ -1,6 +1,6 @@
 ﻿using Terraria.ModLoader;
 
-namespace BlockVanity.Core;
+namespace BlockVanity.Common.Graphics;
 
 public class OversizedHeadEquipTexture : EquipTexture
 {

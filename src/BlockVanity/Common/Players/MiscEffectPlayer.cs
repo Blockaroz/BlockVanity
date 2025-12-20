@@ -1,6 +1,6 @@
-﻿using BlockVanity.Content.Dyes;
+﻿using BlockVanity.Common;
+using BlockVanity.Content.Dyes;
 using BlockVanity.Content.Vanity.Myrtle;
-using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

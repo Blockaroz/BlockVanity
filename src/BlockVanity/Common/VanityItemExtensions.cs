@@ -2,11 +2,11 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace BlockVanity.Core;
+namespace BlockVanity.Common;
 
 public abstract class VanityItem(int width = 24, int height = 24, int value = 0, bool accessory = false) : ModItem
 {
-    public virtual int Rarity { get; }
+    public virtual int Rarity => ItemRarityID.White;
 
     public override void SetDefaults()
     {
@@ -17,5 +17,5 @@ public abstract class VanityItem(int width = 24, int height = 24, int value = 0,
         Item.vanity = true;
         Item.hasVanityEffects = true;
         Item.rare = Rarity;
-    }
+    }  
 }

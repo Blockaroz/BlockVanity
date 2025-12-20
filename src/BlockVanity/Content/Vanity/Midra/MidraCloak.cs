@@ -1,4 +1,5 @@
-﻿using BlockVanity.Core;
+﻿using BlockVanity.Common;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.ID;

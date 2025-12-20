@@ -1,4 +1,5 @@
-﻿using BlockVanity.Common.Utilities;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.Utilities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

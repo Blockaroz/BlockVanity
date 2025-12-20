@@ -1,4 +1,5 @@
-﻿using BlockVanity.Content.Rarities;
+﻿using BlockVanity.Common;
+using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Terraria;
 using Terraria.ID;

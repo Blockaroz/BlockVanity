@@ -1,6 +1,6 @@
-﻿using BlockVanity.Common.Players;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.Players;
 using BlockVanity.Content.Rarities;
-using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -14,7 +14,7 @@ namespace BlockVanity.Content.Vanity.CountChaos;
 [AutoloadEquip(EquipType.Head)]
 public class CountChaosHornedHead : VanityItem
 {
-    public CountChaosHornedHead() : base(ItemRarityID.Cyan) { }
+    public override int Rarity => ModContent.RarityType<CommonVanityRarity>();
 
     public override void SetStaticDefaults()
     {
@@ -23,9 +23,9 @@ public class CountChaosHornedHead : VanityItem
 }
 
 [AutoloadEquip(EquipType.Body)]
-public class CountChaosCuirass : VanityItem
+public class CountChaosCuirass() : VanityItem(width: 36, height: 34)
 {
-    public CountChaosCuirass() : base(ModContent.RarityType<CommonVanityRarity>(), 36, 34) { }
+    public override int Rarity => ModContent.RarityType<CommonVanityRarity>();
 
     public override void SetStaticDefaults()
     {

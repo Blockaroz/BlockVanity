@@ -1,4 +1,5 @@
-﻿using BlockVanity.Core;
+﻿using BlockVanity.Common;
+using BlockVanity.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +9,7 @@ namespace BlockVanity.Content.Vanity.RedWarlock;
 [AutoloadEquip(EquipType.Head)]
 public class RedWarlockHood : VanityItem
 {
-    public RedWarlockHood() : base(ItemRarityID.Orange) { }
+    public override int Rarity => ItemRarityID.White;
 
     public override void SetStaticDefaults()
     {
@@ -29,7 +30,7 @@ public class RedWarlockHood : VanityItem
 [AutoloadEquip(EquipType.Body)]
 public class RedWarlockRobe : VanityItem
 {
-    public RedWarlockRobe() : base(ItemRarityID.Orange) { }
+    public override int Rarity => ItemRarityID.White;
 
     public override void Load()
     {

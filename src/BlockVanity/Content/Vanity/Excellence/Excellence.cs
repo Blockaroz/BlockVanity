@@ -1,4 +1,5 @@
-﻿using BlockVanity.Common.Players;
+﻿using BlockVanity.Common;
+using BlockVanity.Common.Players;
 using BlockVanity.Content.Rarities;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
@@ -11,10 +12,8 @@ using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Vanity.Excellence;
 
-public class Excellence : VanityItem
+public class Excellence() : VanityItem(34, 30, Item.buyPrice(gold: 15), true)
 {
-    public Excellence() : base(34, 30, Item.buyPrice(gold: 15), true) { }
-
     public override int Rarity => ModContent.RarityType<PerfectRarity>();
 
     public override void Load()

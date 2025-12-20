@@ -1,10 +1,11 @@
 ﻿using BlockVanity.Content.Particles;
+using BlockVanity.Core;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Reflection;
 using Terraria.Graphics.Renderers;
 
-namespace BlockVanity.Core;
+namespace BlockVanity.Common.Graphics;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public sealed class PoolCapacityAttribute(int capacity) : Attribute
