@@ -26,7 +26,7 @@ public class ChaosParticleLayer : PlayerDrawLayer
             DrawData data = particlePlayer.GetChaosParticleTarget();
             data.position = drawInfo.Center.Floor() + new Vector2(0, drawInfo.mountOffSet / 2f) - Main.screenPosition;
             data.color = Color.Lerp(Color.White, drawInfo.colorArmorBody, 0.5f);
-            data.effect = Main.GameViewMatrix.Effects;
+            data.effect = drawInfo.playerEffect;
             data.shader = particlePlayer.targetShader;
             drawInfo.DrawDataCache.Add(data);
         }

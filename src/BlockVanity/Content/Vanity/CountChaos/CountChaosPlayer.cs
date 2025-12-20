@@ -55,7 +55,9 @@ public class CountChaosPlayer : ModPlayer
 
         const float rescale = 0.5f;
         Vector2 anchor = GetOffsetAnchor(Player) - new Vector2(targetSize / 4 / rescale);
-        Matrix transform = Matrix.CreateScale(rescale) * Main.GameViewMatrix.EffectMatrix;
+        int gravDir = Player.gravDir > 0 ? 1 : -1;
+        Matrix identity = Matrix.CreateScale(Player.direction, gravDir, 1f) * Matrix.CreateTranslation(Player.direction < 0 ? targetSize : 0, gravDir < 0 ? targetSize : 0, 0);
+        Matrix transform = identity * Matrix.CreateScale(rescale);
 
         Effect colorOnly = Assets.Effects.TransparencyMask.Value;
         colorOnly.Parameters["uColor"].SetValue(Vector3.One);
@@ -67,19 +69,19 @@ public class CountChaosPlayer : ModPlayer
         using (new RenderTargetScope(ChaosPreTarget, clear: true))
         {
             particles.Settings.AnchorPosition = -anchor;
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, colorOnly, transform);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, colorOnly, transform);
             particles.Draw(Main.spriteBatch);
             Main.spriteBatch.End();
 
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, MinimumColorBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, transform);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, MinimumColorBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null, transform);
             particles.Draw(Main.spriteBatch);
             Main.spriteBatch.End();
         }
 
         using (new RenderTargetScope(ChaosTarget, clear: true))
         {
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.EffectMatrix);
-            Main.spriteBatch.Draw(ChaosPreTarget, new Vector2(targetSize / 2), null, Color.White, 0f, ChaosPreTarget.Size() / 2, 1f, Main.GameViewMatrix.Effects, 0);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullNone, null);
+            Main.spriteBatch.Draw(ChaosPreTarget, new Vector2(targetSize / 2), null, Color.White, 0f, ChaosPreTarget.Size() / 2, 1f, 0, 0);
             Main.spriteBatch.End();
         }
 
@@ -104,7 +106,7 @@ public class CountChaosPlayer : ModPlayer
 
     public bool IsReady() => ChaosPreTarget != null && ChaosTarget != null && particles != null;
 
-    public DrawData GetChaosParticleTarget() => new DrawData(ChaosTarget, Player.MountedCenter - Main.screenPosition, ChaosTarget.Frame(), Color.White, -Player.fullRotation, ChaosTarget.Size() * 0.5f, 2f, 0);
+    public DrawData GetChaosParticleTarget() => new DrawData(ChaosTarget, Player.MountedCenter - Main.screenPosition, ChaosTarget.Frame(), Color.White, -Player.fullRotation, new Vector2(ChaosTarget.Width / 2, ChaosTarget.Height / 2f + 0.5f), 2f, 0);
 
     public static Vector2 GetOffsetAnchor(Player player) => player.Center / 16f;
 
@@ -116,7 +118,7 @@ public class CountChaosPlayer : ModPlayer
         if (Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs))
         {
             Vector2 legVel = new Vector2(-0.3f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
-            Vector2 legPos = GetOffsetAnchor(Player) + new Vector2(0, 14 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.3f;
+            Vector2 legPos = GetOffsetAnchor(Player) + new Vector2(0, 14 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.1f;
             Vector2 legGrav = new Vector2(-Player.direction * 0.01f, -0.1f * Player.gravDir);
 
             ChaosMatterParticle particle = ChaosMatterParticle.RequestNew(legPos, Player.velocity * 0.05f + legVel, legGrav, Main.rand.Next(25, 40), Main.rand.Next(-2, 3) * MathHelper.PiOver2, 0.5f + Main.rand.NextFloat(0.5f));
@@ -128,9 +130,9 @@ public class CountChaosPlayer : ModPlayer
         {
             Vector2 bodyVel = new Vector2(Main.rand.NextFloat(-0.7f, 0.2f) * Player.direction, -Main.rand.NextFloat(-0.2f, 0.5f) * Player.gravDir);
             Vector2 bodyPos = GetOffsetAnchor(Player) + Main.rand.NextVector2Circular(6, 10) + new Vector2(-6 * Player.direction, -6 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.5f;
-            Vector2 bodyGrav = -Vector2.UnitY * Main.rand.NextFloat(0.05f, 0.08f) * Player.gravDir;
+            Vector2 bodyGrav = -Vector2.UnitY * Main.rand.NextFloat(0.03f, 0.08f) * Player.gravDir;
 
-            ChaosMatterParticle particle = ChaosMatterParticle.RequestNew(bodyPos, -Player.velocity * Main.rand.NextFloat(0.1f) + bodyVel, bodyGrav, Main.rand.Next(25, 40), Main.rand.Next(-2, 3) * MathHelper.PiOver2, 0.9f + Main.rand.NextFloat(0.3f));
+            ChaosMatterParticle particle = ChaosMatterParticle.RequestNew(bodyPos, -Player.velocity * Main.rand.NextFloat(0.15f) + bodyVel, bodyGrav, Main.rand.Next(25, 40), Main.rand.Next(-2, 3) * MathHelper.PiOver2, 0.9f + Main.rand.NextFloat(0.3f));
             particles.Add(particle);
             targetShader = Player.cBody;
         }

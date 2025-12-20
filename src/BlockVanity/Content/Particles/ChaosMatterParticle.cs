@@ -69,7 +69,7 @@ public class ChaosMatterParticle : BaseParticle<ChaosMatterParticle>
         Texture2D texture = ChaosMatterParticleTexture.Value;
         Rectangle frame = texture.Frame(9, 5, (int)MathF.Floor(progress * 9), Style);
 
-        Vector2 roundedPosition = (Position + settings.AnchorPosition).Floor();
+        Vector2 roundedPosition = (Position / 2f).Floor() * 2f + settings.AnchorPosition;
         spritebatch.Draw(texture, roundedPosition, frame, Color.White, Rotation, frame.Size() * 0.5f, Scale, (SpriteEffects)FlipSprite.ToInt(), 0);
     }
 }
