@@ -33,7 +33,7 @@ public sealed class ChlorophyteHeaddress() : VanityItem(30, 28, Item.buyPrice(0,
 
 public sealed class ChlorophyteHeaddressFeathers : PlayerDrawLayer
 {
-    public static LazyAsset<Texture2D> FeathersTexture = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Items/Vanity/ChlorophyteHeaddress_HeadFeathers");
+    public static LazyAsset<Texture2D> FeathersTexture = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Vanity/ChlorophyteHeaddress_HeadFeathers");
 
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.HeadBack);
 
