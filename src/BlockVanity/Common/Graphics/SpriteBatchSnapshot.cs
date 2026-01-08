@@ -19,30 +19,33 @@ public readonly record struct SpriteBatchSnapshot(
     Matrix TransformMatrix
     );
 
-public static class SpritebatchSnapshotUtils
+public static class SpritebatchSnapshotExtension
 {
-    public static void End(this SpriteBatch spriteBatch, out SpriteBatchSnapshot snapshot)
+    extension(SpriteBatch spriteBatch)
     {
-        snapshot = new SpriteBatchSnapshot(
-            spriteBatch.sortMode,
-            spriteBatch.blendState,
-            spriteBatch.samplerState,
-            spriteBatch.depthStencilState,
-            spriteBatch.rasterizerState,
-            spriteBatch.customEffect,
-            spriteBatch.transformMatrix);
-        spriteBatch.End();
-    }
+        public void End(out SpriteBatchSnapshot snapshot)
+        {
+            snapshot = new SpriteBatchSnapshot(
+                spriteBatch.sortMode,
+                spriteBatch.blendState,
+                spriteBatch.samplerState,
+                spriteBatch.depthStencilState,
+                spriteBatch.rasterizerState,
+                spriteBatch.customEffect,
+                spriteBatch.transformMatrix);
+            spriteBatch.End();
+        }
 
-    public static void Begin(this SpriteBatch spriteBatch, SpriteBatchSnapshot snapshot)
-    {
-        spriteBatch.Begin(
-            snapshot.SortMode,
-            snapshot.BlendState,
-            snapshot.SamplerState,
-            snapshot.DepthStencilState,
-            snapshot.Rasterizer,
-            snapshot.Effect,
-            snapshot.TransformMatrix);
+        public void Begin(SpriteBatchSnapshot snapshot)
+        {
+            spriteBatch.Begin(
+                snapshot.SortMode,
+                snapshot.BlendState,
+                snapshot.SamplerState,
+                snapshot.DepthStencilState,
+                snapshot.Rasterizer,
+                snapshot.Effect,
+                snapshot.TransformMatrix);
+        }
     }
 }
