@@ -1,7 +1,7 @@
 ﻿using BlockVanity.Common.Wardrobe;
 using BlockVanity.Content.Quests.Portraits;
-using BlockVanity.Content.Vanity;
 using BlockVanity.Content.Vanity.CountChaos;
+using BlockVanity.Content.Vanity.Misc;
 using BlockVanity.Content.Weapons.Magic;
 using Terraria;
 using Terraria.ModLoader;
@@ -14,7 +14,7 @@ public static class QuestDefinitions
     {
         public static QuestEntry TheBox()
         {
-            var portrait = new WardrobeItemIcon(ModContent.ItemType<CardboardBox>());
+            var portrait = new WardrobeItemIcon(ModContent.ItemType<CardboardBoxItem>());
             return new QuestEntry(BlockVanity.Instance,
                 Name: "TheBox",
                 Stars: 1,
@@ -31,7 +31,7 @@ public static class QuestDefinitions
             return new QuestEntry(BlockVanity.Instance,
                 Name: "ScholarOfOld",
                 Stars: 3,
-                Icon: new WardrobeItemIcon(ModContent.ItemType<ScholarStaff>()),
+                Icon: new WardrobeItemIcon(ModContent.ItemType<ScholarStaffItem>()),
                 Portrait: new WardrobePlayerPortrait(new Player()),
                 Reward: QuestReward.None);
         }
@@ -42,8 +42,8 @@ public static class QuestDefinitions
         public static QuestEntry ChaosGarden()
         {
             Player player = new Player();
-            player.armor[0] = new Item(ModContent.ItemType<CountChaosHornedHead>());
-            player.armor[0] = new Item(ModContent.ItemType<CountChaosHornedHead>());
+            player.armor[0] = new Item(ModContent.ItemType<CountChaosHornedHeadItem>());
+            player.armor[0] = new Item(ModContent.ItemType<CountChaosHornedHeadItem>());
 
             var portrait = new WardrobePlayerPortrait(player);
             return new QuestEntry(BlockVanity.Instance,
@@ -57,7 +57,7 @@ public static class QuestDefinitions
         public static QuestEntry Excellence()
         {
             return new QuestEntry(BlockVanity.Instance,
-                Name: "Excellence",
+                Name: "ExcellenceItem",
                 Stars: 11,
                 Icon: new ExcellenceWardrobeIcon(),
                 Portrait: new ExcellenceWardrobePortrait(),

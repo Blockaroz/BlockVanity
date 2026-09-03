@@ -18,7 +18,7 @@ public class GlobalTimeDyeShaderData : ArmorShaderData
     public override void Apply(Entity entity, DrawData? drawData = null)
     {
         base.Apply(entity, drawData);
-        Shader.Parameters["uTime"]?.SetValue(Main.GlobalTimeWrappedHourly / _timeScale);
+        uTime.SetValue(Main.GlobalTimeWrappedHourly / _timeScale);
         Shader.CurrentTechnique.Passes[0].Apply();
     }
 }

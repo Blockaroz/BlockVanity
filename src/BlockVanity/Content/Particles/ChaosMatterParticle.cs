@@ -1,12 +1,9 @@
-﻿using BlockVanity.Common.Graphics;
-using BlockVanity.Core;
+﻿using BlockVanity.Common.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using System;
 using Terraria;
 using Terraria.Graphics.Renderers;
-using Terraria.ModLoader;
 
 namespace BlockVanity.Content.Particles;
 
@@ -60,16 +57,14 @@ public class ChaosMatterParticle : BaseParticle<ChaosMatterParticle>
         Position += Velocity;
     }
 
-    public static LazyAsset<Texture2D> ChaosMatterParticleTexture = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Particles/ChaosMatterParticle");
-
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
         float progress = (float)TimeLeft / MaxTime;
 
-        Texture2D texture = ChaosMatterParticleTexture.Value;
+        var texture = Assets.Textures.Particles.ChaosMatterParticle.Asset;
         Rectangle frame = texture.Frame(9, 5, (int)MathF.Floor(progress * 9), Style);
 
         Vector2 roundedPosition = (Position / 2f).Floor() * 2f + settings.AnchorPosition;
-        spritebatch.Draw(texture, roundedPosition, frame, Color.White, Rotation, frame.Size() * 0.5f, Scale, (SpriteEffects)FlipSprite.ToInt(), 0);
+        spritebatch.Draw(texture.Value, roundedPosition, frame, Color.White, Rotation, frame.Size() * 0.5f, Scale, (SpriteEffects)FlipSprite.ToInt(), 0);
     }
 }

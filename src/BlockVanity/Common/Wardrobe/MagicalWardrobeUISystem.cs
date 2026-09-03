@@ -71,7 +71,7 @@ public sealed class MagicalWardrobeUISystem : ModSystem
         {
             Main.hidePlayerCraftingMenu = true;
 
-            if (!Main.gameInactive)
+            if (FocusHelper.GameplayActive)
                 WardrobeInterface?.Update(gameTime);
 
             if (!Main.playerInventory || 

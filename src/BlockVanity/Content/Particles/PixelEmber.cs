@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Graphics;
+using BlockVanity.Common.Particles;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +21,7 @@ public class PixelEmber : BaseParticle<PixelEmber>
     public Color DarkColor;
     public float Scale;
 
-    public static PixelEmber RequestNew(Vector2 position, Vector2 velocity, int lifeTime, int fadeIn, Color color, Color darkColor, float scale)
+    public static PixelEmber NewParticle(Vector2 position, Vector2 velocity, int lifeTime, int fadeIn, Color color, Color darkColor, float scale)
     {
         var ember = Pool.RequestParticle();
         ember.Position = position;
@@ -62,8 +63,8 @@ public class PixelEmber : BaseParticle<PixelEmber>
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
-        Texture2D texture = Assets.Textures.Particle[0].Value;
-        Texture2D glow = Assets.Textures.Glow[0].Value;
+        var texture = Assets.Textures.Particles.GlowDotParticle.Asset;
+        var glowTexture = Assets.Textures.Extras.GlowRound.Asset;
 
         float progress = (float)TimeLeft / MaxTime;
         float fadeIn = FadeIn > 0f ? Utils.GetLerpValue(0f, FadeIn, TimeLeft, true) : 1f;
@@ -77,7 +78,7 @@ public class PixelEmber : BaseParticle<PixelEmber>
         float yS = Math.Abs(unRotatedVel.Y) * 3f + Scale;
         Vector2 stretch = new Vector2(Math.Max(xS - yS * 0.45f, 2f), Math.Max(yS - xS * 0.1f, 2f)) * 0.5f;
 
-        spritebatch.Draw(texture, particlePos, texture.Frame(), drawColor, Rotation, texture.Size() * 0.5f, stretch, 0, 0);
-        spritebatch.Draw(glow, particlePos, glow.Frame(), glowColor with { A = 0 }, Rotation, glow.Size() * 0.5f, 0.07f * stretch, 0, 0);
+        spritebatch.Draw(texture.Value, particlePos, null, drawColor, Rotation, texture.Size() * 0.5f, stretch, 0, 0);
+        spritebatch.Draw(glowTexture.Value, particlePos, null, glowColor with { A = 0 }, Rotation, glowTexture.Size() * 0.5f, 0.07f * stretch, 0, 0);
     }
 }

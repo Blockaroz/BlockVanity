@@ -9,6 +9,8 @@ namespace BlockVanity.Content.Vanity.RedWarlock;
 [AutoloadEquip(EquipType.Head)]
 public class RedWarlockHood : VanityItem
 {
+    public override string Texture => Assets.Textures.Content.Vanity.RedWarlock.RedWarlockHood_Item.KEY;
+
     public override int Rarity => ItemRarityID.White;
 
     public override void SetStaticDefaults()

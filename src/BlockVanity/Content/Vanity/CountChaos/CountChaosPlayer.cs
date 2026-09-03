@@ -47,8 +47,8 @@ public class CountChaosPlayer : ModPlayer
 
     public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
     {
-        bool active = Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs)
-            || Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
+        bool active = Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGownItem), EquipType.Legs)
+            || Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirassItem), EquipType.Body);
 
         if (!active)
             return;
@@ -59,7 +59,7 @@ public class CountChaosPlayer : ModPlayer
         Matrix identity = Matrix.CreateScale(Player.direction, gravDir, 1f) * Matrix.CreateTranslation(Player.direction < 0 ? targetSize : 0, gravDir < 0 ? targetSize : 0, 0);
         Matrix transform = identity * Matrix.CreateScale(rescale);
 
-        Effect colorOnly = Assets.Effects.TransparencyMask.Value;
+        Effect colorOnly = Assets.Effects.TransparencyMask.CreatePixelShaderPass().Shader;
         colorOnly.Parameters["uColor"].SetValue(Vector3.One);
 
         Rectangle prevScissor = Main.instance.GraphicsDevice.ScissorRectangle;
@@ -92,9 +92,9 @@ public class CountChaosPlayer : ModPlayer
 
     private void ArmorShadows(On_Player.orig_SetArmorEffectVisuals orig, Player self, Player drawPlayer)
     {
-        bool head = drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHead), EquipType.Head);
-        bool body = drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body);
-        bool legs = drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs);
+        bool head = drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosHornedHeadItem), EquipType.Head);
+        bool body = drawPlayer.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirassItem), EquipType.Body);
+        bool legs = drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGownItem), EquipType.Legs);
 
         if (head && body && legs)
             drawPlayer.armorEffectDrawShadowSubtle = true;
@@ -112,10 +112,10 @@ public class CountChaosPlayer : ModPlayer
 
     public override void FrameEffects()
     {
-        if (Main.gameInactive)
+        if (!FocusHelper.AllowPlayerToEmitEffects)
             return;
 
-        if (Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGown), EquipType.Legs))
+        if (Player.legs == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosGownItem), EquipType.Legs))
         {
             Vector2 legVel = new Vector2(-0.3f * Player.direction, Main.rand.NextFloat(0.8f, 1.2f) * Player.gravDir).RotatedByRandom(0.2f);
             Vector2 legPos = GetOffsetAnchor(Player) + new Vector2(0, 14 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.1f;
@@ -126,7 +126,7 @@ public class CountChaosPlayer : ModPlayer
             targetShader = Player.cLegs;
         }
 
-        if (Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirass), EquipType.Body))
+        if (Player.body == EquipLoader.GetEquipSlot(Mod, nameof(CountChaosCuirassItem), EquipType.Body))
         {
             Vector2 bodyVel = new Vector2(Main.rand.NextFloat(-0.7f, 0.2f) * Player.direction, -Main.rand.NextFloat(-0.2f, 0.5f) * Player.gravDir);
             Vector2 bodyPos = GetOffsetAnchor(Player) + Main.rand.NextVector2Circular(6, 10) + new Vector2(-6 * Player.direction, -6 * Player.gravDir).RotatedBy(Player.fullRotation) + Player.velocity * 0.5f;

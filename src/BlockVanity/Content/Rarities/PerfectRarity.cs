@@ -1,4 +1,4 @@
-﻿using BlockVanity.Content.Rarities.GlowingRarities;
+﻿using BlockVanity.Common.Rarities;
 using Microsoft.Xna.Framework;
 using ReLogic.Graphics;
 using Terraria;

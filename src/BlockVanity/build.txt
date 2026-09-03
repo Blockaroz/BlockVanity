@@ -1,3 +1,4 @@
 displayName = Blockaroz' Costumes
 author = Blockaroz
 version = 0.4
+dllReferences = Daybreak.Contracts, Daybreak.EarlyLoader, Daybreak.Hooks, Daybreak.MonoMod, Daybreak.Rendering

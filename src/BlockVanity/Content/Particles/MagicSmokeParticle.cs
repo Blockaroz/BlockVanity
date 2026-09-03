@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Graphics;
+using BlockVanity.Common.Particles;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,7 +24,7 @@ public class MagicSmokeParticle : BaseParticle<MagicSmokeParticle>
 
     public bool LightAffected;
 
-    public static MagicSmokeParticle RequestNew(Vector2 position, Vector2 velocity, float rotation, int lifeTime, Color color, Color glowColor, float scale)
+    public static MagicSmokeParticle NewParticle(Vector2 position, Vector2 velocity, float rotation, int lifeTime, Color color, Color glowColor, float scale)
     {
         var smoke = Pool.RequestParticle();
         smoke.Position = position;
@@ -59,7 +60,7 @@ public class MagicSmokeParticle : BaseParticle<MagicSmokeParticle>
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
-        Texture2D texture = Assets.Textures.Particle[1].Value;
+        var texture = Assets.Textures.Particles.MagicSmokeParticle.Asset;
         float progress = (float)TimeLeft / MaxTime;
         int frameCount = (int)MathF.Floor(MathF.Sqrt(progress) * 7);
         Rectangle frame = texture.Frame(7, 6, frameCount, Style);
@@ -74,7 +75,7 @@ public class MagicSmokeParticle : BaseParticle<MagicSmokeParticle>
             glowColor = glowColor.MultiplyRGBA(lightColor);
         }
 
-        spritebatch.Draw(texture, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);
-        spritebatch.Draw(texture, Position + settings.AnchorPosition, glowFrame, glowColor, Rotation + MathHelper.PiOver2, glowFrame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);
+        spritebatch.Draw(texture.Value, Position + settings.AnchorPosition, frame, drawColor, Rotation + MathHelper.PiOver2, frame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);
+        spritebatch.Draw(texture.Value, Position + settings.AnchorPosition, glowFrame, glowColor, Rotation + MathHelper.PiOver2, glowFrame.Size() * 0.5f, Scale, (SpriteEffects)SpriteEffect, 0);
     }
 }

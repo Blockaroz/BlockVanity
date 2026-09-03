@@ -11,12 +11,9 @@ namespace BlockVanity.Content.Dyes;
 
 public sealed class SeasideHairDye : ModItem
 {
-    public static LazyAsset<Effect> SeasideHairDyeEffect { get; } = new LazyAsset<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dyes/SeasideHairDye");
-    public static LazyAsset<Texture2D> SeasideColorMap { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Extras/SeasideColorMap");
-
     public override void SetStaticDefaults()
     {
-        GameShaders.Hair.BindShader(Type, new SeasideHairShaderData().UseImage(SeasideColorMap));
+        GameShaders.Hair.BindShader(Type, new SeasideHairShaderData().UseImage(Assets.Textures.Extras.ColorMaps.SeasideColorMap.Asset));
     }
 
     public override void SetDefaults()
@@ -37,7 +34,7 @@ public sealed class SeasideHairDye : ModItem
 
 public sealed class SeasideHairShaderData : HairShaderData
 {
-    public SeasideHairShaderData() : base(SeasideHairDye.SeasideHairDyeEffect, "ShaderPass") { }
+    public SeasideHairShaderData() : base(Assets.Effects.Dyes.SeasideHairDye.Asset, "ShaderPass") { }
 
     public override Color GetColor(Player player, Color lightColor) => lightColor;
 

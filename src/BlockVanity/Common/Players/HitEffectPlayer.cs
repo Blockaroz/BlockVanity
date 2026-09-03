@@ -1,4 +1,6 @@
 ﻿using BlockVanity.Common.UI;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
@@ -7,28 +9,41 @@ namespace BlockVanity.Common.Players;
 
 public class HitEffectPlayer : ModPlayer
 {
-    public static void SetEquipHitSound(Player player, SoundStyle hitSound)
+    public bool Enabled { get; set; }
+    public SoundStyle HitSound { get; set; }
+    public bool UsePitch { get; set; }
+
+    public static void SetEquipHitSound(Player player, SoundStyle hitSound, bool usePitch = false)
     {
-        player.GetModPlayer<HitEffectPlayer>().enabled = true;
-        player.GetModPlayer<HitEffectPlayer>().hitSound = hitSound;
+        player.GetModPlayer<HitEffectPlayer>().Enabled = true;
+        player.GetModPlayer<HitEffectPlayer>().HitSound = hitSound;
+        player.GetModPlayer<HitEffectPlayer>().UsePitch = usePitch;
     }
 
-    private bool enabled;
-    private SoundStyle hitSound;
-
-    public override void ModifyHurt(ref Player.HurtModifiers modifiers)
+    public override void Load()
     {
-        if (enabled)
+        On_Player.PlayHurtSound += PlayMyOwnSound;
+    }
+
+    private void PlayMyOwnSound(On_Player.orig_PlayHurtSound orig, Player self)
+    {
+        var hitEffect = self.GetModPlayer<HitEffectPlayer>();
+        if (hitEffect.Enabled)
         {
-            modifiers.DisableSound();
+            Vector2 position = self.position;
+            if (self.whoAmI == Main.myPlayer)
+                position = new Vector2(-1f, -1f);
 
-            if (!Main.dedServ)
-                SoundEngine.PlaySound(hitSound, Player.position);
+            float pitchOffset = hitEffect.UsePitch ? Utils.Remap(self.voicePitchOffset, -1f, 1f, -0.7f, 0.7f) : 0f;
+            SoundEngine.PlaySound(hitEffect.HitSound, position, pitchOffset, 1f);
+            return;
         }
-    }
 
+        orig(self);
+    }
     public override void ResetEffects()
     {
-        enabled = false;
+        Enabled = false;
+        UsePitch = false;
     }
 }

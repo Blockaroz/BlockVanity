@@ -1,4 +1,4 @@
-﻿using BlockVanity.Content.Tiles;
+﻿using BlockVanity.Content.Vanity.Myrtle;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
@@ -56,7 +56,7 @@ public class MicroBiomeGen : ModSystem
                         Main.tile[i + 1, j].ClearTile();
                         Main.tile[i, j + 1].ResetToType(TileID.Sand);
                         Main.tile[i + 1, j + 1].ResetToType(TileID.Sand);
-                        WorldGen.Place2x1(i, j, (ushort)ModContent.TileType<PlumeriaPlant>());
+                        WorldGen.Place2x1(i, j, (ushort)ModContent.TileType<PlumeriaPlantTile>());
 
                         WorldGen.SquareTileFrame(i, j + 1);
                         WorldGen.SquareTileFrame(i + 1, j + 1);

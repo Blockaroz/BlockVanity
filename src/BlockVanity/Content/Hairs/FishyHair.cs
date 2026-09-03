@@ -5,6 +5,8 @@ namespace BlockVanity.Content.Hairs;
 
 public class FishyHair : ModHair
 {
+    public override string Texture => Assets.Textures.Content.Hairs.Fishy_Hair.KEY;
+
     public override Gender RandomizedCharacterCreationGender => Gender.Female;
 
     public override bool AvailableDuringCharacterCreation => true;

@@ -12,8 +12,10 @@ using Terraria.ModLoader;
 namespace BlockVanity.Content.Vanity.CountChaos;
 
 [AutoloadEquip(EquipType.Head)]
-public class CountChaosHornedHead : VanityItem
+public class CountChaosHornedHeadItem : VanityItem
 {
+    public override string Texture => Assets.Textures.Content.Vanity.CountChaos.CountChaosHornedHead_Item.KEY;
+
     public override int Rarity => ModContent.RarityType<CommonVanityRarity>();
 
     public override void SetStaticDefaults()
@@ -23,8 +25,10 @@ public class CountChaosHornedHead : VanityItem
 }
 
 [AutoloadEquip(EquipType.Body)]
-public class CountChaosCuirass() : VanityItem(width: 36, height: 34)
+public class CountChaosCuirassItem() : VanityItem(width: 36, height: 34)
 {
+    public override string Texture => Assets.Textures.Content.Vanity.CountChaos.CountChaosCuirass_Item.KEY;
+
     public override int Rarity => ModContent.RarityType<CommonVanityRarity>();
 
     public override void SetStaticDefaults()
@@ -39,31 +43,29 @@ public class CountChaosCuirass() : VanityItem(width: 36, height: 34)
         {
             return;
         }
-
-        glowTexture = ModContent.Request<Texture2D>(Texture + "_Glow");
-        glowTextureArmor = ModContent.Request<Texture2D>(Texture + "_Body_Glow");
     }
 
-    public static Asset<Texture2D> glowTexture;
-    public static Asset<Texture2D> glowTextureArmor;
-
-    public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+    public override void PostDrawInWorld(WorldItem item, SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
     {
+        var glowTexture = Assets.Textures.Content.Vanity.CountChaos.CountChaosCuirass_Item_Glow.Asset;
         Color color = Color.Lerp(Color.White, lightColor, 0.5f) with { A = 0 };
         Rectangle frame = glowTexture.Frame();
         frame.Height -= 4;
-        spriteBatch.Draw(glowTexture.Value, Item.Center - Main.screenPosition, frame, color * 0.5f, rotation, frame.Size() / 2, scale, 0, 0);
+        spriteBatch.Draw(glowTexture.Value, item.Center - Main.screenPosition, frame, color * 0.5f, rotation, frame.Size() / 2, scale, 0, 0);
     }
 
     public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
     {
-        spriteBatch.Draw(glowTexture.Value, position, glowTexture.Frame(), drawColor with { A = 0 } * 0.5f, 0, origin, scale, 0, 0);
+        var glowTexture = Assets.Textures.Content.Vanity.CountChaos.CountChaosCuirass_Item_Glow.Asset;
+        spriteBatch.Draw(glowTexture.Value, position, null, drawColor with { A = 0 } * 0.5f, 0, origin, scale, 0, 0);
     }
 }
 
 [AutoloadEquip(EquipType.Legs)]
-public class CountChaosGown : VanityItem, IUpdateArmorInVanity
+public class CountChaosGownItem : VanityItem, IUpdateArmorInVanity
 {
+    public override string Texture => Assets.Textures.Content.Vanity.CountChaos.CountChaosGown_Item.KEY;
+
     public override int Rarity => ModContent.RarityType<CommonVanityRarity>();
 
     public override void SetStaticDefaults()

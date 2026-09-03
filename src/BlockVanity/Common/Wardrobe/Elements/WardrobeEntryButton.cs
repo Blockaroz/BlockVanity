@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
 using Terraria.UI.Chat;
@@ -43,20 +45,21 @@ public sealed class WardrobeEntryButton : UIElement
                 Entry.Icon?.UpdatePortrait(new WardrobePortraitInfo(Entry, GetDimensions().Center(), Parent.IsMouseHovering, HoverScale, true));
         }
 
-        private static LazyAsset<Texture2D> LockedIcon = new LazyAsset<Texture2D>("Terraria/Images/UI/Bestiary/Icon_Locked");
+        private static Asset<Texture2D> LockedIcon { get; set; }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
+            if (LockedIcon == null || !LockedIcon.IsLoaded)
+                LockedIcon = ModContent.Request<Texture2D>("Terraria/Images/UI/Bestiary/Icon_Locked");
+
             var dimensions = GetDimensions();
             Vector2 center = dimensions.Center();
 
             if (Entry.IsLocked)
             {
-                Texture2D shadow = Assets.Textures.Glow[0].Value;
-                spriteBatch.Draw(shadow, center, shadow.Frame(), Color.Black * 0.1f, 0, shadow.Size() / 2, 0.66f, 0, 0);
-
-                Texture2D mark = LockedIcon.Value;
-                spriteBatch.Draw(mark, center, mark.Frame(), Color.White * 0.2f, 0, mark.Size() / 2, 1f, 0, 0);
+                var shadow = Assets.Textures.Extras.GlowRound.Asset;
+                spriteBatch.Draw(shadow.Value, center, null, Color.Black * 0.1f, 0, shadow.Size() / 2, 0.66f, 0, 0);
+                spriteBatch.Draw(LockedIcon.Value, center, null, Color.White * 0.2f, 0, LockedIcon.Size() / 2, 1f, 0, 0);
             }
             else
                 Entry.Icon?.DrawPortrait(spriteBatch, new WardrobePortraitInfo(Entry, center, Parent.IsMouseHovering, HoverScale, true));
@@ -99,18 +102,14 @@ public sealed class WardrobeEntryButton : UIElement
         SoundEngine.PlaySound(SoundID.MenuTick);
     }
 
-    public static LazyAsset<Texture2D> Border = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/UI/MagicalWardrobe/Entry");
-    public static LazyAsset<Texture2D> BorderHiglight = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/UI/MagicalWardrobe/Entry_Highlight");
-    public static LazyAsset<Texture2D> BackGradient = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/UI/MagicalWardrobe/Entry_Back");
-
     public override void Draw(SpriteBatch spriteBatch)
     {
         Vector2 center = GetDimensions().Center();
-        Texture2D border = Border.Value;
-        Texture2D hightlight = BorderHiglight.Value;
-        Texture2D backGradient = BackGradient.Value;
+        var border = Assets.Textures.UI.MagicalWardrobe.Entry.Asset;
+        var hightlight = Assets.Textures.UI.MagicalWardrobe.Entry_Highlight.Asset;
+        var backGradient = Assets.Textures.UI.MagicalWardrobe.Entry_Back.Asset;
 
-        spriteBatch.Draw(backGradient, center, null, Color.White, 0, backGradient.Size() / 2, 1f, 0, 0);
+        spriteBatch.Draw(backGradient.Value, center, null, Color.White, 0, backGradient.Size() / 2, 1f, 0, 0);
         
         base.Draw(spriteBatch);
 
@@ -119,11 +118,11 @@ public sealed class WardrobeEntryButton : UIElement
 
         DrawStarCount(spriteBatch);
 
-        spriteBatch.Draw(border, center, null, Color.White, 0, border.Size() / 2, 1f, 0, 0);
+        spriteBatch.Draw(border.Value, center, null, Color.White, 0, border.Size() / 2, 1f, 0, 0);
 
         if (IsMouseHovering)
         {
-            spriteBatch.Draw(hightlight, center, null, Color.White, 0, border.Size() / 2, 1f, 0, 0);
+            spriteBatch.Draw(hightlight.Value, center, null, Color.White, 0, border.Size() / 2, 1f, 0, 0);
         }
     }
 
@@ -135,12 +134,12 @@ public sealed class WardrobeEntryButton : UIElement
         Vector2 textPosition = GetDimensions().Center() + new Vector2(starCountSize.X / 2.33f - 8f, 24);
         Utils.DrawBorderString(spriteBatch, starCount, textPosition, Color.White, 0.85f, 1f, 0.35f);
 
-        Texture2D star = Assets.Textures.VanityStar.Value;
+        var star = Assets.Textures.UI.VanityStar.Asset;
         Rectangle frame = star.Frame(1, 2, 0, 0);
         Rectangle glowFrame = star.Frame(1, 2, 0, 1);
         float hue = (GetDimensions().X - GetDimensions().Y) * 0.002f + Main.GlobalTimeWrappedHourly * 0.3f;
         Color glowColor = Main.hslToRgb(hue % 1f, 1f, 0.66f, a: 100);
-        spriteBatch.Draw(star, textPosition + new Vector2(10, 0), frame, Color.White, 0, frame.Size() / 2, 0.5f, 0, 0);
-        spriteBatch.Draw(star, textPosition + new Vector2(10, 0), glowFrame, glowColor, 0, glowFrame.Size() / 2, 0.5f, 0, 0);
+        spriteBatch.Draw(star.Value, textPosition + new Vector2(10, 0), frame, Color.White, 0, frame.Size() / 2, 0.5f, 0, 0);
+        spriteBatch.Draw(star.Value, textPosition + new Vector2(10, 0), glowFrame, glowColor, 0, glowFrame.Size() / 2, 0.5f, 0, 0);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BlockVanity.Common.Graphics;
+using BlockVanity.Common.Particles;
 using BlockVanity.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +21,7 @@ public class PixelSpark : BaseParticle<PixelSpark>
     public bool Collide;
     private Vector2 EndPosition;
 
-    public static PixelSpark RequestNew(Vector2 position, Vector2 velocity, Vector2 gravity, Color color, Color glowColor, float mass, bool collide = true)
+    public static PixelSpark NewParticle(Vector2 position, Vector2 velocity, Vector2 gravity, Color color, Color glowColor, float mass, bool collide = true)
     {
         var spark = Pool.RequestParticle();
         spark.Position = position;
@@ -86,8 +87,8 @@ public class PixelSpark : BaseParticle<PixelSpark>
 
     public override void Draw(ref ParticleRendererSettings settings, SpriteBatch spritebatch)
     {
-        Texture2D texture = Assets.Textures.Particle[0].Value;
-        Texture2D glow = Assets.Textures.Glow[0].Value;
+        var texture = Assets.Textures.Particles.GlowDotParticle.Asset;
+        var glow = Assets.Textures.Extras.GlowRound.Asset;
 
         float rotation = MathF.Round(Position.AngleFrom(EndPosition) / MathHelper.TwoPi * 8f) / 8f * MathHelper.TwoPi;
         float fadeOut = Utils.GetLerpValue(0f, 0.05f, Scale, true);
@@ -96,7 +97,7 @@ public class PixelSpark : BaseParticle<PixelSpark>
         Vector2 unRotatedVel = Velocity.RotatedBy(-rotation);
         Vector2 stretch = new Vector2(1.1f + Position.Distance(EndPosition) * 0.15f, 1f) * (1f + Mass * 0.01f);
 
-        spritebatch.Draw(texture, particlePos, texture.Frame(), ColorTint * fadeOut, rotation, texture.Size() * 0.5f, stretch, 0, 0);
-        spritebatch.Draw(glow, particlePos, glow.Frame(), ColorGlow with { A = 0 } * fadeOut, rotation, glow.Size() * 0.5f, new Vector2(0.1f, 0.15f) * stretch, 0, 0);    
+        spritebatch.Draw(texture.Value, particlePos, texture.Frame(), ColorTint * fadeOut, rotation, texture.Size() * 0.5f, stretch, 0, 0);
+        spritebatch.Draw(glow.Value, particlePos, glow.Frame(), ColorGlow with { A = 0 } * fadeOut, rotation, glow.Size() * 0.5f, new Vector2(0.1f, 0.15f) * stretch, 0, 0);    
     }
 }

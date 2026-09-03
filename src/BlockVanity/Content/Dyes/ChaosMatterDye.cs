@@ -10,7 +10,7 @@ namespace BlockVanity.Content.Dyes;
 
 public class ChaosMatterDye : ModItem
 {
-    public static LazyAsset<Effect> ChaosMatterDyeEffect { get; } = new LazyAsset<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dyes/ChaosMatterDye");
+    public override string Texture => Assets.Textures.Content.Dyes.ChaosMatterDye_Item.KEY;
 
     public override void SetStaticDefaults()
     {
@@ -18,10 +18,10 @@ public class ChaosMatterDye : ModItem
 
         if (!Main.dedServ)
         {
-            GameShaders.Armor.BindShader(Type, new GlobalTimeDyeShaderData(ChaosMatterDyeEffect)
+            GameShaders.Armor.BindShader(Type, new GlobalTimeDyeShaderData(Assets.Effects.Dyes.ChaosMatterDye.Asset)
                 .UseColor(new Color(101, 0, 255))
                 .UseSecondaryColor(new Color(20, 0, 120))
-                .UseImage(Assets.Textures.MiscNoise[0]));
+                .UseImage(Assets.Textures.Extras.Noise_0.Asset));
         }
     }
 

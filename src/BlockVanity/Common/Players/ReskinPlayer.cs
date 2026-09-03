@@ -10,15 +10,15 @@ namespace BlockVanity.Common.Players;
 
 public class ReskinPlayer : ModPlayer
 {
-    private static Asset<Texture2D>[] OriginalSkinTextures;
-    private Asset<Texture2D>[] QueuedSkinTextures;
+    private static Asset<Texture2D>[] OriginalSkinTextures { get; set; } = [];
+    private Asset<Texture2D>[] QueuedSkinTextures { get; set; } = [];
     public bool enabled;
 
     public delegate void ReskinDelegate(ref PlayerDrawSet drawInfo);
 
-    public static event ReskinDelegate OnPreCopyVariables;
-    public static event ReskinDelegate OnSetNewSkin;
-    public static event ReskinDelegate OnSetNormalSkin;
+    public static event ReskinDelegate? OnPreCopyVariables;
+    public static event ReskinDelegate? OnSetNewSkin;
+    public static event ReskinDelegate? OnSetNormalSkin;
 
     public void SetSkin(Asset<Texture2D>[] textures)
     {

@@ -12,17 +12,16 @@ namespace BlockVanity.Content.Vanity.Excellence;
 
 public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 {
-    public static LazyAsset<Texture2D> HeadGlowTexture { get; } = new LazyAsset<Texture2D>($"{nameof(BlockVanity)}/Assets/Textures/Vanity/Excellence/Excellence_{EquipType.Head}_Glow");
-
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
 
     public override bool IsHeadLayer => true;
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Head);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.head == EquipLoader.GetEquipSlot(Mod, nameof(ExcellenceItem), EquipType.Head);
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
-        Texture2D headTexture = TextureAssets.ArmorHead[EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Head)].Value;
+        var headTexture = TextureAssets.ArmorHead[EquipLoader.GetEquipSlot(Mod, nameof(ExcellenceItem), EquipType.Head)];
+        var headGlowTexture = Assets.Textures.Content.Vanity.Excellence.Excellence_Head_Glow.Asset;
         Vector2 headPos = drawInfo.HeadPosition() - Vector2.UnitY * 4 * drawInfo.drawPlayer.gravDir;
         //headPos.ApplyVerticalOffset(drawInfo);
 
@@ -31,13 +30,13 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
 
         Rectangle headFrame = headTexture.Frame(1, 16, 0, useFallFrame ? 1 : Math.Max(walkFrame - 4, 0));
 
-        DrawData headData = new DrawData(headTexture, headPos, headFrame, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+        DrawData headData = new DrawData(headTexture.Value, headPos, headFrame, drawInfo.colorArmorHead, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
         headData.shader = drawInfo.cHead;
         drawInfo.DrawDataCache.Add(headData);
 
         if (drawInfo.shadow <= 0f)
         {
-            DrawData headGlowData = new DrawData(HeadGlowTexture.Value, headPos, headFrame, Color.White, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+            DrawData headGlowData = new DrawData(headGlowTexture.Value, headPos, headFrame, Color.White, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
             headGlowData.shader = drawInfo.cHead;
             drawInfo.DrawDataCache.Add(headGlowData);
 
@@ -45,7 +44,7 @@ public class ExcellencePlayerHeadLayer : PlayerDrawLayer
             for (int i = 0; i < 2; i++)
             {
                 Vector2 offset = Main.rand.NextVector2Circular(2, 2) * 0.67f;
-                DrawData headGlowShakeData = new DrawData(HeadGlowTexture.Value, headPos + offset, headFrame, shakeColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
+                DrawData headGlowShakeData = new DrawData(headGlowTexture.Value, headPos + offset, headFrame, shakeColor, drawInfo.drawPlayer.headRotation, drawInfo.headVect, 1f, drawInfo.playerEffect, 0);
                 headGlowShakeData.shader = drawInfo.cHead;
                 drawInfo.DrawDataCache.Add(headGlowShakeData);
             }
@@ -57,11 +56,11 @@ public class ExcellencePlayerLegsLayer : PlayerDrawLayer
 {
     public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Leggings);
 
-    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs);
+    public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => drawInfo.drawPlayer.legs == EquipLoader.GetEquipSlot(Mod, nameof(ExcellenceItem), EquipType.Legs);
 
     protected override void Draw(ref PlayerDrawSet drawInfo)
     {
-        Texture2D legsTexture = TextureAssets.ArmorLeg[EquipLoader.GetEquipSlot(Mod, nameof(Excellence), EquipType.Legs)].Value;
+        Texture2D legsTexture = TextureAssets.ArmorLeg[EquipLoader.GetEquipSlot(Mod, nameof(ExcellenceItem), EquipType.Legs)].Value;
         Vector2 legPos = drawInfo.LegsPosition() + drawInfo.legsOffset + new Vector2(0, drawInfo.drawPlayer.gravDir * 2);
 
         int legFrame = drawInfo.drawPlayer.legFrame.Y / drawInfo.drawPlayer.legFrame.Height - 3;

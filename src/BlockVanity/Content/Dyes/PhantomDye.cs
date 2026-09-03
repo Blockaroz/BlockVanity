@@ -10,18 +10,16 @@ namespace BlockVanity.Content.Dyes;
 
 public class PhantomDye : ModItem
 {
-    public static LazyAsset<Effect> PhantomDyeEffect { get; } = new LazyAsset<Effect>($"{nameof(BlockVanity)}/Assets/Effects/Dyes/PhantomDye");
-
     public override void SetStaticDefaults()
     {
         Item.ResearchUnlockCount = 3;
 
         if (!Main.dedServ)
         {
-            GameShaders.Armor.BindShader(Type, new GlobalTimeDyeShaderData(PhantomDyeEffect)
+            GameShaders.Armor.BindShader(Type, new GlobalTimeDyeShaderData(Assets.Effects.Dyes.PhantomDye.Asset)
                 .UseColor(new Color(79, 255, 211))
                 .UseSecondaryColor(new Color(49, 115, 150))
-                .UseImage(Main.Assets.Request<Texture2D>("Images/Misc/noise")));
+                .UseImage(Assets.Textures.Extras.Noise_Genuine.Asset));
         }
     }
 

@@ -41,14 +41,14 @@ public sealed class WardrobeItemIcon(int ItemType) : IWardrobeIcon
 
     public void DrawPortrait(SpriteBatch spriteBatch, WardrobePortraitInfo info)
     {
-        Texture2D shadow = Assets.Textures.Glow[0].Value;
-        spriteBatch.Draw(shadow, info.Center, shadow.Frame(), Color.Black * 0.3f * (1f - hoverFade), 0, shadow.Size() / 2, 0.66f, 0, 0);
-        
-        Texture2D glow = Assets.Textures.Glow[1].Value;
-        spriteBatch.Draw(glow, info.Center + new Vector2(0, 35), glow.Frame(), Main.OurFavoriteColor * 0.5f * hoverFade, Main.GlobalTimeWrappedHourly * 0.2f, glow.Size() / 2, 1f, 0, 0);
+        var shadow = Assets.Textures.Extras.GlowRound.Asset;
+        spriteBatch.Draw(shadow.Value, info.Center, null, Color.Black * 0.3f * (1f - hoverFade), 0, shadow.Size() / 2, 0.66f, 0, 0);
+
+        var glow = Assets.Textures.Extras.GlowShine.Asset;
+        spriteBatch.Draw(glow.Value, info.Center + new Vector2(0, 35), null, Main.OurFavoriteColor * 0.5f * hoverFade, Main.GlobalTimeWrappedHourly * 0.2f, glow.Size() / 2, 1f, 0, 0);
 
         Item item = ContentSamples.ItemsByType[ItemType];
-        ItemSlot.DrawItemIcon(item, 31, spriteBatch, info.Center, info.Scale, 100f, !info.Entry.IsLocked ? Color.White : Color.Black);
+        ItemSlot.DrawItemIcon(item, ItemSlot.Context.CreativeInfinite, spriteBatch, info.Center, info.Scale, 100f, !info.Entry.IsLocked ? Color.White : Color.Black);
     }
 }
 
@@ -68,12 +68,12 @@ public sealed class WardrobePlayerPortrait : IWardrobeIcon
 
     public void DrawPortrait(SpriteBatch spriteBatch, WardrobePortraitInfo info)
     {
-        Texture2D shadow = Assets.Textures.Glow[0].Value;
-        spriteBatch.Draw(shadow, info.Center, shadow.Frame(), Color.Black * 0.3f, 0, shadow.Size() / 2, 0.66f, 0, 0);
+        var shadow = Assets.Textures.Extras.GlowRound.Asset;
+        spriteBatch.Draw(shadow.Value, info.Center, null, Color.Black * 0.3f, 0, shadow.Size() / 2, 0.66f, 0, 0);
 
-        Texture2D glow = Assets.Textures.Glow[1].Value;
+        var glow = Assets.Textures.Extras.GlowShine.Asset;
         float glowPower = Utils.GetLerpValue(1.05f, 1.3f, info.Scale, true) * 0.5f;
-        spriteBatch.Draw(glow, info.Center + new Vector2(0, 35), glow.Frame(), Main.OurFavoriteColor * glowPower, Main.GlobalTimeWrappedHourly * 0.2f, glow.Size() / 2, 1f, 0, 0);
+        spriteBatch.Draw(glow.Value, info.Center + new Vector2(0, 35), null, Main.OurFavoriteColor * glowPower, Main.GlobalTimeWrappedHourly * 0.2f, glow.Size() / 2, 1f, 0, 0);
 
         Main.PlayerRenderer.DrawPlayer(Main.Camera, DisplayPlayer, info.Center, 0, Vector2.Zero, scale: info.Scale);
     }
